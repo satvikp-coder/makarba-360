@@ -98,7 +98,8 @@
       ],
       "actual_assignees": [
         "satvikp-coder"
-      ]
+      ],
+      "pre_swap_intended_owner": "satvikp-coder"
     },
     {
       "number": 2,
@@ -168,13 +169,14 @@
       ],
       "body_sha256": "c1e17a4d74879d62d3c9ec3804119295abaeae8590e7bb1e83dc335f4f535479",
       "original_body_sha256": "5fdcf56a5c8cc30507c1010184218a22cb6f404a8719586ff14a2c8370dfe618",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 3,
@@ -245,13 +247,14 @@
       ],
       "body_sha256": "ccc56f282e744f3667206d6ec47cbb1b2dc5d38d9e2206887318e5d5cf691792",
       "original_body_sha256": "2514e47d2e9d67f2d0cccc8ad75f9ea21a06247824a8479cc9a69995e065e8b5",
-      "historical_contribution_owner": "satvikp-coder",
+      "historical_contribution_owner": null,
       "current_maintainer": "varunkarthic",
       "linked_prs": [],
       "actual_assignees": [],
       "original_pre_swap_assignees": [
         "satvikp-coder"
-      ]
+      ],
+      "pre_swap_intended_owner": "satvikp-coder"
     },
     {
       "number": 4,
@@ -320,13 +323,14 @@
       ],
       "body_sha256": "9826de5280be51df96d3379181de15be5d75a8334904a37a162e31faed9028a4",
       "original_body_sha256": "365561fc5803e5fe1eb4dee0d446766e77610d96f36863b25f311d3640c6b6e7",
-      "historical_contribution_owner": "satvikp-coder",
+      "historical_contribution_owner": null,
       "current_maintainer": "varunkarthic",
       "linked_prs": [],
       "actual_assignees": [],
       "original_pre_swap_assignees": [
         "satvikp-coder"
-      ]
+      ],
+      "pre_swap_intended_owner": "satvikp-coder"
     },
     {
       "number": 5,
@@ -394,13 +398,14 @@
       ],
       "body_sha256": "3ed9d787359b904b40932ae32e69c35ae3c537e0fd9eb3864bfe93707cf2fe93",
       "original_body_sha256": "46172a2e4381145024659e7da048ad9e06fdf27a236852c0efc443df406a7caa",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 6,
@@ -470,7 +475,7 @@
       ],
       "body_sha256": "4938969c4dfbc5c5cde5595d80c4fcb5a6ddc7f9f9ea5be7542ce4eb9211f4c5",
       "original_body_sha256": "4ee14a8ec3bccfb3f5de5f14d9022ca5f0d264e5abdf67fda110198583423b97",
-      "historical_contribution_owner": "satvikp-coder",
+      "historical_contribution_owner": null,
       "current_maintainer": "varunkarthic",
       "linked_prs": [
         {
@@ -525,7 +530,8 @@
       "actual_assignees": [],
       "original_pre_swap_assignees": [
         "satvikp-coder"
-      ]
+      ],
+      "pre_swap_intended_owner": "satvikp-coder"
     },
     {
       "number": 7,
@@ -598,7 +604,7 @@
       ],
       "body_sha256": "16cfd9eba2ae3f8688f53bb0a0488b5a6dbaaff7b7f28a06a23e40f81f2c09bb",
       "original_body_sha256": "423765db9bbf24581f4fb74de40d98d6ae09ed0d34bdba0f56cd0ef7741951ab",
-      "historical_contribution_owner": "satvikp-coder",
+      "historical_contribution_owner": null,
       "current_maintainer": "varunkarthic",
       "linked_prs": [
         {
@@ -613,7 +619,8 @@
       "actual_assignees": [],
       "original_pre_swap_assignees": [
         "satvikp-coder"
-      ]
+      ],
+      "pre_swap_intended_owner": "satvikp-coder"
     },
     {
       "number": 8,
@@ -681,7 +688,7 @@
       ],
       "body_sha256": "7d50da08e4f6fead19110807398695db81557e2776c131f4535adc4f26b1a84e",
       "original_body_sha256": "991a3bc4dd38d0cbed697ac250f7d8712a3544994b6150a5fbcdf60ff9c52e12",
-      "historical_contribution_owner": "satvikp-coder",
+      "historical_contribution_owner": null,
       "current_maintainer": "varunkarthic",
       "linked_prs": [
         {
@@ -696,7 +703,8 @@
       "actual_assignees": [],
       "original_pre_swap_assignees": [
         "satvikp-coder"
-      ]
+      ],
+      "pre_swap_intended_owner": "satvikp-coder"
     },
     {
       "number": 9,
@@ -789,7 +797,8 @@
       ],
       "actual_assignees": [
         "satvikp-coder"
-      ]
+      ],
+      "pre_swap_intended_owner": "satvikp-coder"
     },
     {
       "number": 10,
@@ -884,7 +893,8 @@
       ],
       "actual_assignees": [
         "satvikp-coder"
-      ]
+      ],
+      "pre_swap_intended_owner": "satvikp-coder"
     },
     {
       "number": 11,
@@ -956,7 +966,7 @@
       ],
       "body_sha256": "1ceff2006bff24c4cbf8cb40420b59223efc9dbc746168191de7bbe11b690d4b",
       "original_body_sha256": "3f985f5cf20a03ac145e0a20270d216819fc159bc65a6ac0218fbe6c389d0005",
-      "historical_contribution_owner": "satvikp-coder",
+      "historical_contribution_owner": null,
       "current_maintainer": "varunkarthic",
       "linked_prs": [
         {
@@ -971,7 +981,8 @@
       "actual_assignees": [],
       "original_pre_swap_assignees": [
         "satvikp-coder"
-      ]
+      ],
+      "pre_swap_intended_owner": "satvikp-coder"
     },
     {
       "number": 12,
@@ -1039,13 +1050,14 @@
       ],
       "body_sha256": "ffa898faf37a74213805139adbfb771a61a9a2ffac31464796f0554752dd7696",
       "original_body_sha256": "2f55b7a4b6db63f1df7a6988ac64ed35624eaa703b68097c0bd4536af05d3736",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 13,
@@ -1116,13 +1128,14 @@
       ],
       "body_sha256": "b036de785623cec5f28dbc9de22e9acd9b8aae07db7fdb6f2bf8eecc338fb107",
       "original_body_sha256": "3016a64372752396febdc2bf123b010abb69a4e5d13bcaa40303497664d2ed0d",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 14,
@@ -1190,13 +1203,14 @@
       ],
       "body_sha256": "8baf7cdee7c7f3394801c6022a23ce3582d5d2ef1d8728d3b96fbc80dbf21d65",
       "original_body_sha256": "c9aeebe9c2e8bcd10081adfbc4eb9262d14673a4665842ca3b19e68ac2084a5d",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 15,
@@ -1264,13 +1278,14 @@
       ],
       "body_sha256": "9b8385da6076495ac6bf633fa471b2e1658fbb374ea26ff40a131deaef71d697",
       "original_body_sha256": "fa8994070d2522c0ce12ec66d3979c4733185f9e7110380592e8cf81eb66f2dc",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 16,
@@ -1338,13 +1353,14 @@
       ],
       "body_sha256": "aa882937e18422e0cc558a44e98aef32ef0bb6e3820621d7f292d483df420eb6",
       "original_body_sha256": "c57fb33a1972cc58382b4f018a126083833d42ef895a754bf51421415ca8e51a",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 17,
@@ -1412,13 +1428,14 @@
       ],
       "body_sha256": "1d6d0e7aedda47b759e84b0beecd07c325a98fc0031e5dde010ff209375c93aa",
       "original_body_sha256": "6def8f25874a9ea1cb9dd19a55c9b6595628aa2c6c96fbd1215bcdccd038541a",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 18,
@@ -1486,13 +1503,14 @@
       ],
       "body_sha256": "3659473035f91b23125e413c566c58a17f5ff26b151ee0b2fbaf0a267784db96",
       "original_body_sha256": "f468c406a930ae6ce73121853fc7bd77e68327a1ac3747e2b7d8b94284f388dc",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 19,
@@ -1563,13 +1581,14 @@
       ],
       "body_sha256": "77fac02f692370f8b983232d9ee580406c40ebc32dd08e979f02c746defbda26",
       "original_body_sha256": "85247381f9ff10c7a41974dc092cb88d3393d749e0c2b91fbc191c2bb888a335",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 20,
@@ -1641,13 +1660,14 @@
       ],
       "body_sha256": "741e48b94b6ea8beb60d751061066c4d24f679a7cbae0ee5032d5f30032d425c",
       "original_body_sha256": "3104728d1af57c423a19e44e4d00505f8881907dcf34ca40ba39e03beffc6f30",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 21,
@@ -1719,13 +1739,14 @@
       ],
       "body_sha256": "3a3a3a14f1258ee97c0d5f679fd0d0b5605653bab4b59793ac8839c4fb08bfc8",
       "original_body_sha256": "7c7d8e1785ab7c8b3099677f0fbd722f48c75d5f38c83453845242a4d3efd7ce",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 22,
@@ -1810,7 +1831,8 @@
       ],
       "actual_assignees": [
         "satvikp-coder"
-      ]
+      ],
+      "pre_swap_intended_owner": "satvikp-coder"
     },
     {
       "number": 23,
@@ -1885,13 +1907,14 @@
       ],
       "body_sha256": "727d7ecf081400109b4a0ec3323fd30c1a89b38caed9b198ade87f60412e22fd",
       "original_body_sha256": "6b3e528f00cbda687ad90ebf7bb76d7b4e069968ef5c6a557b60186ed7333ec5",
-      "historical_contribution_owner": "satvikp-coder",
+      "historical_contribution_owner": null,
       "current_maintainer": "varunkarthic",
       "linked_prs": [],
       "actual_assignees": [],
       "original_pre_swap_assignees": [
         "satvikp-coder"
-      ]
+      ],
+      "pre_swap_intended_owner": "satvikp-coder"
     },
     {
       "number": 24,
@@ -1959,13 +1982,14 @@
       ],
       "body_sha256": "17cfa5eaac6a7ae695835638d29991b3a1b9ba5656012852c79ff005fb3644ac",
       "original_body_sha256": "e4e6dacc50e1755b8fa420e429fa21f964149d8f578424313210a43db1a9ec95",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 25,
@@ -2043,13 +2067,14 @@
       ],
       "body_sha256": "d529853c360d0deae0b9b97c8d375ac79727e6785854e6e1ae85f0528f38859d",
       "original_body_sha256": "8691992fd05d364e6fcc4afd8d5aa94cfb623613e3231d1419577e18359f1940",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 26,
@@ -2123,13 +2148,14 @@
       ],
       "body_sha256": "701a169783bca645b95a790d1918d3a147c3aeb23e7c3dfa7f9d36785d2d38d0",
       "original_body_sha256": "51a331ec11ab2c507690cdcf2f0db73543ddc3ce547ebd730fc16ad0c528a7b3",
-      "historical_contribution_owner": "satvikp-coder",
+      "historical_contribution_owner": null,
       "current_maintainer": "varunkarthic",
       "linked_prs": [],
       "actual_assignees": [],
       "original_pre_swap_assignees": [
         "satvikp-coder"
-      ]
+      ],
+      "pre_swap_intended_owner": "satvikp-coder"
     },
     {
       "number": 27,
@@ -2201,13 +2227,14 @@
       ],
       "body_sha256": "f74539d650bba5d26d07d2e43d31a14ffcbcbea8d8b9826ceae89479cdf2a6df",
       "original_body_sha256": "3f2e6cc4e16aab0cc885af161c8dabd1d1613d85f8f5a79e133b77855d73fcd7",
-      "historical_contribution_owner": "satvikp-coder",
+      "historical_contribution_owner": null,
       "current_maintainer": "varunkarthic",
       "linked_prs": [],
       "actual_assignees": [],
       "original_pre_swap_assignees": [
         "satvikp-coder"
-      ]
+      ],
+      "pre_swap_intended_owner": "satvikp-coder"
     },
     {
       "number": 28,
@@ -2282,13 +2309,14 @@
       ],
       "body_sha256": "2013b434c5f6eead51a964f37e332fe9dc471274fdea4806e48a54c0cdaf7db7",
       "original_body_sha256": "3b8a9a7e79d62205c1c6d7c2f24eef0f451c019fc89ca6bb2c65c325cb0fafff",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 29,
@@ -2364,13 +2392,14 @@
       ],
       "body_sha256": "a75888e7189b8b1e4c5db97dabbf1f1b4f2e959f089a8a434223ffc43e62690f",
       "original_body_sha256": "7c97090aef6c4a146f5fd631387fd8d6cf0d0ec62f52db47d815ad66b02c2e67",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 30,
@@ -2442,13 +2471,14 @@
       ],
       "body_sha256": "60a892bea3b8742276bc280958d0d5090e7657fb723f6f5e7c244e27b68aabd6",
       "original_body_sha256": "7c11e588bd2b18b6a38318ca9f8a149d5c7b01ae409dc0c506ac4987628f20ca",
-      "historical_contribution_owner": "satvikp-coder",
+      "historical_contribution_owner": null,
       "current_maintainer": "varunkarthic",
       "linked_prs": [],
       "actual_assignees": [],
       "original_pre_swap_assignees": [
         "satvikp-coder"
-      ]
+      ],
+      "pre_swap_intended_owner": "satvikp-coder"
     },
     {
       "number": 31,
@@ -2524,13 +2554,14 @@
       ],
       "body_sha256": "92164cac0a2c28949d0fc1515d6055103e2d7e9ba46ce4741f45af2eeb2e6167",
       "original_body_sha256": "9de5f98dd4502759ffd6bc80457699148db06c42f8a447d358ed116de698af3e",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 32,
@@ -2601,7 +2632,7 @@
       ],
       "body_sha256": "f510d914ee1d794ae34a937bd25480787685325cf1f280f942b8dce04d348e53",
       "original_body_sha256": "84b2816ee1bbd45dd4eb6cc027502a0703cca16ac2e840bd4682b47d7c8e5f2b",
-      "historical_contribution_owner": "satvikp-coder",
+      "historical_contribution_owner": null,
       "current_maintainer": "varunkarthic",
       "linked_prs": [
         {
@@ -2632,7 +2663,8 @@
       "actual_assignees": [],
       "original_pre_swap_assignees": [
         "satvikp-coder"
-      ]
+      ],
+      "pre_swap_intended_owner": "satvikp-coder"
     },
     {
       "number": 33,
@@ -2700,7 +2732,7 @@
       ],
       "body_sha256": "7168ec03dfcdf65980b0f487a1db3cc100674d649b92e40616b8695c41a31196",
       "original_body_sha256": "2a24de6b9df90f40a2ca05ca7cd99c5f1ab651a14850512c3db96e865b219462",
-      "historical_contribution_owner": "satvikp-coder",
+      "historical_contribution_owner": null,
       "current_maintainer": "varunkarthic",
       "linked_prs": [
         {
@@ -2715,7 +2747,8 @@
       "actual_assignees": [],
       "original_pre_swap_assignees": [
         "satvikp-coder"
-      ]
+      ],
+      "pre_swap_intended_owner": "satvikp-coder"
     },
     {
       "number": 34,
@@ -2786,7 +2819,7 @@
       ],
       "body_sha256": "256deb0bce2b66b65f67a6131374a613154774aafe885c465900b3beacfb28b2",
       "original_body_sha256": "2c13f1c4c707bc38c3f669b46afb4985ebf8728d2315f8411975d4be90659786",
-      "historical_contribution_owner": "satvikp-coder",
+      "historical_contribution_owner": null,
       "current_maintainer": "varunkarthic",
       "linked_prs": [
         {
@@ -2809,7 +2842,8 @@
       "actual_assignees": [],
       "original_pre_swap_assignees": [
         "satvikp-coder"
-      ]
+      ],
+      "pre_swap_intended_owner": "satvikp-coder"
     },
     {
       "number": 35,
@@ -2878,7 +2912,7 @@
       ],
       "body_sha256": "b28b6cd57e0a643b27db6efac66303b58edaf0644fc7d8029f5a4f739c4e8a5c",
       "original_body_sha256": "cf6b83401d3b783f4617bed49ce9b61455aeb660c2032acf37abd93cc0fc0471",
-      "historical_contribution_owner": "satvikp-coder",
+      "historical_contribution_owner": null,
       "current_maintainer": "varunkarthic",
       "linked_prs": [
         {
@@ -2901,7 +2935,8 @@
       "actual_assignees": [],
       "original_pre_swap_assignees": [
         "satvikp-coder"
-      ]
+      ],
+      "pre_swap_intended_owner": "satvikp-coder"
     },
     {
       "number": 36,
@@ -2983,7 +3018,8 @@
       ],
       "actual_assignees": [
         "satvikp-coder"
-      ]
+      ],
+      "pre_swap_intended_owner": "satvikp-coder"
     },
     {
       "number": 37,
@@ -3055,13 +3091,14 @@
       ],
       "body_sha256": "01070c48cca74201261415295f276df2b73a2c0911b7f6e8c67fd677c1ca98fa",
       "original_body_sha256": "e38b95287e14704d9b1593d4d7c653b9eab24066228acd06ea6f077e9169a47c",
-      "historical_contribution_owner": "satvikp-coder",
+      "historical_contribution_owner": null,
       "current_maintainer": "varunkarthic",
       "linked_prs": [],
       "actual_assignees": [],
       "original_pre_swap_assignees": [
         "satvikp-coder"
-      ]
+      ],
+      "pre_swap_intended_owner": "satvikp-coder"
     },
     {
       "number": 38,
@@ -3133,13 +3170,14 @@
       ],
       "body_sha256": "46876573d9054f65eea0aec1d68d4958771cf80b093bfcaf71fe4ed44d42ed2f",
       "original_body_sha256": "fa6a1a2096342816de07b325c7f8f878924847aeff5b7094b67f51ab25d4cf48",
-      "historical_contribution_owner": "satvikp-coder",
+      "historical_contribution_owner": null,
       "current_maintainer": "varunkarthic",
       "linked_prs": [],
       "actual_assignees": [],
       "original_pre_swap_assignees": [
         "satvikp-coder"
-      ]
+      ],
+      "pre_swap_intended_owner": "satvikp-coder"
     },
     {
       "number": 39,
@@ -3224,7 +3262,8 @@
       ],
       "actual_assignees": [
         "satvikp-coder"
-      ]
+      ],
+      "pre_swap_intended_owner": "satvikp-coder"
     },
     {
       "number": 40,
@@ -3293,7 +3332,7 @@
       ],
       "body_sha256": "fb54cdf55cc89c7118cec30075fd0830f9b00be3ec43349b18decaf25f9b7aa0",
       "original_body_sha256": "034dd09b757c51b95e0fb7b95f3a1c705121c34f62727bde317c140bafb27d46",
-      "historical_contribution_owner": "satvikp-coder",
+      "historical_contribution_owner": null,
       "current_maintainer": "varunkarthic",
       "linked_prs": [
         {
@@ -3308,7 +3347,8 @@
       "actual_assignees": [],
       "original_pre_swap_assignees": [
         "satvikp-coder"
-      ]
+      ],
+      "pre_swap_intended_owner": "satvikp-coder"
     },
     {
       "number": 41,
@@ -3387,13 +3427,14 @@
       ],
       "body_sha256": "3b43894e045bacd501398c499a4f0e5cb4f512cc52070607eb54e45aed499b13",
       "original_body_sha256": "f6bbbee93efa721e703339c9a815233ac7c65e6c47ac77508560a541105a6cce",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 42,
@@ -3463,13 +3504,14 @@
       ],
       "body_sha256": "3e5a70aa587624695b09f97070923d194085f87be6ca129bcdb2929a500819ad",
       "original_body_sha256": "c2b52a11628d5a2f6edb6806812c7ad74309a40f7ec297c65db71006e8bbe16a",
-      "historical_contribution_owner": "satvikp-coder",
+      "historical_contribution_owner": null,
       "current_maintainer": "varunkarthic",
       "linked_prs": [],
       "actual_assignees": [],
       "original_pre_swap_assignees": [
         "satvikp-coder"
-      ]
+      ],
+      "pre_swap_intended_owner": "satvikp-coder"
     },
     {
       "number": 43,
@@ -3537,13 +3579,14 @@
       ],
       "body_sha256": "6c53b008e86b2bd866175c429a5783f951b70f0e44a41fa900476e6f6f104f2b",
       "original_body_sha256": "cab942a8dd76264c665871f4db5c5abbfb6156983a86e1efd0e6a0d54d7e58af",
-      "historical_contribution_owner": "satvikp-coder",
+      "historical_contribution_owner": null,
       "current_maintainer": "varunkarthic",
       "linked_prs": [],
       "actual_assignees": [],
       "original_pre_swap_assignees": [
         "satvikp-coder"
-      ]
+      ],
+      "pre_swap_intended_owner": "satvikp-coder"
     },
     {
       "number": 44,
@@ -3613,13 +3656,14 @@
       ],
       "body_sha256": "397247c6a7934d0576a6aec2a32bbcb79ed4c39712cd67a4148c2dd029c5125a",
       "original_body_sha256": "9e53394f5624427a8b639cffa7b6f878d9311193e0ccf05221ec9626ae264d22",
-      "historical_contribution_owner": "satvikp-coder",
+      "historical_contribution_owner": null,
       "current_maintainer": "varunkarthic",
       "linked_prs": [],
       "actual_assignees": [],
       "original_pre_swap_assignees": [
         "satvikp-coder"
-      ]
+      ],
+      "pre_swap_intended_owner": "satvikp-coder"
     },
     {
       "number": 45,
@@ -3694,13 +3738,14 @@
       ],
       "body_sha256": "9f4d049784b419caa33f99ffeee2a928c152cbf6a97092b8be46c824ab820cc2",
       "original_body_sha256": "fe12a1b51ce6429aafc0099b51c87338091ff11c0993280363f487494b2c28bf",
-      "historical_contribution_owner": "satvikp-coder",
+      "historical_contribution_owner": null,
       "current_maintainer": "varunkarthic",
       "linked_prs": [],
       "actual_assignees": [],
       "original_pre_swap_assignees": [
         "satvikp-coder"
-      ]
+      ],
+      "pre_swap_intended_owner": "satvikp-coder"
     },
     {
       "number": 46,
@@ -3770,13 +3815,14 @@
       ],
       "body_sha256": "79c87792501df644bf0d2cebb07b6d24eec0b64505610a0901a36893e1b10763",
       "original_body_sha256": "69ef6848e8258e87ae8aebf0dde99d2cdf19e48ed654da60fca7b3f67a8ac2ee",
-      "historical_contribution_owner": "satvikp-coder",
+      "historical_contribution_owner": null,
       "current_maintainer": "varunkarthic",
       "linked_prs": [],
       "actual_assignees": [],
       "original_pre_swap_assignees": [
         "satvikp-coder"
-      ]
+      ],
+      "pre_swap_intended_owner": "satvikp-coder"
     },
     {
       "number": 47,
@@ -3846,13 +3892,14 @@
       ],
       "body_sha256": "65584b0f919a8104c741f47b447875f6c7d32d75468680633fbc458b7b2e863e",
       "original_body_sha256": "a7918b2e251699bc5e56dd8ef48c0e13852efe2f514d25319c229560d49b74c9",
-      "historical_contribution_owner": "satvikp-coder",
+      "historical_contribution_owner": null,
       "current_maintainer": "varunkarthic",
       "linked_prs": [],
       "actual_assignees": [],
       "original_pre_swap_assignees": [
         "satvikp-coder"
-      ]
+      ],
+      "pre_swap_intended_owner": "satvikp-coder"
     },
     {
       "number": 48,
@@ -3926,13 +3973,14 @@
       ],
       "body_sha256": "7e43f2299b0cde0221e5ca0e0a155d6ae17c252f6a8ab1692e25c439a3eb56a2",
       "original_body_sha256": "092048855a834fcc06f15688c6e729aa2d67ceb716a05fc51dd7f2131f71608b",
-      "historical_contribution_owner": "satvikp-coder",
+      "historical_contribution_owner": null,
       "current_maintainer": "varunkarthic",
       "linked_prs": [],
       "actual_assignees": [],
       "original_pre_swap_assignees": [
         "satvikp-coder"
-      ]
+      ],
+      "pre_swap_intended_owner": "satvikp-coder"
     },
     {
       "number": 49,
@@ -4005,13 +4053,14 @@
       ],
       "body_sha256": "ea5b6c86b5fc3d7d0880277ec469516fb58267f94c10672dc62955f065287d9a",
       "original_body_sha256": "514da7289fe13b72a711ebc4966b696f07ec1fab7e4142d5ec8c4ff0a42a5cf5",
-      "historical_contribution_owner": "satvikp-coder",
+      "historical_contribution_owner": null,
       "current_maintainer": "varunkarthic",
       "linked_prs": [],
       "actual_assignees": [],
       "original_pre_swap_assignees": [
         "satvikp-coder"
-      ]
+      ],
+      "pre_swap_intended_owner": "satvikp-coder"
     },
     {
       "number": 50,
@@ -4085,13 +4134,14 @@
       ],
       "body_sha256": "4782135f795d0ade2133905690e71c83bb9093edf6e73493c213b3c4f06b7dbf",
       "original_body_sha256": "4629365639edf4c61d0d87b598f028b9d8a415bcc8151584c9cbd1cfa05c675c",
-      "historical_contribution_owner": "satvikp-coder",
+      "historical_contribution_owner": null,
       "current_maintainer": "varunkarthic",
       "linked_prs": [],
       "actual_assignees": [],
       "original_pre_swap_assignees": [
         "satvikp-coder"
-      ]
+      ],
+      "pre_swap_intended_owner": "satvikp-coder"
     },
     {
       "number": 51,
@@ -4164,13 +4214,14 @@
       ],
       "body_sha256": "9e78b3a3221f2ce9ef62f5b641956248ec8bdef0cd802c20fca5f2673dc286f4",
       "original_body_sha256": "a67f7c242854b7c97f2d021e9b170e28581084d780efcf164e371e3a1e6d8549",
-      "historical_contribution_owner": "satvikp-coder",
+      "historical_contribution_owner": null,
       "current_maintainer": "varunkarthic",
       "linked_prs": [],
       "actual_assignees": [],
       "original_pre_swap_assignees": [
         "satvikp-coder"
-      ]
+      ],
+      "pre_swap_intended_owner": "satvikp-coder"
     },
     {
       "number": 52,
@@ -4242,13 +4293,14 @@
       ],
       "body_sha256": "2c48b59f019b9ef03c6cfb2c3e1c7b3895b54508c13467cb49d43c156c2e28ef",
       "original_body_sha256": "b2f1520bbb21f0dde55dcad533e34d05476ec9328ca3b7a3230cf1cab9fdfe09",
-      "historical_contribution_owner": "satvikp-coder",
+      "historical_contribution_owner": null,
       "current_maintainer": "varunkarthic",
       "linked_prs": [],
       "actual_assignees": [],
       "original_pre_swap_assignees": [
         "satvikp-coder"
-      ]
+      ],
+      "pre_swap_intended_owner": "satvikp-coder"
     },
     {
       "number": 53,
@@ -4319,13 +4371,14 @@
       ],
       "body_sha256": "5cd59267488bfb875a6647d9867914ccc3650926ff0ed3ad4e3fb245be92cad1",
       "original_body_sha256": "de6f5fe591a853f7fe9e27e8f4c71b91ce1ac106639fbff906d47977d0d2964d",
-      "historical_contribution_owner": "satvikp-coder",
+      "historical_contribution_owner": null,
       "current_maintainer": "varunkarthic",
       "linked_prs": [],
       "actual_assignees": [],
       "original_pre_swap_assignees": [
         "satvikp-coder"
-      ]
+      ],
+      "pre_swap_intended_owner": "satvikp-coder"
     },
     {
       "number": 54,
@@ -4405,13 +4458,14 @@
       ],
       "body_sha256": "365cea3d30f248d3b70f593ee271ea08f640daa1215f091580a094d6ab482155",
       "original_body_sha256": "d53068bd5d4da2157cbe36104d8b50d5e78c416736675d762270742297f113ee",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 55,
@@ -4484,13 +4538,14 @@
       ],
       "body_sha256": "cf521e9f0879fbd8098465dd335f8d4ef668ddad40aca7752b46c0f8bbb15a6e",
       "original_body_sha256": "13f1a384b9caea58b70e265e6100391fc7c96be67e6947e565798da7bb78218e",
-      "historical_contribution_owner": "satvikp-coder",
+      "historical_contribution_owner": null,
       "current_maintainer": "varunkarthic",
       "linked_prs": [],
       "actual_assignees": [],
       "original_pre_swap_assignees": [
         "satvikp-coder"
-      ]
+      ],
+      "pre_swap_intended_owner": "satvikp-coder"
     },
     {
       "number": 56,
@@ -4563,13 +4618,14 @@
       ],
       "body_sha256": "779158f865f289a88c8baaa12049e6200bda70693171f3b5f2653c3e32a3e45f",
       "original_body_sha256": "15ddcf531cca16ef17779ed50e12f9b66d3e9484e54f1d04219be71ad56785b1",
-      "historical_contribution_owner": "satvikp-coder",
+      "historical_contribution_owner": null,
       "current_maintainer": "varunkarthic",
       "linked_prs": [],
       "actual_assignees": [],
       "original_pre_swap_assignees": [
         "satvikp-coder"
-      ]
+      ],
+      "pre_swap_intended_owner": "satvikp-coder"
     },
     {
       "number": 57,
@@ -4643,13 +4699,14 @@
       ],
       "body_sha256": "ba5077f51752a2908e8a5ee017e5f774425d3b36faa9572a5d4bd74e9610cd1d",
       "original_body_sha256": "c7acfd877ccce415e5e8653711c2e0f978fbfc431a6c8d94744d79f6b4e321be",
-      "historical_contribution_owner": "satvikp-coder",
+      "historical_contribution_owner": null,
       "current_maintainer": "varunkarthic",
       "linked_prs": [],
       "actual_assignees": [],
       "original_pre_swap_assignees": [
         "satvikp-coder"
-      ]
+      ],
+      "pre_swap_intended_owner": "satvikp-coder"
     },
     {
       "number": 58,
@@ -4720,13 +4777,14 @@
       ],
       "body_sha256": "0bac2bc3ea2b07c202f8a9cb57c4597c8ee7de71de6ee3afa0e263d297f19f61",
       "original_body_sha256": "cb6a0c4ef988140db46734db2ef00d21708db12b921d40364a54983bab71fd5a",
-      "historical_contribution_owner": "satvikp-coder",
+      "historical_contribution_owner": null,
       "current_maintainer": "varunkarthic",
       "linked_prs": [],
       "actual_assignees": [],
       "original_pre_swap_assignees": [
         "satvikp-coder"
-      ]
+      ],
+      "pre_swap_intended_owner": "satvikp-coder"
     },
     {
       "number": 59,
@@ -4795,13 +4853,14 @@
       ],
       "body_sha256": "252bdcf92aa7d2349785fa28ed9ed10aa0a3abe938eee03bd1b787ef7b37f7ce",
       "original_body_sha256": "0dedc28a22469b5ea11a23183d5826150e0407c83bd9e114ccb2202212677d35",
-      "historical_contribution_owner": "satvikp-coder",
+      "historical_contribution_owner": null,
       "current_maintainer": "varunkarthic",
       "linked_prs": [],
       "actual_assignees": [],
       "original_pre_swap_assignees": [
         "satvikp-coder"
-      ]
+      ],
+      "pre_swap_intended_owner": "satvikp-coder"
     },
     {
       "number": 60,
@@ -4875,13 +4934,14 @@
       ],
       "body_sha256": "0a13dad87bc14033745bc2d2492cc10f7a3bbe6cad05ffce8e2360636fcb6f0b",
       "original_body_sha256": "a6be6a419ddf0cd0f894ee135e007cf50515c920ec21533d61ed73fb4b3c5a26",
-      "historical_contribution_owner": "satvikp-coder",
+      "historical_contribution_owner": null,
       "current_maintainer": "varunkarthic",
       "linked_prs": [],
       "actual_assignees": [],
       "original_pre_swap_assignees": [
         "satvikp-coder"
-      ]
+      ],
+      "pre_swap_intended_owner": "satvikp-coder"
     },
     {
       "number": 61,
@@ -4956,13 +5016,14 @@
       ],
       "body_sha256": "0a06e50391f65e63f46a5392f91bea1471028e1517c7b8c36c8d7b53779b5df4",
       "original_body_sha256": "c7cc7025e6600749c09240c32b53b2d1386e42e9977b1bb9fdf41e7fbf45c167",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 62,
@@ -5041,13 +5102,14 @@
       ],
       "body_sha256": "9b3cbd0ef769382e56db785316bf3e5767615cefe7548b4221b71a64e9c858ce",
       "original_body_sha256": "d0f0eedca7ed961cbfdad3b91a3947e6c3fc7f529312a30e201a3652dadbd318",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 63,
@@ -5121,13 +5183,14 @@
       ],
       "body_sha256": "e8f75c135d6fcd4763870508848a0178ada0a8d7989544a06ada621efe353e06",
       "original_body_sha256": "4e680967ce0edfe1c70b5ad92b54840c66e8c0a68bdc99992e4715ab52856c49",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 64,
@@ -5200,13 +5263,14 @@
       ],
       "body_sha256": "1120c41634a1346fe9328bba4f49def8558bb87711f6a62b21a069003457a151",
       "original_body_sha256": "eb9aeb2cc08f7c1e0cf6dac9156d475e1906a41ee82347172e420f31e6cea3a2",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 65,
@@ -5278,13 +5342,14 @@
       ],
       "body_sha256": "2fba487b87f886cabb16f03e964989b7910648b404db0f0b5ae92a474027494f",
       "original_body_sha256": "4268f0a0d8bcafb183567c056ebb391f9b6fe3e1d5bbb0ac1733ddc335238b47",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 66,
@@ -5353,13 +5418,14 @@
       ],
       "body_sha256": "171ab9156a8186c439ea6e49e887438f426e53ec08de3ffbd7a3578eb37528cf",
       "original_body_sha256": "22b9acf28eba7255210692463b61e968c6776167a07be0e74cf904ba850ac306",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 67,
@@ -5431,13 +5497,14 @@
       ],
       "body_sha256": "c99c7b55790848ae6c0cd13204883e1f8f8a3fb22289bf25386d4a835b77f878",
       "original_body_sha256": "c4bdba34d036061038f9dd7fb4e7853b2a4123ba64a87b579ba2f52ab1b5d055",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 68,
@@ -5513,13 +5580,14 @@
       ],
       "body_sha256": "16f5c5992ac1bb8f57dce9623cacf06c4139f47f58fac359c9933742a91ec842",
       "original_body_sha256": "c7c2178ba21a306f0a130ee625664bc9b714683d57dfc4402b4851e69a8fb1eb",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 69,
@@ -5595,13 +5663,14 @@
       ],
       "body_sha256": "993b5e080828c65b15d82e622a20c5ef9d118523220545132a606c676cd620b2",
       "original_body_sha256": "f43b27453562f37512d35e0eab53042810373d6fcb4dead1e55ee9ac9052349b",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 70,
@@ -5673,13 +5742,14 @@
       ],
       "body_sha256": "73db294b1e9866f36e1e2840ccbe426b7a4edb139d121e13f43eb1f268185825",
       "original_body_sha256": "a569959a87a46e78e069b1ba1ececcac9cc7b9b7b979188eb7d55fecb6df75f5",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 71,
@@ -5754,13 +5824,14 @@
       ],
       "body_sha256": "daf5b4649c22b1c228a07601a2abc63a268eaabc6d9ac3fedf27a8729a234a6a",
       "original_body_sha256": "0a098e5d9f6a1f95d95d751a1ebf1e232a59853e943f37c23dc6699c4bb3acb3",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 72,
@@ -5837,13 +5908,14 @@
       ],
       "body_sha256": "bb45a4f5a2af000a7856948b10832d9427e97e7ffdcd0b89b2f37ba049e227ff",
       "original_body_sha256": "3d744937a24177c22f1f81ac2a5240c1c04959bd7523fe729823656a45cd4c29",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 73,
@@ -5921,13 +5993,14 @@
       ],
       "body_sha256": "1e3609f487d15a8812a8c485ea5c3d9ffed7b603a3d85cc719e3e2170d2b5ba9",
       "original_body_sha256": "db61e7a80138f17f13293ad6f48dca259f491c5089fb7e541a377df45315ffae",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 74,
@@ -6002,13 +6075,14 @@
       ],
       "body_sha256": "9c39cc2f3cc63bec256ad0309d17734d9b90f23137a7cd3bcbdc9728c255f827",
       "original_body_sha256": "13dd5dab352fc68f37a145bf96fef2705fb739fde6d1d0933155ff492fd5e964",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 75,
@@ -6081,13 +6155,14 @@
       ],
       "body_sha256": "9d77ad1450fc4e500577a31445280fe955882eb21b900d856696f940825229d2",
       "original_body_sha256": "3cc048cd34b392bc111cb6081b8cf742bd0d075f4ac4ad447b5e09ed5213fc3c",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 76,
@@ -6162,13 +6237,14 @@
       ],
       "body_sha256": "b6475d38d73bd42589cac300d8a869a198ddafb09d00bd013714f537e4cd5d91",
       "original_body_sha256": "74ec191179f8d85b484b75b3d92a8c7fd85c617bbd13be406f00c8e96d6db99c",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 77,
@@ -6247,13 +6323,14 @@
       ],
       "body_sha256": "c40a47b7143d8405d34b206fcf1089a31dcc68a3f43db7d4ab75e31b84249209",
       "original_body_sha256": "8821a00f6c4c44288eb66361ca26131e4f74c045253b4b57621dbeabaf569574",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 78,
@@ -6325,13 +6402,14 @@
       ],
       "body_sha256": "669a05fa1f85a70949320d7b684b500c81830b83be4366afad136dcb664242ac",
       "original_body_sha256": "014806078805e05e759084c7811edfefb5f9bfa3a2f0d3fe306eeb9ddac45760",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 79,
@@ -6405,13 +6483,14 @@
       ],
       "body_sha256": "6e3f6e18a4ef4e1ab51f112a0ac4fb29a2e734ca48a1dd9d60a9a8b93a1bb42b",
       "original_body_sha256": "03f4b8efc7c014f590b3eb19cc368400cde9c4c22621a044f4822ed2ec5c3151",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 80,
@@ -6485,13 +6564,14 @@
       ],
       "body_sha256": "6dfabde272f56e3a795e526d042830d0d689afaa86e14a0a0a605c3ec9ce1f97",
       "original_body_sha256": "27a32080fcb593500968f431661554f4b84f56269cf46869f1e2ee0a9f4acab7",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 81,
@@ -6571,13 +6651,14 @@
       ],
       "body_sha256": "94d11f27fb0cae3c49ee2f595053d244115de0a150fe3f5442b185207d7c6bb9",
       "original_body_sha256": "744733de9533998746330e05720298c1c3e2af685c60b64156af343c244fda89",
-      "historical_contribution_owner": "satvikp-coder",
+      "historical_contribution_owner": null,
       "current_maintainer": "varunkarthic",
       "linked_prs": [],
       "actual_assignees": [],
       "original_pre_swap_assignees": [
         "satvikp-coder"
-      ]
+      ],
+      "pre_swap_intended_owner": "satvikp-coder"
     },
     {
       "number": 82,
@@ -6653,13 +6734,14 @@
       ],
       "body_sha256": "2ae802d89b88fafb305ac01edf31be84a78f1c19271de640265508aef3ffa1fd",
       "original_body_sha256": "7863d646bbf5bc0fde73d8aedd7e59636398d170008f3c0d801aecd34ff00daa",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 83,
@@ -6737,13 +6819,14 @@
       ],
       "body_sha256": "2dd4c9e8db49d4860c4433d3c77371166438e41d0f0e6e8134f8aad6ddfcd679",
       "original_body_sha256": "b0d06727ec1410d62b6822596e48043ffa9b22482e502384c60f295d4e4019aa",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 84,
@@ -6817,13 +6900,14 @@
       ],
       "body_sha256": "79534497ed0eb3c97c5e90e0e5b36ca657bc6ada0391ab927ee92fb617f94908",
       "original_body_sha256": "fbc5e16c82a1ea31109cea93649fd7fb3ebb83066cf0294c1ee46c3615ea9a31",
-      "historical_contribution_owner": "satvikp-coder",
+      "historical_contribution_owner": null,
       "current_maintainer": "varunkarthic",
       "linked_prs": [],
       "actual_assignees": [],
       "original_pre_swap_assignees": [
         "satvikp-coder"
-      ]
+      ],
+      "pre_swap_intended_owner": "satvikp-coder"
     },
     {
       "number": 85,
@@ -6896,13 +6980,14 @@
       ],
       "body_sha256": "de02dba96fc38ae1108685221918ce476acd6ccef59de335b87ffb0656d87271",
       "original_body_sha256": "b82f311ef17f7230aacba9b7303abfc23e46ddd9baa08749d0426507c785e28d",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 86,
@@ -6977,13 +7062,14 @@
       ],
       "body_sha256": "f2ac2d7fb30dd3066bf9025407d00db7de3842b066536968aa43455dee6c8b05",
       "original_body_sha256": "7f3d18d8685a15c0735d4b9d7219dd3fb03507ebd5718eb050e6bba6eda5c1f2",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 87,
@@ -7056,13 +7142,14 @@
       ],
       "body_sha256": "173e6c0c0702bf6f956733509c35389ee9a2690276e38e467e82cf9597358534",
       "original_body_sha256": "ebed17d6cd86e9e1cf82ac99681d0cfd420e1c2869d4ca013bb4fb0598c8cd9b",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 88,
@@ -7141,13 +7228,14 @@
       ],
       "body_sha256": "8b47384a98552a4e81bac5f874f1310bd6768e429cb09221c28238ca737e7e0c",
       "original_body_sha256": "78bb063955a0578b707b9a18c57dcdbb9dd11c6a38f0924778087548342ef1cb",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 89,
@@ -7224,13 +7312,14 @@
       ],
       "body_sha256": "2576996a85fcbf18d0bd64b12300e8669f21c46202cf99936eb6ab3d269afd9d",
       "original_body_sha256": "1a84f2dceb31f369e01efcc23b3bf6266ae96de0062d94aa2e7d746dc15b10c6",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 90,
@@ -7303,13 +7392,14 @@
       ],
       "body_sha256": "0fc2fec5d535edfc791aa42ea1b7864f2b61f1bb7a42561b8f5bf8059e830933",
       "original_body_sha256": "03c26345707735f33426885fe247c64caee4fa96234736519de122408fc42e3b",
-      "historical_contribution_owner": "satvikp-coder",
+      "historical_contribution_owner": null,
       "current_maintainer": "varunkarthic",
       "linked_prs": [],
       "actual_assignees": [],
       "original_pre_swap_assignees": [
         "satvikp-coder"
-      ]
+      ],
+      "pre_swap_intended_owner": "satvikp-coder"
     },
     {
       "number": 91,
@@ -7385,13 +7475,14 @@
       ],
       "body_sha256": "517e012e30ae7a19738c838204d8d785725c45512ff9211f0fee34872044bcfe",
       "original_body_sha256": "351fbee0bc80ad965d2fb473dd4a626df5165a1d7cb1fe0e53edbe48bcf957b3",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 92,
@@ -7465,13 +7556,14 @@
       ],
       "body_sha256": "09159733a7b73ec3ca9e7b08d02604753384cbf1724f89747c40a7badb795eec",
       "original_body_sha256": "ae22f6969bec4613dec877186b8197a8148edf15b9f8d1ffd56cc9ef85ccaa2a",
-      "historical_contribution_owner": "satvikp-coder",
+      "historical_contribution_owner": null,
       "current_maintainer": "varunkarthic",
       "linked_prs": [],
       "actual_assignees": [],
       "original_pre_swap_assignees": [
         "satvikp-coder"
-      ]
+      ],
+      "pre_swap_intended_owner": "satvikp-coder"
     },
     {
       "number": 93,
@@ -7556,13 +7648,14 @@
       ],
       "body_sha256": "3a1457e13c04ff29bbfcd5532dede5c68a4d273e519d6c5b143ee4bad2ee40a7",
       "original_body_sha256": "e1c85c31e2e45dae4886b07a020cd83a14bdd64ca6fbacc2fca8663ddddaa828",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 94,
@@ -7637,13 +7730,14 @@
       ],
       "body_sha256": "bf7c8d1180d2731af9f3d6c1f7cc4e325a277f2e313d6ed70bc26ec80607c5bc",
       "original_body_sha256": "b796a82cc8cb216224d0b83bbce16795fb5670415572f7d0853310259f78bc4d",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 95,
@@ -7716,13 +7810,14 @@
       ],
       "body_sha256": "499265eed86b1beff3bf0717182df2c39a751c813d02d3c6a0af50f8dbb9efbc",
       "original_body_sha256": "4031e996cdd4100a9b4cf390ead7b480f3ccaf497fd0aea95fea2a4f95342edf",
-      "historical_contribution_owner": "satvikp-coder",
+      "historical_contribution_owner": null,
       "current_maintainer": "varunkarthic",
       "linked_prs": [],
       "actual_assignees": [],
       "original_pre_swap_assignees": [
         "satvikp-coder"
-      ]
+      ],
+      "pre_swap_intended_owner": "satvikp-coder"
     },
     {
       "number": 96,
@@ -7799,13 +7894,14 @@
       ],
       "body_sha256": "c5493b25eb5ac482b53e2381de88f7a802835c4b6c9659268ead981d0cd4d748",
       "original_body_sha256": "44762acf305d2aacc44b4c8a97375bfb2b1390138d1379ce86b76d808e0417b1",
-      "historical_contribution_owner": "satvikp-coder",
+      "historical_contribution_owner": null,
       "current_maintainer": "varunkarthic",
       "linked_prs": [],
       "actual_assignees": [],
       "original_pre_swap_assignees": [
         "satvikp-coder"
-      ]
+      ],
+      "pre_swap_intended_owner": "satvikp-coder"
     },
     {
       "number": 97,
@@ -7880,13 +7976,14 @@
       ],
       "body_sha256": "ccf8651beac4dc31398da5cd0d858527f6bc32ca2c3cfaa3f038408dae89bcf9",
       "original_body_sha256": "f7487532805f4ab735af03ba6ce823792fcda8d67037fdae99a38b4cde4bfc8c",
-      "historical_contribution_owner": "satvikp-coder",
+      "historical_contribution_owner": null,
       "current_maintainer": "varunkarthic",
       "linked_prs": [],
       "actual_assignees": [],
       "original_pre_swap_assignees": [
         "satvikp-coder"
-      ]
+      ],
+      "pre_swap_intended_owner": "satvikp-coder"
     },
     {
       "number": 98,
@@ -7958,13 +8055,14 @@
       ],
       "body_sha256": "0df5fa79c56fe520bd2002639b3a8935f9f5e56fa7c5714fd18a59ade3ba6cf5",
       "original_body_sha256": "a1831a34ed67473dcf26d0ca2af22f3d1f69b65db41a9df72672ed65ae28e291",
-      "historical_contribution_owner": "satvikp-coder",
+      "historical_contribution_owner": null,
       "current_maintainer": "varunkarthic",
       "linked_prs": [],
       "actual_assignees": [],
       "original_pre_swap_assignees": [
         "satvikp-coder"
-      ]
+      ],
+      "pre_swap_intended_owner": "satvikp-coder"
     },
     {
       "number": 99,
@@ -8038,13 +8136,14 @@
       ],
       "body_sha256": "31c8289ddd6beb9dac3a46f988c12067af84764ae64bb5041cc416704228387d",
       "original_body_sha256": "d41140b509924221c29cccbc33fcf05d9b1e46e5a3f3863336e6f13c49853e34",
-      "historical_contribution_owner": "satvikp-coder",
+      "historical_contribution_owner": null,
       "current_maintainer": "varunkarthic",
       "linked_prs": [],
       "actual_assignees": [],
       "original_pre_swap_assignees": [
         "satvikp-coder"
-      ]
+      ],
+      "pre_swap_intended_owner": "satvikp-coder"
     },
     {
       "number": 100,
@@ -8116,13 +8215,14 @@
       ],
       "body_sha256": "ced057e4fab144263696e10b701855b3b355542014e048e8ba37c00e5264470c",
       "original_body_sha256": "1bf46eab3428c5566f1b041e1369992592df30006be0928ae01359f827a2b4d3",
-      "historical_contribution_owner": "satvikp-coder",
+      "historical_contribution_owner": null,
       "current_maintainer": "varunkarthic",
       "linked_prs": [],
       "actual_assignees": [],
       "original_pre_swap_assignees": [
         "satvikp-coder"
-      ]
+      ],
+      "pre_swap_intended_owner": "satvikp-coder"
     },
     {
       "number": 101,
@@ -8197,13 +8297,14 @@
       ],
       "body_sha256": "e4c9ec17041d03558367e1c5015229625b2e2cd85d03346ed85b5db7d12e1611",
       "original_body_sha256": "2ce1cf421879c3332b2ee69fcce746a08176cd3ce18acc176e5f5e887bef015b",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 102,
@@ -8281,13 +8382,14 @@
       ],
       "body_sha256": "74394147f5fbc7aaaa8ac00d7023d516d2bec5fa35787a703002bb9f9c1f29f5",
       "original_body_sha256": "3b7e04b202f965696a5346d58b5cc25327020f78e017f2f556772afaecac89a6",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 103,
@@ -8364,13 +8466,14 @@
       ],
       "body_sha256": "da2607022c87e252b7123d267c9c9b2af70f6af9fe25f9aa2f132c25b4f89c25",
       "original_body_sha256": "1da086047ceb88a60d2899eb57c05e5b2ade41c476463ff352090d3ae9ce552e",
-      "historical_contribution_owner": "satvikp-coder",
+      "historical_contribution_owner": null,
       "current_maintainer": "varunkarthic",
       "linked_prs": [],
       "actual_assignees": [],
       "original_pre_swap_assignees": [
         "satvikp-coder"
-      ]
+      ],
+      "pre_swap_intended_owner": "satvikp-coder"
     },
     {
       "number": 104,
@@ -8450,13 +8553,14 @@
       ],
       "body_sha256": "7bc65553a273dbaeb74a82f89543fffd2fed0ff7d5faea220e3ed93a6e33ed69",
       "original_body_sha256": "4a3acb78419a04d81ba9643b5a75f29fc89e7563b3451f52d6426634b842711d",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 105,
@@ -8529,13 +8633,14 @@
       ],
       "body_sha256": "7640006d7756ca06960c7d3b3db04f1060a44ea7451b04e7a617d627ce0782d5",
       "original_body_sha256": "b9f1077213ed28b8c230fc6595987af8c3f54582c07852209aa999994a54b663",
-      "historical_contribution_owner": "satvikp-coder",
+      "historical_contribution_owner": null,
       "current_maintainer": "varunkarthic",
       "linked_prs": [],
       "actual_assignees": [],
       "original_pre_swap_assignees": [
         "satvikp-coder"
-      ]
+      ],
+      "pre_swap_intended_owner": "satvikp-coder"
     },
     {
       "number": 106,
@@ -8610,13 +8715,14 @@
       ],
       "body_sha256": "f498af7983be17f7d9ff4b01028523a7a745736892de25c6b66b92b4adc29bc2",
       "original_body_sha256": "e7f9d7928ece4318a722008a1eb6794310b6480be2da6a9ce3065585b3100869",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 107,
@@ -8697,13 +8803,14 @@
       ],
       "body_sha256": "04fe56d82f0967c281cb49500ce0216b516dc73371def8bde2f6345c47708536",
       "original_body_sha256": "54e3987c005ab71c319d39eb5ed90dd029f4a372c73bf81132e1180a3d58e3a2",
-      "historical_contribution_owner": "satvikp-coder",
+      "historical_contribution_owner": null,
       "current_maintainer": "varunkarthic",
       "linked_prs": [],
       "actual_assignees": [],
       "original_pre_swap_assignees": [
         "satvikp-coder"
-      ]
+      ],
+      "pre_swap_intended_owner": "satvikp-coder"
     },
     {
       "number": 108,
@@ -8782,13 +8889,14 @@
       ],
       "body_sha256": "ef974fc386af5316c26a089fc61fe939dafe6bb6cf3500b2c5ebf5870d017d79",
       "original_body_sha256": "809be36cfbcf68f823b20c7a7a312e893f0f1f2265c0c2eeeb155be2e0989d44",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 109,
@@ -8868,13 +8976,14 @@
       ],
       "body_sha256": "7c1c10d411e9206bde398521cc36f1f5e8375ae2bda272a0a4a64e5ed1f6397e",
       "original_body_sha256": "ec45ef690a1c259dd73250ae410e2214cfa808b2573b233ca1689554429600cb",
-      "historical_contribution_owner": "satvikp-coder",
+      "historical_contribution_owner": null,
       "current_maintainer": "varunkarthic",
       "linked_prs": [],
       "actual_assignees": [],
       "original_pre_swap_assignees": [
         "satvikp-coder"
-      ]
+      ],
+      "pre_swap_intended_owner": "satvikp-coder"
     },
     {
       "number": 110,
@@ -8958,13 +9067,14 @@
       ],
       "body_sha256": "5ee2ce13f4866d8ea1acf0c2589d454dcc40e9c77da12030430778b66014ff01",
       "original_body_sha256": "06f86cfc3030441e321c2f222e227b09b4f36589e818a202b25c1d8aec678f25",
-      "historical_contribution_owner": "satvikp-coder",
+      "historical_contribution_owner": null,
       "current_maintainer": "varunkarthic",
       "linked_prs": [],
       "actual_assignees": [],
       "original_pre_swap_assignees": [
         "satvikp-coder"
-      ]
+      ],
+      "pre_swap_intended_owner": "satvikp-coder"
     },
     {
       "number": 111,
@@ -9043,13 +9153,14 @@
       ],
       "body_sha256": "46a73af17fa13f7717bf2ac69013f3ab7950fcbadfecb4549eecdf863dd79817",
       "original_body_sha256": "7d461d0a8dfdbb5ce06f9d9f23f9aa0d40998689f7d091c85a1df77f5c3740d3",
-      "historical_contribution_owner": "satvikp-coder",
+      "historical_contribution_owner": null,
       "current_maintainer": "varunkarthic",
       "linked_prs": [],
       "actual_assignees": [],
       "original_pre_swap_assignees": [
         "satvikp-coder"
-      ]
+      ],
+      "pre_swap_intended_owner": "satvikp-coder"
     },
     {
       "number": 112,
@@ -9130,13 +9241,14 @@
       ],
       "body_sha256": "0682521d669e24a9d2bac5bbd9e04307aaa3c50afca72a4a66c7f60224e87b5f",
       "original_body_sha256": "706be18ba180fa429dd9c3fcf0ea8f43da1151839719d3f1be634ae7e78dd59d",
-      "historical_contribution_owner": "satvikp-coder",
+      "historical_contribution_owner": null,
       "current_maintainer": "varunkarthic",
       "linked_prs": [],
       "actual_assignees": [],
       "original_pre_swap_assignees": [
         "satvikp-coder"
-      ]
+      ],
+      "pre_swap_intended_owner": "satvikp-coder"
     },
     {
       "number": 113,
@@ -9222,13 +9334,14 @@
       ],
       "body_sha256": "0f10c2c4d3cdb00084bd9aec8608c03acabb00f41536456eaaf0d0a17340c3cb",
       "original_body_sha256": "98b3a00179136a967e6c70fae93324f93f4f125b60944d3aa9d6625e75a53a2b",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 114,
@@ -9307,13 +9420,14 @@
       ],
       "body_sha256": "21397b5f4bca7490e4620f02e94fb79a07e4ee105d6dbd56c932d83d96e1c50a",
       "original_body_sha256": "f80258b1b2c47e793fc97bc3af0b88d6a49aafece410fd0e99a6bd1f85a0a16e",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 115,
@@ -9397,13 +9511,14 @@
       ],
       "body_sha256": "e6dacf49d91d372939aa3aaa0bb1b7908d41cac567e5fa49c2de838c9dca174b",
       "original_body_sha256": "9d3687a841fba46b328d35d7fd1ace8922d3a0596f15cea3f9157e16e957879c",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 116,
@@ -9480,13 +9595,14 @@
       ],
       "body_sha256": "bca8c9575d936b989e199a3ac3ab7ec5ea3fa00f318ab4cd7c6777b12e97ac5b",
       "original_body_sha256": "302c6a054191b41ab6d17b71cc978066ad6321fef870be82e783019776ee185e",
-      "historical_contribution_owner": "satvikp-coder",
+      "historical_contribution_owner": null,
       "current_maintainer": "varunkarthic",
       "linked_prs": [],
       "actual_assignees": [],
       "original_pre_swap_assignees": [
         "satvikp-coder"
-      ]
+      ],
+      "pre_swap_intended_owner": "satvikp-coder"
     },
     {
       "number": 117,
@@ -9569,13 +9685,14 @@
       ],
       "body_sha256": "b8ae75f208fa8f7721d3931de5ea4dc152a3f8ed24a56013eb5d212d8d200b02",
       "original_body_sha256": "4ee076a176a3d60bb3a3fa2e731735bf268f2fbf5ea69687999715a2be53a6f8",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 118,
@@ -9658,13 +9775,14 @@
       ],
       "body_sha256": "671971f05c7cabb80159cf3eb1bdc0e86044ebe4cdb9c5613aa6b6326e52605b",
       "original_body_sha256": "f1f56e629a763b1a7fd8162fb38f8691a7468a27ea7a5476cb1adbaa51d9b176",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 119,
@@ -9752,13 +9870,14 @@
       ],
       "body_sha256": "d1fd3bbff1f43dc6481ec45a76f8eda54c7a95cd3b187728401ed2d2f1ccc765",
       "original_body_sha256": "e211af9e36919d2f68c023e4d0dbb01facce7745cc9b24d94927706274ed18b6",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 120,
@@ -9837,13 +9956,14 @@
       ],
       "body_sha256": "dcfa0039aff3d7cf2ab1d2a26e9706d996999a5a735f9b698187f5357d5f56ee",
       "original_body_sha256": "4c0e02dd27762c8fdf142940a9aceb1ead6e3de644d36600055f5f12be3847b4",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 121,
@@ -9921,13 +10041,14 @@
       ],
       "body_sha256": "9f8bf84dc234f9cda18725aa2a1073beb6dada05e7952ad2003dff7e76d231f4",
       "original_body_sha256": "b862fbff49261c3e0859f6b364e7508bc18ddc659b990d17f706aa2c8a8b1534",
-      "historical_contribution_owner": "satvikp-coder",
+      "historical_contribution_owner": null,
       "current_maintainer": "varunkarthic",
       "linked_prs": [],
       "actual_assignees": [],
       "original_pre_swap_assignees": [
         "satvikp-coder"
-      ]
+      ],
+      "pre_swap_intended_owner": "satvikp-coder"
     },
     {
       "number": 122,
@@ -10004,13 +10125,14 @@
       ],
       "body_sha256": "213fdaddce401856aefe1938da498d0af0bb1b0535e3b07fa78f4011e60cc9ef",
       "original_body_sha256": "8c197b4f2fb0cfbca07172337737efb8f4364bbbcae346daf9a5a69d3c94eb0b",
-      "historical_contribution_owner": "satvikp-coder",
+      "historical_contribution_owner": null,
       "current_maintainer": "varunkarthic",
       "linked_prs": [],
       "actual_assignees": [],
       "original_pre_swap_assignees": [
         "satvikp-coder"
-      ]
+      ],
+      "pre_swap_intended_owner": "satvikp-coder"
     },
     {
       "number": 123,
@@ -10089,13 +10211,14 @@
       ],
       "body_sha256": "de26205a79b48b6bb21867ea37329718b914d929b48380acf9425838c7636b26",
       "original_body_sha256": "65559b67a066fdfb5767941d7d03a4f3f7c96c7fa69fd299b43a583b6bf9f77b",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 124,
@@ -10177,13 +10300,14 @@
       ],
       "body_sha256": "2a4d1c0236c90567e36aaa02352c504e892a10c633150d3ea2aeff7174918b5c",
       "original_body_sha256": "9184978a7ec491b6fab907ed93730441e4d06ac92f20531aa22970464d01ffb3",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 125,
@@ -10264,13 +10388,14 @@
       ],
       "body_sha256": "8b2e39aab0d45a91b083cc11fd4e5560b479b38de3f194d604c0b29894299855",
       "original_body_sha256": "b93eb522d8c91075718bbfe89bd7cceff0bde5c87bf4558b3e09ecc3bbe9b803",
-      "historical_contribution_owner": "satvikp-coder",
+      "historical_contribution_owner": null,
       "current_maintainer": "varunkarthic",
       "linked_prs": [],
       "actual_assignees": [],
       "original_pre_swap_assignees": [
         "satvikp-coder"
-      ]
+      ],
+      "pre_swap_intended_owner": "satvikp-coder"
     },
     {
       "number": 126,
@@ -10358,13 +10483,14 @@
       ],
       "body_sha256": "7061f2b648d4b090d3c1649299f16c8dbe67683bbd5363e7755bf4fd88ec77ca",
       "original_body_sha256": "775ec608aecef338b378ad0f57cc006b5a6cd3433c120ac26b0b760450790c5e",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 127,
@@ -10437,13 +10563,14 @@
       ],
       "body_sha256": "b9938509ccb91cc712e3ca2d203b765f7422777d390aa01628cff66f2a4587ac",
       "original_body_sha256": "441030d0e726b25a65a4777c2fa43a22909f3741de1711578265d8af76622093",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 128,
@@ -10514,13 +10641,14 @@
       ],
       "body_sha256": "a4f4ef6b5f62298dfa742f2ee333538038d5b73761e539166704f19c7d4b2263",
       "original_body_sha256": "f676f66dccf4e6f3b090d62dcadfd242da86b455c684fdd5b0e48110f0ee2d7b",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 129,
@@ -10591,13 +10719,14 @@
       ],
       "body_sha256": "ab50800ff768523bc75eadac6d88c11aaee2bab85e4f42222663f716525dfba5",
       "original_body_sha256": "8304008fb2adf0f26de4cc0e9083e92276160246ec58c1db7bf7f31fa24e0625",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 130,
@@ -10668,13 +10797,14 @@
       ],
       "body_sha256": "bd18775b7cdcce357630a437dcc6c620e7b8815497599356b06425d98ece991a",
       "original_body_sha256": "b7e3878acaa4b75b58c4ba8445c9f41da05fd5051466344a106f2944caeb8a52",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 131,
@@ -10750,13 +10880,14 @@
       ],
       "body_sha256": "5036f1d90792ef07e7503a0ed280a46de82620def411ca349107c371e17303c1",
       "original_body_sha256": "af9481c06144f1c6f66c688dd09822a8e994aaecc453fa81df1c3aa92018e2c0",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 132,
@@ -10827,13 +10958,14 @@
       ],
       "body_sha256": "f01a593bcdd98435d67c1b5b499d4fd79c74f85311448b2c88733a21045730ad",
       "original_body_sha256": "a8067f774c249938015539e31151b30e37e8f4311941bd1da65d186f3f63aa0a",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 133,
@@ -10904,13 +11036,14 @@
       ],
       "body_sha256": "5d273d302e831864262228b3cc384366fd96e4948c533864cdbdd6cae28d9a14",
       "original_body_sha256": "c69a759764bcfe0ddc82f6528155d96b4e13a345710a232c3c85189a264db5f8",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 134,
@@ -10987,13 +11120,14 @@
       ],
       "body_sha256": "79eb2653083d72eb11c0737e732010f79880e445777eace17256c8375a1cab2f",
       "original_body_sha256": "d4d3079e70d156b11ab354a3de91b2aa7005433497f054889939a5216862d968",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 135,
@@ -11064,13 +11198,14 @@
       ],
       "body_sha256": "99e5a02b9dc6031e613e4d149443292e1bbbfb69c1aec1056f2f40db30a6b2ad",
       "original_body_sha256": "6ee04a3baf9347d4fce8c465bc54a236927192833bc1acd3d1accb17e0540001",
-      "historical_contribution_owner": "varunkarthic",
+      "historical_contribution_owner": null,
       "current_maintainer": "satvikp-coder",
       "linked_prs": [],
       "actual_assignees": [
         "satvikp-coder"
       ],
-      "original_pre_swap_assignees": []
+      "original_pre_swap_assignees": [],
+      "pre_swap_intended_owner": "varunkarthic"
     },
     {
       "number": 136,
@@ -11147,13 +11282,14 @@
       ],
       "body_sha256": "4225dddb77f3f20e946132b32d179f1428ead986a19c5e1a138d7ccce1a70c4c",
       "original_body_sha256": "5532b58e19e77ddae1ce570fe5f14252a422042fac3dec019722ab55cc6e1bd3",
-      "historical_contribution_owner": "satvikp-coder",
+      "historical_contribution_owner": null,
       "current_maintainer": "varunkarthic",
       "linked_prs": [],
       "actual_assignees": [],
       "original_pre_swap_assignees": [
         "satvikp-coder"
-      ]
+      ],
+      "pre_swap_intended_owner": "satvikp-coder"
     }
   ],
   "ownership_schema_version": 2,

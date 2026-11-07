@@ -74,7 +74,9 @@ def prepare():
     pending=not snap['varun_eligibility']['eligible']
     for t in records:
         n=t['number']; r=by[n]; x=original_by[n]; r['status']=x['state']; r['labels']=[l['name'] for l in x['labels']]
-        r['historical_contribution_owner']=OLD[r['owner']]; r['current_maintainer']=NEW[r['owner']]
+        r['pre_swap_intended_owner']=OLD[r['owner']]
+        r['historical_contribution_owner']=OLD[r['owner']] if x['state']=='closed' else None
+        r['current_maintainer']=NEW[r['owner']]
         r['linked_prs']=t['pr_references']; r['actual_assignees']=[u['login'] for u in x['assignees']]
         if x['state']=='closed':
             r['github_user']=OLD[r['owner']]; r['github_assignment_status']='historical closed assignment preserved'; body=x['body']

@@ -34,6 +34,7 @@ def main():
         check(r['current_maintainer']==NEW[r['owner']],f'#{n} wrong current maintainer')
         check(r['ready_to_start']==(r['status']=='open' and all(by[d]['status']=='closed' for d in r['hard_dependencies'])),f'#{n} incorrect technical readiness')
         if x['state']=='open':
+            check(r.get('historical_contribution_owner') is None,f'#{n} intended ownership mislabeled as completed contribution')
             check(r['github_user']==NEW[r['owner']],f'#{n} stale active person')
             check(norm(outside(local))==norm(outside(x['body'])),f'#{n} technical body/acceptance/tests/PR link changed')
             check(f"Developer {r['owner']} — `{NEW[r['owner']]}`" in local,f'#{n} wrong ownership section')
