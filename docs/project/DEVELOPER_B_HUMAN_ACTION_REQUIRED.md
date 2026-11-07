@@ -11,3 +11,7 @@ Nothing here is approved or done. Claude cannot invent approvals, photos, permis
 | H-DEV-A | many | Varun delivers the Developer A items listed in the progress ledger (for example the real public API behind the contract). | Developer A | GitHub issues | merged PRs, conformance passing | live integration acceptance |
 
 When done, paste the evidence links on the matching issue and tell Claude to resume (see the resume prompt in the final report).
+
+## Real-device check for the map explorer (issues #82, #117)
+
+Automated Chromium tests pass (see `docs/design/public-website.md`), but a person must still confirm on real phones. Who: anyone with an Android phone (Chrome) and an iPhone (Safari). Steps: open the deployed or locally served `/explore`; tap Expand, select a place, rotate the phone, pinch-zoom the page to 200%, and (once search exists, #76) tap the search field so the keyboard opens. Check that the header navigation, Expand/Close buttons and map attribution are never covered. Record device, OS, browser version and pass/fail per step in a comment on #82. Claude then closes #82.

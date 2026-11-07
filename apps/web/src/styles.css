@@ -1,6 +1,7 @@
 :root { --ivory:#F6F2E9; --teal:#163D3B; --sand:#E6BC6C; --error:#9B1C1C; }
 *{box-sizing:border-box}
 body{margin:0;background:var(--ivory);color:var(--teal);font:16px/1.5 "Noto Sans",system-ui,sans-serif}
+header{position:sticky;top:0;z-index:6}
 header,footer{display:flex;flex-wrap:wrap;gap:16px;align-items:center;padding:8px 16px;background:var(--teal);color:var(--ivory)}
 header a,footer a{color:var(--ivory)}
 nav ul{display:flex;flex-wrap:wrap;gap:16px;list-style:none;margin:0;padding:0}
@@ -16,3 +17,30 @@ main :focus-visible{outline-color:var(--teal)}
 .hero-fallback{display:grid;place-items:center;min-height:180px;background:var(--teal);color:var(--ivory);border-radius:8px;font-size:2rem;font-weight:700}
 figure{margin:0}img{max-width:100%;height:auto}
 .cta{display:inline-flex;align-items:center;min-height:44px;padding:0 16px;background:var(--teal);color:var(--ivory);border-radius:8px;text-decoration:none}
+
+/* Explore layout: >=768 map + side panel; <768 map with a bottom sheet (peek 112px / half 50dvh / full 85dvh) */
+.explore{display:grid;gap:16px;grid-template-columns:1fr}
+.explore-map .map{height:50dvh;min-height:280px}
+.sheet-bar{display:flex;gap:8px;align-items:center;justify-content:space-between;padding:8px 0}
+.sheet-body{overflow:auto}
+@media (min-width:768px){
+  main{max-width:none}
+  .explore{grid-template-columns:minmax(0,1fr) 320px;align-items:start}
+  .explore-map .map{height:70dvh}
+  .sheet-bar{display:none}
+  .sheet-body{max-height:70dvh}
+}
+@media (max-width:767px){
+  .sheet{position:fixed;left:0;right:0;bottom:0;background:var(--ivory);border-top:2px solid var(--teal);padding:0 16px env(safe-area-inset-bottom);z-index:5;box-shadow:0 -2px 8px rgba(0,0,0,.2)}
+  .sheet[data-state="peek"]{height:112px}
+  .sheet[data-state="peek"] .sheet-body{display:none}
+  .sheet[data-state="half"]{height:50dvh}
+  .sheet[data-state="full"]{height:calc(100dvh - var(--header-h, 0px))}
+  .sheet .sheet-body{height:calc(100% - 60px)}
+  main{padding-bottom:128px}
+}
+@media (max-width:767px) and (orientation:landscape){
+  .sheet[data-state="half"]{height:calc(100dvh - var(--header-h, 0px) - 8px)}
+}
+header nav ul{gap:8px 16px}
+html{overflow-wrap:anywhere}

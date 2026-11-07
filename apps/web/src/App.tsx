@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Link, NavLink, Outlet, Route, Routes, useLocation, useSearchParams } from "react-router-dom";
 import { sanitizeQuery } from "@makarba/public-ia";
 import { mainNavigation, publicRoutes, type NavGroup } from "@makarba/public-ia";
@@ -15,6 +15,18 @@ const NAV_TARGET: Record<Exclude<NavGroup, "footer">, string> = {
 const FOOTER = publicRoutes.filter((r) => r.nav === "footer");
 
 function Layout() {
+  const headerRef = useRef<HTMLElement>(null);
+  // Publish the header height so the full-height sheet starts below it and navigation is never covered.
+  useEffect(() => {
+    const el = headerRef.current;
+    if (!el) return;
+    const set = () => document.documentElement.style.setProperty("--header-h", `${el.offsetHeight}px`);
+    set();
+    if (typeof ResizeObserver === "undefined") return;
+    const ro = new ResizeObserver(set);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
   const [lang, setLang] = useState<Lang>("en");
   const t = strings[lang];
   const loc = useLocation();
@@ -23,7 +35,7 @@ function Layout() {
   return (
     <>
       <a className="skip" href="#main">{t.skip}</a>
-      <header>
+      <header ref={headerRef}>
         <Link to="/" className="brand">{t.siteName}</Link>
         <nav aria-label={t.navLabel}>
           <ul>
@@ -66,6 +78,10 @@ export function PlaceList({ fetcher, withMap = false }: { fetcher?: typeof fetch
     setParams(next);
   };
   const [mapStatus, setMapStatus] = useState<MapStatus>("loading");
+  // Sheet height on small screens: peek / half / full. Always operable by buttons; Escape returns to peek.
+  const [sheet, setSheet] = useState<"peek" | "half" | "full">("peek");
+  const sheetRef = useRef<HTMLDivElement>(null);
+  useEffect(() => { if (selected) setSheet((x) => (x === "peek" ? "half" : x)); }, [selected]);
   const [r, setR] = useState<PlacesResult | "loading">("loading");
   const load = useCallback(() => {
     const ac = new AbortController();
@@ -84,9 +100,23 @@ export function PlaceList({ fetcher, withMap = false }: { fetcher?: typeof fetch
         {r !== "loading" && r.status === "ok" && r.places.length === 0 && <span>{t.emptyPlaces}</span>}
       </div>
       {r !== "loading" && r.status === "error" && r.retryable && <button type="button" onClick={load}>{t.retry}</button>}
+      {withMap ? (
+        <div className="explore">
+          <div className="explore-map">
       {withMap && r !== "loading" && r.status === "ok" && r.places.length > 0 && (
         <MapView features={r.features} sourceAttribution={r.synthetic ? "Demonstration place data (synthetic)" : "Place data: Makarba 360 published snapshot"} selectedId={selected} onSelect={setSelected} onStatus={setMapStatus} />
       )}
+          </div>
+          <div className="sheet" data-state={sheet} ref={sheetRef}
+            onKeyDown={(e) => { if (e.key === "Escape" && sheet !== "peek") { setSheet("peek"); } }}>
+            <div className="sheet-bar" role="group" aria-label="Places panel size">
+              <span id="sheet-title">Places and details</span>
+              <button type="button" aria-expanded={sheet !== "peek"} aria-controls="sheet-body" onClick={() => setSheet(sheet === "full" ? "half" : "full")}>
+                {sheet === "full" ? "Collapse" : "Expand"}
+              </button>
+              {sheet !== "peek" && <button type="button" onClick={() => setSheet("peek")}>Close</button>}
+            </div>
+            <div id="sheet-body" className="sheet-body" role="region" aria-labelledby="sheet-title">
       {withMap && r !== "loading" && r.status === "ok" && selected && (() => {
         const p = r.places.find((x) => x.id === selected);
         return p ? (
@@ -106,6 +136,34 @@ export function PlaceList({ fetcher, withMap = false }: { fetcher?: typeof fetch
               {selected === p.id && <span role="status"> - selected</span>}
             </li>
           ))}</ul>
+        </>
+      )}
+            </div>
+          </div>
+        </div>
+      ) : (
+        <>
+      {withMap && r !== "loading" && r.status === "ok" && selected && (() => {
+        const p = r.places.find((x) => x.id === selected);
+        return p ? (
+          <aside aria-label="Selected place"><h2>{p.name}</h2><p>Category: {p.category}</p><p><Link to={`/places/${p.slug}`}>Open full profile</Link></p><button type="button" onClick={() => setSelected(null)}>Clear selection</button></aside>
+        ) : (
+          <aside role="status">That place was not found. It may have been unpublished. <button type="button" onClick={() => setSelected(null)}>Clear selection</button></aside>
+        );
+      })()}
+      {withMap && mapStatus === "unavailable" && <p><small>Map unavailable - the list is the full alternative.</small></p>}
+      {r !== "loading" && r.status === "ok" && r.places.length > 0 && (
+        <>
+          {r.synthetic && <p><strong>{t.synthetic}</strong></p>}
+          <ul>{r.places.map((p) => (
+            <li key={p.id}>
+              {withMap ? <button type="button" aria-pressed={selected === p.id} onClick={() => setSelected(selected === p.id ? null : p.id)}>{p.name}</button> : p.name}{" "}
+              <small>({p.category})</small>
+              {selected === p.id && <span role="status"> - selected</span>}
+            </li>
+          ))}</ul>
+        </>
+      )}
         </>
       )}
     </section>
