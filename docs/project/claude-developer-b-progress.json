@@ -1,7 +1,7 @@
 {
- "main_sha": "3a6a8f1b6d4df35d27a039bc8fd20e7961b0c53f",
+ "main_sha": "bf2221f37578e2bb17ce6da21d81c23ddebd08b3",
  "total": 73,
- "closed": 10,
+ "closed": 15,
  "issues": [
   {
    "issue": 2,
@@ -78,11 +78,11 @@
   {
    "issue": 18,
    "title": "[FRONTEND] Design Then and Now comparison",
-   "state": "OPEN",
-   "status": "READY_NOW",
-   "pr": "",
-   "merge_sha": "",
-   "note": "hard prerequisites closed; integration deps use mocks"
+   "state": "CLOSED",
+   "status": "VERIFIED_COMPLETE",
+   "pr": "#168",
+   "merge_sha": "c2a98df",
+   "note": ""
   },
   {
    "issue": 19,
@@ -241,10 +241,10 @@
    "issue": 68,
    "title": "[HISTORICAL] Build accessible Then and Now component",
    "state": "OPEN",
-   "status": "WAITING_FOR_OWN_PREREQUISITE",
+   "status": "READY_NOW",
    "pr": "",
    "merge_sha": "",
-   "note": "open hard prerequisites: #18"
+   "note": "hard prerequisites closed; integration deps use mocks"
   },
   {
    "issue": 69,
@@ -285,29 +285,29 @@
   {
    "issue": 73,
    "title": "[FRONTEND] Build evidence-led home page",
-   "state": "OPEN",
-   "status": "READY_NOW",
-   "pr": "",
-   "merge_sha": "",
-   "note": "hard prerequisites closed; integration deps use mocks"
+   "state": "CLOSED",
+   "status": "VERIFIED_COMPLETE",
+   "pr": "#165",
+   "merge_sha": "2d7d586",
+   "note": ""
   },
   {
    "issue": 74,
    "title": "[FRONTEND] Build public map explorer",
-   "state": "OPEN",
-   "status": "READY_NOW",
-   "pr": "",
-   "merge_sha": "",
-   "note": "hard prerequisites closed; integration deps use mocks"
+   "state": "CLOSED",
+   "status": "VERIFIED_COMPLETE",
+   "pr": "#164",
+   "merge_sha": "d0772cc",
+   "note": ""
   },
   {
    "issue": 75,
    "title": "[FRONTEND] Build map layer and category controls",
    "state": "OPEN",
-   "status": "WAITING_FOR_OWN_PREREQUISITE",
+   "status": "READY_NOW",
    "pr": "",
    "merge_sha": "",
-   "note": "open hard prerequisites: #74"
+   "note": "hard prerequisites closed; integration deps use mocks"
   },
   {
    "issue": 76,
@@ -316,25 +316,25 @@
    "status": "WAITING_FOR_OWN_PREREQUISITE",
    "pr": "",
    "merge_sha": "",
-   "note": "open hard prerequisites: #29, #74"
+   "note": "open hard prerequisites: #29"
   },
   {
    "issue": 77,
    "title": "[FRONTEND] Build location profile pages",
-   "state": "OPEN",
-   "status": "READY_NOW",
-   "pr": "",
-   "merge_sha": "",
-   "note": "hard prerequisites closed; integration deps use mocks"
+   "state": "CLOSED",
+   "status": "VERIFIED_COMPLETE",
+   "pr": "#166",
+   "merge_sha": "e7debaa",
+   "note": ""
   },
   {
    "issue": 78,
    "title": "[FRONTEND] Build approved photo gallery",
    "state": "OPEN",
-   "status": "WAITING_FOR_OWN_PREREQUISITE",
+   "status": "READY_NOW",
    "pr": "",
    "merge_sha": "",
-   "note": "open hard prerequisites: #77"
+   "note": "hard prerequisites closed; integration deps use mocks"
   },
   {
    "issue": 79,
@@ -343,7 +343,7 @@
    "status": "WAITING_FOR_OWN_PREREQUISITE",
    "pr": "",
    "merge_sha": "",
-   "note": "open hard prerequisites: #69, #77"
+   "note": "open hard prerequisites: #69"
   },
   {
    "issue": 80,
@@ -352,25 +352,25 @@
    "status": "WAITING_FOR_OWN_PREREQUISITE",
    "pr": "",
    "merge_sha": "",
-   "note": "open hard prerequisites: #68, #77"
+   "note": "open hard prerequisites: #68"
   },
   {
    "issue": 82,
    "title": "[FRONTEND] Verify responsive public map journeys",
    "state": "OPEN",
-   "status": "WAITING_FOR_OWN_PREREQUISITE",
+   "status": "WAITING_FOR_HUMAN_REVIEW",
    "pr": "",
    "merge_sha": "",
-   "note": "open hard prerequisites: #74, #77"
+   "note": "see DEVELOPER_B_HUMAN_ACTION_REQUIRED.md H6 real-device soft-keyboard check (code merged in #167/9dfabbf)"
   },
   {
    "issue": 83,
    "title": "[FRONTEND] Publish methodology sources and accessibility pages",
-   "state": "OPEN",
-   "status": "READY_NOW",
-   "pr": "",
-   "merge_sha": "",
-   "note": "hard prerequisites closed; integration deps use mocks"
+   "state": "CLOSED",
+   "status": "VERIFIED_COMPLETE",
+   "pr": "#169",
+   "merge_sha": "bf2221f",
+   "note": ""
   },
   {
    "issue": 85,
