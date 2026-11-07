@@ -18,6 +18,9 @@ def acyclic(rows):
             for d in by[n][field]: dfs(d)
         visiting.remove(n); done.add(n)
     for n in by: dfs(n)
+# Last commit of the ownership-swap run (merge of PR #155). Product work merged after it is out of scope for this audit.
+SWAP_END_COMMIT = "cf972eb"
+
 def main():
     if hasattr(sys.stdout,'reconfigure'): sys.stdout.reconfigure(encoding='utf-8')
     snap=json.loads((ROOT/'docs/project/ownership-swap-snapshot.json').read_text(encoding='utf-8')); plan=json.loads((ROOT/'docs/project/developer-issue-allocation.json').read_text(encoding='utf-8')); mapping=json.loads((ROOT/'docs/project/ownership-swap-map.json').read_text(encoding='utf-8'))
@@ -54,7 +57,7 @@ def main():
         check(s.startswith('# Developer '+role+' guide — '+user),'Stale guide '+role)
         for r in rows:
             if r['owner']==role and r['status']=='open': check(r['url'] in s,'Guide missing '+str(r['number']))
-    changed=subprocess.check_output(['git','diff','--name-only',snap['base_commit'],'--','apps','packages','db','database','infrastructure','pnpm-lock.yaml'],cwd=ROOT,text=True).strip()
+    changed=subprocess.check_output(['git','diff','--name-only',snap['base_commit'],SWAP_END_COMMIT,'--','apps','packages','db','database','infrastructure','pnpm-lock.yaml'],cwd=ROOT,text=True).strip()
     check(not changed,'Product code/contracts/database/lockfile changed by ownership run: '+changed)
     report=dict(records=len(rows),open=sum(r['status']=='open' for r in rows),closed_preserved=[r['number'] for r in rows if r['status']=='closed'],new_mapping=NEW,open_by_role=dict(collections.Counter(r['owner'] for r in rows if r['status']=='open')),previously_unassigned_B=sum(t['reserved_unassigned'] for t in mapping['records']),technical_fields_preserved=True,dependencies_acyclic=True,errors=errors)
     if '--local' not in sys.argv:
