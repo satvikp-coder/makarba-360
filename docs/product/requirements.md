@@ -52,3 +52,5 @@ Assumptions requiring confirmation: institutional approver/contact, actual team 
 Governance (issue #1): branch/PR rules, vacant roles, absence of a source licence and the planning-only boundary are recorded in `docs/project/governance.md`; `scripts/check_governance.py` rejects invented contacts or licences. Main branch protection is not yet enabled.
 
 Capability matrix (issue #6, PROPOSED — awaiting stakeholder approval): `docs/project/capability-matrix.md`; permission failures return authorisation errors, never partial raw data; admin alone has no research-record access.
+
+Architecture review (issue #9): boundary, interface-ownership and optional-provider evidence in `docs/architecture/review-baseline.md`; the offline vault is a provisional component until the #54 feasibility gate (ADR 004); no optional provider (third-party panorama, paid imagery, ODK/Kobo fallback) is promised; independent human review remains pending. Lifecycle/error states for the public API are in `docs/project/developer-handoffs.md`.
