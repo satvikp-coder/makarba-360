@@ -1,5 +1,6 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
+import type React from "react";
 import { cleanup, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import axe from "axe-core";
@@ -13,6 +14,7 @@ vi.mock("./map/MapView.js", () => ({ MapView: () => <div data-testid="map" /> })
 const bundle = JSON.parse(readFileSync(resolve(process.cwd(), "../../docs/project/contracts/fixture-bundle.json"), "utf8"));
 const json = (body: unknown, status = 200) => Promise.resolve(new Response(JSON.stringify(body), { status, headers: { "content-type": "application/json" } }));
 const okFetch = (() => json(bundle.locations)) as unknown as typeof fetch;
+const wrap = (ui: React.ReactElement) => render(<MemoryRouter>{ui}</MemoryRouter>);
 const at = (path: string) => render(<MemoryRouter initialEntries={[path]}><App /></MemoryRouter>);
 afterEach(cleanup);
 
@@ -61,34 +63,34 @@ import { within } from "@testing-library/react";
 
 describe("place list alternative", () => {
   it("shows places from the validated mock contract, labelled synthetic", async () => {
-    render(<PlaceList fetcher={okFetch} />);
+    wrap(<PlaceList fetcher={okFetch} />);
     await waitFor(() => expect(screen.getAllByRole("listitem").length).toBe(bundle.locations.features.length));
     expect(screen.getByText(/Demonstration data/)).toBeTruthy();
   });
   it("empty collection says no places are published, not zero or an error", async () => {
     const f = (() => json({ ...bundle.locations, features: [] })) as unknown as typeof fetch;
-    render(<PlaceList fetcher={f} />);
+    wrap(<PlaceList fetcher={f} />);
     expect(await screen.findByText("No places have been published yet.")).toBeTruthy();
   });
   it("a payload that violates the contract is an error and is not rendered", async () => {
     const bad = structuredClone(bundle.locations);
     bad.features[0].properties.interviewGps = [72.5, 23.0];
-    render(<PlaceList fetcher={(() => json(bad)) as unknown as typeof fetch} />);
+    wrap(<PlaceList fetcher={(() => json(bad)) as unknown as typeof fetch} />);
     expect(await screen.findByText("Places could not be loaded.")).toBeTruthy();
     expect(screen.queryAllByRole("listitem")).toHaveLength(0);
   });
   it("network failure shows a retry that recovers", async () => {
     let n = 0;
     const f = (() => (n++ === 0 ? Promise.reject(new Error("net")) : json(bundle.locations))) as unknown as typeof fetch;
-    render(<PlaceList fetcher={f} />);
+    wrap(<PlaceList fetcher={f} />);
     await userEvent.click(await screen.findByRole("button", { name: "Try again" }));
     await waitFor(() => expect(screen.getAllByRole("listitem").length).toBeGreaterThan(0));
   });
   it("server 503 is retryable, 404 is not", async () => {
-    render(<PlaceList fetcher={(() => json({}, 503)) as unknown as typeof fetch} />);
+    wrap(<PlaceList fetcher={(() => json({}, 503)) as unknown as typeof fetch} />);
     expect(await screen.findByRole("button", { name: "Try again" })).toBeTruthy();
     cleanup();
-    render(<PlaceList fetcher={(() => json({}, 404)) as unknown as typeof fetch} />);
+    wrap(<PlaceList fetcher={(() => json({}, 404)) as unknown as typeof fetch} />);
     await screen.findByText("Places could not be loaded.");
     expect(screen.queryByRole("button", { name: "Try again" })).toBeNull();
   });
@@ -96,11 +98,50 @@ describe("place list alternative", () => {
 
 describe("explore page with map", () => {
   it("keeps the full list when the map is present and lets the list select a place", async () => {
-    render(<PlaceList fetcher={okFetch} withMap />);
+    wrap(<PlaceList fetcher={okFetch} withMap />);
     expect(await screen.findByTestId("map")).toBeTruthy();
     const btn = (await screen.findAllByRole("button"))[0]!;
     await userEvent.click(btn);
     expect(btn.getAttribute("aria-pressed")).toBe("true");
     expect(screen.getAllByRole("listitem").length).toBe(bundle.locations.features.length);
+  });
+});
+
+describe("map explorer URL state and network privacy", () => {
+  const calls: string[] = [];
+  const spyFetch = ((url: string) => { calls.push(String(url)); return json(bundle.locations); }) as unknown as typeof fetch;
+  const first = bundle.locations.features[0];
+  const explore = (entry: string) => render(<MemoryRouter initialEntries={[entry]}><PlaceList fetcher={spyFetch} withMap /></MemoryRouter>);
+
+  it("selecting a place writes ?place= and restoring that URL shows the same details", async () => {
+    calls.length = 0;
+    const { unmount } = explore("/explore");
+    const btn = await screen.findByRole("button", { name: first.properties.name.en });
+    await userEvent.click(btn);
+    expect(await screen.findByRole("complementary", { name: "Selected place" })).toBeTruthy();
+    unmount();
+    explore(`/explore?place=${first.id}`);
+    expect(await screen.findByRole("complementary", { name: "Selected place" })).toBeTruthy();
+    expect(screen.getByRole("heading", { level: 2, name: first.properties.name.en })).toBeTruthy();
+  });
+  it("an unknown or unpublished place id shows a not-found notice, not details", async () => {
+    explore("/explore?place=00000000-0000-4000-8000-0000000000ff");
+    expect(await screen.findByText(/was not found/)).toBeTruthy();
+    expect(screen.queryByRole("complementary", { name: "Selected place" })).toBeNull();
+  });
+  it("only the public locations endpoint is requested; no interview, GPS or private source in any request", async () => {
+    calls.length = 0;
+    explore(`/explore?place=${first.id}&interview=7&gps=1&lat=1`);
+    await screen.findByRole("button", { name: first.properties.name.en });
+    expect(calls.length).toBeGreaterThan(0);
+    for (const u of calls) {
+      expect(u).toMatch(/^\/api\/v1\/public\/locations(\?limit=\d+)?$/);
+      expect(u.toLowerCase()).not.toMatch(/interview|gps|participant|private|lat=/);
+    }
+  });
+  it("selection can be cleared and the clear control restores the neutral state", async () => {
+    explore(`/explore?place=${first.id}`);
+    await userEvent.click(await screen.findByRole("button", { name: "Clear selection" }));
+    expect(screen.queryByRole("complementary", { name: "Selected place" })).toBeNull();
   });
 });

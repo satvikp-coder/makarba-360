@@ -15,6 +15,18 @@ export function buildStyle(tileUrl: string): maplibregl.StyleSpecification {
   };
 }
 
+/** Bounding box [[w,s],[e,n]] of all coordinates, or null when there are none. */
+export function boundsOf(features: PublicFeature[]): [[number, number], [number, number]] | null {
+  let w = Infinity, s = Infinity, e = -Infinity, n = -Infinity;
+  const walk = (c: unknown): void => {
+    if (Array.isArray(c) && typeof c[0] === "number" && typeof c[1] === "number") {
+      w = Math.min(w, c[0]); e = Math.max(e, c[0]); s = Math.min(s, c[1]); n = Math.max(n, c[1]);
+    } else if (Array.isArray(c)) c.forEach(walk);
+  };
+  features.forEach((f) => walk(f.geometry.coordinates));
+  return Number.isFinite(w) ? [[w, s], [e, n]] : null;
+}
+
 export type MapStatus = "loading" | "ready" | "unavailable";
 
 interface Props {
@@ -56,11 +68,26 @@ export function MapView({ features, sourceAttribution, selectedId, onSelect, onS
     map.getCanvas().addEventListener("webglcontextlost", lost);
     map.on("error", (e: { error?: { message?: string } }) => { if (/webgl|context/i.test(e.error?.message ?? "")) lost(); });
     map.on("load", () => {
-      map.addSource(SRC, { type: "geojson", data: { type: "FeatureCollection", features: [] } });
+      // Only published, contract-validated features are ever added. Clustering applies to points only.
+      map.addSource(SRC, { type: "geojson", data: { type: "FeatureCollection", features: [] }, cluster: true, clusterRadius: 50, clusterMaxZoom: 14 });
+      const isPoint = ["all", ["==", ["geometry-type"], "Point"], ["!", ["has", "point_count"]]] as unknown as maplibregl.FilterSpecification;
       map.addLayer({ id: "places-fill", type: "fill", source: SRC, filter: ["==", ["geometry-type"], "Polygon"], paint: { "fill-color": "#4C91A3", "fill-opacity": 0.35 } });
       map.addLayer({ id: "places-line", type: "line", source: SRC, filter: ["==", ["geometry-type"], "LineString"], paint: { "line-color": "#163D3B", "line-width": 3 } });
-      map.addLayer({ id: "places-point", type: "circle", source: SRC, filter: ["==", ["geometry-type"], "Point"], paint: { "circle-radius": 8, "circle-color": "#D27A55", "circle-stroke-width": 2, "circle-stroke-color": "#163D3B" } });
-      map.on("click", "places-point", (e) => { const id = e.features?.[0]?.id; if (typeof id === "string") onSelect?.(id); });
+      map.addLayer({ id: "places-cluster", type: "circle", source: SRC, filter: ["has", "point_count"], paint: { "circle-color": "#E6BC6C", "circle-stroke-width": 2, "circle-stroke-color": "#163D3B", "circle-radius": ["step", ["get", "point_count"], 14, 5, 18, 20, 24] } });
+      map.addLayer({ id: "places-point", type: "circle", source: SRC, filter: isPoint, paint: { "circle-radius": 8, "circle-color": "#D27A55", "circle-stroke-width": 2, "circle-stroke-color": "#163D3B" } });
+      const pick = (e: { features?: { properties?: Record<string, unknown> }[] }) => {
+        const id = e.features?.[0]?.properties?.["locationId"];
+        if (typeof id === "string") onSelect?.(id);
+      };
+      map.on("click", "places-point", pick);
+      map.on("click", "places-fill", pick);
+      map.on("click", "places-line", pick);
+      map.on("click", "places-cluster", (e: { features?: { properties?: Record<string, unknown> }[]; lngLat?: { lng: number; lat: number } }) => {
+        const cid = e.features?.[0]?.properties?.["cluster_id"];
+        const src = map.getSource(SRC) as maplibregl.GeoJSONSource;
+        if (typeof cid !== "number" || !e.lngLat) return;
+        src.getClusterExpansionZoom(cid).then((zoom) => map.easeTo({ center: [e.lngLat!.lng, e.lngLat!.lat], zoom }));
+      });
       report("ready");
     });
     return () => { map.getCanvas().removeEventListener("webglcontextlost", lost); map.remove(); mapRef.current = null; };
@@ -71,12 +98,15 @@ export function MapView({ features, sourceAttribution, selectedId, onSelect, onS
     if (!map || status !== "ready") return;
     const src = map.getSource(SRC) as maplibregl.GeoJSONSource | undefined;
     src?.setData({ type: "FeatureCollection", features: features as unknown as GeoJSON.Feature[] });
+    const box = boundsOf(features);
+    if (box) map.fitBounds(box, { padding: 48, maxZoom: 15, duration: 0 });
   }, [features, status]);
 
   useEffect(() => {
     const map = mapRef.current;
     if (!map || status !== "ready" || !map.getLayer("places-point")) return;
-    map.setPaintProperty("places-point", "circle-radius", selectedId ? ["case", ["==", ["id"], selectedId], 12, 8] : 8);
+    map.setPaintProperty("places-point", "circle-radius", selectedId ? ["case", ["==", ["get", "locationId"], selectedId], 12, 8] : 8);
+    map.setPaintProperty("places-point", "circle-color", selectedId ? ["case", ["==", ["get", "locationId"], selectedId], "#163D3B", "#D27A55"] : "#D27A55");
   }, [selectedId, status]);
 
   return (

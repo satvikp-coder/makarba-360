@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
-import { Link, NavLink, Outlet, Route, Routes, useLocation } from "react-router-dom";
+import { Link, NavLink, Outlet, Route, Routes, useLocation, useSearchParams } from "react-router-dom";
+import { sanitizeQuery } from "@makarba/public-ia";
 import { mainNavigation, publicRoutes, type NavGroup } from "@makarba/public-ia";
 import { fetchPlaces, type PlacesResult } from "./api.js";
 import { MapView, type MapStatus } from "./map/MapView.js";
@@ -64,7 +65,14 @@ function Home() {
 /** List alternative for the map (P02-P04): same published places, no map or WebGL needed. */
 export function PlaceList({ fetcher, withMap = false }: { fetcher?: typeof fetch; withMap?: boolean }) {
   const t = strings.en;
-  const [selected, setSelected] = useState<string | null>(null);
+  // Selection lives in the URL (?place=<public feature id>) so it survives reload, sharing and back/forward.
+  const [params, setParams] = useSearchParams();
+  const selected = withMap ? (sanitizeQuery("P02", params).get("place") ?? null) : null;
+  const setSelected = (id: string | null) => {
+    const next = new URLSearchParams(sanitizeQuery("P02", params));
+    if (id) next.set("place", id); else next.delete("place");
+    setParams(next);
+  };
   const [mapStatus, setMapStatus] = useState<MapStatus>("loading");
   const [r, setR] = useState<PlacesResult | "loading">("loading");
   const load = useCallback(() => {
@@ -87,6 +95,14 @@ export function PlaceList({ fetcher, withMap = false }: { fetcher?: typeof fetch
       {withMap && r !== "loading" && r.status === "ok" && r.places.length > 0 && (
         <MapView features={r.features} sourceAttribution={r.synthetic ? "Demonstration place data (synthetic)" : "Place data: Makarba 360 published snapshot"} selectedId={selected} onSelect={setSelected} onStatus={setMapStatus} />
       )}
+      {withMap && r !== "loading" && r.status === "ok" && selected && (() => {
+        const p = r.places.find((x) => x.id === selected);
+        return p ? (
+          <aside aria-label="Selected place"><h2>{p.name}</h2><p>Category: {p.category}</p><button type="button" onClick={() => setSelected(null)}>Clear selection</button></aside>
+        ) : (
+          <aside role="status">That place was not found. It may have been unpublished. <button type="button" onClick={() => setSelected(null)}>Clear selection</button></aside>
+        );
+      })()}
       {withMap && mapStatus === "unavailable" && <p><small>Map unavailable - the list is the full alternative.</small></p>}
       {r !== "loading" && r.status === "ok" && r.places.length > 0 && (
         <>

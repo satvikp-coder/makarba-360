@@ -39,3 +39,14 @@ Home uses a permitted image and clear research purpose. Then & Now offers slider
 - **Privacy:** the client calls only the public API with `credentials: "omit"`, receives only allowlisted DTO fields, and holds no private IDs, coordinates or original media.
 - **Tests (10, jsdom + axe-core):** navigation/language/footer, disabled unreviewed languages, no survey route across all routes, 404, axe (no violations; colour-contrast is checked via the token tests because jsdom cannot compute it), list states and contract-violation rejection.
 - **Limitations:** no real-browser or screen-reader testing yet (#82, #114, #117); the map is #74; live backend integration waits for Developer A's public API.
+
+## Public map explorer (issue #74)
+
+`/explore` is the map explorer: MapLibre map plus the full place list and a details panel.
+
+- **Browse:** published, contract-validated features only. Points cluster (50px radius up to zoom 14; clicking a cluster zooms to expand it); lines and polygons are not clustered. The view fits the data bounds on load. Cluster size is shown by circle size; the exact number is available in the list because map glyph text is not loaded.
+- **Stable URL state:** the selected place is `?place=<public feature id>` and is written by both map clicks and list buttons. It survives reload, sharing and browser back/forward (each selection is a history entry). Only allowlisted keys pass `sanitizeQuery`; `interview`, `gps`, `lat` and similar keys are dropped.
+- **Details panel:** name and category from the public DTO, with a "Clear selection" control. A `place` id that is not in the published list (unpublished, withdrawn or mistyped) shows "That place was not found" and no details; it never falls back to cached or draft data.
+- **Fallback and states:** loading, empty, error/retry, invalid payload (not rendered) and map-unavailable (list remains the full alternative) as in #25/#72.
+- **Privacy:** the only request is `GET /api/v1/public/locations`; the map has exactly one data source (`places`) built from that response. A test asserts that no request URL contains interview, GPS, participant or private terms and that the map registers no other source, even when such parameters appear in the page URL.
+- **Tests:** 22 web tests pass (13 shell/list/explorer, 7 MapView incl. cluster zoom and bounds, plus axe). Limitations: map rendering is verified only against a mocked MapLibre; real-browser rendering, tile loading and touch behaviour are tracked in #82 and #117 and are not claimed here. Category layer toggles (#75), search (#76) and profile pages (#77) are separate issues.
