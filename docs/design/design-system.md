@@ -146,3 +146,22 @@ Implemented as a tested view model in `packages/insights-view` that the dashboar
 | Request failure | retry message, distinct from the above |
 
 Allowed filters are only the fixed, reviewed cohorts and date windows the API supplies. There is no free-form query builder, and filter combinations that would reveal a suppressed group are not offered because the server returns them already suppressed. The sample note must say results come from a convenience sample and are not representative of all residents. Tests: 7 passing with synthetic fixtures. Limitation: the dashboard UI itself is #88/#91/#74 later; live data waits for Developer A's analytics API (#84, #92).
+
+## Then & Now comparison (issue #18)
+
+Logic is implemented and tested in `apps/web/src/thenNow.ts` (`viewPair`, `sliderKey`); the component (#68) must use it.
+
+**Eligibility.** A pair is shown only if both dates are known, at least one source is cited and both images are available. Otherwise the whole comparison is hidden (no broken slider) and the profile shows nothing for it. An unknown or `unknown`-precision date is never formatted as a year or day: it reads "Date unknown", and a year stays "2021 (year)". A "2021 vs 2026" label therefore appears only when the record really has those dates.
+
+**Viewpoint honesty.** The words "matched viewpoint" appear only when the record carries a matching note; otherwise the UI says the photographs are not documented as taken from the same viewpoint. Evidence quality and sources are shown beside each image.
+
+**Layout and states.**
+```text
+[Before image: date (precision), credit, licence]   [After image: ...]
+ slider handle: role="slider", aria-valuemin=0 max=100 now=50, label "Compare before and after"
+ view toggle:  (o) Slider  ( ) Side by side  ( ) Text description
+ sources: citation list   evidence quality: <value>   viewpoint: <matched note | not documented>
+```
+Keyboard alternative: the slider handle is focusable; arrows move 5, PageUp/PageDown 25, Home/End jump to the ends; the Side-by-side and Text description views need no pointer or dragging at all and are one control away. The text description is always generated ("Before: …. After: …. Evidence quality: …. Viewpoint …"). Reduced motion: no animated reveal. Loading shows a fixed-aspect skeleton; one image failing hides the pair and shows the text description with "An image is unavailable".
+
+Tests: 6 unit tests (eligible pair, three unknown-date forms, missing source/media, no false same-angle claim, text alternative, keyboard model). Limitations: design plus tested logic only; the visual component is #68 and screen-reader behaviour needs human review (#114).
