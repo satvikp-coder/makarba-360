@@ -36,6 +36,9 @@ jobs:
           for i in $(seq 1 30); do curl -sf http://127.0.0.1:4010/health && break; sleep 1; done
       - run: python scripts/check_public_contracts.py --fixtures --base-url http://127.0.0.1:4010
       - run: python scripts/check_secret_exposure.py
+      - run: python scripts/scan_secrets.py
+      - name: Scan browser bundles (none exist yet)
+        run: python scripts/scan_secrets.py --bundle apps/web/dist --value-env SESSION_SECRET DATABASE_URL
   database:
     runs-on: ubuntu-latest
     steps:
