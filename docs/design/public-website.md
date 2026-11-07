@@ -50,3 +50,13 @@ Home uses a permitted image and clear research purpose. Then & Now offers slider
 - **Fallback and states:** loading, empty, error/retry, invalid payload (not rendered) and map-unavailable (list remains the full alternative) as in #25/#72.
 - **Privacy:** the only request is `GET /api/v1/public/locations`; the map has exactly one data source (`places`) built from that response. A test asserts that no request URL contains interview, GPS, participant or private terms and that the map registers no other source, even when such parameters appear in the page URL.
 - **Tests:** 22 web tests pass (13 shell/list/explorer, 7 MapView incl. cluster zoom and bounds, plus axe). Limitations: map rendering is verified only against a mocked MapLibre; real-browser rendering, tile loading and touch behaviour are tracked in #82 and #117 and are not claimed here. Category layer toggles (#75), search (#76) and profile pages (#77) are separate issues.
+
+## Evidence-led home page (issue #73)
+
+`apps/web/src/Home.tsx`. Sections in reading order: hero (identity, one-line purpose, **Explore the map** action) → About this atlas (researcher-led collection, no public submissions, methodology link) → Featured places → Then & Now → Community Voices.
+
+- **Featured places:** up to four published places from the public locations endpoint, each linking to `/explore?place=<id>`. Loading, empty ("No places have been published yet.") and error states are announced in a polite live region. Datasets flagged synthetic are labelled "Demonstration data".
+- **Hero media:** a single approved image slot (`APPROVED_HERO`, currently **none**). With no approved image, or one missing a date, credit or licence, an `https:`/same-origin-only source, or one that fails to load, the page shows an honest typographic panel (labelled for assistive technology as having no approved photograph). Approved images show date, credit and licence in a caption. No stock or invented picture is used.
+- **No fabricated findings:** Then & Now and Community Voices are introductions only; the page contains no counts, percentages, ratings or quotations (tested). Findings appear on their own pages only when approved aggregated data exists.
+- **Tests (8):** structure and links, featured places from the contract, no numbers/findings, empty/error states, fallback with no `<img>`, approved/unsafe/incomplete/failed hero media, axe.
+- **Limitations:** no approved hero photograph exists yet (needs rights-cleared media, see the human-action list, H9); responsive visual layout is checked in a real browser under #82.
