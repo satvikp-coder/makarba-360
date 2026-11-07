@@ -1,7 +1,7 @@
 {
- "main_sha": "ffed2ff971569ec4f7aa35a75c06484e632b1b8b",
+ "main_sha": "3a6a8f1b6d4df35d27a039bc8fd20e7961b0c53f",
  "total": 73,
- "closed": 5,
+ "closed": 10,
  "issues": [
   {
    "issue": 2,
@@ -60,38 +60,38 @@
   {
    "issue": 16,
    "title": "[FRONTEND] Specify mobile map bottom sheet",
-   "state": "OPEN",
-   "status": "READY_NOW",
-   "pr": "",
-   "merge_sha": "",
-   "note": "hard prerequisites closed; integration deps use mocks"
+   "state": "CLOSED",
+   "status": "VERIFIED_COMPLETE",
+   "pr": "#160",
+   "merge_sha": "8899300",
+   "note": ""
   },
   {
    "issue": 17,
    "title": "[FRONTEND] Design place profile interface",
-   "state": "OPEN",
-   "status": "READY_NOW",
-   "pr": "",
-   "merge_sha": "",
-   "note": "hard prerequisites closed; integration deps use mocks"
+   "state": "CLOSED",
+   "status": "VERIFIED_COMPLETE",
+   "pr": "#160",
+   "merge_sha": "8899300",
+   "note": ""
   },
   {
    "issue": 18,
    "title": "[FRONTEND] Design Then and Now comparison",
    "state": "OPEN",
-   "status": "WAITING_FOR_OWN_PREREQUISITE",
-   "pr": "",
-   "merge_sha": "",
-   "note": "open hard prerequisites: #17"
-  },
-  {
-   "issue": 19,
-   "title": "[FRONTEND] Design Community Insights dashboard",
-   "state": "OPEN",
    "status": "READY_NOW",
    "pr": "",
    "merge_sha": "",
    "note": "hard prerequisites closed; integration deps use mocks"
+  },
+  {
+   "issue": 19,
+   "title": "[FRONTEND] Design Community Insights dashboard",
+   "state": "CLOSED",
+   "status": "VERIFIED_COMPLETE",
+   "pr": "#160",
+   "merge_sha": "8899300",
+   "note": ""
   },
   {
    "issue": 20,
@@ -123,11 +123,11 @@
   {
    "issue": 25,
    "title": "[GIS] Integrate initial MapLibre map",
-   "state": "OPEN",
-   "status": "READY_NOW",
-   "pr": "",
-   "merge_sha": "",
-   "note": "hard prerequisites closed; integration deps use mocks"
+   "state": "CLOSED",
+   "status": "VERIFIED_COMPLETE",
+   "pr": "#162",
+   "merge_sha": "3a6a8f1",
+   "note": ""
   },
   {
    "issue": 28,
@@ -142,10 +142,10 @@
    "issue": 29,
    "title": "[GIS] Provide reusable spatial search and clustering",
    "state": "OPEN",
-   "status": "WAITING_FOR_OWN_PREREQUISITE",
+   "status": "READY_NOW",
    "pr": "",
    "merge_sha": "",
-   "note": "open hard prerequisites: #25"
+   "note": "hard prerequisites closed; integration deps use mocks"
   },
   {
    "issue": 31,
@@ -250,10 +250,10 @@
    "issue": 69,
    "title": "[HISTORICAL] Integrate owned panorama viewer",
    "state": "OPEN",
-   "status": "WAITING_FOR_OWN_PREREQUISITE",
+   "status": "READY_NOW",
    "pr": "",
    "merge_sha": "",
-   "note": "open hard prerequisites: #17"
+   "note": "hard prerequisites closed; integration deps use mocks"
   },
   {
    "issue": 70,
@@ -276,6 +276,15 @@
   {
    "issue": 72,
    "title": "[FRONTEND] Build public shell and accessible navigation",
+   "state": "CLOSED",
+   "status": "VERIFIED_COMPLETE",
+   "pr": "#161",
+   "merge_sha": "46dfb49",
+   "note": ""
+  },
+  {
+   "issue": 73,
+   "title": "[FRONTEND] Build evidence-led home page",
    "state": "OPEN",
    "status": "READY_NOW",
    "pr": "",
@@ -283,22 +292,13 @@
    "note": "hard prerequisites closed; integration deps use mocks"
   },
   {
-   "issue": 73,
-   "title": "[FRONTEND] Build evidence-led home page",
-   "state": "OPEN",
-   "status": "WAITING_FOR_OWN_PREREQUISITE",
-   "pr": "",
-   "merge_sha": "",
-   "note": "open hard prerequisites: #72"
-  },
-  {
    "issue": 74,
    "title": "[FRONTEND] Build public map explorer",
    "state": "OPEN",
-   "status": "WAITING_FOR_OWN_PREREQUISITE",
+   "status": "READY_NOW",
    "pr": "",
    "merge_sha": "",
-   "note": "open hard prerequisites: #25, #72"
+   "note": "hard prerequisites closed; integration deps use mocks"
   },
   {
    "issue": 75,
@@ -322,10 +322,10 @@
    "issue": 77,
    "title": "[FRONTEND] Build location profile pages",
    "state": "OPEN",
-   "status": "WAITING_FOR_OWN_PREREQUISITE",
+   "status": "READY_NOW",
    "pr": "",
    "merge_sha": "",
-   "note": "open hard prerequisites: #72, #17"
+   "note": "hard prerequisites closed; integration deps use mocks"
   },
   {
    "issue": 78,
@@ -361,16 +361,16 @@
    "status": "WAITING_FOR_OWN_PREREQUISITE",
    "pr": "",
    "merge_sha": "",
-   "note": "open hard prerequisites: #16, #74, #77"
+   "note": "open hard prerequisites: #74, #77"
   },
   {
    "issue": 83,
    "title": "[FRONTEND] Publish methodology sources and accessibility pages",
    "state": "OPEN",
-   "status": "WAITING_FOR_OWN_PREREQUISITE",
+   "status": "READY_NOW",
    "pr": "",
    "merge_sha": "",
-   "note": "open hard prerequisites: #72"
+   "note": "hard prerequisites closed; integration deps use mocks"
   },
   {
    "issue": 85,
@@ -406,7 +406,7 @@
    "status": "WAITING_FOR_OWN_PREREQUISITE",
    "pr": "",
    "merge_sha": "",
-   "note": "open hard prerequisites: #19, #85, #87"
+   "note": "open hard prerequisites: #85, #87"
   },
   {
    "issue": 89,
@@ -496,16 +496,16 @@
    "status": "WAITING_FOR_OWN_PREREQUISITE",
    "pr": "",
    "merge_sha": "",
-   "note": "open hard prerequisites: #72, #106"
+   "note": "open hard prerequisites: #106"
   },
   {
    "issue": 114,
    "title": "[DEVOPS] Audit keyboard screen reader and localization access",
    "state": "OPEN",
-   "status": "WAITING_FOR_OWN_PREREQUISITE",
+   "status": "READY_NOW",
    "pr": "",
    "merge_sha": "",
-   "note": "open hard prerequisites: #72"
+   "note": "hard prerequisites closed; integration deps use mocks"
   },
   {
    "issue": 115,
