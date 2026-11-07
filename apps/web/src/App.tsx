@@ -4,6 +4,8 @@ import { sanitizeQuery } from "@makarba/public-ia";
 import { mainNavigation, publicRoutes, type NavGroup } from "@makarba/public-ia";
 import { fetchPlaces, type PlacesResult } from "./api.js";
 import { Home } from "./Home.js";
+import { NotFound } from "./NotFound.js";
+import { PlaceProfile } from "./Profile.js";
 import { MapView, type MapStatus } from "./map/MapView.js";
 import { LANGUAGES, strings, type Lang } from "./i18n.js";
 
@@ -88,7 +90,7 @@ export function PlaceList({ fetcher, withMap = false }: { fetcher?: typeof fetch
       {withMap && r !== "loading" && r.status === "ok" && selected && (() => {
         const p = r.places.find((x) => x.id === selected);
         return p ? (
-          <aside aria-label="Selected place"><h2>{p.name}</h2><p>Category: {p.category}</p><button type="button" onClick={() => setSelected(null)}>Clear selection</button></aside>
+          <aside aria-label="Selected place"><h2>{p.name}</h2><p>Category: {p.category}</p><p><Link to={`/places/${p.slug}`}>Open full profile</Link></p><button type="button" onClick={() => setSelected(null)}>Clear selection</button></aside>
         ) : (
           <aside role="status">That place was not found. It may have been unpublished. <button type="button" onClick={() => setSelected(null)}>Clear selection</button></aside>
         );
@@ -119,12 +121,8 @@ function Pending({ title }: { title: string }) {
   );
 }
 
-function NotFound() {
-  return <section><h1>{strings.en.notFound}</h1><p><Link to="/">{strings.en.siteName}</Link></p></section>;
-}
-
 const seen = new Set<string>();
-const pageRoutes = publicRoutes.filter((r) => r.path !== "/" && r.path !== "/explore" && !seen.has(r.path) && !!seen.add(r.path));
+const pageRoutes = publicRoutes.filter((r) => r.path !== "/" && r.path !== "/explore" && r.path !== "/places/:slug" && !seen.has(r.path) && !!seen.add(r.path));
 
 export function App() {
   return (
@@ -132,6 +130,7 @@ export function App() {
       <Route element={<Layout />}>
         <Route index element={<Home />} />
         <Route path="/explore" element={<PlaceList withMap />} />
+        <Route path="/places/:slug" element={<PlaceProfile />} />
         {pageRoutes.map((r) => <Route key={r.path} path={r.path} element={<Pending title={r.title} />} />)}
         <Route path="/stories/index" element={<Pending title="Then & Now" />} />
         <Route path="*" element={<NotFound />} />
