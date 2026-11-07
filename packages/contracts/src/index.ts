@@ -122,6 +122,7 @@ export const ApiError = z.object({
 }).strict();
 
 const dated = z.object({ value: z.string().nullable(), precision: z.string() }).passthrough();
+const datedRequired = z.object({ value: z.string().min(1), precision: z.string() }).passthrough();
 
 export const History = z.object({
   locationId: z.string().uuid(),
@@ -129,7 +130,7 @@ export const History = z.object({
   events: z.array(z.object({ id: z.string(), sourceId: z.string(), date: dated, evidenceType: z.string(), text: z.string() }).strict()),
   comparisonPairs: z.array(z.object({
     id: z.string(), locationId: z.string().uuid(), beforeMediaId: z.string(), afterMediaId: z.string(),
-    beforeDate: dated, afterDate: dated, sourceIds: z.array(z.string()).min(1),
+    beforeDate: datedRequired, afterDate: datedRequired, sourceIds: z.array(z.string()).min(1),
     matchingViewpointNotes: z.string(), evidenceQuality: z.string(),
   }).strict()),
   meta: Meta,

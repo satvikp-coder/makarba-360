@@ -47,7 +47,7 @@ describe("negative contract cases", () => {
   });
   it("rejects undated comparison, original media URL and private storage key", () => {
     const h = clone(bundle.history); h.comparisonPairs[0].beforeDate.value = null;
-    expect(validatePublic("history", h).ok).toBe(true); // null date allowed by schema shape...
+    reject("history", h, /beforeDate/);
     const m = clone(bundle.media); m.url = "https://example.invalid/original/private.webp";
     reject("media", m, /original media is private/);
     const k = clone(bundle.media); k.original_key = "private/object";

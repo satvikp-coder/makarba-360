@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { EnvError, loadServerEnv } from "./index.js";
+import { EnvError, loadMockEnv, loadServerEnv } from "./index.js";
 
 const ok = { DATABASE_URL: "postgres://x", SESSION_SECRET: "s".repeat(32) };
 
@@ -19,5 +19,14 @@ describe("loadServerEnv", () => {
       return;
     }
     throw new Error("expected failure");
+  });
+});
+
+describe("loadMockEnv", () => {
+  it("needs no secrets and defaults to port 4010", () => {
+    expect(loadMockEnv({}).API_PORT).toBe(4010);
+  });
+  it("refuses production", () => {
+    expect(() => loadMockEnv({ NODE_ENV: "production" })).toThrow(/never run/);
   });
 });

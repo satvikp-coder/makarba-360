@@ -21,3 +21,16 @@ export function loadServerEnv(source: Record<string, string | undefined>): Serve
   }
   return r.data;
 }
+
+/** Mock public API needs no database, identity provider or secret. Refused in production. */
+const mockSchema = z.object({
+  NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
+  API_PORT: z.coerce.number().int().min(1).max(65535).default(4010),
+});
+
+export function loadMockEnv(source: Record<string, string | undefined>) {
+  const r = mockSchema.safeParse(source);
+  if (!r.success) throw new EnvError(`Invalid environment: ${r.error.issues.map((i) => `${i.path.join(".")}: ${i.message}`).join("; ")}`);
+  if (r.data.NODE_ENV === "production") throw new EnvError("The synthetic mock API must never run with NODE_ENV=production");
+  return r.data;
+}

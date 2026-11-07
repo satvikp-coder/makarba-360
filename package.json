@@ -2,12 +2,22 @@
   "name": "makarba-360",
   "private": true,
   "packageManager": "pnpm@10.33.2",
-  "engines": { "node": ">=22" },
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "typecheck": "pnpm -r typecheck",
     "test": "pnpm -r test",
     "build": "pnpm -r build",
     "dev:services": "docker compose up -d db",
+    "dev:mock": "pnpm --filter @makarba/api dev:mock",
+    "lint": "eslint .",
     "dev:api": "pnpm --filter @makarba/api dev"
-  }
+  },
+  "devDependencies": {
+    "eslint": "^9.0.0",
+    "@eslint/js": "^9.0.0",
+    "typescript-eslint": "^8.0.0"
+  },
+  "type": "module"
 }

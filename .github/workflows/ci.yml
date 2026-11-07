@@ -4,7 +4,11 @@ permissions:
   contents: read
 jobs:
   node:
-    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -13,4 +17,30 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm -r build
       - run: pnpm typecheck
+      - run: pnpm lint
       - run: pnpm test
+  conformance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: pnpm }
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm -r build
+      - name: Start synthetic mock API
+        run: |
+          API_PORT=4010 pnpm --filter @makarba/api dev:mock &
+          for i in $(seq 1 30); do curl -sf http://127.0.0.1:4010/health && break; sleep 1; done
+      - run: python scripts/check_public_contracts.py --fixtures --base-url http://127.0.0.1:4010
+      - run: python scripts/check_secret_exposure.py
+  database:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: cp .env.example .env
+      - run: docker compose up -d --wait db
+      - name: PostGIS available
+        run: docker compose exec -T db psql -U makarba_dev -d makarba_dev -c "CREATE EXTENSION IF NOT EXISTS postgis; SELECT postgis_version();"
