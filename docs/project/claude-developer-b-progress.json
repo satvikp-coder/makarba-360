@@ -1,0 +1,664 @@
+{
+ "main_sha": "ffed2ff971569ec4f7aa35a75c06484e632b1b8b",
+ "total": 73,
+ "closed": 5,
+ "issues": [
+  {
+   "issue": 2,
+   "title": "[DEVOPS] Trace all source blueprint requirements",
+   "state": "OPEN",
+   "status": "READY_NOW",
+   "pr": "",
+   "merge_sha": "",
+   "note": "hard prerequisites closed; integration deps use mocks"
+  },
+  {
+   "issue": 5,
+   "title": "[DEVOPS] Specify and verify geographical study extent",
+   "state": "OPEN",
+   "status": "WAITING_FOR_HUMAN_REVIEW",
+   "pr": "",
+   "merge_sha": "",
+   "note": "see DEVELOPER_B_HUMAN_ACTION_REQUIRED.md H9 (verified geography)"
+  },
+  {
+   "issue": 12,
+   "title": "[FRONTEND] Define visual identity and accessible tokens",
+   "state": "CLOSED",
+   "status": "VERIFIED_COMPLETE",
+   "pr": "#156",
+   "merge_sha": "b6f17fb",
+   "note": ""
+  },
+  {
+   "issue": 13,
+   "title": "[FRONTEND] Design public information architecture",
+   "state": "CLOSED",
+   "status": "VERIFIED_COMPLETE",
+   "pr": "#157",
+   "merge_sha": "fb2f741",
+   "note": ""
+  },
+  {
+   "issue": 14,
+   "title": "[FRONTEND] Specify home page wireframes",
+   "state": "CLOSED",
+   "status": "VERIFIED_COMPLETE",
+   "pr": "#158",
+   "merge_sha": "ffed2ff",
+   "note": ""
+  },
+  {
+   "issue": 15,
+   "title": "[FRONTEND] Specify desktop map-first layout",
+   "state": "CLOSED",
+   "status": "VERIFIED_COMPLETE",
+   "pr": "#158",
+   "merge_sha": "ffed2ff",
+   "note": ""
+  },
+  {
+   "issue": 16,
+   "title": "[FRONTEND] Specify mobile map bottom sheet",
+   "state": "OPEN",
+   "status": "READY_NOW",
+   "pr": "",
+   "merge_sha": "",
+   "note": "hard prerequisites closed; integration deps use mocks"
+  },
+  {
+   "issue": 17,
+   "title": "[FRONTEND] Design place profile interface",
+   "state": "OPEN",
+   "status": "READY_NOW",
+   "pr": "",
+   "merge_sha": "",
+   "note": "hard prerequisites closed; integration deps use mocks"
+  },
+  {
+   "issue": 18,
+   "title": "[FRONTEND] Design Then and Now comparison",
+   "state": "OPEN",
+   "status": "WAITING_FOR_OWN_PREREQUISITE",
+   "pr": "",
+   "merge_sha": "",
+   "note": "open hard prerequisites: #17"
+  },
+  {
+   "issue": 19,
+   "title": "[FRONTEND] Design Community Insights dashboard",
+   "state": "OPEN",
+   "status": "READY_NOW",
+   "pr": "",
+   "merge_sha": "",
+   "note": "hard prerequisites closed; integration deps use mocks"
+  },
+  {
+   "issue": 20,
+   "title": "[FRONTEND] Design accessible field interview screens",
+   "state": "OPEN",
+   "status": "READY_NOW",
+   "pr": "",
+   "merge_sha": "",
+   "note": "hard prerequisites closed; integration deps use mocks"
+  },
+  {
+   "issue": 21,
+   "title": "[FRONTEND] Design responsive research management",
+   "state": "OPEN",
+   "status": "READY_NOW",
+   "pr": "",
+   "merge_sha": "",
+   "note": "hard prerequisites closed; integration deps use mocks"
+  },
+  {
+   "issue": 24,
+   "title": "[GIS] Select basemap provider and attribution",
+   "state": "CLOSED",
+   "status": "VERIFIED_COMPLETE",
+   "pr": "#158",
+   "merge_sha": "ffed2ff",
+   "note": ""
+  },
+  {
+   "issue": 25,
+   "title": "[GIS] Integrate initial MapLibre map",
+   "state": "OPEN",
+   "status": "READY_NOW",
+   "pr": "",
+   "merge_sha": "",
+   "note": "hard prerequisites closed; integration deps use mocks"
+  },
+  {
+   "issue": 28,
+   "title": "[GIS] Import and verify road corridors",
+   "state": "OPEN",
+   "status": "WAITING_FOR_OWN_PREREQUISITE",
+   "pr": "",
+   "merge_sha": "",
+   "note": "open hard prerequisites: #5"
+  },
+  {
+   "issue": 29,
+   "title": "[GIS] Provide reusable spatial search and clustering",
+   "state": "OPEN",
+   "status": "WAITING_FOR_OWN_PREREQUISITE",
+   "pr": "",
+   "merge_sha": "",
+   "note": "open hard prerequisites: #25"
+  },
+  {
+   "issue": 31,
+   "title": "[GIS] Implement validated GIS import and export",
+   "state": "OPEN",
+   "status": "READY_NOW",
+   "pr": "",
+   "merge_sha": "",
+   "note": "hard prerequisites closed; integration deps use mocks"
+  },
+  {
+   "issue": 41,
+   "title": "[PRIVACY] Test security threat model and privacy boundaries",
+   "state": "OPEN",
+   "status": "WAITING_FOR_DEVELOPER_A",
+   "pr": "",
+   "merge_sha": "",
+   "note": "open hard prerequisites: #6"
+  },
+  {
+   "issue": 54,
+   "title": "[OFFLINE] Validate offline approach and fallback",
+   "state": "OPEN",
+   "status": "READY_NOW",
+   "pr": "",
+   "merge_sha": "",
+   "note": "hard prerequisites closed; integration deps use mocks"
+  },
+  {
+   "issue": 61,
+   "title": "[OFFLINE] Manage photo metadata credit and permissions",
+   "state": "OPEN",
+   "status": "READY_NOW",
+   "pr": "",
+   "merge_sha": "",
+   "note": "hard prerequisites closed; integration deps use mocks"
+  },
+  {
+   "issue": 62,
+   "title": "[OFFLINE] Test field network and device-loss recovery",
+   "state": "OPEN",
+   "status": "WAITING_FOR_HUMAN_REVIEW",
+   "pr": "",
+   "merge_sha": "",
+   "note": "see DEVELOPER_B_HUMAN_ACTION_REQUIRED.md H6"
+  },
+  {
+   "issue": 63,
+   "title": "[HISTORICAL] Implement versioned place content model",
+   "state": "OPEN",
+   "status": "READY_NOW",
+   "pr": "",
+   "merge_sha": "",
+   "note": "hard prerequisites closed; integration deps use mocks"
+  },
+  {
+   "issue": 64,
+   "title": "[HISTORICAL] Implement editorial place description workflow",
+   "state": "OPEN",
+   "status": "WAITING_FOR_OWN_PREREQUISITE",
+   "pr": "",
+   "merge_sha": "",
+   "note": "open hard prerequisites: #63"
+  },
+  {
+   "issue": 65,
+   "title": "[HISTORICAL] Implement historical evidence provenance",
+   "state": "OPEN",
+   "status": "WAITING_FOR_OWN_PREREQUISITE",
+   "pr": "",
+   "merge_sha": "",
+   "note": "open hard prerequisites: #63"
+  },
+  {
+   "issue": 66,
+   "title": "[HISTORICAL] Implement sourced timeline events",
+   "state": "OPEN",
+   "status": "WAITING_FOR_OWN_PREREQUISITE",
+   "pr": "",
+   "merge_sha": "",
+   "note": "open hard prerequisites: #65"
+  },
+  {
+   "issue": 67,
+   "title": "[HISTORICAL] Implement historical comparison pair model",
+   "state": "OPEN",
+   "status": "WAITING_FOR_OWN_PREREQUISITE",
+   "pr": "",
+   "merge_sha": "",
+   "note": "open hard prerequisites: #65"
+  },
+  {
+   "issue": 68,
+   "title": "[HISTORICAL] Build accessible Then and Now component",
+   "state": "OPEN",
+   "status": "WAITING_FOR_OWN_PREREQUISITE",
+   "pr": "",
+   "merge_sha": "",
+   "note": "open hard prerequisites: #18"
+  },
+  {
+   "issue": 69,
+   "title": "[HISTORICAL] Integrate owned panorama viewer",
+   "state": "OPEN",
+   "status": "WAITING_FOR_OWN_PREREQUISITE",
+   "pr": "",
+   "merge_sha": "",
+   "note": "open hard prerequisites: #17"
+  },
+  {
+   "issue": 70,
+   "title": "[HISTORICAL] Evaluate third-party street imagery licensing",
+   "state": "OPEN",
+   "status": "READY_NOW",
+   "pr": "",
+   "merge_sha": "",
+   "note": "hard prerequisites closed; integration deps use mocks"
+  },
+  {
+   "issue": 71,
+   "title": "[HISTORICAL] Publish verified location stories and accounts",
+   "state": "OPEN",
+   "status": "WAITING_FOR_OWN_PREREQUISITE",
+   "pr": "",
+   "merge_sha": "",
+   "note": "open hard prerequisites: #64, #66"
+  },
+  {
+   "issue": 72,
+   "title": "[FRONTEND] Build public shell and accessible navigation",
+   "state": "OPEN",
+   "status": "READY_NOW",
+   "pr": "",
+   "merge_sha": "",
+   "note": "hard prerequisites closed; integration deps use mocks"
+  },
+  {
+   "issue": 73,
+   "title": "[FRONTEND] Build evidence-led home page",
+   "state": "OPEN",
+   "status": "WAITING_FOR_OWN_PREREQUISITE",
+   "pr": "",
+   "merge_sha": "",
+   "note": "open hard prerequisites: #72"
+  },
+  {
+   "issue": 74,
+   "title": "[FRONTEND] Build public map explorer",
+   "state": "OPEN",
+   "status": "WAITING_FOR_OWN_PREREQUISITE",
+   "pr": "",
+   "merge_sha": "",
+   "note": "open hard prerequisites: #25, #72"
+  },
+  {
+   "issue": 75,
+   "title": "[FRONTEND] Build map layer and category controls",
+   "state": "OPEN",
+   "status": "WAITING_FOR_OWN_PREREQUISITE",
+   "pr": "",
+   "merge_sha": "",
+   "note": "open hard prerequisites: #74"
+  },
+  {
+   "issue": 76,
+   "title": "[FRONTEND] Build public location search",
+   "state": "OPEN",
+   "status": "WAITING_FOR_OWN_PREREQUISITE",
+   "pr": "",
+   "merge_sha": "",
+   "note": "open hard prerequisites: #29, #74"
+  },
+  {
+   "issue": 77,
+   "title": "[FRONTEND] Build location profile pages",
+   "state": "OPEN",
+   "status": "WAITING_FOR_OWN_PREREQUISITE",
+   "pr": "",
+   "merge_sha": "",
+   "note": "open hard prerequisites: #72, #17"
+  },
+  {
+   "issue": 78,
+   "title": "[FRONTEND] Build approved photo gallery",
+   "state": "OPEN",
+   "status": "WAITING_FOR_OWN_PREREQUISITE",
+   "pr": "",
+   "merge_sha": "",
+   "note": "open hard prerequisites: #77"
+  },
+  {
+   "issue": 79,
+   "title": "[FRONTEND] Present panorama and unavailable coverage states",
+   "state": "OPEN",
+   "status": "WAITING_FOR_OWN_PREREQUISITE",
+   "pr": "",
+   "merge_sha": "",
+   "note": "open hard prerequisites: #69, #77"
+  },
+  {
+   "issue": 80,
+   "title": "[FRONTEND] Integrate public history and Community Voices",
+   "state": "OPEN",
+   "status": "WAITING_FOR_OWN_PREREQUISITE",
+   "pr": "",
+   "merge_sha": "",
+   "note": "open hard prerequisites: #68, #77"
+  },
+  {
+   "issue": 82,
+   "title": "[FRONTEND] Verify responsive public map journeys",
+   "state": "OPEN",
+   "status": "WAITING_FOR_OWN_PREREQUISITE",
+   "pr": "",
+   "merge_sha": "",
+   "note": "open hard prerequisites: #16, #74, #77"
+  },
+  {
+   "issue": 83,
+   "title": "[FRONTEND] Publish methodology sources and accessibility pages",
+   "state": "OPEN",
+   "status": "WAITING_FOR_OWN_PREREQUISITE",
+   "pr": "",
+   "merge_sha": "",
+   "note": "open hard prerequisites: #72"
+  },
+  {
+   "issue": 85,
+   "title": "[ANALYTICS] Aggregate stakeholder distributions",
+   "state": "OPEN",
+   "status": "READY_NOW",
+   "pr": "",
+   "merge_sha": "",
+   "note": "hard prerequisites closed; integration deps use mocks"
+  },
+  {
+   "issue": 86,
+   "title": "[ANALYTICS] Analyze reported issues with codebook",
+   "state": "OPEN",
+   "status": "READY_NOW",
+   "pr": "",
+   "merge_sha": "",
+   "note": "hard prerequisites closed; integration deps use mocks"
+  },
+  {
+   "issue": 87,
+   "title": "[ANALYTICS] Analyze ratings and perceived changes",
+   "state": "OPEN",
+   "status": "READY_NOW",
+   "pr": "",
+   "merge_sha": "",
+   "note": "hard prerequisites closed; integration deps use mocks"
+  },
+  {
+   "issue": 88,
+   "title": "[ANALYTICS] Build stakeholder comparison chart tables",
+   "state": "OPEN",
+   "status": "WAITING_FOR_OWN_PREREQUISITE",
+   "pr": "",
+   "merge_sha": "",
+   "note": "open hard prerequisites: #19, #85, #87"
+  },
+  {
+   "issue": 89,
+   "title": "[ANALYTICS] Publish location-level sample summaries",
+   "state": "OPEN",
+   "status": "READY_NOW",
+   "pr": "",
+   "merge_sha": "",
+   "note": "hard prerequisites closed; integration deps use mocks"
+  },
+  {
+   "issue": 91,
+   "title": "[ANALYTICS] Implement constrained dashboard cohorts and dates",
+   "state": "OPEN",
+   "status": "WAITING_FOR_OWN_PREREQUISITE",
+   "pr": "",
+   "merge_sha": "",
+   "note": "open hard prerequisites: #85, #86, #87"
+  },
+  {
+   "issue": 93,
+   "title": "[ANALYTICS] Verify analytics with reproducible fixtures",
+   "state": "OPEN",
+   "status": "WAITING_FOR_OWN_PREREQUISITE",
+   "pr": "",
+   "merge_sha": "",
+   "note": "open hard prerequisites: #106"
+  },
+  {
+   "issue": 94,
+   "title": "[ADMIN] Build role-limited research dashboard",
+   "state": "OPEN",
+   "status": "WAITING_FOR_OWN_PREREQUISITE",
+   "pr": "",
+   "merge_sha": "",
+   "note": "open hard prerequisites: #21"
+  },
+  {
+   "issue": 101,
+   "title": "[ADMIN] Approve candidate locations and geometry",
+   "state": "OPEN",
+   "status": "READY_NOW",
+   "pr": "",
+   "merge_sha": "",
+   "note": "hard prerequisites closed; integration deps use mocks"
+  },
+  {
+   "issue": 102,
+   "title": "[ADMIN] Review historical evidence and media rights",
+   "state": "OPEN",
+   "status": "WAITING_FOR_HUMAN_REVIEW",
+   "pr": "",
+   "merge_sha": "",
+   "note": "see DEVELOPER_B_HUMAN_ACTION_REQUIRED.md H9"
+  },
+  {
+   "issue": 104,
+   "title": "[ADMIN] Implement purpose-limited anonymised exports",
+   "state": "OPEN",
+   "status": "READY_NOW",
+   "pr": "",
+   "merge_sha": "",
+   "note": "hard prerequisites closed; integration deps use mocks"
+  },
+  {
+   "issue": 106,
+   "title": "[DEVOPS] Establish meaningful unit test harness",
+   "state": "OPEN",
+   "status": "READY_NOW",
+   "pr": "",
+   "merge_sha": "",
+   "note": "hard prerequisites closed; integration deps use mocks"
+  },
+  {
+   "issue": 108,
+   "title": "[DEVOPS] Test migrations and spatial invariants",
+   "state": "OPEN",
+   "status": "WAITING_FOR_OWN_PREREQUISITE",
+   "pr": "",
+   "merge_sha": "",
+   "note": "open hard prerequisites: #106"
+  },
+  {
+   "issue": 113,
+   "title": "[DEVOPS] Test end-to-end public field and review journeys",
+   "state": "OPEN",
+   "status": "WAITING_FOR_OWN_PREREQUISITE",
+   "pr": "",
+   "merge_sha": "",
+   "note": "open hard prerequisites: #72, #106"
+  },
+  {
+   "issue": 114,
+   "title": "[DEVOPS] Audit keyboard screen reader and localization access",
+   "state": "OPEN",
+   "status": "WAITING_FOR_OWN_PREREQUISITE",
+   "pr": "",
+   "merge_sha": "",
+   "note": "open hard prerequisites: #72"
+  },
+  {
+   "issue": 115,
+   "title": "[DEVOPS] Enforce performance security and CI gates",
+   "state": "OPEN",
+   "status": "WAITING_FOR_OWN_PREREQUISITE",
+   "pr": "",
+   "merge_sha": "",
+   "note": "open hard prerequisites: #106"
+  },
+  {
+   "issue": 117,
+   "title": "[DEVOPS] Validate real mobile browser compatibility",
+   "state": "OPEN",
+   "status": "WAITING_FOR_HUMAN_REVIEW",
+   "pr": "",
+   "merge_sha": "",
+   "note": "see DEVELOPER_B_HUMAN_ACTION_REQUIRED.md H6"
+  },
+  {
+   "issue": 118,
+   "title": "[DEVOPS] Train researchers and rehearse field checklist",
+   "state": "OPEN",
+   "status": "WAITING_FOR_HUMAN_REVIEW",
+   "pr": "",
+   "merge_sha": "",
+   "note": "see DEVELOPER_B_HUMAN_ACTION_REQUIRED.md H6"
+  },
+  {
+   "issue": 119,
+   "title": "[DEVOPS] Run consent-approved small field usability pilot",
+   "state": "OPEN",
+   "status": "WAITING_FOR_HUMAN_REVIEW",
+   "pr": "",
+   "merge_sha": "",
+   "note": "see DEVELOPER_B_HUMAN_ACTION_REQUIRED.md H6"
+  },
+  {
+   "issue": 120,
+   "title": "[DEVOPS] Verify candidate places and road data",
+   "state": "OPEN",
+   "status": "WAITING_FOR_HUMAN_REVIEW",
+   "pr": "",
+   "merge_sha": "",
+   "note": "see DEVELOPER_B_HUMAN_ACTION_REQUIRED.md H9"
+  },
+  {
+   "issue": 123,
+   "title": "[DEVOPS] Audit historical sources and media attribution",
+   "state": "OPEN",
+   "status": "WAITING_FOR_HUMAN_REVIEW",
+   "pr": "",
+   "merge_sha": "",
+   "note": "see DEVELOPER_B_HUMAN_ACTION_REQUIRED.md H9"
+  },
+  {
+   "issue": 124,
+   "title": "[DEVOPS] Provision staging and production deployment",
+   "state": "OPEN",
+   "status": "WAITING_FOR_HUMAN_REVIEW",
+   "pr": "",
+   "merge_sha": "",
+   "note": "see DEVELOPER_B_HUMAN_ACTION_REQUIRED.md H7"
+  },
+  {
+   "issue": 126,
+   "title": "[DEVOPS] Verify release readiness and demonstrate end to end",
+   "state": "OPEN",
+   "status": "WAITING_FOR_OWN_PREREQUISITE",
+   "pr": "",
+   "merge_sha": "",
+   "note": "open hard prerequisites: #125, #115, #116, #120, #117, #110, #123"
+  },
+  {
+   "issue": 127,
+   "title": "[DEVOPS] Complete handover and maintenance ownership",
+   "state": "OPEN",
+   "status": "WAITING_FOR_OWN_PREREQUISITE",
+   "pr": "",
+   "merge_sha": "",
+   "note": "open hard prerequisites: #126"
+  },
+  {
+   "issue": 128,
+   "title": "[FRONTEND] Build rich guided map tours",
+   "state": "OPEN",
+   "status": "WAITING_FOR_OWN_PREREQUISITE",
+   "pr": "",
+   "merge_sha": "",
+   "note": "open hard prerequisites: #80, #126"
+  },
+  {
+   "issue": 129,
+   "title": "[FRONTEND] Expand English Gujarati and Hindi localization",
+   "state": "OPEN",
+   "status": "WAITING_FOR_OWN_PREREQUISITE",
+   "pr": "",
+   "merge_sha": "",
+   "note": "open hard prerequisites: #114, #126"
+  },
+  {
+   "issue": 130,
+   "title": "[FRONTEND] Analyze surveyed walkability and accessibility",
+   "state": "OPEN",
+   "status": "WAITING_FOR_OWN_PREREQUISITE",
+   "pr": "",
+   "merge_sha": "",
+   "note": "open hard prerequisites: #28, #126"
+  },
+  {
+   "issue": 131,
+   "title": "[FRONTEND] Create consented community audio archive",
+   "state": "OPEN",
+   "status": "WAITING_FOR_OWN_PREREQUISITE",
+   "pr": "",
+   "merge_sha": "",
+   "note": "open hard prerequisites: #71, #105, #126"
+  },
+  {
+   "issue": 132,
+   "title": "[FRONTEND] Prototype clearly hypothetical future scenarios",
+   "state": "OPEN",
+   "status": "WAITING_FOR_OWN_PREREQUISITE",
+   "pr": "",
+   "merge_sha": "",
+   "note": "open hard prerequisites: #126, #130"
+  },
+  {
+   "issue": 133,
+   "title": "[FRONTEND] Evaluate advanced 3D data and performance",
+   "state": "OPEN",
+   "status": "WAITING_FOR_OWN_PREREQUISITE",
+   "pr": "",
+   "merge_sha": "",
+   "note": "open hard prerequisites: #70, #126"
+  },
+  {
+   "issue": 134,
+   "title": "[FRONTEND] Build privacy-safe reported-issue hotspot views",
+   "state": "OPEN",
+   "status": "WAITING_FOR_OWN_PREREQUISITE",
+   "pr": "",
+   "merge_sha": "",
+   "note": "open hard prerequisites: #90, #92, #126"
+  },
+  {
+   "issue": 135,
+   "title": "[FRONTEND] Export approved research report and charts",
+   "state": "OPEN",
+   "status": "WAITING_FOR_OWN_PREREQUISITE",
+   "pr": "",
+   "merge_sha": "",
+   "note": "open hard prerequisites: #104, #126"
+  }
+ ]
+}
