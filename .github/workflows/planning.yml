@@ -15,3 +15,4 @@ jobs:
       - run: python scripts/check_public_contracts.py --fixtures
       - run: python scripts/check_governance.py
       - run: python -m unittest discover -s scripts -p 'test_*.py'
+      - run: python scripts/check_capability_matrix.py
