@@ -47,3 +47,9 @@ jobs:
       - run: docker compose up -d --wait db
       - name: PostGIS available
         run: docker compose exec -T db psql -U makarba_dev -d makarba_dev -c "CREATE EXTENSION IF NOT EXISTS postgis; SELECT postgis_version();"
+      - name: Apply least-privilege bootstrap (issue #36)
+        run: docker compose exec -T db psql -U makarba_dev -d makarba_dev -v ON_ERROR_STOP=1 < db/bootstrap/001_roles_and_schemas.sql
+      - name: Privilege and escalation tests
+        run: docker compose exec -T db psql -U makarba_dev -d makarba_dev -v ON_ERROR_STOP=1 < db/tests/001_privileges.sql
+      - name: Bootstrap is idempotent
+        run: docker compose exec -T db psql -U makarba_dev -d makarba_dev -v ON_ERROR_STOP=1 < db/bootstrap/001_roles_and_schemas.sql
