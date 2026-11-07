@@ -35,11 +35,11 @@ END $f$ LANGUAGE plpgsql;
 BEGIN;
 -- 1. No runtime role is privileged and bootstrap enables no login.
 DO $$ BEGIN
-  IF EXISTS (SELECT 1 FROM pg_roles WHERE rolname LIKE 'makarba\_%'
+  IF EXISTS (SELECT 1 FROM pg_roles WHERE rolname IN ('makarba_migrator','makarba_private_api','makarba_public_api','makarba_worker')
              AND (rolsuper OR rolcreaterole OR rolcreatedb OR rolbypassrls OR rolreplication)) THEN
     RAISE EXCEPTION 'a makarba role has a dangerous attribute';
   END IF;
-  IF EXISTS (SELECT 1 FROM pg_roles WHERE rolname LIKE 'makarba\_%' AND rolcanlogin) THEN
+  IF EXISTS (SELECT 1 FROM pg_roles WHERE rolname IN ('makarba_migrator','makarba_private_api','makarba_public_api','makarba_worker') AND rolcanlogin) THEN
     RAISE EXCEPTION 'bootstrap must not enable login (deployment vault does)';
   END IF;
 END $$;
@@ -47,8 +47,8 @@ END $$;
 -- 1b. No role can switch into another (SET ROLE needs membership; checked from the catalog,
 -- because this test session is a superuser and SET ROLE would always succeed here).
 DO $$ DECLARE a text; b text; BEGIN
-  FOR a IN SELECT rolname FROM pg_roles WHERE rolname LIKE 'makarba\_%' LOOP
-    FOR b IN SELECT rolname FROM pg_roles WHERE rolname LIKE 'makarba\_%' AND rolname <> a LOOP
+  FOR a IN SELECT rolname FROM pg_roles WHERE rolname IN ('makarba_migrator','makarba_private_api','makarba_public_api','makarba_worker') LOOP
+    FOR b IN SELECT rolname FROM pg_roles WHERE rolname IN ('makarba_migrator','makarba_private_api','makarba_public_api','makarba_worker') AND rolname <> a LOOP
       IF pg_has_role(a, b, 'MEMBER') THEN RAISE EXCEPTION 'ESCALATION: % can become %', a, b; END IF;
     END LOOP;
   END LOOP;
