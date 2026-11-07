@@ -1,0 +1,449 @@
+{
+ "last_verified_main_sha": "3ca6aa610b77885fc96189d0734684cd18fc0866",
+ "total_developer_a_issues": 63,
+ "active": "none",
+ "next": "Obtain stakeholder approval for #6 (docs/project/capability-matrix.md), then finish #9 review and #10 scaffold (PR #140), then #36/#32/#40",
+ "issues": [
+  {
+   "issue": 1,
+   "title": "[DEVOPS] Establish repository governance",
+   "github_state": "CLOSED",
+   "status": "VERIFIED_COMPLETE",
+   "note": "PR #137 merged b514de4"
+  },
+  {
+   "issue": 3,
+   "title": "[DEVOPS] Approve product vision and boundaries",
+   "github_state": "OPEN",
+   "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
+   "note": "hard prerequisites chain through #6/#9/#10"
+  },
+  {
+   "issue": 4,
+   "title": "[DEVOPS] Validate research questions and methodology",
+   "github_state": "OPEN",
+   "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
+   "note": "hard prerequisites chain through #6/#9/#10"
+  },
+  {
+   "issue": 6,
+   "title": "[DEVOPS] Approve stakeholder capability matrix",
+   "github_state": "OPEN",
+   "status": "BLOCKED_EXTERNAL",
+   "note": "Proposed matrix merged PR #139 (3ca6aa6); awaiting stakeholder approval"
+  },
+  {
+   "issue": 7,
+   "title": "[DEVOPS] Baseline functional requirements catalogue",
+   "github_state": "OPEN",
+   "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
+   "note": "hard prerequisites chain through #6/#9/#10"
+  },
+  {
+   "issue": 8,
+   "title": "[DEVOPS] Baseline non-functional requirements",
+   "github_state": "OPEN",
+   "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
+   "note": "hard prerequisites chain through #6/#9/#10"
+  },
+  {
+   "issue": 9,
+   "title": "[DEVOPS] Review architecture diagrams and ADR baseline",
+   "github_state": "OPEN",
+   "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
+   "note": "hard prerequisites chain through #6/#9/#10"
+  },
+  {
+   "issue": 10,
+   "title": "[DEVOPS] Scaffold development setup and CI governance",
+   "github_state": "OPEN",
+   "status": "PR_OPEN",
+   "note": "Draft PR #140 CI green; formally gated on #9->#6"
+  },
+  {
+   "issue": 11,
+   "title": "[DEVOPS] Obtain institutional ethics and legal verification",
+   "github_state": "OPEN",
+   "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
+   "note": "hard prerequisites chain through #6/#9/#10"
+  },
+  {
+   "issue": 22,
+   "title": "[GIS] Provision PostGIS migrations and roles",
+   "github_state": "OPEN",
+   "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
+   "note": "hard prerequisites chain through #6/#9/#10"
+  },
+  {
+   "issue": 23,
+   "title": "[GIS] Store and validate versioned study boundary",
+   "github_state": "OPEN",
+   "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
+   "note": "hard prerequisites chain through #6/#9/#10"
+  },
+  {
+   "issue": 26,
+   "title": "[GIS] Implement location category taxonomy",
+   "github_state": "OPEN",
+   "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
+   "note": "hard prerequisites chain through #6/#9/#10"
+  },
+  {
+   "issue": 27,
+   "title": "[GIS] Support point route and polygon locations",
+   "github_state": "OPEN",
+   "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
+   "note": "hard prerequisites chain through #6/#9/#10"
+  },
+  {
+   "issue": 30,
+   "title": "[GIS] Implement geographic candidate editing",
+   "github_state": "OPEN",
+   "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
+   "note": "hard prerequisites chain through #6/#9/#10"
+  },
+  {
+   "issue": 32,
+   "title": "[PRIVACY] Integrate identity provider and secure sessions",
+   "github_state": "OPEN",
+   "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
+   "note": "hard prerequisites chain through #6/#9/#10"
+  },
+  {
+   "issue": 33,
+   "title": "[PRIVACY] Implement researcher invitation and deactivation",
+   "github_state": "OPEN",
+   "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
+   "note": "hard prerequisites chain through #6/#9/#10"
+  },
+  {
+   "issue": 34,
+   "title": "[PRIVACY] Implement role and study authorization",
+   "github_state": "OPEN",
+   "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
+   "note": "hard prerequisites chain through #6/#9/#10"
+  },
+  {
+   "issue": 35,
+   "title": "[PRIVACY] Enforce capability matrix across API and UI",
+   "github_state": "OPEN",
+   "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
+   "note": "hard prerequisites chain through #6/#9/#10"
+  },
+  {
+   "issue": 36,
+   "title": "[PRIVACY] Harden database access and migration credentials",
+   "github_state": "OPEN",
+   "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
+   "note": "hard prerequisites chain through #6/#9/#10"
+  },
+  {
+   "issue": 37,
+   "title": "[PRIVACY] Implement scoped versioned consent records",
+   "github_state": "OPEN",
+   "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
+   "note": "hard prerequisites chain through #6/#9/#10"
+  },
+  {
+   "issue": 38,
+   "title": "[PRIVACY] Protect raw interview and GPS endpoints",
+   "github_state": "OPEN",
+   "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
+   "note": "hard prerequisites chain through #6/#9/#10"
+  },
+  {
+   "issue": 39,
+   "title": "[PRIVACY] Implement security audit events",
+   "github_state": "OPEN",
+   "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
+   "note": "hard prerequisites chain through #6/#9/#10"
+  },
+  {
+   "issue": 40,
+   "title": "[PRIVACY] Configure secure secrets and environments",
+   "github_state": "OPEN",
+   "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
+   "note": "hard prerequisites chain through #6/#9/#10"
+  },
+  {
+   "issue": 42,
+   "title": "[SURVEY] Implement survey question and answer schema",
+   "github_state": "OPEN",
+   "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
+   "note": "hard prerequisites chain through #6/#9/#10"
+  },
+  {
+   "issue": 43,
+   "title": "[SURVEY] Implement immutable questionnaire versions",
+   "github_state": "OPEN",
+   "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
+   "note": "hard prerequisites chain through #6/#9/#10"
+  },
+  {
+   "issue": 44,
+   "title": "[SURVEY] Implement field visit sessions",
+   "github_state": "OPEN",
+   "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
+   "note": "hard prerequisites chain through #6/#9/#10"
+  },
+  {
+   "issue": 45,
+   "title": "[SURVEY] Implement interview start workflow",
+   "github_state": "OPEN",
+   "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
+   "note": "hard prerequisites chain through #6/#9/#10"
+  },
+  {
+   "issue": 46,
+   "title": "[SURVEY] Capture participant categories and official claims",
+   "github_state": "OPEN",
+   "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
+   "note": "hard prerequisites chain through #6/#9/#10"
+  },
+  {
+   "issue": 47,
+   "title": "[SURVEY] Record consent and interview metadata",
+   "github_state": "OPEN",
+   "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
+   "note": "hard prerequisites chain through #6/#9/#10"
+  },
+  {
+   "issue": 48,
+   "title": "[SURVEY] Capture mobile geolocation and permission state",
+   "github_state": "OPEN",
+   "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
+   "note": "hard prerequisites chain through #6/#9/#10"
+  },
+  {
+   "issue": 49,
+   "title": "[SURVEY] Display GPS quality recapture and corrections",
+   "github_state": "OPEN",
+   "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
+   "note": "hard prerequisites chain through #6/#9/#10"
+  },
+  {
+   "issue": 50,
+   "title": "[SURVEY] Store independent interview and subject geography",
+   "github_state": "OPEN",
+   "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
+   "note": "hard prerequisites chain through #6/#9/#10"
+  },
+  {
+   "issue": 51,
+   "title": "[SURVEY] Render and validate versioned questions",
+   "github_state": "OPEN",
+   "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
+   "note": "hard prerequisites chain through #6/#9/#10"
+  },
+  {
+   "issue": 52,
+   "title": "[SURVEY] Implement interview review and durable save",
+   "github_state": "OPEN",
+   "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
+   "note": "hard prerequisites chain through #6/#9/#10"
+  },
+  {
+   "issue": 53,
+   "title": "[SURVEY] Implement own submission history and corrections",
+   "github_state": "OPEN",
+   "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
+   "note": "hard prerequisites chain through #6/#9/#10"
+  },
+  {
+   "issue": 55,
+   "title": "[OFFLINE] Persist protected recoverable local drafts",
+   "github_state": "OPEN",
+   "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
+   "note": "hard prerequisites chain through #6/#9/#10"
+  },
+  {
+   "issue": 56,
+   "title": "[OFFLINE] Implement offline session and device lock policy",
+   "github_state": "OPEN",
+   "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
+   "note": "hard prerequisites chain through #6/#9/#10"
+  },
+  {
+   "issue": 57,
+   "title": "[OFFLINE] Implement idempotent transactional sync",
+   "github_state": "OPEN",
+   "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
+   "note": "hard prerequisites chain through #6/#9/#10"
+  },
+  {
+   "issue": 58,
+   "title": "[OFFLINE] Handle sync retries conflicts and rejections",
+   "github_state": "OPEN",
+   "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
+   "note": "hard prerequisites chain through #6/#9/#10"
+  },
+  {
+   "issue": 59,
+   "title": "[OFFLINE] Prevent duplicates without deleting genuine interviews",
+   "github_state": "OPEN",
+   "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
+   "note": "hard prerequisites chain through #6/#9/#10"
+  },
+  {
+   "issue": 60,
+   "title": "[OFFLINE] Implement quarantined resumable media uploads",
+   "github_state": "OPEN",
+   "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
+   "note": "hard prerequisites chain through #6/#9/#10"
+  },
+  {
+   "issue": 81,
+   "title": "[FRONTEND] Implement read-only public projection API",
+   "github_state": "OPEN",
+   "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
+   "note": "hard prerequisites chain through #6/#9/#10"
+  },
+  {
+   "issue": 84,
+   "title": "[ANALYTICS] Implement reproducible valid-answer aggregation",
+   "github_state": "OPEN",
+   "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
+   "note": "hard prerequisites chain through #6/#9/#10"
+  },
+  {
+   "issue": 90,
+   "title": "[ANALYTICS] Build safe survey coverage snapshots",
+   "github_state": "OPEN",
+   "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
+   "note": "hard prerequisites chain through #6/#9/#10"
+  },
+  {
+   "issue": 92,
+   "title": "[ANALYTICS] Enforce disclosure and small-sample controls",
+   "github_state": "OPEN",
+   "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
+   "note": "hard prerequisites chain through #6/#9/#10"
+  },
+  {
+   "issue": 95,
+   "title": "[ADMIN] Build account and training administration",
+   "github_state": "OPEN",
+   "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
+   "note": "hard prerequisites chain through #6/#9/#10"
+  },
+  {
+   "issue": 96,
+   "title": "[SURVEY] Capture structured field observations separately from interviews",
+   "github_state": "OPEN",
+   "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
+   "note": "hard prerequisites chain through #6/#9/#10"
+  },
+  {
+   "issue": 97,
+   "title": "[OFFLINE] Implement conditional approved external collection importer",
+   "github_state": "OPEN",
+   "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
+   "note": "hard prerequisites chain through #6/#9/#10"
+  },
+  {
+   "issue": 98,
+   "title": "[ADMIN] Monitor visits and research progress",
+   "github_state": "OPEN",
+   "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
+   "note": "hard prerequisites chain through #6/#9/#10"
+  },
+  {
+   "issue": 99,
+   "title": "[ADMIN] Build survey moderation and validation queue",
+   "github_state": "OPEN",
+   "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
+   "note": "hard prerequisites chain through #6/#9/#10"
+  },
+  {
+   "issue": 100,
+   "title": "[ADMIN] Review private GPS quality and outliers",
+   "github_state": "OPEN",
+   "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
+   "note": "hard prerequisites chain through #6/#9/#10"
+  },
+  {
+   "issue": 103,
+   "title": "[ADMIN] Implement publication preview approval and revoke",
+   "github_state": "OPEN",
+   "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
+   "note": "hard prerequisites chain through #6/#9/#10"
+  },
+  {
+   "issue": 105,
+   "title": "[ADMIN] Implement correction withdrawal and retention workflows",
+   "github_state": "OPEN",
+   "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
+   "note": "hard prerequisites chain through #6/#9/#10"
+  },
+  {
+   "issue": 107,
+   "title": "[DEVOPS] Test API integration and validation",
+   "github_state": "OPEN",
+   "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
+   "note": "hard prerequisites chain through #6/#9/#10"
+  },
+  {
+   "issue": 109,
+   "title": "[DEVOPS] Test authorization abuse paths",
+   "github_state": "OPEN",
+   "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
+   "note": "hard prerequisites chain through #6/#9/#10"
+  },
+  {
+   "issue": 110,
+   "title": "[DEVOPS] Test private-to-public exposure boundary",
+   "github_state": "OPEN",
+   "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
+   "note": "hard prerequisites chain through #6/#9/#10"
+  },
+  {
+   "issue": 111,
+   "title": "[DEVOPS] Test GPS permission quality and correction edges",
+   "github_state": "OPEN",
+   "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
+   "note": "hard prerequisites chain through #6/#9/#10"
+  },
+  {
+   "issue": 112,
+   "title": "[DEVOPS] Test offline to online sync reliability",
+   "github_state": "OPEN",
+   "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
+   "note": "hard prerequisites chain through #6/#9/#10"
+  },
+  {
+   "issue": 116,
+   "title": "[DEVOPS] Rehearse encrypted backup and restore",
+   "github_state": "OPEN",
+   "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
+   "note": "hard prerequisites chain through #6/#9/#10"
+  },
+  {
+   "issue": 121,
+   "title": "[DEVOPS] Run real GPS and offline pilot",
+   "github_state": "OPEN",
+   "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
+   "note": "hard prerequisites chain through #6/#9/#10"
+  },
+  {
+   "issue": 122,
+   "title": "[DEVOPS] Audit survey consent and data quality",
+   "github_state": "OPEN",
+   "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
+   "note": "hard prerequisites chain through #6/#9/#10"
+  },
+  {
+   "issue": 125,
+   "title": "[DEVOPS] Validate final research dataset and snapshots",
+   "github_state": "OPEN",
+   "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
+   "note": "hard prerequisites chain through #6/#9/#10"
+  },
+  {
+   "issue": 136,
+   "title": "[FRONTEND] Evaluate human-reviewed qualitative AI assistance",
+   "github_state": "OPEN",
+   "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
+   "note": "hard prerequisites chain through #6/#9/#10"
+  }
+ ]
+}
