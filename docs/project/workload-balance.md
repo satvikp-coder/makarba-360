@@ -16,7 +16,7 @@ Estimate method: S=1, M=3, L=5, XL=8. Score implementation, uncertainty, testing
 | Foundation | 3 | 0 |
 | Parallel | 45 | 58 |
 | Integration | 14 | 15 |
-| Technically ready now | 1 | 4 |
+| Technically ready now | 2 | 4 |
 | Hard-blocked by other stream before / after replan | 25 / 20 | 48 / 32 |
 
 Total: 646 points. Overall point ratio 1.097; core ratio 1.049. Both are within 10% relative effort. Counts are deliberately unequal because A owns more private/offline complexity. Stretch work is reported separately so it does not conceal an overloaded core workstream.

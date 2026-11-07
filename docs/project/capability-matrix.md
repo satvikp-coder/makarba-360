@@ -45,7 +45,7 @@ Roles: visitor, researcher, lead, reviewer, administrator. Access values: `read`
 - Roles and the `reviewer` split are a proposal derived from `docs/product/personas.md`; the persona table has no separate reviewer column, so stakeholders must confirm whether lead and reviewer remain distinct.
 
 ## What approval blocks
-Formal sign-off of this matrix gates final closure of #6 and the sensitive-rule implementation issues (#34, #35). It is a *formal* dependency for #9/#10 (declared hard in the issue graph) rather than a technical one: architecture diagrams and scaffolding do not consume the matrix contents. Suggested transparent correction for owner review: relax #9→#6 to a soft input. This document does not alter the dependency graph.
+Dependency model corrected (PR for #9): #9 now treats this PROPOSED matrix as a **soft review input** and documents provisional authorisation assumptions; #32 and #34 now list #6 as a **final-acceptance (integration) prerequisite**, so they may be built and negatively tested against the proposed matrix but **cannot be closed, and no production grants may be activated, until #6 is genuinely approved**. #35, #37 and downstream issues remain gated transitively through #34. Real participant data remains gated by #11. No security requirement was removed.
 
 ## Decision needed from stakeholders
 Approve or amend the matrix above (especially lead vs reviewer, export grants and break-glass), then set `approved_by`/`approved_on` and status in the JSON.

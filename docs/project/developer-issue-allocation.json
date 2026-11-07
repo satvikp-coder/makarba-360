@@ -594,21 +594,21 @@
       "required_contracts": [
         "baseline"
       ],
-      "dependency_change_reason": "The existing architecture/NFR documents support a bounded contract review; full NFR signoff is not needed to draft mock DTOs.",
+      "dependency_change_reason": "Dependency correction (reviewed from repository evidence): #9 reviews existing context/component/deployment/trust-boundary documents and freezes synthetic DTO contracts; it does not consume the capability-matrix grants. The proposed matrix (docs/project/capability-matrix.md, status PROPOSED) is a soft review input and #9 documents provisional authorisation assumptions. Real stakeholder approval of #6 is still required before #32/#34/#35 final acceptance and before any real data.",
       "operational_gate": "Real participants require #11; real maps/evidence require verification and permission; no public survey or raw GPS publication.",
       "hard_dependencies": [
-        1,
-        6
+        1
       ],
       "integration_dependencies": [],
       "soft_dependencies": [
+        6,
         8
       ],
       "operational_dependencies": [],
       "global_order": 3,
       "owner_order": 3,
       "sprint": 0,
-      "ready_to_start": false,
+      "ready_to_start": true,
       "integration_partner": "B (varunkarthic), pending collaboration acceptance",
       "handoff_required": true,
       "required_handoff": "Publish versioned DTO/schema/fixtures and conformance evidence; review cross-stream providers ; consumers #54, #104, #124",
@@ -617,17 +617,16 @@
       "close_policy": "Hard prerequisites must be evidenced. Mock-backed local components may be accepted with conformance tests; listed live integrations must pass their named gates before production claims. Integration issues require their runtime integration dependencies before final acceptance.",
       "labels": [
         "area:devops",
-        "dependency:blocked",
         "handoff:required",
         "owner:developer-a",
         "phase:foundation",
         "priority:p0",
         "size:m",
-        "status:blocked",
+        "status:ready",
         "type:docs",
         "workstream:core-platform"
       ],
-      "body_sha256": "49dd9061db657dc1b057eda817639e46a96e1dc43afa2cf2a8c2e89f9791f752",
+      "body_sha256": "a997efd4e30e9d060662078e0616b3480221a268c1a74cfe37d2e162f931bcd2",
       "original_body_sha256": "19765a46263ef9023ffb305efbadce0299614e0b86f39663a1edf1481bf1bdcc"
     },
     {
@@ -2220,13 +2219,14 @@
       "required_contracts": [
         "field-private"
       ],
-      "dependency_change_reason": "Original prerequisites retained; no contract-first relaxation needed.",
+      "dependency_change_reason": "Dependency correction: identity-provider integration and session handling are implementable and testable against synthetic identities and the proposed matrix; MFA-by-role policy is provisional until #6 is approved. #6 moves from hard to final-acceptance (integration) prerequisite, so #32 cannot be closed before #6 approval.",
       "operational_gate": "Real participants require #11; real maps/evidence require verification and permission; no public survey or raw GPS publication.",
       "hard_dependencies": [
-        6,
         10
       ],
-      "integration_dependencies": [],
+      "integration_dependencies": [
+        6
+      ],
       "soft_dependencies": [],
       "operational_dependencies": [],
       "global_order": 13,
@@ -2250,7 +2250,7 @@
         "type:security",
         "workstream:core-platform"
       ],
-      "body_sha256": "490c0349da675bdb032c4f0dcd694aa800b19cdf12a63bb805b749cdd966196f",
+      "body_sha256": "3126ef1a728fbe412494f6f932f4f59348ddd7b78409a7a32b700e2e8b79633c",
       "original_body_sha256": "84b2816ee1bbd45dd4eb6cc027502a0703cca16ac2e840bd4682b47d7c8e5f2b"
     },
     {
@@ -2356,13 +2356,14 @@
       "required_contracts": [
         "field-private"
       ],
-      "dependency_change_reason": "Original prerequisites retained; no contract-first relaxation needed.",
+      "dependency_change_reason": "Dependency correction: role/study authorisation can be built and negatively tested against the proposed matrix as a provisional policy table; #6 moves from hard to final-acceptance (integration) prerequisite, so #34 cannot be closed, and no production grants activated, before #6 approval.",
       "operational_gate": "Real participants require #11; real maps/evidence require verification and permission; no public survey or raw GPS publication.",
       "hard_dependencies": [
-        6,
         32
       ],
-      "integration_dependencies": [],
+      "integration_dependencies": [
+        6
+      ],
       "soft_dependencies": [],
       "operational_dependencies": [],
       "global_order": 15,
@@ -2386,7 +2387,7 @@
         "type:security",
         "workstream:core-platform"
       ],
-      "body_sha256": "6bfac6394b5980d77e40fe14dd5e2467be04ba42433f95aad55cf9701c92573a",
+      "body_sha256": "e1b675a2ae0dd94b1fa8d9f368b68ed22a722d7301bb404de31a56687f77bcf1",
       "original_body_sha256": "2c13f1c4c707bc38c3f669b46afb4985ebf8728d2315f8411975d4be90659786"
     },
     {
