@@ -47,7 +47,8 @@ GRANT USAGE ON SCHEMA public TO makarba_migrator, makarba_private_api, makarba_p
 CREATE SCHEMA IF NOT EXISTS private   AUTHORIZATION makarba_migrator;  -- restricted source records
 CREATE SCHEMA IF NOT EXISTS published AUTHORIZATION makarba_migrator;  -- allowlisted public projection
 CREATE SCHEMA IF NOT EXISTS audit     AUTHORIZATION makarba_migrator;  -- non-content security audit
-REVOKE ALL ON SCHEMA private, published, audit FROM PUBLIC;
+CREATE SCHEMA IF NOT EXISTS migrations AUTHORIZATION makarba_migrator; -- migration ledger; no runtime access
+REVOKE ALL ON SCHEMA private, published, audit, migrations FROM PUBLIC;
 
 GRANT USAGE ON SCHEMA private   TO makarba_private_api, makarba_worker;
 GRANT USAGE ON SCHEMA published TO makarba_private_api, makarba_public_api, makarba_worker;

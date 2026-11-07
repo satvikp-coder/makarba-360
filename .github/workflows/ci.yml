@@ -51,5 +51,13 @@ jobs:
         run: docker compose exec -T db psql -U makarba_dev -d makarba_dev -v ON_ERROR_STOP=1 < db/bootstrap/001_roles_and_schemas.sql
       - name: Privilege and escalation tests
         run: docker compose exec -T db psql -U makarba_dev -d makarba_dev -v ON_ERROR_STOP=1 < db/tests/001_privileges.sql
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - name: Migration and grant integration tests (issue #22)
+        run: pnpm --filter @makarba/db test
+        env:
+          TEST_DATABASE_URL: postgres://makarba_dev:makarba_dev_password@127.0.0.1:5432/makarba_dev
       - name: Bootstrap is idempotent
         run: docker compose exec -T db psql -U makarba_dev -d makarba_dev -v ON_ERROR_STOP=1 < db/bootstrap/001_roles_and_schemas.sql
