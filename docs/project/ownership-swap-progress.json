@@ -208,5 +208,7 @@
     "build_typecheck_lint": "passed",
     "source_and_contracts_unchanged": true
   },
-  "verdict": "PARTIAL — DOCUMENTS UPDATED BUT SOME GITHUB ASSIGNMENTS PENDING"
+  "verdict": "PARTIAL — DOCUMENTS UPDATED BUT SOME GITHUB ASSIGNMENTS PENDING",
+  "planning_pr": "https://github.com/satvikp-coder/makarba-360/pull/155",
+  "ci_note": "History audit requires full checkout; fetch-depth 0 added after observed shallow-checkout failure. No checks bypassed."
 }
