@@ -1,15 +1,16 @@
 {
- "last_verified_main_sha": "3c6384fee4c908498013a8df7d9262f2704a6364",
+ "last_verified_main_sha": "bd9cb21cd033ab29fd69872b74a152d9c0cd7f14",
  "total_developer_a_issues": 63,
  "closed": [
   1,
   9,
   10,
   22,
-  36
+  36,
+  39
  ],
  "active": "none",
- "next": "Implement #39 audit events, #33 invitation/deactivation, #35 capability enforcement (code-complete prerequisites are met; closure waits on H1/H2), then #37/#38 and the GIS/survey chain as Developer B deliverables (#5, #12, #54) land.",
+ "next": "Ready now: #38 protect raw interview/GPS endpoints, #37 consent records (code only; real data gated by H3), #56 offline session policy once #54 lands. The GIS/survey chain (#23, #26, #27, #42 ...) waits on Developer B deliverables (#5, #12) and research-methodology validation (#4/#3, human).",
  "dependency_rule": "docs/project/governance.md#dependency-semantics-for-approval-gated-issues",
  "issues": [
   {
@@ -55,7 +56,7 @@
    "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
    "pr": "",
    "merge_sha": "",
-   "note": "open hard prerequisites: #2, #6"
+   "note": "open hard prerequisites: #2"
   },
   {
    "issue": 8,
@@ -136,7 +137,7 @@
    "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
    "pr": "",
    "merge_sha": "",
-   "note": "open hard prerequisites: #27, #35"
+   "note": "open hard prerequisites: #27"
   },
   {
    "issue": 32,
@@ -151,10 +152,10 @@
    "issue": 33,
    "title": "[PRIVACY] Implement researcher invitation and deactivation",
    "github_state": "OPEN",
-   "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
-   "pr": "",
-   "merge_sha": "",
-   "note": "open hard prerequisites: #32"
+   "status": "CODE_MERGED_CLOSURE_PENDING",
+   "pr": "PR #152",
+   "merge_sha": "bd9cb21",
+   "note": "waits for #32 closure (H1/H2); administration UI is #95"
   },
   {
    "issue": 34,
@@ -169,10 +170,10 @@
    "issue": 35,
    "title": "[PRIVACY] Enforce capability matrix across API and UI",
    "github_state": "OPEN",
-   "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
-   "pr": "",
-   "merge_sha": "",
-   "note": "open hard prerequisites: #34"
+   "status": "CODE_MERGED_CLOSURE_PENDING",
+   "pr": "PR #150",
+   "merge_sha": "2fce056",
+   "note": "UI half not built; matrix approval H1"
   },
   {
    "issue": 36,
@@ -187,28 +188,28 @@
    "issue": 37,
    "title": "[PRIVACY] Implement scoped versioned consent records",
    "github_state": "OPEN",
-   "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
+   "status": "READY",
    "pr": "",
    "merge_sha": "",
-   "note": "open hard prerequisites: #35"
+   "note": "technically ready"
   },
   {
    "issue": 38,
    "title": "[PRIVACY] Protect raw interview and GPS endpoints",
    "github_state": "OPEN",
-   "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
+   "status": "READY",
    "pr": "",
    "merge_sha": "",
-   "note": "open hard prerequisites: #35"
+   "note": "technically ready"
   },
   {
    "issue": 39,
    "title": "[PRIVACY] Implement security audit events",
-   "github_state": "OPEN",
-   "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
-   "pr": "",
-   "merge_sha": "",
-   "note": "open hard prerequisites: #35"
+   "github_state": "CLOSED",
+   "status": "VERIFIED_COMPLETE",
+   "pr": "PR #151",
+   "merge_sha": "f71ad8c",
+   "note": ""
   },
   {
    "issue": 40,
@@ -244,7 +245,7 @@
    "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
    "pr": "",
    "merge_sha": "",
-   "note": "open hard prerequisites: #23, #35"
+   "note": "open hard prerequisites: #23"
   },
   {
    "issue": 45,
@@ -343,7 +344,7 @@
    "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
    "pr": "",
    "merge_sha": "",
-   "note": "open hard prerequisites: #32, #54"
+   "note": "open hard prerequisites: #54"
   },
   {
    "issue": 57,
@@ -379,7 +380,7 @@
    "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
    "pr": "",
    "merge_sha": "",
-   "note": "open hard prerequisites: #40, #38"
+   "note": "open hard prerequisites: #38"
   },
   {
    "issue": 81,
@@ -421,10 +422,10 @@
    "issue": 95,
    "title": "[ADMIN] Build account and training administration",
    "github_state": "OPEN",
-   "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
+   "status": "READY",
    "pr": "",
    "merge_sha": "",
-   "note": "open hard prerequisites: #33"
+   "note": "technically ready"
   },
   {
    "issue": 96,
@@ -433,7 +434,7 @@
    "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
    "pr": "",
    "merge_sha": "",
-   "note": "open hard prerequisites: #20, #27, #35, #44"
+   "note": "open hard prerequisites: #20, #27, #44"
   },
   {
    "issue": 97,
@@ -460,7 +461,7 @@
    "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
    "pr": "",
    "merge_sha": "",
-   "note": "open hard prerequisites: #51, #39"
+   "note": "open hard prerequisites: #51"
   },
   {
    "issue": 100,
@@ -478,7 +479,7 @@
    "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
    "pr": "",
    "merge_sha": "",
-   "note": "open hard prerequisites: #99, #39"
+   "note": "open hard prerequisites: #99"
   },
   {
    "issue": 105,
@@ -487,7 +488,7 @@
    "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
    "pr": "",
    "merge_sha": "",
-   "note": "open hard prerequisites: #37, #39, #103"
+   "note": "open hard prerequisites: #37, #103"
   },
   {
    "issue": 107,
@@ -505,7 +506,7 @@
    "status": "BLOCKED_BY_TECHNICAL_DEPENDENCY",
    "pr": "",
    "merge_sha": "",
-   "note": "open hard prerequisites: #106, #32"
+   "note": "open hard prerequisites: #106"
   },
   {
    "issue": 110,
