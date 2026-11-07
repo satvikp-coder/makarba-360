@@ -1,6 +1,8 @@
 # Shared integration contracts and handoffs
 
-Version **1.0.0 planning contract**, pending review under #9 and executable TypeScript/mock implementation under #10. These contracts refine the existing architecture; they do not create an extra service deployment or public survey entry. All examples in [contracts/fixture-bundle.json](contracts/fixture-bundle.json) are explicitly synthetic, outside Makarba, and not real findings. Production must not publish synthetic fixtures as collected evidence.
+Current ownership: Developer A = Varun (`varunkarthic`, core-platform); Developer B = Satvik (`satvikp-coder`, public-experience). The workstreams did not swap. Satvik retains authorship of his merged foundation; Varun now maintains it.
+
+Version **1.0.0 contract baseline**: #9 review and #10 TypeScript/mock scaffold were merged by Satvik. Varun now maintains provider/core contracts and Satvik consumes them in the public experience. Reuse the existing foundation; no reimplementation is required. These contracts refine the existing architecture; they do not create an extra service deployment or public survey entry. All examples in [contracts/fixture-bundle.json](contracts/fixture-bundle.json) are explicitly synthetic, outside Makarba, and not real findings. Production must not publish synthetic fixtures as collected evidence.
 
 ## Ownership and delivery
 
@@ -13,7 +15,7 @@ Version **1.0.0 planning contract**, pending review under #9 and executable Type
 | C05 Public media | A #60 quarantine/derivatives; B #61 metadata/rights | B gallery/panorama, A publisher | Public derivative allowlist, stripped EXIF, credit/date/alt text, supported format/sizes and missing asset fallback; no original/private URL |
 | C06 Private field interfaces | A #42–#60/#97 | A field app; B design/feasibility tests with synthetic roles only | Separate interview-position/subject IDs, consent scopes, immutable form version, idempotency/revision/errors; no public route |
 
-H0 (#9, A→B): freeze versioned request/response schemas, module boundaries, privacy allowlists, fixture manifest/hash and change rules. H1 (#10, A→B): clean Windows checkout runs shared validators/types and a public mock API with success, empty, suppressed, missing and transient-error states. No real DB/identity/provider account is needed for B public development. B acknowledges fixture/schema conformance in their first consumer PR; acceptance is an actual check, not merely reading this document.
+H0 (#9, originally completed by Satvik; current maintenance A→B): maintain the frozen versioned request/response schemas, module boundaries, privacy allowlists, fixture manifest/hash and change rules. H1 (#10, originally completed by Satvik; current maintenance A→B): the existing clean Windows checkout runs shared validators/types and a public mock API with success, empty, suppressed, missing and transient-error states. No real DB/identity/provider account is needed for B public development. B acknowledges fixture/schema conformance in their first consumer PR; acceptance is an actual check, not merely reading this document.
 
 ## C01 Location API
 

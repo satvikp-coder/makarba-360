@@ -5,7 +5,7 @@ Issue: #1. This document is the single reference for branch/PR rules, ownership 
 ## Branch and PR rules
 
 - `main` is the integration branch. Never commit directly to it; never force-push it or any shared branch.
-- Branch names: `dev-a/issue-<n>-<slug>` for Developer A (`satvikp-coder`) work; Developer B uses `dev-b/issue-<n>-<slug>`. A contributor works only on issues they own (`owner:developer-a` / `owner:developer-b` label plus assignment).
+- Branch names: `dev-a/issue-<n>-<slug>` for Developer A (`varunkarthic`) work; Developer B (`satvikp-coder`) uses `dev-b/issue-<n>-<slug>`. A contributor works only on issues they own (`owner:developer-a` / `owner:developer-b` label plus assignment).
 - One focused issue per PR, opened against `main`, using `.github/PULL_REQUEST_TEMPLATE.md`. Use `Closes #<n>` only when the PR fully resolves the issue.
 - Commit messages describe the outcome and reference the issue, e.g. `docs(governance): record branch and PR rules (#1)`.
 - Required CI (`Planning integrity`) must pass before merge. Do not disable or bypass checks.
@@ -21,7 +21,7 @@ All owners are role requirements, not fictitious people. The following are **vac
 | Security / vulnerability-report contact address | Not supplied (see `SECURITY.md`) |
 | Team email or mailing list | None exists |
 | Maintainer(s) with merge authority beyond the repository owner | Not appointed |
-| Developer B GitHub assignment | Pending invitation acceptance; work reserved by `owner:developer-b` labels |
+| Developer A GitHub assignment | Varun may await invitation acceptance; core work reserved by `owner:developer-a`; public B tasks are assigned to Satvik |
 | Source-code licence | **None selected.** Owner decision required before public redistribution; no licence file is added |
 
 ## Planning-only boundary

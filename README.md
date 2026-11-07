@@ -2,7 +2,7 @@
 
 Participatory Urban Mapping and Community Insights Platform for Makarba, Ahmedabad.
 
-**Planning-first repository. No product features implemented.** Authorised researchers collect face-to-face interviews; public visitors only explore approved places, evidence, stories and aggregates. There is no public survey submission.
+**Planning plus initial core implementation.** Authorised researchers collect face-to-face interviews; public visitors only explore approved places, evidence, stories and aggregates. There is no public survey submission.
 
 The source repository is **public**, following the owner's explicit request after planning setup. This does not make research records or the future field/admin applications public. See the [visibility decision](docs/project/visibility-decision.md).
 
@@ -10,7 +10,7 @@ Interview position and discussed place are separate. Raw responses, exact interv
 
 Start with [requirements](docs/product/requirements.md), [architecture](docs/architecture/overview.md), [data model](docs/architecture/data-model.md), [UX screens](docs/product/screen-inventory.md), [roadmap](docs/project/roadmap.md), [issue index](docs/project/issue-index.md), and [setup progress](docs/project/setup-progress.json).
 
-Two-developer plan: [workstreams](docs/project/two-developer-workstreams.md), [your guide](docs/project/DEVELOPER_A_GUIDE.md), [Varun's reserved guide](docs/project/DEVELOPER_B_GUIDE.md), [handoff contracts](docs/project/developer-handoffs.md), and [workload balance](docs/project/workload-balance.md). A owns the core/private platform; B owns the public experience and agreed independent quality/content modules. B assignees remain unchanged while the collaboration invitation is unaccepted.
+Two-developer plan: **Varun = Developer A, core platform; Satvik = Developer B, public experience.** See [workstreams](docs/project/two-developer-workstreams.md), [Varun’s A guide](docs/project/DEVELOPER_A_GUIDE.md), [Satvik’s B guide](docs/project/DEVELOPER_B_GUIDE.md), [handoff contracts](docs/project/developer-handoffs.md), and [ownership swap report](docs/project/OWNERSHIP_SWAP_REPORT.md). Varun’s GitHub assignments may await invitation acceptance; previously reserved public issues now belong to Satvik. Historical contributions are preserved.
 
 The supplied 23-page blueprint was read in full; see [source provenance](docs/source/README.md) and [traceability](docs/project/traceability-matrix.md). Original PDF redistribution is not assumed; its checksum and page summaries are retained.
 

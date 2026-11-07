@@ -1,5 +1,7 @@
 # File and module ownership
 
+Current ownership: Developer A = Varun (`varunkarthic`, core-platform); Developer B = Satvik (`satvikp-coder`, public-experience). The workstreams did not swap. Satvik retains authorship of his merged foundation; Varun now maintains it.
+
 These are future module paths in the existing architecture, not new empty application scaffolds. The allocation JSON identifies exactly one primary issue owner. GitHub roles and research-data permissions are separate.
 
 | Path / concern | Primary | Coordination rule |
@@ -26,3 +28,8 @@ These are future module paths in the existing architecture, not new empty applic
 No CODEOWNERS file or mandatory review gate was installed: Varun's invitation is unaccepted and an unfulfillable approval rule would obstruct the team. Add supported review ownership only after membership and repository policy are verified. Actual main protection was disabled at audit; the documented PR process is a team policy, not a claim of enforced protection.
 
 Avoid collisions: B public UI works with fixture contracts while A edits services; split shared DTOs by domain; do not update the same migration registry or root dependency files in parallel. The issue owner requests the shared-file edit, the other developer reviews its compatibility, then both update from main. Never resolve conflicts by replacing the other person's file wholesale.
+
+
+## Existing implemented module paths
+
+A/Varun maintains `apps/api/`, `packages/auth/`, `packages/authz/`, `packages/audit/`, `packages/db/`, `packages/config/`, `packages/contracts/` and `db/`. These were merged by Satvik before the swap. B/Satvik owns future `apps/web/` and public presentation, plus the agreed reporting/content/testing modules above. Shared contracts are cross-reviewed. Earlier path proposals remain architectural guidance, not instructions to recreate existing modules.

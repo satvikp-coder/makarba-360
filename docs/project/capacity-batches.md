@@ -1,6 +1,6 @@
 # Capacity-aware sprint planning batches
 
-Generated from developer-issue-allocation.json. No dates, product implementation or participant data. GitHub B assignment is pending invitation acceptance; labels reserve B work as requested. Issue #1 was completed concurrently in PR #137 and is preserved; remaining work begins at #6.
+Current ownership: Developer A = Varun (`varunkarthic`, core-platform); Developer B = Satvik (`satvikp-coder`, public-experience). The workstreams did not swap. Satvik retains authorship of his merged foundation; Varun now maintains it.
 
 The seven macro waves are too large to promise as seven calendar sprints. The batches below cap selected estimated work at 20 points per developer (a planning hypothesis, not measured velocity). Choose a real sprint length/capacity together later. A and B batches with the same label may run together only when their actual hard prerequisites are evidenced; runtime/operational gates still apply. Do not add dependencies merely to align batches. Every issue remains in exactly one macro wave and one owner queue; batch labels are a derived capacity view, not another source of ownership.
 
