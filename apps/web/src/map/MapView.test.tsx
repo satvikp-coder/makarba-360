@@ -11,6 +11,9 @@ class FakeMap {
   removed = false;
   canvas = document.createElement("canvas");
   data: unknown = null;
+  sources: Record<string, Record<string, unknown>> = {};
+  fitted: unknown[] = [];
+  eased: unknown[] = [];
   constructor(o: Record<string, unknown>) {
     if (self.throwOnCreate) throw new Error("Failed to initialize WebGL");
     this.opts = o;
@@ -23,10 +26,12 @@ class FakeMap {
     (this.handlers[n as string] ??= []).push(f as () => void);
   }
   fire(ev: string, e?: unknown) { (this.handlers[ev] ?? []).forEach((f) => f(e)); }
-  addSource() {}
+  addSource(id: string, o: Record<string, unknown>) { this.sources[id] = o; }
+  fitBounds(...a: unknown[]) { this.fitted.push(a); }
+  easeTo(o: unknown) { this.eased.push(o); }
   addLayer(l: { id: string }) { this.layers.push(l); }
   getLayer(id: string) { return this.layers.find((l) => l.id === id); }
-  getSource() { return { setData: (d: unknown) => { this.data = d; } }; }
+  getSource() { return { setData: (d: unknown) => { this.data = d; }, getClusterExpansionZoom: () => Promise.resolve(13) }; }
   setPaintProperty() {}
   remove() { this.removed = true; }
 }
@@ -36,7 +41,7 @@ return self as typeof self & { maps: FakeMap[]; attrib: unknown[]; FakeMap: type
 vi.mock("maplibre-gl", () => ({
   default: { Map: h.FakeMap, NavigationControl: class {}, AttributionControl: class { constructor(o: unknown) { h.attrib.push(o); } } },
 }));
-import { MapView, buildStyle, DEFAULT_TILE_URL } from "./MapView.js";
+import { MapView, boundsOf, buildStyle, DEFAULT_TILE_URL } from "./MapView.js";
 import type { PublicFeature } from "../api.js";
 
 const feats: PublicFeature[] = [
@@ -56,7 +61,9 @@ describe("MapView", () => {
     expect(style).toContain(DEFAULT_TILE_URL);
     m.fire("load");
     await waitFor(() => expect(onStatus).toHaveBeenCalledWith("ready"));
-    expect(m.layers.map((l) => l.id)).toEqual(["places-fill", "places-line", "places-point"]);
+    expect(m.layers.map((l) => l.id)).toEqual(["places-fill", "places-line", "places-cluster", "places-point"]);
+    expect(Object.keys(m.sources)).toEqual(["places"]);
+    expect(m.sources["places"]!.cluster).toBe(true);
     await waitFor(() => expect((m.data as { features: unknown[] }).features).toHaveLength(1));
     expect(screen.getByRole("region", { name: /Interactive map/ })).toBeTruthy();
   });
@@ -65,7 +72,7 @@ describe("MapView", () => {
     render(<MapView features={feats} sourceAttribution="x" onSelect={onSelect} />);
     const m = h.maps[0]!;
     m.fire("load");
-    m.fire("click:places-point", { features: [{ id: feats[0]!.id }] });
+    m.fire("click:places-point", { features: [{ properties: { locationId: feats[0]!.id } }] });
     expect(onSelect).toHaveBeenCalledWith(feats[0]!.id);
   });
   it("WebGL unsupported: shows the list-alternative message and does not throw", () => {
@@ -82,6 +89,19 @@ describe("MapView", () => {
     m.fire("load");
     m.canvas.dispatchEvent(new Event("webglcontextlost"));
     expect((await screen.findByRole("status")).textContent).toMatch(/map is unavailable/);
+  });
+  it("zooms into a cluster when it is clicked and fits the view to the data", async () => {
+    render(<MapView features={feats} sourceAttribution="x" />);
+    const m = h.maps[0]!;
+    m.fire("load");
+    await waitFor(() => expect(m.fitted.length).toBe(1));
+    m.fire("click:places-cluster", { features: [{ properties: { cluster_id: 7 } }], lngLat: { lng: 1, lat: 2 } });
+    await waitFor(() => expect(m.eased).toEqual([{ center: [1, 2], zoom: 13 }]));
+  });
+  it("computes bounds over points, lines and polygons and returns null for no data", () => {
+    expect(boundsOf([])).toBeNull();
+    const f = (g: unknown) => ({ type: "Feature", id: "i", geometry: g, properties: { slug: "s", name: "n", category: "c" } }) as PublicFeature;
+    expect(boundsOf([f({ type: "Point", coordinates: [1, 2] }), f({ type: "LineString", coordinates: [[0, 5], [3, -1]] }), f({ type: "Polygon", coordinates: [[[-2, 0], [4, 0], [4, 9], [-2, 0]]] })])).toEqual([[-2, -1], [4, 9]]);
   });
   it("removes the map on unmount", () => {
     const { unmount } = render(<MapView features={feats} sourceAttribution="x" />);
