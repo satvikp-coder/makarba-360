@@ -53,3 +53,53 @@ Main navigation: Explore, Then & Now, Community Voices, Urban Insights, Research
 Public site is read-only: there is no Submit Survey entry, anonymous write journey, login or admin link in public navigation. URL state allows only listed privacy-safe parameters; `sanitizeQuery()` drops everything else and always drops keys containing `interview`, `participant`, `gps`, `lat`, `lng`, `coords`, `token`, `submit` or `survey`. Verified by tests (negative case: no survey/submit/login route or query key; forbidden params stripped).
 
 Limitation: this is a design-time artifact; the actual router and shell are built in #72. Final requirement review (#7) is a soft input and not yet done.
+
+## Home page wireframes (issue #14)
+
+All frames are low-fidelity and use synthetic placeholder labels only. Every media slot has a visible date, credit and licence line; an empty slot never shows a stock or invented picture.
+
+```text
+DESKTOP >=1200                          MOBILE <768
++--------------------------------+      +------------------+
+| header 64px  nav               |      | header 56px  menu|
++--------------------------------+      +------------------+
+| HERO  [media slot: date|credit]|      | [media slot]     |
+| H1 Makarba 360 + purpose       |      | H1 + purpose     |
+| [Explore the map]  (primary)   |      | [Explore the map]|
++--------------------------------+      | Intro (<=70ch)   |
+| Intro text  | Method link      |      | Featured places  |
++--------------------------------+      |  (vertical list) |
+| Featured places: 3-4 cards     |      | Then & Now teaser|
+| Then & Now teaser (if verified)|      | Voices intro     |
+| Community Voices intro         |      | footer: Sources, |
++--------------------------------+      | Accessibility    |
+| footer: Sources | Accessibility|      +------------------+
++--------------------------------+
+```
+
+Compact (768–1199): hero stacks above intro; featured places in a 2-column grid. Annotated states:
+
+| Element | Loading | Empty / unavailable | Error |
+|---|---|---|---|
+| Hero media | fixed-aspect skeleton | **Honest fallback**: typographic atlas panel with teal/ivory tokens and no picture; no placeholder photo, no invented credit | same fallback plus text "Image could not load" |
+| Featured places | 3 skeleton cards, status text | "No places are published yet" with link to methodology | retry button with plain-language message |
+| Then & Now teaser | skeleton | section omitted unless a verified pair exists | omitted, no broken slider |
+| Voices intro | skeleton | states that collection status is pending; no counts shown | retry |
+
+Rules: one primary CTA (Explore the map); the hero never shows survey counts unless the API supplies them; reduced motion removes the hero transition; heading order H1 then H2 per section; all images require alt text describing the evidence.
+
+## Desktop map-first layout (issue #15)
+
+Layout at >=1200: header 64px, layers/search panel 256px, map flexes, details panel 360px expandable. At 768–1199 the layer panel and details panel become collapsible drawers (buttons with visible labels; Escape closes; focus returns to the opener).
+
+| Concern | Specification |
+|---|---|
+| Focus order | skip link → header → search → layer toggles → place list/map → details panel; the map canvas is one tab stop with arrow-key pan and +/- zoom |
+| Selection | selecting a feature announces its name via a live region; focus moves to the details panel only on the explicit "View details" action; closing returns focus to the marker or list item |
+| URL state | `/explore?q=&category=&layers=&place=<publicFeatureId>`; only allowlisted keys (see `packages/public-ia`); selecting or clearing a place updates the URL without a full reload; a stale `place` shows "place not found" and clears itself |
+| Attribution | always visible bottom-right, never hidden under panels or sheets; text comes from the basemap decision in `docs/architecture/gis-design.md` |
+| WebGL / tile failure | the map area is replaced by the same searchable place list used as the permanent alternative, with a message that the map is unavailable; the list supports filters, selection and details identically; attribution of data sources remains in the footer |
+| Empty / error | no results → message plus "Clear filters"; load failure → retry; stale snapshot is labelled with its date |
+| Privacy | map layers contain only published public features; no interview positions or raw coordinates exist in any layer or URL |
+
+Limitations: these are specifications, reviewed by me and not yet by a human designer or user testing; implementation is #72/#74.
