@@ -4,7 +4,7 @@ Generated from developer-issue-allocation.json. No dates, product implementation
 
 Authoritative current edges: [allocation JSON](developer-issue-allocation.json), [machine-readable dependency map](issue-dependencies.json), and [implementation order](implementation-order.md). The old single blocker category is now explicitly separated into hard, integration, soft and operational dependencies.
 
-Hard edges: 255; integration edges: 113; soft: 10; operational: 2. Both hard and hard+integration graphs are acyclic.
+Hard edges: 252; integration edges: 115; soft: 11; operational: 2. Both hard and hard+integration graphs are acyclic.
 
 ```mermaid
 flowchart LR
