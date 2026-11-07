@@ -11,3 +11,5 @@ jobs:
         with:
           python-version: '3.12'
       - run: python scripts/verify_planning.py --local
+      - run: python scripts/check_governance.py
+      - run: python -m unittest discover -s scripts -p 'test_*.py'
