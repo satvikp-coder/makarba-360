@@ -8,10 +8,17 @@ export interface UserDirectory {
   findActiveBySubject(sub: string): Promise<{ id: string; roles: string[] } | null>;
 }
 
+export interface InvitationRedeemer {
+  /** Redeems a one-time invitation for an authenticated identity. Throws if invalid. */
+  accept(token: string, oidcSubject: string, displayName: string): Promise<void>;
+}
+
 export interface AuthDeps {
   oidc: OidcConfig;
   sessions: SessionService;
   users: UserDirectory;
+  /** Optional: enables invitation-only onboarding (issue #33). */
+  invitations?: InvitationRedeemer;
   secureCookies: boolean;
   fetchImpl?: typeof fetch;
 }
@@ -72,24 +79,34 @@ export function requireCsrf(sessions: SessionService): RequestHandler {
 export function authRouter(deps: AuthDeps): Router {
   const r = Router();
   // Pending logins live server-side, keyed by an unguessable cookie value (single instance; see docs for limits).
-  const pending = new Map<string, PendingLogin>();
+  const pending = new Map<string, { login: PendingLogin; invite?: string }>();
   const deny = (res: Response, status: number, code: string, message: string) =>
     res.status(status).json({ code, message, fieldErrors: {}, requestId: "n/a", retryable: false });
 
-  r.get("/login", (_req, res) => {
+  r.get("/login", (req, res) => {
     const { url, pending: p } = beginLogin(deps.oidc);
-    pending.set(p.state, p);
+    // The invitation token stays server-side; it is never put in the redirect URL or a cookie.
+    pending.set(p.state, { login: p, invite: typeof req.query.invite === "string" && req.query.invite.length <= 200 ? req.query.invite : undefined });
     setCookie(res, LOGIN_COOKIE, p.state, deps.secureCookies, 600, "/auth");
     res.redirect(302, url);
   });
 
   r.get("/callback", async (req, res) => {
     const state = cookies(req)[LOGIN_COOKIE];
-    const p = state ? pending.get(state) : undefined;
+    const entry = state ? pending.get(state) : undefined;
+    const p = entry?.login;
     if (state) pending.delete(state); // single use
     try {
       const id = await completeLogin(deps.oidc, p, { code: String(req.query.code ?? ""), state: String(req.query.state ?? "") }, { fetchImpl: deps.fetchImpl });
-      const user = await deps.users.findActiveBySubject(id.sub);
+      let user = await deps.users.findActiveBySubject(id.sub);
+      if (!user && entry?.invite && deps.invitations) {
+        try {
+          await deps.invitations.accept(entry.invite, id.sub, id.name ?? "");
+          user = await deps.users.findActiveBySubject(id.sub);
+        } catch {
+          return void deny(res, 403, "NOT_PROVISIONED", "This account is not authorised for the research application");
+        }
+      }
       if (!user) return void deny(res, 403, "NOT_PROVISIONED", "This account is not authorised for the research application");
       if (mfaRequiredForRoles(user.roles) && !mfaSatisfied(id)) return void deny(res, 403, "MFA_REQUIRED", "Multi-factor authentication is required for this role");
       const { token, csrfToken } = await deps.sessions.create(user.id, mfaSatisfied(id));

@@ -46,8 +46,11 @@ describe.skipIf(!url)("PgGrantStore (database)", () => {
     const p = await store.loadPrincipal(researcher);
     expect(p?.grants).toEqual([{ role: "researcher", studyAreaId: S1, expiresAt: null }]);
     const authz = new Authorizer(loadMatrix());
-    expect(authz.can(p, "visit.start", { studyAreaId: S1, ownerId: researcher }).allow).toBe(true);
-    expect(authz.can(p, "visit.start", { studyAreaId: "00000000-0000-4000-8000-0000000000a2", ownerId: researcher }).allow).toBe(false);
+    expect(authz.can(p, "visit.start", { studyAreaId: S1, ownerId: researcher }).allow).toBe(false); // not trained yet
+    await c.query("INSERT INTO private.researcher_profiles (user_id, training_version, trained_at, recorded_by) VALUES ($1,'synthetic-v1',now(),$2)", [researcher, admin]);
+    const trained = (await store.loadPrincipal(researcher))!;
+    expect(authz.can(trained, "visit.start", { studyAreaId: S1, ownerId: researcher }).allow).toBe(true);
+    expect(authz.can(trained, "visit.start", { studyAreaId: "00000000-0000-4000-8000-0000000000a2", ownerId: researcher }).allow).toBe(false);
   });
 
   it("revocation removes access and a revoked grant can be re-issued", async () => {

@@ -19,19 +19,27 @@ const subjects: Record<string, { id: string; roles: string[] }> = {
   "sub-lead": { id: "user-l", roles: ["lead"] },
 };
 
+const redeemed: string[] = [];
 function build() {
   const store = new MemorySessionStore();
   const sessions = new SessionService({ store });
   const app = express();
   app.use(express.json());
-  app.use("/auth", authRouter({ oidc: cfg, sessions, secureCookies: true, users: { findActiveBySubject: async (s) => subjects[s] ?? null } }));
+  app.use("/auth", authRouter({
+    oidc: cfg, sessions, secureCookies: true, users: { findActiveBySubject: async (s) => subjects[s] ?? null },
+    invitations: { accept: async (token, sub) => {
+      if (token !== "valid-invite-token") throw new Error("invalid");
+      redeemed.push(sub);
+      subjects[sub] = { id: "user-new", roles: ["researcher"] };
+    } },
+  }));
   app.post("/private/write", requireSession(sessions), requireCsrf(sessions), (_req, res) => res.json({ wrote: true }));
   app.get("/private/read", requireSession(sessions), (_req, res) => res.json({ read: true }));
   return { app, store };
 }
 
-async function signIn(app: express.Express, sub: string, amr: string[]) {
-  const start = await request(app).get("/auth/login");
+async function signIn(app: express.Express, sub: string, amr: string[], invite?: string) {
+  const start = await request(app).get("/auth/login" + (invite ? `?invite=${invite}` : ""));
   expect(start.status).toBe(302);
   const loc = new URL(start.headers.location!);
   pendingNonce = loc.searchParams.get("nonce")!;
@@ -134,5 +142,20 @@ describe("auth routes", () => {
     const { loginCookie } = await signIn(app, "sub-researcher", ["pwd"]);
     const r = await request(app).get("/auth/callback?code=c&state=attacker").set("Cookie", loginCookie);
     expect(JSON.stringify(r.body)).not.toMatch(/jwks|nonce|verifier|signature/i);
+  });
+
+  it("provisions an unknown identity only with a valid invitation, and keeps the token out of URLs and cookies", async () => {
+    const { app } = build();
+    const ok = await signIn(app, "sub-invited", ["pwd"], "valid-invite-token");
+    const cb = await request(app).get(`/auth/callback?code=c&state=${ok.state}`).set("Cookie", ok.loginCookie);
+    expect(cb.status).toBe(200);
+    expect(redeemed).toContain("sub-invited");
+    const start = await request(app).get("/auth/login?invite=valid-invite-token");
+    expect(start.headers.location).not.toContain("valid-invite-token");
+    expect(JSON.stringify(start.headers["set-cookie"])).not.toContain("valid-invite-token");
+    const bad = await signIn(app, "sub-uninvited", ["pwd"], "forged-token");
+    const denied = await request(app).get(`/auth/callback?code=c&state=${bad.state}`).set("Cookie", bad.loginCookie);
+    expect(denied.status).toBe(403);
+    expect(redeemed).not.toContain("sub-uninvited");
   });
 });

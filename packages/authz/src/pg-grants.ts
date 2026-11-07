@@ -18,7 +18,8 @@ export class PgGrantStore {
     const grants: Grant[] = g.rows.map((r) => ({
       role: r.role_id as Role, studyAreaId: (r.study_area_id as string | null) ?? null, expiresAt: (r.expires_at as Date | null) ?? null,
     }));
-    return { userId, active: u.rows[0].active as boolean, grants };
+    const trained = ((await this.db.query("SELECT 1 FROM private.researcher_profiles WHERE user_id = $1", [userId])).rowCount ?? 0) > 0;
+    return { userId, active: u.rows[0].active as boolean, trained, grants };
   }
 
   async grant(actorId: string, userId: string, role: Role, studyAreaId: string | null, expiresAt: Date | null = null): Promise<void> {

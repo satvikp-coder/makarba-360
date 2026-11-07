@@ -10,7 +10,7 @@ const OTHER = "user-other";
 const ROLES = matrix.roles.filter((r) => r !== "visitor");
 
 const principal = (role: Role, study: string | null = role === "administrator" ? null : S1, over: Partial<Grant> = {}): Principal => ({
-  userId: ME, active: true, grants: [{ role, studyAreaId: study, expiresAt: null, ...over }],
+  userId: ME, active: true, trained: true, grants: [{ role, studyAreaId: study, expiresAt: null, ...over }],
 });
 /** A resource this principal legitimately owns/uses in study S1. */
 const mine = { studyAreaId: S1, ownerId: ME, authorId: OTHER };
@@ -100,10 +100,21 @@ describe("required negative cases", () => {
   });
   it("denies unknown actions and evaluates multiple grants correctly", () => {
     expect(authz.can(principal("administrator"), "does.not.exist").allow).toBe(false);
-    const both: Principal = { userId: ME, active: true, grants: [
+    const both: Principal = { userId: ME, active: true, trained: true, grants: [
       { role: "researcher", studyAreaId: S2, expiresAt: null }, { role: "researcher", studyAreaId: S1, expiresAt: null }] };
     expect(authz.can(both, "visit.start", { studyAreaId: S1, ownerId: ME }).allow).toBe(true);
     expect(authz.can(both, "visit.start", { studyAreaId: "00000000-0000-4000-8000-0000000000a3", ownerId: ME }).allow).toBe(false);
+  });
+});
+
+describe("training prerequisite (issue #33)", () => {
+  it("an untrained researcher cannot perform any collection action, but can still read what the matrix allows", () => {
+    const untrained = { ...principal("researcher"), trained: false };
+    for (const id of ["visit.start", "interview.create", "gps.capture", "subject_location.link", "media.submit"]) {
+      expect(authz.can(untrained, id, mine).allow, id).toBe(false);
+      expect(authz.can(principal("researcher"), id, mine).allow, id).toBe(true);
+    }
+    expect(authz.can(untrained, "interview.request_correction", mine).allow).toBe(true);
   });
 });
 
