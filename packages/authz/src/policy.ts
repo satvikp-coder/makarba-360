@@ -28,8 +28,13 @@ export interface Grant {
 export interface Principal {
   userId: string;
   active: boolean;
+  /** True when a training record exists (private.researcher_profiles). Required for collection actions. */
+  trained?: boolean;
   grants: Grant[];
 }
+
+/** Field-collection actions a researcher may perform only after training (issue #33). */
+export const COLLECTION_ACTIONS: readonly string[] = ["visit.start", "interview.create", "gps.capture", "subject_location.link", "media.submit"];
 export interface Resource {
   studyAreaId?: string;
   /** User who owns the record (the researcher who collected it). */
@@ -92,6 +97,7 @@ export class Authorizer {
   }
 
   private check(p: Principal, g: Grant, access: Access, a: MatrixAction, r: Resource, ctx: Context, now: Date): Decision {
+    if (g.role === "researcher" && COLLECTION_ACTIONS.includes(a.id) && !p.trained) return deny("training required before collecting data");
     // Ownership separation: nobody approves or publishes their own work.
     if (a.ownership_policy === "independent_reviewer" && (!r.authorId || r.authorId === p.userId)) {
       return deny("independent reviewer required (no self-approval)");
