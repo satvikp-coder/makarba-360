@@ -1,8 +1,8 @@
 # Developer B progress ledger (Claude, for satvikp-coder)
 
-GitHub is authoritative; this is a regenerable checkpoint (`python docs/project/make_b_ledger.py`). Main SHA at generation: `3a6a8f1b6d4df35d27a039bc8fd20e7961b0c53f`.
+GitHub is authoritative; this is a regenerable checkpoint (`python docs/project/make_b_ledger.py`). Main SHA at generation: `bf2221f37578e2bb17ce6da21d81c23ddebd08b3`.
 
-Total Developer B issues: 73. Closed: 10. Ready now: #2, #18, #20, #21, #29, #31, #54, #61, #63, #69, #70, #73, #74, #77, #83, #85, #86, #87, #89, #101, #104, #106, #114.
+Total Developer B issues: 73. Closed: 15. Ready now: #2, #20, #21, #29, #31, #54, #61, #63, #68, #69, #70, #75, #78, #85, #86, #87, #89, #101, #104, #106, #114.
 
 The earlier Developer A history is in CLAUDE_DEVELOPER_A_PROGRESS.md and is unchanged.
 
@@ -16,7 +16,7 @@ The earlier Developer A history is in CLAUDE_DEVELOPER_A_PROGRESS.md and is unch
 | #15 | [FRONTEND] Specify desktop map-first layout | VERIFIED_COMPLETE | #158 | ffed2ff |  |
 | #16 | [FRONTEND] Specify mobile map bottom sheet | VERIFIED_COMPLETE | #160 | 8899300 |  |
 | #17 | [FRONTEND] Design place profile interface | VERIFIED_COMPLETE | #160 | 8899300 |  |
-| #18 | [FRONTEND] Design Then and Now comparison | READY_NOW |  |  | hard prerequisites closed; integration deps use mocks |
+| #18 | [FRONTEND] Design Then and Now comparison | VERIFIED_COMPLETE | #168 | c2a98df |  |
 | #19 | [FRONTEND] Design Community Insights dashboard | VERIFIED_COMPLETE | #160 | 8899300 |  |
 | #20 | [FRONTEND] Design accessible field interview screens | READY_NOW |  |  | hard prerequisites closed; integration deps use mocks |
 | #21 | [FRONTEND] Design responsive research management | READY_NOW |  |  | hard prerequisites closed; integration deps use mocks |
@@ -34,21 +34,21 @@ The earlier Developer A history is in CLAUDE_DEVELOPER_A_PROGRESS.md and is unch
 | #65 | [HISTORICAL] Implement historical evidence provenance | WAITING_FOR_OWN_PREREQUISITE |  |  | open hard prerequisites: #63 |
 | #66 | [HISTORICAL] Implement sourced timeline events | WAITING_FOR_OWN_PREREQUISITE |  |  | open hard prerequisites: #65 |
 | #67 | [HISTORICAL] Implement historical comparison pair model | WAITING_FOR_OWN_PREREQUISITE |  |  | open hard prerequisites: #65 |
-| #68 | [HISTORICAL] Build accessible Then and Now component | WAITING_FOR_OWN_PREREQUISITE |  |  | open hard prerequisites: #18 |
+| #68 | [HISTORICAL] Build accessible Then and Now component | READY_NOW |  |  | hard prerequisites closed; integration deps use mocks |
 | #69 | [HISTORICAL] Integrate owned panorama viewer | READY_NOW |  |  | hard prerequisites closed; integration deps use mocks |
 | #70 | [HISTORICAL] Evaluate third-party street imagery licensing | READY_NOW |  |  | hard prerequisites closed; integration deps use mocks |
 | #71 | [HISTORICAL] Publish verified location stories and accounts | WAITING_FOR_OWN_PREREQUISITE |  |  | open hard prerequisites: #64, #66 |
 | #72 | [FRONTEND] Build public shell and accessible navigation | VERIFIED_COMPLETE | #161 | 46dfb49 |  |
-| #73 | [FRONTEND] Build evidence-led home page | READY_NOW |  |  | hard prerequisites closed; integration deps use mocks |
-| #74 | [FRONTEND] Build public map explorer | READY_NOW |  |  | hard prerequisites closed; integration deps use mocks |
-| #75 | [FRONTEND] Build map layer and category controls | WAITING_FOR_OWN_PREREQUISITE |  |  | open hard prerequisites: #74 |
-| #76 | [FRONTEND] Build public location search | WAITING_FOR_OWN_PREREQUISITE |  |  | open hard prerequisites: #29, #74 |
-| #77 | [FRONTEND] Build location profile pages | READY_NOW |  |  | hard prerequisites closed; integration deps use mocks |
-| #78 | [FRONTEND] Build approved photo gallery | WAITING_FOR_OWN_PREREQUISITE |  |  | open hard prerequisites: #77 |
-| #79 | [FRONTEND] Present panorama and unavailable coverage states | WAITING_FOR_OWN_PREREQUISITE |  |  | open hard prerequisites: #69, #77 |
-| #80 | [FRONTEND] Integrate public history and Community Voices | WAITING_FOR_OWN_PREREQUISITE |  |  | open hard prerequisites: #68, #77 |
-| #82 | [FRONTEND] Verify responsive public map journeys | WAITING_FOR_OWN_PREREQUISITE |  |  | open hard prerequisites: #74, #77 |
-| #83 | [FRONTEND] Publish methodology sources and accessibility pages | READY_NOW |  |  | hard prerequisites closed; integration deps use mocks |
+| #73 | [FRONTEND] Build evidence-led home page | VERIFIED_COMPLETE | #165 | 2d7d586 |  |
+| #74 | [FRONTEND] Build public map explorer | VERIFIED_COMPLETE | #164 | d0772cc |  |
+| #75 | [FRONTEND] Build map layer and category controls | READY_NOW |  |  | hard prerequisites closed; integration deps use mocks |
+| #76 | [FRONTEND] Build public location search | WAITING_FOR_OWN_PREREQUISITE |  |  | open hard prerequisites: #29 |
+| #77 | [FRONTEND] Build location profile pages | VERIFIED_COMPLETE | #166 | e7debaa |  |
+| #78 | [FRONTEND] Build approved photo gallery | READY_NOW |  |  | hard prerequisites closed; integration deps use mocks |
+| #79 | [FRONTEND] Present panorama and unavailable coverage states | WAITING_FOR_OWN_PREREQUISITE |  |  | open hard prerequisites: #69 |
+| #80 | [FRONTEND] Integrate public history and Community Voices | WAITING_FOR_OWN_PREREQUISITE |  |  | open hard prerequisites: #68 |
+| #82 | [FRONTEND] Verify responsive public map journeys | WAITING_FOR_HUMAN_REVIEW |  |  | see DEVELOPER_B_HUMAN_ACTION_REQUIRED.md H6 real-device soft-keyboard check (code merged in #167/9dfabbf) |
+| #83 | [FRONTEND] Publish methodology sources and accessibility pages | VERIFIED_COMPLETE | #169 | bf2221f |  |
 | #85 | [ANALYTICS] Aggregate stakeholder distributions | READY_NOW |  |  | hard prerequisites closed; integration deps use mocks |
 | #86 | [ANALYTICS] Analyze reported issues with codebook | READY_NOW |  |  | hard prerequisites closed; integration deps use mocks |
 | #87 | [ANALYTICS] Analyze ratings and perceived changes | READY_NOW |  |  | hard prerequisites closed; integration deps use mocks |

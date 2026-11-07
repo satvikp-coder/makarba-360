@@ -5,8 +5,8 @@ gh = lambda *a: json.loads(subprocess.check_output(["gh", *a], text=True))
 issues = {i["number"]: i for i in gh("issue", "list", "-R", R, "--label", "owner:developer-b", "--state", "all", "--limit", "200", "--json", "number,title,state")}
 alloc = {r["number"]: r for r in json.load(open("docs/project/developer-issue-allocation.json", encoding="utf-8"))["issues"] if r["owner"] == "B"}
 a_issues = {i["number"]: i["state"] for i in gh("issue", "list", "-R", R, "--label", "owner:developer-a", "--state", "all", "--limit", "200", "--json", "number,state")}
-merged = {12: ("#156", "b6f17fb"), 13: ("#157", "fb2f741"), 14: ("#158", "ffed2ff"), 15: ("#158", "ffed2ff"), 24: ("#158", "ffed2ff"), 16: ("#160", "8899300"), 17: ("#160", "8899300"), 19: ("#160", "8899300"), 72: ("#161", "46dfb49"), 25: ("#162", "3a6a8f1")}
-human = {118: "H6", 117: "H6", 62: "H6", 119: "H6", 124: "H7", 5: "H9 (verified geography)", 120: "H9", 123: "H9", 102: "H9"}
+merged = {12: ("#156", "b6f17fb"), 13: ("#157", "fb2f741"), 14: ("#158", "ffed2ff"), 15: ("#158", "ffed2ff"), 24: ("#158", "ffed2ff"), 16: ("#160", "8899300"), 17: ("#160", "8899300"), 19: ("#160", "8899300"), 72: ("#161", "46dfb49"), 25: ("#162", "3a6a8f1"), 74: ("#164", "d0772cc"), 73: ("#165", "2d7d586"), 77: ("#166", "e7debaa"), 18: ("#168", "c2a98df"), 83: ("#169", "bf2221f")}
+human = {82: "H6 real-device soft-keyboard check (code merged in #167/9dfabbf)", 118: "H6", 117: "H6", 62: "H6", 119: "H6", 124: "H7", 5: "H9 (verified geography)", 120: "H9", 123: "H9", 102: "H9"}
 sha = subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip()
 def closed(n): return issues[n]["state"] == "CLOSED" if n in issues else a_issues.get(n) == "CLOSED"
 rows = []
