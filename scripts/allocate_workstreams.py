@@ -191,6 +191,7 @@ def plan():
     print(json.dumps(stats(rows),indent=2))
 
 def stats(rows):
+    rows=[r for r in rows if r['status']=='open']
     out={}
     for o in ['A','B']:
         rs=[r for r in rows if r['owner']==o]; core=[r for r in rs if r['milestone_number']!=13]
@@ -212,6 +213,7 @@ def labels_for(r,original):
 def render():
     p=loadplan(); rows=p['issues']; base=json.loads(BASE.read_text(encoding='utf-8')); originals={i['number']:i for i in base['issues']}; by={r['number']:r for r in rows}; catalog=json.loads((ROOT/'docs/project/issue-catalog.yaml').read_text(encoding='utf-8')); catby={i['id']:i for i in catalog}; keys={r['number']:r['catalog_id'] for r in rows}
     for r in rows:
+        if r['status']!='open': continue  # Preserve completed work and its accepted body/labels.
         def links(ns): return '; '.join(f'#{n} ({keys[n]})' for n in ns) or 'None'
         old=originals[r['number']]['body']; labels=labels_for(r,originals[r['number']]); r['labels']=labels
         text='Hard prerequisites for starting implementation: '+links(r['hard_dependencies'])+'.\n\nLive integration prerequisites (prepare with synthetic mocks; do not claim production integration until verified): '+links(r['integration_dependencies'])+'.\n\nSoft review inputs: '+links(r['soft_dependencies'])+'.\n\nOperational/real-data gates: '+links(r['operational_dependencies'])+'. Institutional consent, verified geography, rights and privacy requirements remain mandatory.\n\nRationale: '+r['dependency_change_reason']+'\n\nSee `docs/project/implementation-order.md` for readiness and completion semantics.'
@@ -258,7 +260,7 @@ Documentation: update the relevant original architecture/design documents plus t
     stream=io.StringIO(newline=''); w=csv.DictWriter(stream,fieldnames=fields,lineterminator='\n'); w.writeheader()
     for r in sorted(rows,key=lambda r:r['number']): w.writerow({k:' '.join('#'+str(n) for n in r[k]) if isinstance(r[k],list) else r[k] for k in fields})
     put('docs/project/developer-issue-allocation.csv',stream.getvalue())
-    head='# Complete two-developer allocation matrix\n\nGenerated from developer-issue-allocation.json; do not edit derived copies independently. B is reserved for varunkarthic, with GitHub assignees unchanged pending invitation acceptance. All original issues remain open.\n\n'
+    head='# Complete two-developer allocation matrix\n\nGenerated from developer-issue-allocation.json; do not edit derived copies independently. B is reserved for varunkarthic, with GitHub assignees unchanged pending invitation acceptance. Completed records remain visible for audit and are excluded from remaining-effort totals.\n\n'
     table='| Issue | Title | Owner | Milestone | Priority | Size | Points | Phase | Hard dependencies | Status | Start ready | Handoff / partner | Expected output | Assignment |\n|---|---|---|---|---|---|---|---|---|---|---|---|---|---|\n'
     table+='\n'.join(f"| {ref(r['number'])} | {r['title']} | {r['owner']} | M{r['milestone_number']-1:02d} | {r['priority']} | {r['size']} | {r['points']} | {r['phase']} | {refs(r['hard_dependencies'])} | {r['status']} | {'Yes' if r['ready_to_start'] else 'No'} | {'Required; '+r['integration_partner'] if r['handoff_required'] else 'Same stream'} | {r['expected_output']} | {r['github_assignment_status']} |" for r in sorted(rows,key=lambda r:r['number']))
     put('docs/project/allocation-matrix.md',head+table)
@@ -278,7 +280,7 @@ def render_documents(rows,base):
     for n in production_order:
         r=by[n]; paths[n]=max((paths[d] for d in r['hard_dependencies']+r['integration_dependencies']),key=len,default=[])+[n]
     critical=max((v for n,v in paths.items() if by[n]['milestone_number']!=13),key=len)
-    common='Generated from developer-issue-allocation.json. No dates, product implementation or participant data. GitHub B assignment is pending invitation acceptance; labels reserve B work as requested.\n\n'
+    common='Generated from developer-issue-allocation.json. No dates, product implementation or participant data. GitHub B assignment is pending invitation acceptance; labels reserve B work as requested. Issue #1 was completed concurrently in PR #137 and is preserved; remaining work begins at #6.\n\n'
     put('docs/project/two-developer-workstreams.md','# Two-developer workstreams\n\n'+common+f'''A: **satvikp-coder**, {s['A']['count']} issues / {s['A']['points']} points. Own shared backend/contracts, PostGIS/private schemas, researcher app, GPS, sync, auth, private aggregation, publication and withdrawal.
 
 B: **varunkarthic**, {s['B']['count']} issues / {s['B']['points']} points. Own public UX/map, content domain, historical evidence, panoramas, safe read-only reporting, admin presentation, independent testing and deployment preparation. B has no unrestricted raw interview/GPS access.
@@ -336,9 +338,9 @@ flowchart LR
 No hard dependency was simply deleted: reclassified original blockers and their rationale are preserved per issue in allocation JSON and baseline snapshot. All actual issue numbers remain mapped to stable catalogue IDs.
 ''')
     for o in ['A','B']:
-        own=sorted((r for r in rows if r['owner']==o),key=lambda r:r['owner_order'])
+        own=sorted((r for r in rows if r['owner']==o and r['status']=='open'),key=lambda r:r['owner_order'])
         text=f'# Developer {o} guide — '+('satvikp-coder' if o=='A' else 'varunkarthic')+'\n\n'+common
-        text+=('Own the restricted core, shared contracts and private field application. Begin #1 → #6 → #9 → #10. Keep the first handoff small; do not build the whole backend before enabling B mocks.\n\n' if o=='A' else 'Your GitHub assignment is intentionally pending invitation acceptance. Work is reserved, not assigned to an invented or alternate account. Begin #12 independently; #24 tile research and #5 source-boundary research are also technically independent now. Use local fixtures/mock APIs; no raw research access is needed.\n\n')
+        text+=('Own the restricted core, shared contracts and private field application. #1 is already completed in PR #137. Begin #6 → #9 → #10. Keep the first handoff small; do not build the whole backend before enabling B mocks.\n\n' if o=='A' else 'Your GitHub assignment is intentionally pending invitation acceptance. Work is reserved, not assigned to an invented or alternate account. Begin #12 independently; #24 tile research and #5 source-boundary research are also technically independent now. Use local fixtures/mock APIs; no raw research access is needed.\n\n')
         text+='Technically ready now: '+refs([r['number'] for r in own if r['ready_to_start']])+'.\n\nRecommended owner queue:\n\n'+' → '.join(ref(r['number']) for r in own)+'\n\n'
         for m in sorted({r['milestone_number'] for r in own}):
             text+=f'## M{m-1:02d}\n\n'
@@ -361,7 +363,7 @@ Handoffs: provider publishes version/hash, examples, test output and supported e
 '''
     for wave in sorted({r['sprint'] for r in rows}):
         sprint_text+=f'## Sprint {wave}\n\n'
-        for o in ['A','B']: sprint_text+=f"Developer {o}: "+refs([r['number'] for r in sorted(rows,key=lambda r:r['owner_order']) if r['owner']==o and r['sprint']==wave])+'.\n\n'
+        for o in ['A','B']: sprint_text+=f"Developer {o}: "+refs([r['number'] for r in sorted(rows,key=lambda r:r['owner_order']) if r['owner']==o and r['sprint']==wave and r['status']=='open'])+'.\n\n'
         gates={0:'Reviewed H0 contracts and H1 scaffold; design/source research can proceed independently.',1:'Shared mock startup and conformance checks; schemas/auth and initial public map/shell use synthetic fixtures.',2:'Independent GPS/forms and public map/profile components; no live participant use without approval.',3:'Protected drafts/retry/upload and owned media/history pieces; actual provider/device failures remain visible.',4:'Incremental safe analytics/moderation/API/browser integrations; suppression and publication checks must pass.',5:'Consent-approved field pilot, real devices, restore, rights/dataset audit and release/handover; unresolved external gates stop launch.',6:'Optional advanced work; no core safety rule waived.'}
         sprint_text+='Deliverables and completion gate: '+gates.get(wave,'Complete listed hard-prerequisite deliverables, then the live integration and evidence gates.')+'\n\nDependencies: each listed hard prerequisite must be evidenced; inspect per-issue integration/operational gates before real use. Risks: fixture/real-contract drift, unavailable collaborator review, device limitations and institutional/provider/evidence delays. Integration check: rerun common fixtures, provider conformance, and the relevant map/media/analytics/field gate, recording actual results.\n\n'
     sprint_text=sprint_text.replace('These are dependency-ordered start waves, not dates', 'S0–S6 are dependency-ordered macro waves, not six timeboxed sprints. Use the [capacity batches](capacity-batches.md) to limit each planning selection to a provisional 20 points per developer, then calibrate against actual availability/velocity. These are start waves, not dates')
@@ -377,7 +379,7 @@ For each selected batch: deliver its linked issue outputs, run relevant contract
         packs={}
         for o in ['A','B']:
             packs[o]=[]; pack=[]; points=0
-            for r in sorted((x for x in rows if x['owner']==o and x['sprint']==wave),key=lambda r:r['owner_order']):
+            for r in sorted((x for x in rows if x['owner']==o and x['sprint']==wave and x['status']=='open'),key=lambda r:r['owner_order']):
                 if points+r['points']>20: packs[o].append((pack,points)); pack=[]; points=0
                 pack.append(r['number']); points+=r['points']
             if pack: packs[o].append((pack,points))

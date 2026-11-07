@@ -1,6 +1,6 @@
 # Implementation order and dependency semantics
 
-Generated from developer-issue-allocation.json. No dates, product implementation or participant data. GitHub B assignment is pending invitation acceptance; labels reserve B work as requested.
+Generated from developer-issue-allocation.json. No dates, product implementation or participant data. GitHub B assignment is pending invitation acceptance; labels reserve B work as requested. Issue #1 was completed concurrently in PR #137 and is preserved; remaining work begins at #6.
 
 Hard prerequisites require completion evidence before starting dependent implementation. Soft inputs are reviewed planning material, not a waiting dependency. Integration prerequisites are required for actual live acceptance/production claims; UI or pure-module work can be accepted with frozen synthetic contracts, but must say it is mock-backed. Integration issues themselves cannot be marked fully complete until their runtime prerequisites pass. Operational gates apply before real collection/publication even when synthetic software tests pass. The original edge set is retained across these categories; no research/privacy gate disappeared.
 

@@ -1,20 +1,21 @@
 {
-  "issue_count": 136,
+  "issue_count": 135,
+  "allocation_records": 136,
   "counts": {
-    "A": 63,
-    "B": 73
+    "B": 73,
+    "A": 62
   },
   "points": {
-    "A": 309,
+    "A": 308,
     "B": 338
   },
   "core_points": {
-    "A": 301,
+    "A": 300,
     "B": 286
   },
   "effort_shares": {
-    "A": 47.76,
-    "B": 52.24
+    "A": 47.68,
+    "B": 52.32
   },
   "foundation": [
     1,
@@ -24,9 +25,10 @@
   ],
   "ready": {
     "A": [
-      1
+      6
     ],
     "B": [
+      2,
       5,
       12,
       24
@@ -40,7 +42,7 @@
   "remote": {
     "repository": "satvikp-coder/makarba-360",
     "visibility": "public",
-    "a_assigned": 63,
+    "a_assigned": 62,
     "b_assigned": 0,
     "b_reserved_pending": 73,
     "milestones": 13,
@@ -51,7 +53,10 @@
         "permissions": "write"
       }
     ],
-    "baseline_prs": 0
+    "baseline_prs": 0,
+    "preserved_completed": [
+      1
+    ]
   },
   "verdict": "PARTIAL — PLANNING COMPLETE BUT REMOTE ASSIGNMENTS INCOMPLETE"
 }

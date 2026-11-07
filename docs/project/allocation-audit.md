@@ -1,5 +1,7 @@
 # Repository audit and allocation decisions
 
+Concurrent completion update: while this allocation was being finalised, PR #137 completed issue #1 and merged governance into main (`b514de4`). That completed work is preserved and not reopened. The current remaining backlog is **135 open issues: A 62 / 308 points, B 73 / 338 points**; the baseline figures below describe the original 136-open-issue audit. Current generated guides/CSV exclude #1 from remaining effort and start A at #6. The planning PR integrates both governance checks and allocation checks.
+
 Baseline commit: `13d2d4b82a4ccc4853be71e680f1a333a679442e`, main, public repository `satvikp-coder/makarba-360`. The authenticated account is satvikp-coder and actual repository permissions include admin/push/triage. Local HEAD and origin/main matched before changes. The original working tree was clean; new planning files were then created on `planning/two-developer-allocation` without overwriting existing work.
 
 The paginated GitHub audit found **136 issues, all open**, **13 milestones**, **zero existing assignees**, and **zero pull requests**. Thus no completed issue was reopened and no existing collaborator assignment needed removal. The full original bodies, labels, milestones, assignees, states, branch/protection settings and PR/link events are preserved in allocation-baseline.json. Its timeline field includes issue cross-reference events; the 303 cross-reference events were not 303 pull requests. Actual PR count was zero.

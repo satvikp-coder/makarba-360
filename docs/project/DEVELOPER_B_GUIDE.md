@@ -1,10 +1,10 @@
 # Developer B guide — varunkarthic
 
-Generated from developer-issue-allocation.json. No dates, product implementation or participant data. GitHub B assignment is pending invitation acceptance; labels reserve B work as requested.
+Generated from developer-issue-allocation.json. No dates, product implementation or participant data. GitHub B assignment is pending invitation acceptance; labels reserve B work as requested. Issue #1 was completed concurrently in PR #137 and is preserved; remaining work begins at #6.
 
 Your GitHub assignment is intentionally pending invitation acceptance. Work is reserved, not assigned to an invented or alternate account. Begin #12 independently; #24 tile research and #5 source-boundary research are also technically independent now. Use local fixtures/mock APIs; no raw research access is needed.
 
-Technically ready now: [#12](https://github.com/satvikp-coder/makarba-360/issues/12), [#5](https://github.com/satvikp-coder/makarba-360/issues/5), [#24](https://github.com/satvikp-coder/makarba-360/issues/24).
+Technically ready now: [#12](https://github.com/satvikp-coder/makarba-360/issues/12), [#2](https://github.com/satvikp-coder/makarba-360/issues/2), [#5](https://github.com/satvikp-coder/makarba-360/issues/5), [#24](https://github.com/satvikp-coder/makarba-360/issues/24).
 
 Recommended owner queue:
 

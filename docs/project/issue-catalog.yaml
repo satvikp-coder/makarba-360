@@ -55,13 +55,12 @@
     "size": "S",
     "labels": [
       "area:devops",
-      "dependency:blocked",
       "handoff:required",
       "owner:developer-b",
       "phase:parallel",
       "priority:p0",
       "size:s",
-      "status:blocked",
+      "status:ready",
       "type:docs",
       "workstream:public-experience"
     ],
@@ -244,13 +243,12 @@
     "size": "M",
     "labels": [
       "area:devops",
-      "dependency:blocked",
       "handoff:required",
       "owner:developer-a",
       "phase:foundation",
       "priority:p0",
       "size:m",
-      "status:blocked",
+      "status:ready",
       "type:docs",
       "workstream:core-platform"
     ],

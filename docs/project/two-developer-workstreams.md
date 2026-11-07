@@ -1,8 +1,8 @@
 # Two-developer workstreams
 
-Generated from developer-issue-allocation.json. No dates, product implementation or participant data. GitHub B assignment is pending invitation acceptance; labels reserve B work as requested.
+Generated from developer-issue-allocation.json. No dates, product implementation or participant data. GitHub B assignment is pending invitation acceptance; labels reserve B work as requested. Issue #1 was completed concurrently in PR #137 and is preserved; remaining work begins at #6.
 
-A: **satvikp-coder**, 63 issues / 309 points. Own shared backend/contracts, PostGIS/private schemas, researcher app, GPS, sync, auth, private aggregation, publication and withdrawal.
+A: **satvikp-coder**, 62 issues / 308 points. Own shared backend/contracts, PostGIS/private schemas, researcher app, GPS, sync, auth, private aggregation, publication and withdrawal.
 
 B: **varunkarthic**, 73 issues / 338 points. Own public UX/map, content domain, historical evidence, panoramas, safe read-only reporting, admin presentation, independent testing and deployment preparation. B has no unrestricted raw interview/GPS access.
 

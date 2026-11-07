@@ -197,19 +197,19 @@
       "12.05"
     ]
   ],
-  "documents": 206,
+  "documents": 207,
   "source_pages_traced": 23,
   "screens": 39,
   "critical_tests_specified": 20,
-  "blocked_issue_count": 132,
-  "ready_issue_count": 4,
+  "blocked_issue_count": 130,
+  "ready_issue_count": 6,
   "errors": [],
   "remote": {
     "url": "https://github.com/satvikp-coder/makarba-360",
     "owner": "satvikp-coder",
     "private": false,
     "default_branch": "main",
-    "commit": "13d2d4b82a4ccc4853be71e680f1a333a679442e",
+    "commit": "b514de4d5ede7dfc55ea7df3c62b988abca79c68",
     "issue_count": 136,
     "milestones": [
       {

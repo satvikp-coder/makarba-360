@@ -48,3 +48,5 @@ Non-functional register (provisional engineering targets, not achieved results):
 | N10 | Maintainable student-operated deployment | One modular API/worker codebase, repeatable migrations, supported dependency lockfile and runbooks |
 
 Assumptions requiring confirmation: institutional approver/contact, actual team availability, verified boundary/places, recruitment/age policy, approved retention and disclosure thresholds, device fleet, budget/host region, media/source rights and survey translations. No dates committed. Paid integrations default disabled. No exact location facts or current conditions asserted. No online public surveys. Raw GPS never public.
+
+Governance (issue #1): branch/PR rules, vacant roles, absence of a source licence and the planning-only boundary are recorded in `docs/project/governance.md`; `scripts/check_governance.py` rejects invented contacts or licences. Main branch protection is not yet enabled.

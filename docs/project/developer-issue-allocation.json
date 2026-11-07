@@ -24,7 +24,7 @@
       "points": 1,
       "phase": "foundation",
       "base_sprint": 0,
-      "status": "open",
+      "status": "closed",
       "original_dependencies": [],
       "original_assignees": [],
       "assignment_conflicts": [],
@@ -51,7 +51,7 @@
       "global_order": 1,
       "owner_order": 1,
       "sprint": 0,
-      "ready_to_start": true,
+      "ready_to_start": false,
       "integration_partner": "B (varunkarthic), pending collaboration acceptance",
       "handoff_required": true,
       "required_handoff": "Publish versioned DTO/schema/fixtures and conformance evidence; review cross-stream providers ; consumers #2",
@@ -59,18 +59,23 @@
       "review_requirement": "Cross-review public/private interface, schema or grants before integration; never grant unrestricted raw access for UI/reporting work.",
       "close_policy": "Hard prerequisites must be evidenced. Mock-backed local components may be accepted with conformance tests; listed live integrations must pass their named gates before production claims. Integration issues require their runtime integration dependencies before final acceptance.",
       "labels": [
-        "area:devops",
-        "handoff:required",
-        "owner:developer-a",
-        "phase:foundation",
-        "priority:p0",
-        "size:s",
-        "status:ready",
         "type:docs",
-        "workstream:core-platform"
+        "area:devops",
+        "priority:p0",
+        "status:ready",
+        "owner:developer-a",
+        "workstream:core-platform",
+        "phase:foundation",
+        "handoff:required",
+        "size:s"
       ],
       "body_sha256": "bcd3467d121350d88272b11ff7a8c9ab516764d2037e4b71a7ae7565aa647858",
-      "original_body_sha256": "67aba21cf4810d4cdd880c65c1b570336bf3c713198be62eadc86d656e648ead"
+      "original_body_sha256": "67aba21cf4810d4cdd880c65c1b570336bf3c713198be62eadc86d656e648ead",
+      "completion_proof": {
+        "url": "https://github.com/satvikp-coder/makarba-360/pull/137",
+        "api_path": "repos/satvikp-coder/makarba-360/pulls/137",
+        "merge_commit": "b514de4d5ede7dfc55ea7df3c62b988abca79c68"
+      }
     },
     {
       "number": 2,
@@ -118,7 +123,7 @@
       "global_order": 6,
       "owner_order": 2,
       "sprint": 0,
-      "ready_to_start": false,
+      "ready_to_start": true,
       "integration_partner": "A (satvikp-coder)",
       "handoff_required": true,
       "required_handoff": "Publish versioned DTO/schema/fixtures and conformance evidence; review cross-stream providers #1; consumers #3, #7",
@@ -129,17 +134,16 @@
       "close_policy": "Hard prerequisites must be evidenced. Mock-backed local components may be accepted with conformance tests; listed live integrations must pass their named gates before production claims. Integration issues require their runtime integration dependencies before final acceptance.",
       "labels": [
         "area:devops",
-        "dependency:blocked",
         "handoff:required",
         "owner:developer-b",
         "phase:parallel",
         "priority:p0",
         "size:s",
-        "status:blocked",
+        "status:ready",
         "type:docs",
         "workstream:public-experience"
       ],
-      "body_sha256": "ae6f5f6d72207a7f7067d1f4a6ae805ec239eb98e10cf5aba6302b462d635fb6",
+      "body_sha256": "98e89138e6d0b8f99eb524806b1787a2d66c4e863e99c5e79a880affca4a4159",
       "original_body_sha256": "5fdcf56a5c8cc30507c1010184218a22cb6f404a8719586ff14a2c8370dfe618"
     },
     {
@@ -395,7 +399,7 @@
       "global_order": 2,
       "owner_order": 2,
       "sprint": 0,
-      "ready_to_start": false,
+      "ready_to_start": true,
       "integration_partner": "B (varunkarthic), pending collaboration acceptance",
       "handoff_required": true,
       "required_handoff": "Publish versioned DTO/schema/fixtures and conformance evidence; review cross-stream providers ; consumers #20, #21, #41",
@@ -404,17 +408,16 @@
       "close_policy": "Hard prerequisites must be evidenced. Mock-backed local components may be accepted with conformance tests; listed live integrations must pass their named gates before production claims. Integration issues require their runtime integration dependencies before final acceptance.",
       "labels": [
         "area:devops",
-        "dependency:blocked",
         "handoff:required",
         "owner:developer-a",
         "phase:foundation",
         "priority:p0",
         "size:m",
-        "status:blocked",
+        "status:ready",
         "type:docs",
         "workstream:core-platform"
       ],
-      "body_sha256": "f492e794c01c53608e404442fddc1ad8b28a0b89b7865b294895b64c87ca450a",
+      "body_sha256": "0b3702a85f8f967d2f656577719b0c12e467bdf8df1b2e91fcf199f9f7f50633",
       "original_body_sha256": "4ee14a8ec3bccfb3f5de5f14d9022ca5f0d264e5abdf67fda110198583423b97"
     },
     {

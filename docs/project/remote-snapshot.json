@@ -4,7 +4,7 @@
     "owner": "satvikp-coder",
     "private": false,
     "default_branch": "main",
-    "commit": "13d2d4b82a4ccc4853be71e680f1a333a679442e",
+    "commit": "b514de4d5ede7dfc55ea7df3c62b988abca79c68",
     "issue_count": 136,
     "milestones": [
       {
@@ -2291,12 +2291,11 @@
         "type:docs",
         "area:devops",
         "priority:p0",
-        "status:blocked",
+        "status:ready",
         "owner:developer-a",
         "workstream:core-platform",
         "phase:foundation",
         "handoff:required",
-        "dependency:blocked",
         "size:m"
       ]
     },
@@ -2358,12 +2357,11 @@
         "type:docs",
         "area:devops",
         "priority:p0",
-        "status:blocked",
+        "status:ready",
         "owner:developer-b",
         "workstream:public-experience",
         "phase:parallel",
         "handoff:required",
-        "dependency:blocked",
         "size:s"
       ]
     },

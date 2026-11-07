@@ -24,7 +24,7 @@ def main():
         if not ok: errors.append(message)
     check(p['developers']=={'A':'satvikp-coder','B':'varunkarthic'},'Wrong developer identities')
     check(len(rows)==len({r['number'] for r in rows}),'Duplicate allocation entries')
-    check({r['number'] for r in rows}=={x['number'] for x in baseline['issues'] if x['state']=='open'},'Incomplete actionable baseline classification')
+    check({r['number'] for r in rows}=={x['number'] for x in baseline['issues']},'Incomplete baseline classification/history')
     protected=['Summary','Why this is needed','User story','Scope','Out of scope','Technical approach','Data and privacy considerations','Implementation steps','Acceptance criteria','Required tests','Edge cases','Documentation','Definition of Done','Priority','Milestone']
     by={r['number']:r for r in rows}
     for r in rows:
@@ -40,7 +40,7 @@ def main():
         check(expected==r['size'],f'#{n} scoring inconsistent')
         fields=['hard_dependencies','integration_dependencies','soft_dependencies','operational_dependencies']
         check(set(r['original_dependencies'])<=set(sum([r[k] for k in fields],[])),f'#{n} original dependency disappeared')
-        check(r['ready_to_start']==(not r['hard_dependencies']),f'#{n} stale initial readiness')
+        check(r['ready_to_start']==(r['status']=='open' and all(by[d]['status']=='closed' for d in r['hard_dependencies'])),f'#{n} stale readiness')
         for d in r['hard_dependencies']:
             check(by[d]['global_order']<r['global_order'],f'#{n} invalid topological order')
             check(by[d]['sprint']<=r['sprint'],f'#{n} sprint violates hard prerequisite')
@@ -49,8 +49,9 @@ def main():
         try: cycles(rows,fs)
         except ValueError as e: errors.append(str(e))
     check({r['number'] for r in rows if r['phase']=='foundation'}=={1,6,9,10},'Bootstrap expanded beyond agreed essential issues')
-    points={o:sum(r['points'] for r in rows if r['owner']==o) for o in ['A','B']}
-    core={o:sum(r['points'] for r in rows if r['owner']==o and r['milestone_number']!=13) for o in ['A','B']}
+    active=[r for r in rows if r['status']=='open']
+    points={o:sum(r['points'] for r in active if r['owner']==o) for o in ['A','B']}
+    core={o:sum(r['points'] for r in active if r['owner']==o and r['milestone_number']!=13) for o in ['A','B']}
     check(max(points.values())/min(points.values())<=1.1,'Overall effort outside 10% ratio')
     check(max(core.values())/min(core.values())<=1.1,'Core effort outside 10% ratio')
     csvrows=list(csv.DictReader((ROOT/'docs/project/developer-issue-allocation.csv').open(encoding='utf-8',newline='')))
@@ -62,11 +63,11 @@ def main():
     required=['two-developer-workstreams.md','code-ownership.md','implementation-order.md','developer-handoffs.md','workload-balance.md','DEVELOPER_A_GUIDE.md','DEVELOPER_B_GUIDE.md','coordination.md','sprint-plan.md']
     for f in required: check((ROOT/'docs/project'/f).exists(),'Missing document '+f)
     check(not (ROOT/'.github/CODEOWNERS').exists(),'Unexpected unfulfillable CODEOWNERS gate')
-    result=dict(issue_count=len(rows),counts=dict(collections.Counter(r['owner'] for r in rows)),points=points,core_points=core,effort_shares={o:round(v/sum(points.values())*100,2) for o,v in points.items()},foundation=[1,6,9,10],ready={o:[r['number'] for r in rows if r['owner']==o and r['ready_to_start']] for o in ['A','B']},hard_edges=sum(len(r['hard_dependencies']) for r in rows),integration_edges=sum(len(r['integration_dependencies']) for r in rows),all_dependency_categories_acyclic=not any('cycle' in e for e in errors),original_sections_preserved=not any('original section' in e for e in errors),errors=errors)
+    result=dict(issue_count=len(active),allocation_records=len(rows),counts=dict(collections.Counter(r['owner'] for r in active)),points=points,core_points=core,effort_shares={o:round(v/sum(points.values())*100,2) for o,v in points.items()},foundation=[1,6,9,10],ready={o:[r['number'] for r in active if r['owner']==o and r['ready_to_start']] for o in ['A','B']},hard_edges=sum(len(r['hard_dependencies']) for r in rows),integration_edges=sum(len(r['integration_dependencies']) for r in rows),all_dependency_categories_acyclic=not any('cycle' in e for e in errors),original_sections_preserved=not any('original section' in e for e in errors),errors=errors)
     if '--local' not in sys.argv:
         from publish_github import api,pages,save,REPO
         remote={x['number']:x for x in pages(f'repos/{REPO}/issues?state=all&sort=created&direction=asc') if 'pull_request' not in x}
-        check({n for n,x in remote.items() if x['state']=='open'}==set(by),'Actual open issue set differs from allocation')
+        check({n for n,x in remote.items() if x['state']=='open'}=={r['number'] for r in active},'Actual open issue set differs from allocation')
         check(set(remote)==set(orig),'Issue duplication/deletion since baseline')
         labeldefs={x['name'] for x in pages(f'repos/{REPO}/labels')}
         for r in rows:
@@ -81,7 +82,11 @@ def main():
             if r['owner']=='A': check('satvikp-coder' in assigned,f'#{n} A assignee update not verified')
             else: check(assigned==r['original_assignees'],f'#{n} B assignee changed against owner instruction')
             check(set(a['login'] for a in orig[n]['assignees'])<=set(assigned),f'#{n} prior assignee removed')
-        for n,x in orig.items(): check(remote[n]['state']==x['state'],f'#{n} state changed/reopened/closed')
+        for n,x in orig.items():
+            if remote[n]['state']!=x['state']:
+                proof=by[n].get('completion_proof')
+                check(remote[n]['state']=='closed' and bool(proof),f'#{n} unrecorded state change/reopen')
+                if proof: check(bool(api(proof['api_path'])['merged']),f'#{n} completion PR not merged')
         ms=pages(f'repos/{REPO}/milestones?state=all')
         check({x['number'] for x in ms}=={x['number'] for x in baseline['milestones']},'Milestone deleted/added')
         for x in ms:
@@ -89,7 +94,7 @@ def main():
             check(x['title']==old['title'] and x['description']==old['description'],'Milestone content changed '+str(x['number']))
         invitations=pages(f'repos/{REPO}/invitations')
         friend_invites=[dict(invitee=x['invitee']['login'] if x.get('invitee') else None,permissions=x['permissions']) for x in invitations if (x.get('invitee') or {}).get('login','').lower()=='varunkarthic']
-        result['remote']=dict(repository=REPO,visibility=api('repos/'+REPO)['visibility'],a_assigned=sum(r['owner']=='A' and 'satvikp-coder' in [a['login'] for a in remote[r['number']]['assignees']] for r in rows),b_assigned=sum(r['owner']=='B' and 'varunkarthic' in [a['login'] for a in remote[r['number']]['assignees']] for r in rows),b_reserved_pending=sum(r['owner']=='B' for r in rows),milestones=len(ms),label_count=len(labeldefs),friend_pending_invitations=friend_invites,baseline_prs=len(baseline['pull_requests']))
+        result['remote']=dict(repository=REPO,visibility=api('repos/'+REPO)['visibility'],a_assigned=sum(r['owner']=='A' and 'satvikp-coder' in [a['login'] for a in remote[r['number']]['assignees']] for r in active),b_assigned=sum(r['owner']=='B' and 'varunkarthic' in [a['login'] for a in remote[r['number']]['assignees']] for r in active),b_reserved_pending=sum(r['owner']=='B' for r in active),milestones=len(ms),label_count=len(labeldefs),friend_pending_invitations=friend_invites,baseline_prs=len(baseline['pull_requests']),preserved_completed=[r['number'] for r in rows if r['status']=='closed'])
         result['verdict']='PARTIAL — PLANNING COMPLETE BUT REMOTE ASSIGNMENTS INCOMPLETE' if not errors else 'FIX REQUIRED'
         save(ROOT/'docs/project/allocation-verification.json',result)
     print(json.dumps(result,ensure_ascii=False,indent=2))
