@@ -39,6 +39,18 @@ jobs:
       - run: python scripts/scan_secrets.py
       - name: Scan browser bundles (none exist yet)
         run: python scripts/scan_secrets.py --bundle apps/web/dist --value-env SESSION_SECRET DATABASE_URL
+  browser:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm -r build
+      - run: pnpm --filter @makarba/web exec playwright install --with-deps chromium
+      - name: Real-browser public journeys (synthetic mock API, stubbed basemap tiles)
+        run: pnpm --filter @makarba/web test:e2e
   database:
     runs-on: ubuntu-latest
     steps:
