@@ -1,0 +1,7 @@
+# Accessibility and localization
+
+Planning baseline: 2026-11-07. Proposed design; no participant collection or product implementation has occurred.
+
+Target WCAG 2.2 AA with manual review. Keyboard users can search/filter/select via equivalent list; map canvas is never the only path. Escape closes overlays, focus is trapped only in true modals and restored; skip links and landmarks; status announcements use polite live region without GPS spam. Controls have 44px preferred targets, 24px WCAG minimum exceptions assessed explicitly; contrast 4.5 text/3 UI and visible focus. 200% zoom and 320px reflow without lost form controls. Tables/captions accompany charts; transcripts/captions accompany audio/video. Slider has arrow keys and non-drag alternative. Reduced motion removes fly-to/automatic panorama rotation. Screen reader tests on NVDA/Chrome and VoiceOver/Safari are manual release gates.
+
+Localization baseline: externalized keys/plural/date/number formatting, `lang` attributes, English and reviewed Gujarati core navigation/consent/form content. Hindi expansion is M12; do not advertise untranslated screens. Keep raw respondent language, transcription and translation separately with reviewer/provenance. Missing translations show labeled English fallback; no machine-only legal/consent translation. Names have multilingual aliases; search does not transliterate source evidence destructively.

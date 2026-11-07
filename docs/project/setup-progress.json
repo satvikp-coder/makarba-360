@@ -1,0 +1,29 @@
+{
+  "repository": "satvikp-coder/makarba-360",
+  "stages": {
+    "audit": "complete",
+    "requirements": "complete",
+    "architecture": "complete",
+    "ux": "complete",
+    "roadmap": "complete",
+    "catalogue": "complete"
+  },
+  "issues": {},
+  "milestones": {},
+  "limitations": [
+    "GitHub Projects query rejected: token lacks read:project/project scopes; board not created. No board URL exists."
+  ],
+  "remote": {
+    "full_name": "satvikp-coder/makarba-360",
+    "html_url": "https://github.com/satvikp-coder/makarba-360",
+    "private": true,
+    "default_branch": "main",
+    "permissions": {
+      "admin": true,
+      "maintain": true,
+      "push": true,
+      "triage": true,
+      "pull": true
+    }
+  },
+  

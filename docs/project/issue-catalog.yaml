@@ -1,0 +1,3409 @@
+[
+  {
+    "id": "00.01",
+    "title": "[DEVOPS] Establish repository governance",
+    "milestone": "M00 — Requirements, Research and Repository Foundation",
+    "milestone_key": "M00",
+    "summary": "Branch/PR rules, ownership vacancies and planning-only boundary are documented",
+    "approach": "Review AGENTS, contribution/security policy and licence decision register",
+    "edge": "No real team or source licence invented",
+    "dependencies": [],
+    "priority": "P0",
+    "size": "S",
+    "labels": [
+      "type:docs",
+      "area:devops",
+      "priority:p0",
+      "status:ready"
+    ],
+    "doc": "docs/product/requirements.md",
+    "user": "project contributor",
+    "privacy": "Documentation contains no credentials, real participant records, invented approvals or exact interview coordinates.",
+    "body_path": "docs/project/issues/00.01.md"
+  },
+  {
+    "id": "00.02",
+    "title": "[DEVOPS] Trace all source blueprint requirements",
+    "milestone": "M00 — Requirements, Research and Repository Foundation",
+    "milestone_key": "M00",
+    "summary": "Every one of 23 pages maps to requirements, documents and issue IDs",
+    "approach": "Checksum supplied PDF and maintain page-level traceability",
+    "edge": "Missing/fictional source content never becomes a fact",
+    "dependencies": [
+      "00.01"
+    ],
+    "priority": "P0",
+    "size": "S",
+    "labels": [
+      "type:docs",
+      "area:devops",
+      "priority:p0",
+      "status:blocked"
+    ],
+    "doc": "docs/product/requirements.md",
+    "user": "project contributor",
+    "privacy": "Documentation contains no credentials, real participant records, invented approvals or exact interview coordinates.",
+    "body_path": "docs/project/issues/00.02.md"
+  },
+  {
+    "id": "00.03",
+    "title": "[DEVOPS] Approve product vision and boundaries",
+    "milestone": "M00 — Requirements, Research and Repository Foundation",
+    "milestone_key": "M00",
+    "summary": "Public atlas and private research scope are signed off with explicit exclusions",
+    "approach": "Review vision and release A/B/C boundaries against source",
+    "edge": "Public survey submission excluded from every journey",
+    "dependencies": [
+      "00.02"
+    ],
+    "priority": "P0",
+    "size": "S",
+    "labels": [
+      "type:docs",
+      "area:devops",
+      "priority:p0",
+      "status:blocked"
+    ],
+    "doc": "docs/product/requirements.md",
+    "user": "project contributor",
+    "privacy": "Documentation contains no credentials, real participant records, invented approvals or exact interview coordinates.",
+    "body_path": "docs/project/issues/00.03.md"
+  },
+  {
+    "id": "00.04",
+    "title": "[DEVOPS] Validate research questions and methodology",
+    "milestone": "M00 — Requirements, Research and Repository Foundation",
+    "milestone_key": "M00",
+    "summary": "Sampling, evidence classes and neutral interview questions have research review",
+    "approach": "Version methodology and record convenience-sample limitations",
+    "edge": "Respondent opinion cannot be relabeled measured fact",
+    "dependencies": [
+      "00.03"
+    ],
+    "priority": "P0",
+    "size": "S",
+    "labels": [
+      "type:docs",
+      "area:devops",
+      "priority:p0",
+      "status:blocked"
+    ],
+    "doc": "docs/product/requirements.md",
+    "user": "project contributor",
+    "privacy": "Documentation contains no credentials, real participant records, invented approvals or exact interview coordinates.",
+    "body_path": "docs/project/issues/00.04.md"
+  },
+  {
+    "id": "00.05",
+    "title": "[DEVOPS] Specify and verify geographical study extent",
+    "milestone": "M00 — Requirements, Research and Repository Foundation",
+    "milestone_key": "M00",
+    "summary": "Boundary authority/source and research extent review procedure are recorded",
+    "approach": "Compare available municipal records, basemap and field verification plan",
+    "edge": "No invented official polygon or broad Ahmedabad assumption",
+    "dependencies": [
+      "00.04"
+    ],
+    "priority": "P0",
+    "size": "S",
+    "labels": [
+      "type:docs",
+      "area:devops",
+      "priority:p0",
+      "status:blocked"
+    ],
+    "doc": "docs/product/requirements.md",
+    "user": "project contributor",
+    "privacy": "Documentation contains no credentials, real participant records, invented approvals or exact interview coordinates.",
+    "body_path": "docs/project/issues/00.05.md"
+  },
+  {
+    "id": "00.06",
+    "title": "[DEVOPS] Approve stakeholder capability matrix",
+    "milestone": "M00 — Requirements, Research and Repository Foundation",
+    "milestone_key": "M00",
+    "summary": "Every action has role, study scope and ownership policy",
+    "approach": "Review visitor/researcher/lead/admin grants and separation of duties",
+    "edge": "Admin role alone cannot view all research records",
+    "dependencies": [
+      "00.03"
+    ],
+    "priority": "P0",
+    "size": "S",
+    "labels": [
+      "type:docs",
+      "area:devops",
+      "priority:p0",
+      "status:blocked"
+    ],
+    "doc": "docs/product/requirements.md",
+    "user": "project contributor",
+    "privacy": "Documentation contains no credentials, real participant records, invented approvals or exact interview coordinates.",
+    "body_path": "docs/project/issues/00.06.md"
+  },
+  {
+    "id": "00.07",
+    "title": "[DEVOPS] Baseline functional requirements catalogue",
+    "milestone": "M00 — Requirements, Research and Repository Foundation",
+    "milestone_key": "M00",
+    "summary": "Every core workflow has stable requirement ID and release allocation",
+    "approach": "Cross-link field/public/admin/GIS/content functions and screens",
+    "edge": "A discussion about B captured at A remains distinct",
+    "dependencies": [
+      "00.02",
+      "00.06"
+    ],
+    "priority": "P0",
+    "size": "S",
+    "labels": [
+      "type:docs",
+      "area:devops",
+      "priority:p0",
+      "status:blocked"
+    ],
+    "doc": "docs/product/requirements.md",
+    "user": "project contributor",
+    "privacy": "Documentation contains no credentials, real participant records, invented approvals or exact interview coordinates.",
+    "body_path": "docs/project/issues/00.07.md"
+  },
+  {
+    "id": "00.08",
+    "title": "[DEVOPS] Baseline non-functional requirements",
+    "milestone": "M00 — Requirements, Research and Repository Foundation",
+    "milestone_key": "M00",
+    "summary": "Performance, accessibility, reliability and privacy targets are measurable",
+    "approach": "Define datasets, test devices, load and gate evidence in requirements",
+    "edge": "Targets distinguished from achieved measurements",
+    "dependencies": [
+      "00.07"
+    ],
+    "priority": "P0",
+    "size": "S",
+    "labels": [
+      "type:docs",
+      "area:devops",
+      "priority:p0",
+      "status:blocked"
+    ],
+    "doc": "docs/product/requirements.md",
+    "user": "project contributor",
+    "privacy": "Documentation contains no credentials, real participant records, invented approvals or exact interview coordinates.",
+    "body_path": "docs/project/issues/00.08.md"
+  },
+  {
+    "id": "00.09",
+    "title": "[DEVOPS] Review architecture diagrams and ADR baseline",
+    "milestone": "M00 — Requirements, Research and Repository Foundation",
+    "milestone_key": "M00",
+    "summary": "Context, component, deployment and trust boundaries have review evidence",
+    "approach": "Review monolith, PostGIS, offline and public projection decisions",
+    "edge": "No optional provider capability silently promised",
+    "dependencies": [
+      "00.08"
+    ],
+    "priority": "P0",
+    "size": "S",
+    "labels": [
+      "type:docs",
+      "area:devops",
+      "priority:p0",
+      "status:blocked"
+    ],
+    "doc": "docs/product/requirements.md",
+    "user": "project contributor",
+    "privacy": "Documentation contains no credentials, real participant records, invented approvals or exact interview coordinates.",
+    "body_path": "docs/project/issues/00.09.md"
+  },
+  {
+    "id": "00.10",
+    "title": "[DEVOPS] Scaffold development setup and CI governance",
+    "milestone": "M00 — Requirements, Research and Repository Foundation",
+    "milestone_key": "M00",
+    "summary": "A clean Windows checkout can start synthetic development services using documented steps",
+    "approach": "Create pnpm workspace and lockfiles, local service definitions and planning/product CI as appropriate",
+    "edge": "Missing env values fail clearly; no secrets in browser bundle",
+    "dependencies": [
+      "00.09"
+    ],
+    "priority": "P0",
+    "size": "S",
+    "labels": [
+      "type:docs",
+      "area:devops",
+      "priority:p0",
+      "status:blocked"
+    ],
+    "doc": "docs/product/requirements.md",
+    "user": "project contributor",
+    "privacy": "Documentation contains no credentials, real participant records, invented approvals or exact interview coordinates.",
+    "body_path": "docs/project/issues/00.10.md"
+  },
+  {
+    "id": "00.11",
+    "title": "[DEVOPS] Obtain institutional ethics and legal verification",
+    "milestone": "M00 — Requirements, Research and Repository Foundation",
+    "milestone_key": "M00",
+    "summary": "Authorised institutional decision covers recruitment, age, consent, retention and hosting",
+    "approach": "Record restricted approval reference and nonpersonal gate status; verify current applicable law",
+    "edge": "No real participant collection before approval; no claimed legal certification",
+    "dependencies": [
+      "00.04",
+      "00.06"
+    ],
+    "priority": "P0",
+    "size": "S",
+    "labels": [
+      "type:docs",
+      "area:devops",
+      "priority:p0",
+      "status:blocked",
+      "milestone-blocker"
+    ],
+    "doc": "docs/product/requirements.md",
+    "user": "project contributor",
+    "privacy": "Documentation contains no credentials, real participant records, invented approvals or exact interview coordinates.",
+    "body_path": "docs/project/issues/00.11.md"
+  },
+  {
+    "id": "01.01",
+    "title": "[FRONTEND] Define visual identity and accessible tokens",
+    "milestone": "M01 — UI/UX and Design System",
+    "milestone_key": "M01",
+    "summary": "Approved palette/typography/spacing has tested contrast and licensed fonts",
+    "approach": "Turn design-system and contrast audit into reviewed token specification",
+    "edge": "Accent text failing AA is rejected",
+    "dependencies": [
+      "00.03"
+    ],
+    "priority": "P2",
+    "size": "S",
+    "labels": [
+      "type:design",
+      "area:frontend",
+      "priority:p2",
+      "status:blocked"
+    ],
+    "doc": "docs/design/design-system.md",
+    "user": "public visitor",
+    "privacy": "Screens distinguish private capture from public reading; design examples must be clearly synthetic.",
+    "body_path": "docs/project/issues/01.01.md"
+  },
+  {
+    "id": "01.02",
+    "title": "[FRONTEND] Design public information architecture",
+    "milestone": "M01 — UI/UX and Design System",
+    "milestone_key": "M01",
+    "summary": "Navigation, URLs and list alternative cover all public evidence routes",
+    "approach": "Review P01–P13 sitemap and empty/loading/error states",
+    "edge": "No public Submit Survey entry or anonymous write journey",
+    "dependencies": [
+      "01.01",
+      "00.07"
+    ],
+    "priority": "P2",
+    "size": "S",
+    "labels": [
+      "type:design",
+      "area:frontend",
+      "priority:p2",
+      "status:blocked"
+    ],
+    "doc": "docs/design/design-system.md",
+    "user": "public visitor",
+    "privacy": "Screens distinguish private capture from public reading; design examples must be clearly synthetic.",
+    "body_path": "docs/project/issues/01.02.md"
+  },
+  {
+    "id": "01.03",
+    "title": "[FRONTEND] Specify home page wireframes",
+    "milestone": "M01 — UI/UX and Design System",
+    "milestone_key": "M01",
+    "summary": "Responsive hero, introduction, featured places and Explore CTA have annotated states",
+    "approach": "Produce low-fidelity frames with media/date/credit slots",
+    "edge": "Unavailable permitted image uses honest fallback",
+    "dependencies": [
+      "01.02"
+    ],
+    "priority": "P2",
+    "size": "S",
+    "labels": [
+      "type:design",
+      "area:frontend",
+      "priority:p2",
+      "status:blocked"
+    ],
+    "doc": "docs/design/design-system.md",
+    "user": "public visitor",
+    "privacy": "Screens distinguish private capture from public reading; design examples must be clearly synthetic.",
+    "body_path": "docs/project/issues/01.03.md"
+  },
+  {
+    "id": "01.04",
+    "title": "[FRONTEND] Specify desktop map-first layout",
+    "milestone": "M01 — UI/UX and Design System",
+    "milestone_key": "M01",
+    "summary": "Layer panel, map and expandable place detail work at desktop/compact widths",
+    "approach": "Annotate focus, URL state, attribution and selected-feature behavior",
+    "edge": "WebGL failure reaches equivalent list",
+    "dependencies": [
+      "01.02"
+    ],
+    "priority": "P2",
+    "size": "S",
+    "labels": [
+      "type:design",
+      "area:frontend",
+      "priority:p2",
+      "status:blocked"
+    ],
+    "doc": "docs/design/design-system.md",
+    "user": "public visitor",
+    "privacy": "Screens distinguish private capture from public reading; design examples must be clearly synthetic.",
+    "body_path": "docs/project/issues/01.04.md"
+  },
+  {
+    "id": "01.05",
+    "title": "[FRONTEND] Specify mobile map bottom sheet",
+    "milestone": "M01 — UI/UX and Design System",
+    "milestone_key": "M01",
+    "summary": "Peek/half/full sheet, floating controls and keyboard alternative are reviewed",
+    "approach": "Prototype safe areas, orientation changes and expand/collapse controls",
+    "edge": "Soft keyboard or expanded sheet cannot hide save/search action",
+    "dependencies": [
+      "01.04"
+    ],
+    "priority": "P2",
+    "size": "S",
+    "labels": [
+      "type:design",
+      "area:frontend",
+      "priority:p2",
+      "status:blocked"
+    ],
+    "doc": "docs/design/design-system.md",
+    "user": "public visitor",
+    "privacy": "Screens distinguish private capture from public reading; design examples must be clearly synthetic.",
+    "body_path": "docs/project/issues/01.05.md"
+  },
+  {
+    "id": "01.06",
+    "title": "[FRONTEND] Design place profile interface",
+    "milestone": "M01 — UI/UX and Design System",
+    "milestone_key": "M01",
+    "summary": "Sources, history, media and safe sample summaries are readable with missing content",
+    "approach": "Annotate P05 evidence tabs and accessibility order",
+    "edge": "Unpublished place has no preview leak",
+    "dependencies": [
+      "01.04"
+    ],
+    "priority": "P2",
+    "size": "S",
+    "labels": [
+      "type:design",
+      "area:frontend",
+      "priority:p2",
+      "status:blocked"
+    ],
+    "doc": "docs/design/design-system.md",
+    "user": "public visitor",
+    "privacy": "Screens distinguish private capture from public reading; design examples must be clearly synthetic.",
+    "body_path": "docs/project/issues/01.06.md"
+  },
+  {
+    "id": "01.07",
+    "title": "[FRONTEND] Design Then and Now comparison",
+    "milestone": "M01 — UI/UX and Design System",
+    "milestone_key": "M01",
+    "summary": "Dated sources, evidence quality and matched-view slider have keyboard alternative",
+    "approach": "Specify side-by-side and text description states",
+    "edge": "Unknown historical date cannot display as exact 2021",
+    "dependencies": [
+      "01.06"
+    ],
+    "priority": "P2",
+    "size": "S",
+    "labels": [
+      "type:design",
+      "area:frontend",
+      "priority:p2",
+      "status:blocked"
+    ],
+    "doc": "docs/design/design-system.md",
+    "user": "public visitor",
+    "privacy": "Screens distinguish private capture from public reading; design examples must be clearly synthetic.",
+    "body_path": "docs/project/issues/01.07.md"
+  },
+  {
+    "id": "01.08",
+    "title": "[FRONTEND] Design Community Insights dashboard",
+    "milestone": "M01 — UI/UX and Design System",
+    "milestone_key": "M01",
+    "summary": "Every chart includes n, period, missingness and suppression explanation",
+    "approach": "Specify chart/table pairs and allowed cohort filters",
+    "edge": "Small groups and no-data never rendered misleadingly as zero",
+    "dependencies": [
+      "01.02",
+      "00.04"
+    ],
+    "priority": "P2",
+    "size": "S",
+    "labels": [
+      "type:design",
+      "area:frontend",
+      "priority:p2",
+      "status:blocked"
+    ],
+    "doc": "docs/design/design-system.md",
+    "user": "public visitor",
+    "privacy": "Screens distinguish private capture from public reading; design examples must be clearly synthetic.",
+    "body_path": "docs/project/issues/01.08.md"
+  },
+  {
+    "id": "01.09",
+    "title": "[FRONTEND] Design accessible field interview screens",
+    "milestone": "M01 — UI/UX and Design System",
+    "milestone_key": "M01",
+    "summary": "Consent → GPS → separate subjects → answers → durable save is usable on phone",
+    "approach": "Review F01–F13 with bilingual script and offline/permission states",
+    "edge": "Denied consent stops capture; A/B place distinction survives review",
+    "dependencies": [
+      "01.01",
+      "00.06"
+    ],
+    "priority": "P2",
+    "size": "S",
+    "labels": [
+      "type:design",
+      "area:frontend",
+      "priority:p2",
+      "status:blocked"
+    ],
+    "doc": "docs/design/design-system.md",
+    "user": "public visitor",
+    "privacy": "Screens distinguish private capture from public reading; design examples must be clearly synthetic.",
+    "body_path": "docs/project/issues/01.09.md"
+  },
+  {
+    "id": "01.10",
+    "title": "[FRONTEND] Design responsive research management",
+    "milestone": "M01 — UI/UX and Design System",
+    "milestone_key": "M01",
+    "summary": "A01–A12 include review decisions, public preview and withdrawal state",
+    "approach": "Prototype tables/cards, role-limited navigation and bulk-action preview",
+    "edge": "Unscoped administrator cannot open raw data review",
+    "dependencies": [
+      "01.01",
+      "00.06"
+    ],
+    "priority": "P2",
+    "size": "S",
+    "labels": [
+      "type:design",
+      "area:frontend",
+      "priority:p2",
+      "status:blocked"
+    ],
+    "doc": "docs/design/design-system.md",
+    "user": "public visitor",
+    "privacy": "Screens distinguish private capture from public reading; design examples must be clearly synthetic.",
+    "body_path": "docs/project/issues/01.10.md"
+  },
+  {
+    "id": "02.01",
+    "title": "[GIS] Provision PostGIS migrations and roles",
+    "milestone": "M02 — GIS, Map Data and Spatial Foundation",
+    "milestone_key": "M02",
+    "summary": "Empty and prior-version databases migrate with explicit restricted/public grants",
+    "approach": "Version SQL, extensions, constraints, spatial indexes and synthetic fixtures",
+    "edge": "Public connection cannot query private interview tables",
+    "dependencies": [
+      "00.10",
+      "03.05"
+    ],
+    "priority": "P1",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:gis",
+      "priority:p1",
+      "status:blocked"
+    ],
+    "doc": "docs/architecture/gis-design.md",
+    "user": "GIS reviewer",
+    "privacy": "Only verified public place geometry can publish. Interview positions remain restricted even in GIS exports.",
+    "body_path": "docs/project/issues/02.01.md"
+  },
+  {
+    "id": "02.02",
+    "title": "[GIS] Store and validate versioned study boundary",
+    "milestone": "M02 — GIS, Map Data and Spatial Foundation",
+    "milestone_key": "M02",
+    "summary": "Verified research extent stores source/version/reviewer and geometry validity",
+    "approach": "Implement MultiPolygon 4326 validation and version-aware ST_Covers checks",
+    "edge": "Invalid polygon or unknown source cannot publish",
+    "dependencies": [
+      "00.05",
+      "02.01"
+    ],
+    "priority": "P1",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:gis",
+      "priority:p1",
+      "status:blocked",
+      "field-validation-required"
+    ],
+    "doc": "docs/architecture/gis-design.md",
+    "user": "GIS reviewer",
+    "privacy": "Only verified public place geometry can publish. Interview positions remain restricted even in GIS exports.",
+    "body_path": "docs/project/issues/02.02.md"
+  },
+  {
+    "id": "02.03",
+    "title": "[GIS] Select basemap provider and attribution",
+    "milestone": "M02 — GIS, Map Data and Spatial Foundation",
+    "milestone_key": "M02",
+    "summary": "Provider terms, ODbL attribution, request budget and offline permissions are recorded",
+    "approach": "Compare licensed tile services and institution hosting; configure attribution",
+    "edge": "Standard OSM tiles not bulk-cached offline",
+    "dependencies": [
+      "00.09"
+    ],
+    "priority": "P1",
+    "size": "S",
+    "labels": [
+      "type:feature",
+      "area:gis",
+      "priority:p1",
+      "status:blocked"
+    ],
+    "doc": "docs/architecture/gis-design.md",
+    "user": "GIS reviewer",
+    "privacy": "Only verified public place geometry can publish. Interview positions remain restricted even in GIS exports.",
+    "body_path": "docs/project/issues/02.03.md"
+  },
+  {
+    "id": "02.04",
+    "title": "[GIS] Integrate initial MapLibre map",
+    "milestone": "M02 — GIS, Map Data and Spatial Foundation",
+    "milestone_key": "M02",
+    "summary": "Synthetic verified fixture layers render with source attribution and list fallback",
+    "approach": "Create shared map adapter, bounds configuration and selected ID state",
+    "edge": "Renderer/context loss preserves accessible navigation",
+    "dependencies": [
+      "02.02",
+      "02.03",
+      "01.04"
+    ],
+    "priority": "P1",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:gis",
+      "priority:p1",
+      "status:blocked"
+    ],
+    "doc": "docs/architecture/gis-design.md",
+    "user": "GIS reviewer",
+    "privacy": "Only verified public place geometry can publish. Interview positions remain restricted even in GIS exports.",
+    "body_path": "docs/project/issues/02.04.md"
+  },
+  {
+    "id": "02.05",
+    "title": "[GIS] Implement location category taxonomy",
+    "milestone": "M02 — GIS, Map Data and Spatial Foundation",
+    "milestone_key": "M02",
+    "summary": "Stable localized category codes and distinct icons have review path",
+    "approach": "Migrate categories and expose approved read model",
+    "edge": "Referenced category can archive without breaking history",
+    "dependencies": [
+      "02.01",
+      "01.01"
+    ],
+    "priority": "P1",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:gis",
+      "priority:p1",
+      "status:blocked"
+    ],
+    "doc": "docs/architecture/gis-design.md",
+    "user": "GIS reviewer",
+    "privacy": "Only verified public place geometry can publish. Interview positions remain restricted even in GIS exports.",
+    "body_path": "docs/project/issues/02.05.md"
+  },
+  {
+    "id": "02.06",
+    "title": "[GIS] Support point route and polygon locations",
+    "milestone": "M02 — GIS, Map Data and Spatial Foundation",
+    "milestone_key": "M02",
+    "summary": "Location geometry CRUD validates type, CRS, range and provenance",
+    "approach": "Implement typed geometries, GiST/bbox/distance query contracts",
+    "edge": "Empty/self-intersecting/mislabeled CRS rejected",
+    "dependencies": [
+      "02.01",
+      "02.05"
+    ],
+    "priority": "P1",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:gis",
+      "priority:p1",
+      "status:blocked"
+    ],
+    "doc": "docs/architecture/gis-design.md",
+    "user": "GIS reviewer",
+    "privacy": "Only verified public place geometry can publish. Interview positions remain restricted even in GIS exports.",
+    "body_path": "docs/project/issues/02.06.md"
+  },
+  {
+    "id": "02.07",
+    "title": "[GIS] Import and verify road corridors",
+    "milestone": "M02 — GIS, Map Data and Spatial Foundation",
+    "milestone_key": "M02",
+    "summary": "Source-dated licensed street geometries pass field/reviewer checks",
+    "approach": "Stage OSM extracts with IDs/version/licence and validation report",
+    "edge": "Restricted imagery tracing or unverified road names blocked",
+    "dependencies": [
+      "02.02",
+      "02.06"
+    ],
+    "priority": "P1",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:gis",
+      "priority:p1",
+      "status:blocked"
+    ],
+    "doc": "docs/architecture/gis-design.md",
+    "user": "GIS reviewer",
+    "privacy": "Only verified public place geometry can publish. Interview positions remain restricted even in GIS exports.",
+    "body_path": "docs/project/issues/02.07.md"
+  },
+  {
+    "id": "02.08",
+    "title": "[GIS] Provide reusable spatial search and clustering",
+    "milestone": "M02 — GIS, Map Data and Spatial Foundation",
+    "milestone_key": "M02",
+    "summary": "Bounded search/filter contracts and point clustering return stable feature IDs",
+    "approach": "Index aliases and categories; separate line/polygon layers from point clusters",
+    "edge": "Zero matches, antimeridian-invalid bbox and excessive bounds handled",
+    "dependencies": [
+      "02.04",
+      "02.06"
+    ],
+    "priority": "P1",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:gis",
+      "priority:p1",
+      "status:blocked"
+    ],
+    "doc": "docs/architecture/gis-design.md",
+    "user": "GIS reviewer",
+    "privacy": "Only verified public place geometry can publish. Interview positions remain restricted even in GIS exports.",
+    "body_path": "docs/project/issues/02.08.md"
+  },
+  {
+    "id": "02.09",
+    "title": "[GIS] Implement geographic candidate editing",
+    "milestone": "M02 — GIS, Map Data and Spatial Foundation",
+    "milestone_key": "M02",
+    "summary": "Researchers submit private proposed geometry and lead reviews changes",
+    "approach": "Version edit proposals, source evidence and reviewer decision",
+    "edge": "Unreviewed candidate never appears in public layers",
+    "dependencies": [
+      "02.06",
+      "03.04"
+    ],
+    "priority": "P1",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:gis",
+      "priority:p1",
+      "status:blocked"
+    ],
+    "doc": "docs/architecture/gis-design.md",
+    "user": "GIS reviewer",
+    "privacy": "Only verified public place geometry can publish. Interview positions remain restricted even in GIS exports.",
+    "body_path": "docs/project/issues/02.09.md"
+  },
+  {
+    "id": "02.10",
+    "title": "[GIS] Implement validated GIS import and export",
+    "milestone": "M02 — GIS, Map Data and Spatial Foundation",
+    "milestone_key": "M02",
+    "summary": "CRS/source/licence checks produce explicit accept/reject report",
+    "approach": "Stage GeoJSON and approved export formats with limits and audit",
+    "edge": "Malformed geometry or private coordinate export rejected",
+    "dependencies": [
+      "02.06",
+      "03.04"
+    ],
+    "priority": "P1",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:gis",
+      "priority:p1",
+      "status:blocked"
+    ],
+    "doc": "docs/architecture/gis-design.md",
+    "user": "GIS reviewer",
+    "privacy": "Only verified public place geometry can publish. Interview positions remain restricted even in GIS exports.",
+    "body_path": "docs/project/issues/02.10.md"
+  },
+  {
+    "id": "03.01",
+    "title": "[PRIVACY] Integrate identity provider and secure sessions",
+    "milestone": "M03 — Authentication, Privacy and Data Security",
+    "milestone_key": "M03",
+    "summary": "Team sign-in/logout, expiry, revocation and MFA policy have verified behavior",
+    "approach": "OIDC code/PKCE backend exchange, opaque server sessions and cookie/CSRF policy",
+    "edge": "Cross-site login state mismatch and expired session denied",
+    "dependencies": [
+      "00.06",
+      "00.10"
+    ],
+    "priority": "P0",
+    "size": "M",
+    "labels": [
+      "type:security",
+      "area:privacy",
+      "priority:p0",
+      "status:blocked"
+    ],
+    "doc": "docs/architecture/privacy-security.md",
+    "user": "authorised team member",
+    "privacy": "Deny by default and minimize retained personal data; current consent and scoped study grants are authoritative.",
+    "body_path": "docs/project/issues/03.01.md"
+  },
+  {
+    "id": "03.02",
+    "title": "[PRIVACY] Implement researcher invitation and deactivation",
+    "milestone": "M03 — Authentication, Privacy and Data Security",
+    "milestone_key": "M03",
+    "summary": "Only authorised trained invited users can collect in assigned studies",
+    "approach": "Map IdP identity to profile, training and scoped grants",
+    "edge": "Deactivated account cannot sync as active user",
+    "dependencies": [
+      "03.01"
+    ],
+    "priority": "P0",
+    "size": "M",
+    "labels": [
+      "type:security",
+      "area:privacy",
+      "priority:p0",
+      "status:blocked"
+    ],
+    "doc": "docs/architecture/privacy-security.md",
+    "user": "authorised team member",
+    "privacy": "Deny by default and minimize retained personal data; current consent and scoped study grants are authoritative.",
+    "body_path": "docs/project/issues/03.02.md"
+  },
+  {
+    "id": "03.03",
+    "title": "[PRIVACY] Implement role and study authorization",
+    "milestone": "M03 — Authentication, Privacy and Data Security",
+    "milestone_key": "M03",
+    "summary": "Every private route evaluates role, study and record ownership",
+    "approach": "Central authorization service with deny-by-default capabilities",
+    "edge": "Researcher cannot read another study or grant admin role",
+    "dependencies": [
+      "03.01",
+      "00.06"
+    ],
+    "priority": "P0",
+    "size": "M",
+    "labels": [
+      "type:security",
+      "area:privacy",
+      "priority:p0",
+      "status:blocked"
+    ],
+    "doc": "docs/architecture/privacy-security.md",
+    "user": "authorised team member",
+    "privacy": "Deny by default and minimize retained personal data; current consent and scoped study grants are authoritative.",
+    "body_path": "docs/project/issues/03.03.md"
+  },
+  {
+    "id": "03.04",
+    "title": "[PRIVACY] Enforce capability matrix across API and UI",
+    "milestone": "M03 — Authentication, Privacy and Data Security",
+    "milestone_key": "M03",
+    "summary": "UI actions and API handlers agree with approved capabilities",
+    "approach": "Add route guards, ownership checks and explicit admin separation",
+    "edge": "Hidden button alone never substitutes server authorization",
+    "dependencies": [
+      "03.03"
+    ],
+    "priority": "P0",
+    "size": "M",
+    "labels": [
+      "type:security",
+      "area:privacy",
+      "priority:p0",
+      "status:blocked"
+    ],
+    "doc": "docs/architecture/privacy-security.md",
+    "user": "authorised team member",
+    "privacy": "Deny by default and minimize retained personal data; current consent and scoped study grants are authoritative.",
+    "body_path": "docs/project/issues/03.04.md"
+  },
+  {
+    "id": "03.05",
+    "title": "[PRIVACY] Harden database access and migration credentials",
+    "milestone": "M03 — Authentication, Privacy and Data Security",
+    "milestone_key": "M03",
+    "summary": "Runtime roles cannot run DDL or read forbidden schemas",
+    "approach": "Define grants/RLS design, deployment migrator separation and pool settings",
+    "edge": "Public role and field role escalation attempts fail",
+    "dependencies": [
+      "00.09"
+    ],
+    "priority": "P0",
+    "size": "M",
+    "labels": [
+      "type:security",
+      "area:privacy",
+      "priority:p0",
+      "status:blocked"
+    ],
+    "doc": "docs/architecture/privacy-security.md",
+    "user": "authorised team member",
+    "privacy": "Deny by default and minimize retained personal data; current consent and scoped study grants are authoritative.",
+    "body_path": "docs/project/issues/03.05.md"
+  },
+  {
+    "id": "03.06",
+    "title": "[PRIVACY] Implement scoped versioned consent records",
+    "milestone": "M03 — Authentication, Privacy and Data Security",
+    "milestone_key": "M03",
+    "summary": "Recording, aggregate and identifiable media/story permission are independent",
+    "approach": "Append-only consent decisions linked to interview, script and revision",
+    "edge": "Consent withdrawal or refusal cannot be overwritten by checkbox",
+    "dependencies": [
+      "03.04",
+      "00.11"
+    ],
+    "priority": "P0",
+    "size": "M",
+    "labels": [
+      "type:security",
+      "area:privacy",
+      "priority:p0",
+      "status:blocked"
+    ],
+    "doc": "docs/architecture/privacy-security.md",
+    "user": "authorised team member",
+    "privacy": "Deny by default and minimize retained personal data; current consent and scoped study grants are authoritative.",
+    "body_path": "docs/project/issues/03.06.md"
+  },
+  {
+    "id": "03.07",
+    "title": "[PRIVACY] Protect raw interview and GPS endpoints",
+    "milestone": "M03 — Authentication, Privacy and Data Security",
+    "milestone_key": "M03",
+    "summary": "Exact positions, timestamps and answers require scoped private access",
+    "approach": "Use separate public DTOs/DB pools, no-store private responses and IDOR checks",
+    "edge": "Anonymous or wrong-owner query returns no sensitive fields",
+    "dependencies": [
+      "03.04",
+      "03.05"
+    ],
+    "priority": "P0",
+    "size": "M",
+    "labels": [
+      "type:security",
+      "area:privacy",
+      "priority:p0",
+      "status:blocked",
+      "milestone-blocker"
+    ],
+    "doc": "docs/architecture/privacy-security.md",
+    "user": "authorised team member",
+    "privacy": "Deny by default and minimize retained personal data; current consent and scoped study grants are authoritative.",
+    "body_path": "docs/project/issues/03.07.md"
+  },
+  {
+    "id": "03.08",
+    "title": "[PRIVACY] Implement security audit events",
+    "milestone": "M03 — Authentication, Privacy and Data Security",
+    "milestone_key": "M03",
+    "summary": "Access-sensitive decisions record actor/action/revision/reason without payload leaks",
+    "approach": "Append-only events and request IDs; protected reader grants",
+    "edge": "Logs never include GPS, raw answers or session tokens",
+    "dependencies": [
+      "03.04",
+      "03.05"
+    ],
+    "priority": "P0",
+    "size": "M",
+    "labels": [
+      "type:security",
+      "area:privacy",
+      "priority:p0",
+      "status:blocked"
+    ],
+    "doc": "docs/architecture/privacy-security.md",
+    "user": "authorised team member",
+    "privacy": "Deny by default and minimize retained personal data; current consent and scoped study grants are authoritative.",
+    "body_path": "docs/project/issues/03.08.md"
+  },
+  {
+    "id": "03.09",
+    "title": "[PRIVACY] Configure secure secrets and environments",
+    "milestone": "M03 — Authentication, Privacy and Data Security",
+    "milestone_key": "M03",
+    "summary": "Local/staging/production secrets are isolated and validated at startup",
+    "approach": "Env schema, deployment vault, example config and secret scanning",
+    "edge": "Vite bundle and CI output contain no server secret",
+    "dependencies": [
+      "00.10"
+    ],
+    "priority": "P0",
+    "size": "M",
+    "labels": [
+      "type:security",
+      "area:privacy",
+      "priority:p0",
+      "status:blocked"
+    ],
+    "doc": "docs/architecture/privacy-security.md",
+    "user": "authorised team member",
+    "privacy": "Deny by default and minimize retained personal data; current consent and scoped study grants are authoritative.",
+    "body_path": "docs/project/issues/03.09.md"
+  },
+  {
+    "id": "03.10",
+    "title": "[PRIVACY] Test security threat model and privacy boundaries",
+    "milestone": "M03 — Authentication, Privacy and Data Security",
+    "milestone_key": "M03",
+    "summary": "Reviewed abuse cases map to automated negative tests and residual risks",
+    "approach": "Exercise CSRF/XSS/IDOR/rate limits/upload threat paths",
+    "edge": "Valid authentication cannot bypass consent or publication review",
+    "dependencies": [
+      "03.07",
+      "03.08",
+      "03.09"
+    ],
+    "priority": "P0",
+    "size": "M",
+    "labels": [
+      "type:security",
+      "area:privacy",
+      "priority:p0",
+      "status:blocked"
+    ],
+    "doc": "docs/architecture/privacy-security.md",
+    "user": "authorised team member",
+    "privacy": "Deny by default and minimize retained personal data; current consent and scoped study grants are authoritative.",
+    "body_path": "docs/project/issues/03.10.md"
+  },
+  {
+    "id": "04.01",
+    "title": "[SURVEY] Implement survey question and answer schema",
+    "milestone": "M04 — Field Survey and GPS Collection",
+    "milestone_key": "M04",
+    "summary": "Typed questions and explicit missing reasons persist against version",
+    "approach": "Migrations/runtime schemas for choice/text/scale/topic links",
+    "edge": "Unsure/refused are not numeric zero or empty-string answers",
+    "dependencies": [
+      "02.01",
+      "00.04"
+    ],
+    "priority": "P1",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:survey",
+      "priority:p1",
+      "status:blocked"
+    ],
+    "doc": "docs/research/survey-questionnaire.md",
+    "user": "field researcher",
+    "privacy": "Raw answers and interview GPS remain private. Subject place is separately linked; consent refusal stops capture.",
+    "body_path": "docs/project/issues/04.01.md"
+  },
+  {
+    "id": "04.02",
+    "title": "[SURVEY] Implement immutable questionnaire versions",
+    "milestone": "M04 — Field Survey and GPS Collection",
+    "milestone_key": "M04",
+    "summary": "Old responses retain original wording/options and schema hash",
+    "approach": "Publish/retire form versions with compatible concept mappings",
+    "edge": "Edited published form rejected; stale drafts explicitly reviewed",
+    "dependencies": [
+      "04.01"
+    ],
+    "priority": "P1",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:survey",
+      "priority:p1",
+      "status:blocked"
+    ],
+    "doc": "docs/research/survey-questionnaire.md",
+    "user": "field researcher",
+    "privacy": "Raw answers and interview GPS remain private. Subject place is separately linked; consent refusal stops capture.",
+    "body_path": "docs/project/issues/04.02.md"
+  },
+  {
+    "id": "04.03",
+    "title": "[SURVEY] Implement field visit sessions",
+    "milestone": "M04 — Field Survey and GPS Collection",
+    "milestone_key": "M04",
+    "summary": "Own assigned visits have start/end, study and status history",
+    "approach": "Visit API with assignment validation and scoped ownership",
+    "edge": "Ending visit with pending drafts prompts reconciliation",
+    "dependencies": [
+      "03.04",
+      "02.02"
+    ],
+    "priority": "P1",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:survey",
+      "priority:p1",
+      "status:blocked"
+    ],
+    "doc": "docs/research/survey-questionnaire.md",
+    "user": "field researcher",
+    "privacy": "Raw answers and interview GPS remain private. Subject place is separately linked; consent refusal stops capture.",
+    "body_path": "docs/project/issues/04.03.md"
+  },
+  {
+    "id": "04.04",
+    "title": "[SURVEY] Implement interview start workflow",
+    "milestone": "M04 — Field Survey and GPS Collection",
+    "milestone_key": "M04",
+    "summary": "Start Interview creates client UUID only after authorised visit and consent step",
+    "approach": "Phone flow F02–F04 with instrument/version pin and draft lifecycle",
+    "edge": "Repeated tap cannot start duplicate logical interview",
+    "dependencies": [
+      "04.02",
+      "04.03",
+      "01.09"
+    ],
+    "priority": "P1",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:survey",
+      "priority:p1",
+      "status:blocked"
+    ],
+    "doc": "docs/research/survey-questionnaire.md",
+    "user": "field researcher",
+    "privacy": "Raw answers and interview GPS remain private. Subject place is separately linked; consent refusal stops capture.",
+    "body_path": "docs/project/issues/04.04.md"
+  },
+  {
+    "id": "04.05",
+    "title": "[SURVEY] Capture participant categories and official claims",
+    "milestone": "M04 — Field Survey and GPS Collection",
+    "milestone_key": "M04",
+    "summary": "Stakeholder/duration values support uncertainty and separate official verification",
+    "approach": "Render versioned options and restricted claim record",
+    "edge": "Official dropdown never emits verified official attribution",
+    "dependencies": [
+      "04.01",
+      "04.04"
+    ],
+    "priority": "P1",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:survey",
+      "priority:p1",
+      "status:blocked"
+    ],
+    "doc": "docs/research/survey-questionnaire.md",
+    "user": "field researcher",
+    "privacy": "Raw answers and interview GPS remain private. Subject place is separately linked; consent refusal stops capture.",
+    "body_path": "docs/project/issues/04.05.md"
+  },
+  {
+    "id": "04.06",
+    "title": "[SURVEY] Record consent and interview metadata",
+    "milestone": "M04 — Field Survey and GPS Collection",
+    "milestone_key": "M04",
+    "summary": "Interview time/collector/visit and consent script/scope are independently retained",
+    "approach": "Bind consent service to interview state and branch termination",
+    "edge": "Declined consent discards answer/GPS content",
+    "dependencies": [
+      "03.06",
+      "04.04"
+    ],
+    "priority": "P1",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:survey",
+      "priority:p1",
+      "status:blocked"
+    ],
+    "doc": "docs/research/survey-questionnaire.md",
+    "user": "field researcher",
+    "privacy": "Raw answers and interview GPS remain private. Subject place is separately linked; consent refusal stops capture.",
+    "body_path": "docs/project/issues/04.06.md"
+  },
+  {
+    "id": "04.07",
+    "title": "[SURVEY] Capture mobile geolocation and permission state",
+    "milestone": "M04 — Field Survey and GPS Collection",
+    "milestone_key": "M04",
+    "summary": "Fresh capture stores reported accuracy/time/method and permission/error status",
+    "approach": "HTTPS Geolocation adapter with timeout, denied and unavailable states",
+    "edge": "No fabricated coordinate after denied or failed capture",
+    "dependencies": [
+      "04.06",
+      "01.09"
+    ],
+    "priority": "P1",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:survey",
+      "priority:p1",
+      "status:blocked",
+      "field-validation-required"
+    ],
+    "doc": "docs/research/survey-questionnaire.md",
+    "user": "field researcher",
+    "privacy": "Raw answers and interview GPS remain private. Subject place is separately linked; consent refusal stops capture.",
+    "body_path": "docs/project/issues/04.07.md"
+  },
+  {
+    "id": "04.08",
+    "title": "[SURVEY] Display GPS quality recapture and corrections",
+    "milestone": "M04 — Field Survey and GPS Collection",
+    "milestone_key": "M04",
+    "summary": "Quality bands, fix age and manual correction reason are visible and auditable",
+    "approach": "Use ≤20, >20–50, >50m labels; preserve raw/effective fix revisions",
+    "edge": "Manual pin never receives invented device accuracy",
+    "dependencies": [
+      "04.07",
+      "02.04"
+    ],
+    "priority": "P1",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:survey",
+      "priority:p1",
+      "status:blocked",
+      "field-validation-required"
+    ],
+    "doc": "docs/research/survey-questionnaire.md",
+    "user": "field researcher",
+    "privacy": "Raw answers and interview GPS remain private. Subject place is separately linked; consent refusal stops capture.",
+    "body_path": "docs/project/issues/04.08.md"
+  },
+  {
+    "id": "04.09",
+    "title": "[SURVEY] Store independent interview and subject geography",
+    "milestone": "M04 — Field Survey and GPS Collection",
+    "milestone_key": "M04",
+    "summary": "One interview position can reference different point/route/area topic groups",
+    "approach": "Separate position table and survey_location_links with same-interview constraints",
+    "edge": "Interview at A discussing B never moves A to B; multiple subjects not blanket-copied",
+    "dependencies": [
+      "04.01",
+      "02.06",
+      "04.08"
+    ],
+    "priority": "P1",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:survey",
+      "priority:p1",
+      "status:blocked"
+    ],
+    "doc": "docs/research/survey-questionnaire.md",
+    "user": "field researcher",
+    "privacy": "Raw answers and interview GPS remain private. Subject place is separately linked; consent refusal stops capture.",
+    "body_path": "docs/project/issues/04.09.md"
+  },
+  {
+    "id": "04.10",
+    "title": "[SURVEY] Render and validate versioned questions",
+    "milestone": "M04 — Field Survey and GPS Collection",
+    "milestone_key": "M04",
+    "summary": "Branching, refusal/unsure and per-subject responses validate consistently",
+    "approach": "Shared runtime schema plus mobile form renderer and server validation",
+    "edge": "Inactive branch or mismatched form answer not counted",
+    "dependencies": [
+      "04.02",
+      "04.05",
+      "04.09"
+    ],
+    "priority": "P1",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:survey",
+      "priority:p1",
+      "status:blocked"
+    ],
+    "doc": "docs/research/survey-questionnaire.md",
+    "user": "field researcher",
+    "privacy": "Raw answers and interview GPS remain private. Subject place is separately linked; consent refusal stops capture.",
+    "body_path": "docs/project/issues/04.10.md"
+  },
+  {
+    "id": "04.11",
+    "title": "[SURVEY] Implement interview review and durable save",
+    "milestone": "M04 — Field Survey and GPS Collection",
+    "milestone_key": "M04",
+    "summary": "Review shows consent, private spot, discussed subjects and exact save/sync state",
+    "approach": "Persist local transaction then queue submit with validation summary",
+    "edge": "App close during save does not falsely report success",
+    "dependencies": [
+      "04.10",
+      "04.06",
+      "05.02"
+    ],
+    "priority": "P1",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:survey",
+      "priority:p1",
+      "status:blocked"
+    ],
+    "doc": "docs/research/survey-questionnaire.md",
+    "user": "field researcher",
+    "privacy": "Raw answers and interview GPS remain private. Subject place is separately linked; consent refusal stops capture.",
+    "body_path": "docs/project/issues/04.11.md"
+  },
+  {
+    "id": "04.12",
+    "title": "[SURVEY] Implement own submission history and corrections",
+    "milestone": "M04 — Field Survey and GPS Collection",
+    "milestone_key": "M04",
+    "summary": "Researchers see own receipt/status and submit reasoned correction revision",
+    "approach": "Revision comparison and lead change-request integration",
+    "edge": "Submitted record cannot be silently overwritten",
+    "dependencies": [
+      "04.11",
+      "05.04"
+    ],
+    "priority": "P1",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:survey",
+      "priority:p1",
+      "status:blocked"
+    ],
+    "doc": "docs/research/survey-questionnaire.md",
+    "user": "field researcher",
+    "privacy": "Raw answers and interview GPS remain private. Subject place is separately linked; consent refusal stops capture.",
+    "body_path": "docs/project/issues/04.12.md"
+  },
+  {
+    "id": "05.01",
+    "title": "[OFFLINE] Validate offline approach and fallback",
+    "milestone": "M05 — Offline Fieldwork, Synchronisation and Media",
+    "milestone_key": "M05",
+    "summary": "Real-device storage/key/recovery test evidence selects PWA or approved ODK/Kobo path",
+    "approach": "Threat assessment, quota/eviction prototype and fallback import contract",
+    "edge": "Unencrypted browser storage never claimed inherently safe",
+    "dependencies": [
+      "00.11",
+      "00.09",
+      "01.09"
+    ],
+    "priority": "P0",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:offline",
+      "priority:p0",
+      "status:blocked",
+      "milestone-blocker"
+    ],
+    "doc": "docs/architecture/offline-sync.md",
+    "user": "field researcher",
+    "privacy": "Local drafts are sensitive; protection, storage loss and offline revocation limitations must be explicit.",
+    "body_path": "docs/project/issues/05.01.md"
+  },
+  {
+    "id": "05.02",
+    "title": "[OFFLINE] Persist protected recoverable local drafts",
+    "milestone": "M05 — Offline Fieldwork, Synchronisation and Media",
+    "milestone_key": "M05",
+    "summary": "Draft saves acknowledge only successful vault transactions and survive restart within tested limits",
+    "approach": "IndexedDB protected vault, autosave marker, quota alarms and key-unlock design",
+    "edge": "Quota failure/key loss/eviction produce honest recovery limits",
+    "dependencies": [
+      "05.01",
+      "04.01"
+    ],
+    "priority": "P0",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:offline",
+      "priority:p0",
+      "status:blocked"
+    ],
+    "doc": "docs/architecture/offline-sync.md",
+    "user": "field researcher",
+    "privacy": "Local drafts are sensitive; protection, storage loss and offline revocation limitations must be explicit.",
+    "body_path": "docs/project/issues/05.02.md"
+  },
+  {
+    "id": "05.03",
+    "title": "[OFFLINE] Implement offline session and device lock policy",
+    "milestone": "M05 — Offline Fieldwork, Synchronisation and Media",
+    "milestone_key": "M05",
+    "summary": "Previously enrolled researcher can unlock only within approved offline window",
+    "approach": "Memory-only unlocked key, idle/background lock and online reauth before sync",
+    "edge": "Offline revoked account cannot be assumed instantly revoked; reconnect quarantines",
+    "dependencies": [
+      "05.01",
+      "03.01"
+    ],
+    "priority": "P0",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:offline",
+      "priority:p0",
+      "status:blocked"
+    ],
+    "doc": "docs/architecture/offline-sync.md",
+    "user": "field researcher",
+    "privacy": "Local drafts are sensitive; protection, storage loss and offline revocation limitations must be explicit.",
+    "body_path": "docs/project/issues/05.03.md"
+  },
+  {
+    "id": "05.04",
+    "title": "[OFFLINE] Implement idempotent transactional sync",
+    "milestone": "M05 — Offline Fieldwork, Synchronisation and Media",
+    "milestone_key": "M05",
+    "summary": "Repeated/concurrent same-operation requests return one durable receipt/write",
+    "approach": "Unique operation/interview IDs, request hash, base revision and atomic receipt transaction",
+    "edge": "Same key changed payload gets 409; response loss retry adds no duplicate",
+    "dependencies": [
+      "04.02",
+      "04.09",
+      "03.07",
+      "05.03"
+    ],
+    "priority": "P0",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:offline",
+      "priority:p0",
+      "status:blocked"
+    ],
+    "doc": "docs/architecture/offline-sync.md",
+    "user": "field researcher",
+    "privacy": "Local drafts are sensitive; protection, storage loss and offline revocation limitations must be explicit.",
+    "body_path": "docs/project/issues/05.04.md"
+  },
+  {
+    "id": "05.05",
+    "title": "[OFFLINE] Handle sync retries conflicts and rejections",
+    "milestone": "M05 — Offline Fieldwork, Synchronisation and Media",
+    "milestone_key": "M05",
+    "summary": "Queue preserves failures and both conflicting revisions with clear action",
+    "approach": "Jittered bounded retries, 401 reauth, 409 resolution and rejected record state",
+    "edge": "No last-write-wins on consent/GPS; offline-to-online partial failure retained",
+    "dependencies": [
+      "05.04",
+      "05.02"
+    ],
+    "priority": "P1",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:offline",
+      "priority:p1",
+      "status:blocked"
+    ],
+    "doc": "docs/architecture/offline-sync.md",
+    "user": "field researcher",
+    "privacy": "Local drafts are sensitive; protection, storage loss and offline revocation limitations must be explicit.",
+    "body_path": "docs/project/issues/05.05.md"
+  },
+  {
+    "id": "05.06",
+    "title": "[OFFLINE] Prevent duplicates without deleting genuine interviews",
+    "milestone": "M05 — Offline Fieldwork, Synchronisation and Media",
+    "milestone_key": "M05",
+    "summary": "Operation uniqueness enforced and similar records flagged for human review",
+    "approach": "DB concurrency locks/constraints plus reviewer duplicate candidates",
+    "edge": "Two similar genuine respondents retained; double tap/retry one record",
+    "dependencies": [
+      "05.04"
+    ],
+    "priority": "P1",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:offline",
+      "priority:p1",
+      "status:blocked"
+    ],
+    "doc": "docs/architecture/offline-sync.md",
+    "user": "field researcher",
+    "privacy": "Local drafts are sensitive; protection, storage loss and offline revocation limitations must be explicit.",
+    "body_path": "docs/project/issues/05.06.md"
+  },
+  {
+    "id": "05.07",
+    "title": "[OFFLINE] Implement quarantined resumable media uploads",
+    "milestone": "M05 — Offline Fieldwork, Synchronisation and Media",
+    "milestone_key": "M05",
+    "summary": "Only complete verified safe files can produce public derivatives",
+    "approach": "Signed private upload intent, size/MIME/hash checks, scan and idempotent jobs",
+    "edge": "Half upload, executable/polyglot and scanner failure remain private",
+    "dependencies": [
+      "03.09",
+      "03.07",
+      "05.04"
+    ],
+    "priority": "P1",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:offline",
+      "priority:p1",
+      "status:blocked"
+    ],
+    "doc": "docs/architecture/offline-sync.md",
+    "user": "field researcher",
+    "privacy": "Local drafts are sensitive; protection, storage loss and offline revocation limitations must be explicit.",
+    "body_path": "docs/project/issues/05.07.md"
+  },
+  {
+    "id": "05.08",
+    "title": "[OFFLINE] Manage photo metadata credit and permissions",
+    "milestone": "M05 — Offline Fieldwork, Synchronisation and Media",
+    "milestone_key": "M05",
+    "summary": "Date/direction/place/creator/rights and participant consent trace every derivative",
+    "approach": "Media permissions, EXIF removal and face/plate redaction review",
+    "edge": "Unknown rights or withdrawn consent blocks public copy",
+    "dependencies": [
+      "05.07",
+      "03.06"
+    ],
+    "priority": "P1",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:offline",
+      "priority:p1",
+      "status:blocked"
+    ],
+    "doc": "docs/architecture/offline-sync.md",
+    "user": "field researcher",
+    "privacy": "Local drafts are sensitive; protection, storage loss and offline revocation limitations must be explicit.",
+    "body_path": "docs/project/issues/05.08.md"
+  },
+  {
+    "id": "05.09",
+    "title": "[OFFLINE] Test field network and device-loss recovery",
+    "milestone": "M05 — Offline Fieldwork, Synchronisation and Media",
+    "milestone_key": "M05",
+    "summary": "Approved devices recover acknowledged drafts or document unrecoverable cases",
+    "approach": "Airplane mode/restart/low-storage/key loss/foreground resume test script",
+    "edge": "Never clear local source before verified server receipt and attachment reconciliation",
+    "dependencies": [
+      "05.05",
+      "05.06",
+      "05.08"
+    ],
+    "priority": "P1",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:offline",
+      "priority:p1",
+      "status:blocked",
+      "field-validation-required"
+    ],
+    "doc": "docs/architecture/offline-sync.md",
+    "user": "field researcher",
+    "privacy": "Local drafts are sensitive; protection, storage loss and offline revocation limitations must be explicit.",
+    "body_path": "docs/project/issues/05.09.md"
+  },
+  {
+    "id": "06.01",
+    "title": "[HISTORICAL] Implement versioned place content model",
+    "milestone": "M06 — Heritage, Historical Evidence and 360° Content",
+    "milestone_key": "M06",
+    "summary": "Profile content separates description, dated observation and evidence state",
+    "approach": "Localized content revisions and last-reviewed metadata linked to locations",
+    "edge": "Unreviewed content cannot inherit geometry approval as publication approval",
+    "dependencies": [
+      "02.06"
+    ],
+    "priority": "P2",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:historical",
+      "priority:p2",
+      "status:blocked"
+    ],
+    "doc": "docs/research/historical-evidence.md",
+    "user": "research editor",
+    "privacy": "Dates, provenance, rights and identifiable-media/quote consent are independent publication requirements.",
+    "body_path": "docs/project/issues/06.01.md"
+  },
+  {
+    "id": "06.02",
+    "title": "[HISTORICAL] Implement editorial place description workflow",
+    "milestone": "M06 — Heritage, Historical Evidence and 360° Content",
+    "milestone_key": "M06",
+    "summary": "Descriptions are sourced, revisioned and reviewed for current publication",
+    "approach": "Draft/review/approve transitions with category/history/media references",
+    "edge": "Stale revision or invented site condition rejected",
+    "dependencies": [
+      "06.01",
+      "03.04"
+    ],
+    "priority": "P2",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:historical",
+      "priority:p2",
+      "status:blocked"
+    ],
+    "doc": "docs/research/historical-evidence.md",
+    "user": "research editor",
+    "privacy": "Dates, provenance, rights and identifiable-media/quote consent are independent publication requirements.",
+    "body_path": "docs/project/issues/06.02.md"
+  },
+  {
+    "id": "06.03",
+    "title": "[HISTORICAL] Implement historical evidence provenance",
+    "milestone": "M06 — Heritage, Historical Evidence and 360° Content",
+    "milestone_key": "M06",
+    "summary": "Every claim stores citation/date precision/rights and verification state",
+    "approach": "Source schema and reviewer UI/API preserve disputed accounts",
+    "edge": "Missing source/date cannot become verified chronology",
+    "dependencies": [
+      "06.01",
+      "00.04"
+    ],
+    "priority": "P2",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:historical",
+      "priority:p2",
+      "status:blocked"
+    ],
+    "doc": "docs/research/historical-evidence.md",
+    "user": "research editor",
+    "privacy": "Dates, provenance, rights and identifiable-media/quote consent are independent publication requirements.",
+    "body_path": "docs/project/issues/06.03.md"
+  },
+  {
+    "id": "06.04",
+    "title": "[HISTORICAL] Implement sourced timeline events",
+    "milestone": "M06 — Heritage, Historical Evidence and 360° Content",
+    "milestone_key": "M06",
+    "summary": "Events show supported date range/precision and evidence quality",
+    "approach": "Events reference location and source; ordered display handles approximate dates",
+    "edge": "Unknown date not coerced to exact year or current date",
+    "dependencies": [
+      "06.03"
+    ],
+    "priority": "P2",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:historical",
+      "priority:p2",
+      "status:blocked"
+    ],
+    "doc": "docs/research/historical-evidence.md",
+    "user": "research editor",
+    "privacy": "Dates, provenance, rights and identifiable-media/quote consent are independent publication requirements.",
+    "body_path": "docs/project/issues/06.04.md"
+  },
+  {
+    "id": "06.05",
+    "title": "[HISTORICAL] Implement historical comparison pair model",
+    "milestone": "M06 — Heritage, Historical Evidence and 360° Content",
+    "milestone_key": "M06",
+    "summary": "Matched images have independently verified dates, rights and viewpoint notes",
+    "approach": "Link before/after assets and quality review at current revision",
+    "edge": "Missing historical date or mismatched place blocks publication",
+    "dependencies": [
+      "06.03",
+      "05.08"
+    ],
+    "priority": "P2",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:historical",
+      "priority:p2",
+      "status:blocked"
+    ],
+    "doc": "docs/research/historical-evidence.md",
+    "user": "research editor",
+    "privacy": "Dates, provenance, rights and identifiable-media/quote consent are independent publication requirements.",
+    "body_path": "docs/project/issues/06.05.md"
+  },
+  {
+    "id": "06.06",
+    "title": "[HISTORICAL] Build accessible Then and Now component",
+    "milestone": "M06 — Heritage, Historical Evidence and 360° Content",
+    "milestone_key": "M06",
+    "summary": "Keyboard slider and side-by-side fallback show dates/sources and limits",
+    "approach": "Responsive image comparison with text description and lazy media",
+    "edge": "Unsupported pair hidden; image failure preserves narrative",
+    "dependencies": [
+      "06.05",
+      "01.07"
+    ],
+    "priority": "P2",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:historical",
+      "priority:p2",
+      "status:blocked"
+    ],
+    "doc": "docs/research/historical-evidence.md",
+    "user": "research editor",
+    "privacy": "Dates, provenance, rights and identifiable-media/quote consent are independent publication requirements.",
+    "body_path": "docs/project/issues/06.06.md"
+  },
+  {
+    "id": "06.07",
+    "title": "[HISTORICAL] Integrate owned panorama viewer",
+    "milestone": "M06 — Heritage, Historical Evidence and 360° Content",
+    "milestone_key": "M06",
+    "summary": "Approved self-captured panorama displays date/credit with static fallback",
+    "approach": "Lazy Pannellum adapter, keyboard controls and permitted derivative URLs",
+    "edge": "WebGL failure/large texture does not block place page",
+    "dependencies": [
+      "05.08",
+      "01.06"
+    ],
+    "priority": "P2",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:historical",
+      "priority:p2",
+      "status:blocked"
+    ],
+    "doc": "docs/research/historical-evidence.md",
+    "user": "research editor",
+    "privacy": "Dates, provenance, rights and identifiable-media/quote consent are independent publication requirements.",
+    "body_path": "docs/project/issues/06.07.md"
+  },
+  {
+    "id": "06.08",
+    "title": "[HISTORICAL] Evaluate third-party street imagery licensing",
+    "milestone": "M06 — Heritage, Historical Evidence and 360° Content",
+    "milestone_key": "M06",
+    "summary": "Coverage/API/terms/privacy/cost comparison yields explicit enable-or-defer decision",
+    "approach": "Check supported Google viewer/embed and Mapillary access without scraping",
+    "edge": "No billing activation or continuous coverage promise without approval",
+    "dependencies": [
+      "02.03",
+      "00.09"
+    ],
+    "priority": "P2",
+    "size": "S",
+    "labels": [
+      "type:feature",
+      "area:historical",
+      "priority:p2",
+      "status:blocked"
+    ],
+    "doc": "docs/research/historical-evidence.md",
+    "user": "research editor",
+    "privacy": "Dates, provenance, rights and identifiable-media/quote consent are independent publication requirements.",
+    "body_path": "docs/project/issues/06.08.md"
+  },
+  {
+    "id": "06.09",
+    "title": "[HISTORICAL] Publish verified location stories and accounts",
+    "milestone": "M06 — Heritage, Historical Evidence and 360° Content",
+    "milestone_key": "M06",
+    "summary": "Reviewed stories distinguish fact, memory and official statement with permitted attribution",
+    "approach": "Consent-linked editorial revision and source verification workflow",
+    "edge": "Unverified official claim or revoked quote remains unpublished",
+    "dependencies": [
+      "06.02",
+      "06.04",
+      "03.06"
+    ],
+    "priority": "P2",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:historical",
+      "priority:p2",
+      "status:blocked"
+    ],
+    "doc": "docs/research/historical-evidence.md",
+    "user": "research editor",
+    "privacy": "Dates, provenance, rights and identifiable-media/quote consent are independent publication requirements.",
+    "body_path": "docs/project/issues/06.09.md"
+  },
+  {
+    "id": "07.01",
+    "title": "[FRONTEND] Build public shell and accessible navigation",
+    "milestone": "M07 — Public Interactive Website",
+    "milestone_key": "M07",
+    "summary": "Public routes expose atlas navigation, language shell and list alternative",
+    "approach": "React/Vite public app and responsive shared UI primitives",
+    "edge": "Anonymous page has no survey entry route/action",
+    "dependencies": [
+      "00.10",
+      "01.02"
+    ],
+    "priority": "P2",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:frontend",
+      "priority:p2",
+      "status:blocked"
+    ],
+    "doc": "docs/design/public-website.md",
+    "user": "public visitor",
+    "privacy": "Consume only allowlisted published projection. No survey entry, private IDs, raw coordinates or original media.",
+    "body_path": "docs/project/issues/07.01.md"
+  },
+  {
+    "id": "07.02",
+    "title": "[FRONTEND] Build evidence-led home page",
+    "milestone": "M07 — Public Interactive Website",
+    "milestone_key": "M07",
+    "summary": "Introduction and approved featured places lead to map without fabricated findings",
+    "approach": "Responsive P01 layout using public projection and permitted media",
+    "edge": "No approved hero/media gives honest fallback",
+    "dependencies": [
+      "07.01",
+      "01.03",
+      "07.10"
+    ],
+    "priority": "P2",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:frontend",
+      "priority:p2",
+      "status:blocked"
+    ],
+    "doc": "docs/design/public-website.md",
+    "user": "public visitor",
+    "privacy": "Consume only allowlisted published projection. No survey entry, private IDs, raw coordinates or original media.",
+    "body_path": "docs/project/issues/07.02.md"
+  },
+  {
+    "id": "07.03",
+    "title": "[FRONTEND] Build public map explorer",
+    "milestone": "M07 — Public Interactive Website",
+    "milestone_key": "M07",
+    "summary": "Visitors browse verified features and select details with stable URL state",
+    "approach": "Integrate shared MapLibre and published GeoJSON; list fallback",
+    "edge": "No private interview source/layer in network requests",
+    "dependencies": [
+      "02.04",
+      "07.01",
+      "07.10"
+    ],
+    "priority": "P2",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:frontend",
+      "priority:p2",
+      "status:blocked"
+    ],
+    "doc": "docs/design/public-website.md",
+    "user": "public visitor",
+    "privacy": "Consume only allowlisted published projection. No survey entry, private IDs, raw coordinates or original media.",
+    "body_path": "docs/project/issues/07.03.md"
+  },
+  {
+    "id": "07.04",
+    "title": "[FRONTEND] Build map layer and category controls",
+    "milestone": "M07 — Public Interactive Website",
+    "milestone_key": "M07",
+    "summary": "Layer toggles/filter chips have keyboard and selected-state behavior",
+    "approach": "Bind approved categories/layers to URL and map source filters",
+    "edge": "Empty result retains reset/list controls and attribution",
+    "dependencies": [
+      "07.03",
+      "02.05"
+    ],
+    "priority": "P2",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:frontend",
+      "priority:p2",
+      "status:blocked"
+    ],
+    "doc": "docs/design/public-website.md",
+    "user": "public visitor",
+    "privacy": "Consume only allowlisted published projection. No survey entry, private IDs, raw coordinates or original media.",
+    "body_path": "docs/project/issues/07.04.md"
+  },
+  {
+    "id": "07.05",
+    "title": "[FRONTEND] Build public location search",
+    "milestone": "M07 — Public Interactive Website",
+    "milestone_key": "M07",
+    "summary": "Multilingual aliases find only published places and restore map selection",
+    "approach": "Consume bounded spatial/name query contracts with request cancellation",
+    "edge": "Rapid stale response cannot overwrite newer search; private candidate hidden",
+    "dependencies": [
+      "02.08",
+      "07.10",
+      "07.03"
+    ],
+    "priority": "P2",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:frontend",
+      "priority:p2",
+      "status:blocked"
+    ],
+    "doc": "docs/design/public-website.md",
+    "user": "public visitor",
+    "privacy": "Consume only allowlisted published projection. No survey entry, private IDs, raw coordinates or original media.",
+    "body_path": "docs/project/issues/07.05.md"
+  },
+  {
+    "id": "07.06",
+    "title": "[FRONTEND] Build location profile pages",
+    "milestone": "M07 — Public Interactive Website",
+    "milestone_key": "M07",
+    "summary": "Profiles show approved description, geometry, dates, sources and safe summaries",
+    "approach": "Deep-link P05 using public DTO with modular evidence sections",
+    "edge": "Withdrawn/unpublished place has safe 404 and no cached source leak",
+    "dependencies": [
+      "07.10",
+      "01.06",
+      "06.02"
+    ],
+    "priority": "P2",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:frontend",
+      "priority:p2",
+      "status:blocked"
+    ],
+    "doc": "docs/design/public-website.md",
+    "user": "public visitor",
+    "privacy": "Consume only allowlisted published projection. No survey entry, private IDs, raw coordinates or original media.",
+    "body_path": "docs/project/issues/07.06.md"
+  },
+  {
+    "id": "07.07",
+    "title": "[FRONTEND] Build approved photo gallery",
+    "milestone": "M07 — Public Interactive Website",
+    "milestone_key": "M07",
+    "summary": "Responsive gallery/lightbox exposes derivative, credit, date and alt text",
+    "approach": "Accessible focus-managed gallery with lazy image sizes",
+    "edge": "Original object URL/EXIF never exposed; missing asset fallback",
+    "dependencies": [
+      "05.08",
+      "07.06"
+    ],
+    "priority": "P2",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:frontend",
+      "priority:p2",
+      "status:blocked"
+    ],
+    "doc": "docs/design/public-website.md",
+    "user": "public visitor",
+    "privacy": "Consume only allowlisted published projection. No survey entry, private IDs, raw coordinates or original media.",
+    "body_path": "docs/project/issues/07.07.md"
+  },
+  {
+    "id": "07.08",
+    "title": "[FRONTEND] Present panorama and unavailable coverage states",
+    "milestone": "M07 — Public Interactive Website",
+    "milestone_key": "M07",
+    "summary": "Place page loads approved panorama on demand or honest static fallback",
+    "approach": "Connect owned viewer and optional approved external integration decision",
+    "edge": "Unavailable provider/denied third-party load leaves usable profile",
+    "dependencies": [
+      "06.07",
+      "06.08",
+      "07.06"
+    ],
+    "priority": "P2",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:frontend",
+      "priority:p2",
+      "status:blocked"
+    ],
+    "doc": "docs/design/public-website.md",
+    "user": "public visitor",
+    "privacy": "Consume only allowlisted published projection. No survey entry, private IDs, raw coordinates or original media.",
+    "body_path": "docs/project/issues/07.08.md"
+  },
+  {
+    "id": "07.09",
+    "title": "[FRONTEND] Integrate public history and Community Voices",
+    "milestone": "M07 — Public Interactive Website",
+    "milestone_key": "M07",
+    "summary": "Profiles/history/voices routes show reviewed dates, sources and permitted accounts",
+    "approach": "Compose timeline, comparison, quote/theme evidence with distinct labels",
+    "edge": "Withdrawal invalidation removes stale attributed content",
+    "dependencies": [
+      "06.06",
+      "06.09",
+      "07.06"
+    ],
+    "priority": "P2",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:frontend",
+      "priority:p2",
+      "status:blocked"
+    ],
+    "doc": "docs/design/public-website.md",
+    "user": "public visitor",
+    "privacy": "Consume only allowlisted published projection. No survey entry, private IDs, raw coordinates or original media.",
+    "body_path": "docs/project/issues/07.09.md"
+  },
+  {
+    "id": "07.10",
+    "title": "[FRONTEND] Implement read-only public projection API",
+    "milestone": "M07 — Public Interactive Website",
+    "milestone_key": "M07",
+    "summary": "Public credentials and allowlisted DTOs expose only approved snapshots/content",
+    "approach": "Separate public DB pool/schema and GET-only routes with cache invalidation",
+    "edge": "Anonymous write/raw survey/exact interview GPS requests fail",
+    "dependencies": [
+      "03.07",
+      "09.08",
+      "08.09"
+    ],
+    "priority": "P2",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:frontend",
+      "priority:p2",
+      "status:blocked"
+    ],
+    "doc": "docs/design/public-website.md",
+    "user": "public visitor",
+    "privacy": "Consume only allowlisted published projection. No survey entry, private IDs, raw coordinates or original media.",
+    "body_path": "docs/project/issues/07.10.md"
+  },
+  {
+    "id": "07.11",
+    "title": "[FRONTEND] Verify responsive public map journeys",
+    "milestone": "M07 — Public Interactive Website",
+    "milestone_key": "M07",
+    "summary": "Desktop drawers and mobile bottom sheet preserve all essential controls",
+    "approach": "Implement approved responsive frames, safe areas and focus behavior",
+    "edge": "320px/zoom/orientation/soft keyboard do not hide navigation",
+    "dependencies": [
+      "07.03",
+      "07.06",
+      "01.05"
+    ],
+    "priority": "P2",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:frontend",
+      "priority:p2",
+      "status:blocked"
+    ],
+    "doc": "docs/design/public-website.md",
+    "user": "public visitor",
+    "privacy": "Consume only allowlisted published projection. No survey entry, private IDs, raw coordinates or original media.",
+    "body_path": "docs/project/issues/07.11.md"
+  },
+  {
+    "id": "07.12",
+    "title": "[FRONTEND] Publish methodology sources and accessibility pages",
+    "milestone": "M07 — Public Interactive Website",
+    "milestone_key": "M07",
+    "summary": "Visitors can inspect sampling/counting/privacy limits, citations and language help",
+    "approach": "Build P11–P13 from versioned approved content and attribution registry",
+    "edge": "No invented team/contact, unverified results or unsupported translation claim",
+    "dependencies": [
+      "07.01",
+      "00.04",
+      "01.02"
+    ],
+    "priority": "P2",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:frontend",
+      "priority:p2",
+      "status:blocked"
+    ],
+    "doc": "docs/design/public-website.md",
+    "user": "public visitor",
+    "privacy": "Consume only allowlisted published projection. No survey entry, private IDs, raw coordinates or original media.",
+    "body_path": "docs/project/issues/07.12.md"
+  },
+  {
+    "id": "08.01",
+    "title": "[ANALYTICS] Implement reproducible valid-answer aggregation",
+    "milestone": "M08 — Community Insights and Survey Analytics",
+    "milestone_key": "M08",
+    "summary": "Each metric pins question/version, denominator, missing/unsure and eligibility rules",
+    "approach": "Worker aggregates only reviewed consent-compatible nonwithdrawn revisions",
+    "edge": "Invalid/unpublished/branch-inactive answers excluded; unsure not zero",
+    "dependencies": [
+      "04.02",
+      "09.04",
+      "03.06"
+    ],
+    "priority": "P2",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:analytics",
+      "priority:p2",
+      "status:blocked"
+    ],
+    "doc": "docs/architecture/analytics.md",
+    "user": "research reader",
+    "privacy": "Aggregate only eligible records; show valid denominators and enforce approved cohort/suppression policy.",
+    "body_path": "docs/project/issues/08.01.md"
+  },
+  {
+    "id": "08.02",
+    "title": "[ANALYTICS] Aggregate stakeholder distributions",
+    "milestone": "M08 — Community Insights and Survey Analytics",
+    "milestone_key": "M08",
+    "summary": "Counts represent distinct eligible interviews per category and collection period",
+    "approach": "Versioned snapshot count/query and denominator metadata",
+    "edge": "Multi-place interview not counted repeatedly in overall distribution",
+    "dependencies": [
+      "08.01"
+    ],
+    "priority": "P2",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:analytics",
+      "priority:p2",
+      "status:blocked"
+    ],
+    "doc": "docs/architecture/analytics.md",
+    "user": "research reader",
+    "privacy": "Aggregate only eligible records; show valid denominators and enforce approved cohort/suppression policy.",
+    "body_path": "docs/project/issues/08.02.md"
+  },
+  {
+    "id": "08.03",
+    "title": "[ANALYTICS] Analyze reported issues with codebook",
+    "milestone": "M08 — Community Insights and Survey Analytics",
+    "milestone_key": "M08",
+    "summary": "Issue counts separate selected categories from analyst-coded themes",
+    "approach": "Stable taxonomy, multi-label coding provenance and valid-base rule",
+    "edge": "Percentages may exceed 100 only with explicit multi-response note",
+    "dependencies": [
+      "08.01",
+      "04.10"
+    ],
+    "priority": "P2",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:analytics",
+      "priority:p2",
+      "status:blocked"
+    ],
+    "doc": "docs/architecture/analytics.md",
+    "user": "research reader",
+    "privacy": "Aggregate only eligible records; show valid denominators and enforce approved cohort/suppression policy.",
+    "body_path": "docs/project/issues/08.03.md"
+  },
+  {
+    "id": "08.04",
+    "title": "[ANALYTICS] Analyze ratings and perceived changes",
+    "milestone": "M08 — Community Insights and Survey Analytics",
+    "milestone_key": "M08",
+    "summary": "Distributions show valid n, unsure/missing and association context",
+    "approach": "Scale/ordinal counts and question-version mappings; no unsupported causal claims",
+    "edge": "Rating unsure not zero; incompatible versions not silently pooled",
+    "dependencies": [
+      "08.01"
+    ],
+    "priority": "P2",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:analytics",
+      "priority:p2",
+      "status:blocked"
+    ],
+    "doc": "docs/architecture/analytics.md",
+    "user": "research reader",
+    "privacy": "Aggregate only eligible records; show valid denominators and enforce approved cohort/suppression policy.",
+    "body_path": "docs/project/issues/08.04.md"
+  },
+  {
+    "id": "08.05",
+    "title": "[ANALYTICS] Build stakeholder comparison chart tables",
+    "milestone": "M08 — Community Insights and Survey Analytics",
+    "milestone_key": "M08",
+    "summary": "Allowed comparison cohorts display counts, disclosure state and limits",
+    "approach": "ECharts + accessible tables consuming fixed approved snapshots",
+    "edge": "Small category suppressed including complementary cell reconstruction",
+    "dependencies": [
+      "08.02",
+      "08.04",
+      "08.09",
+      "01.08"
+    ],
+    "priority": "P2",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:analytics",
+      "priority:p2",
+      "status:blocked"
+    ],
+    "doc": "docs/architecture/analytics.md",
+    "user": "research reader",
+    "privacy": "Aggregate only eligible records; show valid denominators and enforce approved cohort/suppression policy.",
+    "body_path": "docs/project/issues/08.05.md"
+  },
+  {
+    "id": "08.06",
+    "title": "[ANALYTICS] Publish location-level sample summaries",
+    "milestone": "M08 — Community Insights and Survey Analytics",
+    "milestone_key": "M08",
+    "summary": "Topic analysis uses subject location and explains overlapping respondents",
+    "approach": "Aggregate scoped answer/topic groups and distinct interview bases",
+    "edge": "Interview at A discussing B contributes to B topic, not A rating",
+    "dependencies": [
+      "08.01",
+      "04.09",
+      "08.09"
+    ],
+    "priority": "P2",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:analytics",
+      "priority:p2",
+      "status:blocked"
+    ],
+    "doc": "docs/architecture/analytics.md",
+    "user": "research reader",
+    "privacy": "Aggregate only eligible records; show valid denominators and enforce approved cohort/suppression policy.",
+    "body_path": "docs/project/issues/08.06.md"
+  },
+  {
+    "id": "08.07",
+    "title": "[ANALYTICS] Build safe survey coverage snapshots",
+    "milestone": "M08 — Community Insights and Survey Analytics",
+    "milestone_key": "M08",
+    "summary": "Coverage uses private interview positions only to emit coarse approved cells",
+    "approach": "Fixed grid/policy version and suppression pipeline with no raw centroid export",
+    "edge": "Low-n cells/out-of-area fixes do not reveal precise individuals",
+    "dependencies": [
+      "08.01",
+      "08.09",
+      "02.02"
+    ],
+    "priority": "P2",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:analytics",
+      "priority:p2",
+      "status:blocked"
+    ],
+    "doc": "docs/architecture/analytics.md",
+    "user": "research reader",
+    "privacy": "Aggregate only eligible records; show valid denominators and enforce approved cohort/suppression policy.",
+    "body_path": "docs/project/issues/08.07.md"
+  },
+  {
+    "id": "08.08",
+    "title": "[ANALYTICS] Implement constrained dashboard cohorts and dates",
+    "milestone": "M08 — Community Insights and Survey Analytics",
+    "milestone_key": "M08",
+    "summary": "Filters select preapproved periods/groups with visible active cohort metadata",
+    "approach": "Allowlisted cohort routes, cache keys and no arbitrary intersection query",
+    "edge": "Unsupported filter combination cannot bypass suppression via API",
+    "dependencies": [
+      "08.02",
+      "08.03",
+      "08.04",
+      "08.09"
+    ],
+    "priority": "P2",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:analytics",
+      "priority:p2",
+      "status:blocked"
+    ],
+    "doc": "docs/architecture/analytics.md",
+    "user": "research reader",
+    "privacy": "Aggregate only eligible records; show valid denominators and enforce approved cohort/suppression policy.",
+    "body_path": "docs/project/issues/08.08.md"
+  },
+  {
+    "id": "08.09",
+    "title": "[ANALYTICS] Enforce disclosure and small-sample controls",
+    "milestone": "M08 — Community Insights and Survey Analytics",
+    "milestone_key": "M08",
+    "summary": "Policy checks minimum n, complementary/differencing risk and restricted fields",
+    "approach": "Versioned fixed cohorts and privacy tests; institutional approval of provisional k5/grid",
+    "edge": "Suppressed cell cannot be reconstructed by totals/date differences",
+    "dependencies": [
+      "08.01",
+      "03.10"
+    ],
+    "priority": "P2",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:analytics",
+      "priority:p2",
+      "status:blocked",
+      "milestone-blocker"
+    ],
+    "doc": "docs/architecture/analytics.md",
+    "user": "research reader",
+    "privacy": "Aggregate only eligible records; show valid denominators and enforce approved cohort/suppression policy.",
+    "body_path": "docs/project/issues/08.09.md"
+  },
+  {
+    "id": "08.10",
+    "title": "[ANALYTICS] Verify analytics with reproducible fixtures",
+    "milestone": "M08 — Community Insights and Survey Analytics",
+    "milestone_key": "M08",
+    "summary": "Frozen synthetic cases reproduce every numerator/base/exclusion and suppression",
+    "approach": "Independent expected tables and question/method notes beside each metric",
+    "edge": "Missing, rejected, withdrawn, duplicate and multi-place fixtures handled",
+    "dependencies": [
+      "08.02",
+      "08.03",
+      "08.04",
+      "08.07",
+      "08.08"
+    ],
+    "priority": "P2",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:analytics",
+      "priority:p2",
+      "status:blocked"
+    ],
+    "doc": "docs/architecture/analytics.md",
+    "user": "research reader",
+    "privacy": "Aggregate only eligible records; show valid denominators and enforce approved cohort/suppression policy.",
+    "body_path": "docs/project/issues/08.10.md"
+  },
+  {
+    "id": "09.01",
+    "title": "[ADMIN] Build role-limited research dashboard",
+    "milestone": "M09 — Research Administration and Publication Management",
+    "milestone_key": "M09",
+    "summary": "Lead/admin navigation and scoped queue totals respect assigned capabilities",
+    "approach": "Private app shell and study selector with capability checks",
+    "edge": "Technical administrator sees no raw records without explicit grant",
+    "dependencies": [
+      "03.04",
+      "01.10"
+    ],
+    "priority": "P1",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:admin",
+      "priority:p1",
+      "status:blocked"
+    ],
+    "doc": "docs/design/admin-dashboard.md",
+    "user": "research lead",
+    "privacy": "Review access is study-scoped. Approval/revocation/export actions are audited and consent-compatible.",
+    "body_path": "docs/project/issues/09.01.md"
+  },
+  {
+    "id": "09.02",
+    "title": "[ADMIN] Build account and training administration",
+    "milestone": "M09 — Research Administration and Publication Management",
+    "milestone_key": "M09",
+    "summary": "Authorised admin manages invitations, grants, expiry and training state",
+    "approach": "Reuse account service with audited reason/confirmation and role separation",
+    "edge": "Self-escalation and cross-study grant denied",
+    "dependencies": [
+      "09.01",
+      "03.02"
+    ],
+    "priority": "P1",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:admin",
+      "priority:p1",
+      "status:blocked"
+    ],
+    "doc": "docs/design/admin-dashboard.md",
+    "user": "research lead",
+    "privacy": "Review access is study-scoped. Approval/revocation/export actions are audited and consent-compatible.",
+    "body_path": "docs/project/issues/09.02.md"
+  },
+  {
+    "id": "09.03",
+    "title": "[ADMIN] Monitor visits and research progress",
+    "milestone": "M09 — Research Administration and Publication Management",
+    "milestone_key": "M09",
+    "summary": "Assigned visits show reviewed collection counts vs estimates and unresolved queue",
+    "approach": "Scoped progress queries with stale/device-status caveats",
+    "edge": "Unknown offline drafts not falsely counted as synced",
+    "dependencies": [
+      "09.01",
+      "04.03"
+    ],
+    "priority": "P1",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:admin",
+      "priority:p1",
+      "status:blocked"
+    ],
+    "doc": "docs/design/admin-dashboard.md",
+    "user": "research lead",
+    "privacy": "Review access is study-scoped. Approval/revocation/export actions are audited and consent-compatible.",
+    "body_path": "docs/project/issues/09.03.md"
+  },
+  {
+    "id": "09.04",
+    "title": "[ADMIN] Build survey moderation and validation queue",
+    "milestone": "M09 — Research Administration and Publication Management",
+    "milestone_key": "M09",
+    "summary": "Lead reviews consent/completeness/duplicates/version and requests revisions",
+    "approach": "Review state machine with current revision checks and eligibility flag",
+    "edge": "Self approval or stale decision cannot make record public-eligible",
+    "dependencies": [
+      "09.01",
+      "04.10",
+      "03.08"
+    ],
+    "priority": "P1",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:admin",
+      "priority:p1",
+      "status:blocked"
+    ],
+    "doc": "docs/design/admin-dashboard.md",
+    "user": "research lead",
+    "privacy": "Review access is study-scoped. Approval/revocation/export actions are audited and consent-compatible.",
+    "body_path": "docs/project/issues/09.04.md"
+  },
+  {
+    "id": "09.05",
+    "title": "[ADMIN] Review private GPS quality and outliers",
+    "milestone": "M09 — Research Administration and Publication Management",
+    "milestone_key": "M09",
+    "summary": "Reviewers inspect raw/effective fixes, accuracy/time and boundary context",
+    "approach": "Private map/list flags with reasoned correction revision workflow",
+    "edge": "Poor accuracy cannot be silently snapped to subject place",
+    "dependencies": [
+      "09.04",
+      "04.08",
+      "02.02"
+    ],
+    "priority": "P1",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:admin",
+      "priority:p1",
+      "status:blocked"
+    ],
+    "doc": "docs/design/admin-dashboard.md",
+    "user": "research lead",
+    "privacy": "Review access is study-scoped. Approval/revocation/export actions are audited and consent-compatible.",
+    "body_path": "docs/project/issues/09.05.md"
+  },
+  {
+    "id": "09.06",
+    "title": "[ADMIN] Approve candidate locations and geometry",
+    "milestone": "M09 — Research Administration and Publication Management",
+    "milestone_key": "M09",
+    "summary": "Verified source/name/access/boundary checks precede place approval",
+    "approach": "Candidate review state, geometry diff and reviewer evidence",
+    "edge": "Rejected/out-of-boundary candidate remains private",
+    "dependencies": [
+      "09.01",
+      "02.09"
+    ],
+    "priority": "P1",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:admin",
+      "priority:p1",
+      "status:blocked"
+    ],
+    "doc": "docs/design/admin-dashboard.md",
+    "user": "research lead",
+    "privacy": "Review access is study-scoped. Approval/revocation/export actions are audited and consent-compatible.",
+    "body_path": "docs/project/issues/09.06.md"
+  },
+  {
+    "id": "09.07",
+    "title": "[ADMIN] Review historical evidence and media rights",
+    "milestone": "M09 — Research Administration and Publication Management",
+    "milestone_key": "M09",
+    "summary": "Lead checks date/source/viewpoint/permission/redaction before editorial approval",
+    "approach": "Unified evidence/media queue with independent consent/rights checks",
+    "edge": "Unknown rights, unverified official attribution or missing date blocks item",
+    "dependencies": [
+      "09.01",
+      "06.03",
+      "05.08"
+    ],
+    "priority": "P1",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:admin",
+      "priority:p1",
+      "status:blocked"
+    ],
+    "doc": "docs/design/admin-dashboard.md",
+    "user": "research lead",
+    "privacy": "Review access is study-scoped. Approval/revocation/export actions are audited and consent-compatible.",
+    "body_path": "docs/project/issues/09.07.md"
+  },
+  {
+    "id": "09.08",
+    "title": "[ADMIN] Implement publication preview approval and revoke",
+    "milestone": "M09 — Research Administration and Publication Management",
+    "milestone_key": "M09",
+    "summary": "Independent reviewer approves exact public payload from current eligible revisions",
+    "approach": "Versioned snapshots, allowlisted lineage and atomic publish/invalidate jobs",
+    "edge": "Stale consent, self approval or withdrawal invalidates affected public copies",
+    "dependencies": [
+      "09.04",
+      "09.06",
+      "09.07",
+      "03.08"
+    ],
+    "priority": "P1",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:admin",
+      "priority:p1",
+      "status:blocked",
+      "milestone-blocker"
+    ],
+    "doc": "docs/design/admin-dashboard.md",
+    "user": "research lead",
+    "privacy": "Review access is study-scoped. Approval/revocation/export actions are audited and consent-compatible.",
+    "body_path": "docs/project/issues/09.08.md"
+  },
+  {
+    "id": "09.09",
+    "title": "[ADMIN] Implement purpose-limited anonymised exports",
+    "milestone": "M09 — Research Administration and Publication Management",
+    "milestone_key": "M09",
+    "summary": "Approved CSV/GeoJSON field lists remove raw identifiers and exact interview GPS",
+    "approach": "Async export job, formula-safe CSV, private expiring download and audit",
+    "edge": "Spreadsheet injection, low-n export and unauthorized download rejected",
+    "dependencies": [
+      "09.04",
+      "08.09",
+      "02.10"
+    ],
+    "priority": "P1",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:admin",
+      "priority:p1",
+      "status:blocked"
+    ],
+    "doc": "docs/design/admin-dashboard.md",
+    "user": "research lead",
+    "privacy": "Review access is study-scoped. Approval/revocation/export actions are audited and consent-compatible.",
+    "body_path": "docs/project/issues/09.09.md"
+  },
+  {
+    "id": "09.10",
+    "title": "[ADMIN] Implement correction withdrawal and retention workflows",
+    "milestone": "M09 — Research Administration and Publication Management",
+    "milestone_key": "M09",
+    "summary": "Requests invalidate publication, retain audit and schedule approved private purge",
+    "approach": "Receipt verification, lineage traversal, tombstones and backup restore replay",
+    "edge": "Withdrawal while jobs run cannot republish revoked content",
+    "dependencies": [
+      "09.08",
+      "03.06",
+      "03.08"
+    ],
+    "priority": "P1",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:admin",
+      "priority:p1",
+      "status:blocked"
+    ],
+    "doc": "docs/design/admin-dashboard.md",
+    "user": "research lead",
+    "privacy": "Review access is study-scoped. Approval/revocation/export actions are audited and consent-compatible.",
+    "body_path": "docs/project/issues/09.10.md"
+  },
+  {
+    "id": "10.01",
+    "title": "[DEVOPS] Establish meaningful unit test harness",
+    "milestone": "M10 — Quality Assurance, Accessibility and Performance",
+    "milestone_key": "M10",
+    "summary": "Shared validation and domain invariants execute in CI with readable fixtures",
+    "approach": "Vitest and coverage focused on consent/GPS/version/count logic",
+    "edge": "Tests fail on intentionally changed boundary/missingness rule",
+    "dependencies": [
+      "00.10"
+    ],
+    "priority": "P1",
+    "size": "M",
+    "labels": [
+      "type:test",
+      "area:devops",
+      "priority:p1",
+      "status:blocked"
+    ],
+    "doc": "docs/project/test-strategy.md",
+    "user": "quality reviewer",
+    "privacy": "Tests use synthetic non-Makarba fixtures; CI artifacts must not contain real research data or credentials.",
+    "body_path": "docs/project/issues/10.01.md"
+  },
+  {
+    "id": "10.02",
+    "title": "[DEVOPS] Test API integration and validation",
+    "milestone": "M10 — Quality Assurance, Accessibility and Performance",
+    "milestone_key": "M10",
+    "summary": "Private/public routes validate auth, schema, error codes and transaction behavior",
+    "approach": "Ephemeral PostGIS/API integration fixtures using real HTTP contracts",
+    "edge": "Unknown fields, stale revisions and excessive query limits rejected",
+    "dependencies": [
+      "10.01",
+      "05.04",
+      "07.10"
+    ],
+    "priority": "P1",
+    "size": "M",
+    "labels": [
+      "type:test",
+      "area:devops",
+      "priority:p1",
+      "status:blocked"
+    ],
+    "doc": "docs/project/test-strategy.md",
+    "user": "quality reviewer",
+    "privacy": "Tests use synthetic non-Makarba fixtures; CI artifacts must not contain real research data or credentials.",
+    "body_path": "docs/project/issues/10.02.md"
+  },
+  {
+    "id": "10.03",
+    "title": "[DEVOPS] Test migrations and spatial invariants",
+    "milestone": "M10 — Quality Assurance, Accessibility and Performance",
+    "milestone_key": "M10",
+    "summary": "Empty/upgrade database and geometry/CRS/edge membership cases pass",
+    "approach": "PostGIS test fixtures and least-privilege migration checks",
+    "edge": "Invalid polygon/null geometry/wrong CRS cannot publish",
+    "dependencies": [
+      "10.01",
+      "02.10"
+    ],
+    "priority": "P1",
+    "size": "M",
+    "labels": [
+      "type:test",
+      "area:devops",
+      "priority:p1",
+      "status:blocked"
+    ],
+    "doc": "docs/project/test-strategy.md",
+    "user": "quality reviewer",
+    "privacy": "Tests use synthetic non-Makarba fixtures; CI artifacts must not contain real research data or credentials.",
+    "body_path": "docs/project/issues/10.03.md"
+  },
+  {
+    "id": "10.04",
+    "title": "[DEVOPS] Test authorization abuse paths",
+    "milestone": "M10 — Quality Assurance, Accessibility and Performance",
+    "milestone_key": "M10",
+    "summary": "Anonymous, revoked, wrong-owner and wrong-study requests are denied",
+    "approach": "Negative API/session/CSRF capability matrix test suite",
+    "edge": "Researcher cannot invoke admin or another collector record",
+    "dependencies": [
+      "10.02",
+      "03.10"
+    ],
+    "priority": "P0",
+    "size": "M",
+    "labels": [
+      "type:test",
+      "area:devops",
+      "priority:p0",
+      "status:blocked"
+    ],
+    "doc": "docs/project/test-strategy.md",
+    "user": "quality reviewer",
+    "privacy": "Tests use synthetic non-Makarba fixtures; CI artifacts must not contain real research data or credentials.",
+    "body_path": "docs/project/issues/10.04.md"
+  },
+  {
+    "id": "10.05",
+    "title": "[DEVOPS] Test private-to-public exposure boundary",
+    "milestone": "M10 — Quality Assurance, Accessibility and Performance",
+    "milestone_key": "M10",
+    "summary": "No raw coordinates/answers/consent/EXIF/private IDs escape any public route",
+    "approach": "DTO schema snapshots, DB grant tests and media metadata inspection",
+    "edge": "Public cache/export/search errors cannot leak private fields",
+    "dependencies": [
+      "10.02",
+      "09.08",
+      "09.09"
+    ],
+    "priority": "P0",
+    "size": "M",
+    "labels": [
+      "type:test",
+      "area:devops",
+      "priority:p0",
+      "status:blocked"
+    ],
+    "doc": "docs/project/test-strategy.md",
+    "user": "quality reviewer",
+    "privacy": "Tests use synthetic non-Makarba fixtures; CI artifacts must not contain real research data or credentials.",
+    "body_path": "docs/project/issues/10.05.md"
+  },
+  {
+    "id": "10.06",
+    "title": "[DEVOPS] Test GPS permission quality and correction edges",
+    "milestone": "M10 — Quality Assurance, Accessibility and Performance",
+    "milestone_key": "M10",
+    "summary": "Denied/timeout/stale/poor/manual/out-of-boundary cases match protocol",
+    "approach": "Mock geolocation adapter plus physical-device capture checklist",
+    "edge": "Manual correction preserves raw fix and no fabricated accuracy",
+    "dependencies": [
+      "04.09",
+      "10.01"
+    ],
+    "priority": "P1",
+    "size": "M",
+    "labels": [
+      "type:test",
+      "area:devops",
+      "priority:p1",
+      "status:blocked"
+    ],
+    "doc": "docs/project/test-strategy.md",
+    "user": "quality reviewer",
+    "privacy": "Tests use synthetic non-Makarba fixtures; CI artifacts must not contain real research data or credentials.",
+    "body_path": "docs/project/issues/10.06.md"
+  },
+  {
+    "id": "10.07",
+    "title": "[DEVOPS] Test offline to online sync reliability",
+    "milestone": "M10 — Quality Assurance, Accessibility and Performance",
+    "milestone_key": "M10",
+    "summary": "Lost responses/concurrent retry/app restart yield one interview and recoverable state",
+    "approach": "Fault injection, queue/vault tests and server transaction concurrency",
+    "edge": "Two simultaneous operation sends commit once; rejected attachments retained",
+    "dependencies": [
+      "05.09",
+      "10.02"
+    ],
+    "priority": "P0",
+    "size": "M",
+    "labels": [
+      "type:test",
+      "area:devops",
+      "priority:p0",
+      "status:blocked"
+    ],
+    "doc": "docs/project/test-strategy.md",
+    "user": "quality reviewer",
+    "privacy": "Tests use synthetic non-Makarba fixtures; CI artifacts must not contain real research data or credentials.",
+    "body_path": "docs/project/issues/10.07.md"
+  },
+  {
+    "id": "10.08",
+    "title": "[DEVOPS] Test end-to-end public field and review journeys",
+    "milestone": "M10 — Quality Assurance, Accessibility and Performance",
+    "milestone_key": "M10",
+    "summary": "Synthetic capture A/discuss B → review → safe public snapshot is reproducible",
+    "approach": "Playwright browser flows with test identity and synthetic fixtures",
+    "edge": "No consent/withdrawal/unauthorized request blocks intended exposure",
+    "dependencies": [
+      "07.11",
+      "09.10",
+      "08.10",
+      "10.07"
+    ],
+    "priority": "P1",
+    "size": "M",
+    "labels": [
+      "type:test",
+      "area:devops",
+      "priority:p1",
+      "status:blocked"
+    ],
+    "doc": "docs/project/test-strategy.md",
+    "user": "quality reviewer",
+    "privacy": "Tests use synthetic non-Makarba fixtures; CI artifacts must not contain real research data or credentials.",
+    "body_path": "docs/project/issues/10.08.md"
+  },
+  {
+    "id": "10.09",
+    "title": "[DEVOPS] Audit keyboard screen reader and localization access",
+    "milestone": "M10 — Quality Assurance, Accessibility and Performance",
+    "milestone_key": "M10",
+    "summary": "Core public/field/admin journeys meet AA target with recorded manual evidence",
+    "approach": "axe checks plus NVDA/VoiceOver, contrast/zoom/reflow/reduced-motion testing",
+    "edge": "Canvas-only navigation, focus trap loss and untranslated consent flagged",
+    "dependencies": [
+      "07.11",
+      "09.01",
+      "01.09"
+    ],
+    "priority": "P1",
+    "size": "M",
+    "labels": [
+      "type:test",
+      "area:devops",
+      "priority:p1",
+      "status:blocked"
+    ],
+    "doc": "docs/project/test-strategy.md",
+    "user": "quality reviewer",
+    "privacy": "Tests use synthetic non-Makarba fixtures; CI artifacts must not contain real research data or credentials.",
+    "body_path": "docs/project/issues/10.09.md"
+  },
+  {
+    "id": "10.10",
+    "title": "[DEVOPS] Enforce performance security and CI gates",
+    "milestone": "M10 — Quality Assurance, Accessibility and Performance",
+    "milestone_key": "M10",
+    "summary": "Agreed fixture/load budgets, dependency/secret scans and required check policy exist",
+    "approach": "CI jobs, bundle/network budget and reviewable exception process",
+    "edge": "Failing required checks prevent merge; no blanket allow-failure",
+    "dependencies": [
+      "10.04",
+      "10.05",
+      "10.08",
+      "10.09"
+    ],
+    "priority": "P1",
+    "size": "M",
+    "labels": [
+      "type:test",
+      "area:devops",
+      "priority:p1",
+      "status:blocked"
+    ],
+    "doc": "docs/project/test-strategy.md",
+    "user": "quality reviewer",
+    "privacy": "Tests use synthetic non-Makarba fixtures; CI artifacts must not contain real research data or credentials.",
+    "body_path": "docs/project/issues/10.10.md"
+  },
+  {
+    "id": "10.11",
+    "title": "[DEVOPS] Rehearse encrypted backup and restore",
+    "milestone": "M10 — Quality Assurance, Accessibility and Performance",
+    "milestone_key": "M10",
+    "summary": "Isolated restore proves grants/object integrity and withdrawal tombstone replay",
+    "approach": "Restore DB/media manifests, measure RPO/RTO and record evidence",
+    "edge": "Revoked data cannot reappear publicly after restore",
+    "dependencies": [
+      "09.10",
+      "11.07"
+    ],
+    "priority": "P1",
+    "size": "M",
+    "labels": [
+      "type:test",
+      "area:devops",
+      "priority:p1",
+      "status:blocked"
+    ],
+    "doc": "docs/project/test-strategy.md",
+    "user": "quality reviewer",
+    "privacy": "Tests use synthetic non-Makarba fixtures; CI artifacts must not contain real research data or credentials.",
+    "body_path": "docs/project/issues/10.11.md"
+  },
+  {
+    "id": "10.12",
+    "title": "[DEVOPS] Validate real mobile browser compatibility",
+    "milestone": "M10 — Quality Assurance, Accessibility and Performance",
+    "milestone_key": "M10",
+    "summary": "Supported Android/iOS devices complete GPS/vault/map/upload paths",
+    "approach": "Record actual OS/browser/device matrix and tested limitations",
+    "edge": "Storage eviction, background suspension and WebGL loss documented",
+    "dependencies": [
+      "10.06",
+      "10.07",
+      "10.09"
+    ],
+    "priority": "P1",
+    "size": "M",
+    "labels": [
+      "type:test",
+      "area:devops",
+      "priority:p1",
+      "status:blocked",
+      "field-validation-required"
+    ],
+    "doc": "docs/project/test-strategy.md",
+    "user": "quality reviewer",
+    "privacy": "Tests use synthetic non-Makarba fixtures; CI artifacts must not contain real research data or credentials.",
+    "body_path": "docs/project/issues/10.12.md"
+  },
+  {
+    "id": "11.01",
+    "title": "[DEVOPS] Train researchers and rehearse field checklist",
+    "milestone": "M11 — Field Pilot, Launch and Final Handover",
+    "milestone_key": "M11",
+    "summary": "Collectors demonstrate consent, A/B geography, save/retry and incident process",
+    "approach": "Synthetic interview exercise using SOP and approved scripts",
+    "edge": "Researcher unable to recover/identify unsynced draft not cleared for field",
+    "dependencies": [
+      "00.11",
+      "04.12",
+      "05.09"
+    ],
+    "priority": "P1",
+    "size": "M",
+    "labels": [
+      "type:research",
+      "area:devops",
+      "priority:p1",
+      "status:blocked",
+      "field-validation-required"
+    ],
+    "doc": "docs/operations/field-deployment.md",
+    "user": "research lead",
+    "privacy": "Real collection requires institutional gate, secure devices and consent. Public launch uses only approved evidence.",
+    "body_path": "docs/project/issues/11.01.md"
+  },
+  {
+    "id": "11.02",
+    "title": "[DEVOPS] Run consent-approved small field usability pilot",
+    "milestone": "M11 — Field Pilot, Launch and Final Handover",
+    "milestone_key": "M11",
+    "summary": "Observed interview timing/error findings drive reviewed corrections before expansion",
+    "approach": "Small approved pilot across stakeholder contexts and safe locations",
+    "edge": "No real participant pilot before ethics/offline/security gates",
+    "dependencies": [
+      "11.01",
+      "10.04",
+      "10.12"
+    ],
+    "priority": "P1",
+    "size": "M",
+    "labels": [
+      "type:research",
+      "area:devops",
+      "priority:p1",
+      "status:blocked",
+      "field-validation-required"
+    ],
+    "doc": "docs/operations/field-deployment.md",
+    "user": "research lead",
+    "privacy": "Real collection requires institutional gate, secure devices and consent. Public launch uses only approved evidence.",
+    "body_path": "docs/project/issues/11.02.md"
+  },
+  {
+    "id": "11.03",
+    "title": "[DEVOPS] Verify candidate places and road data",
+    "milestone": "M11 — Field Pilot, Launch and Final Handover",
+    "milestone_key": "M11",
+    "summary": "20–30 target places and 4–6 target corridors have evidence or explicit gaps",
+    "approach": "Source/field/boundary QA and independent geometry review",
+    "edge": "Unverified target omitted rather than fabricated to hit quota",
+    "dependencies": [
+      "02.07",
+      "09.06"
+    ],
+    "priority": "P1",
+    "size": "M",
+    "labels": [
+      "type:research",
+      "area:devops",
+      "priority:p1",
+      "status:blocked",
+      "field-validation-required"
+    ],
+    "doc": "docs/operations/field-deployment.md",
+    "user": "research lead",
+    "privacy": "Real collection requires institutional gate, secure devices and consent. Public launch uses only approved evidence.",
+    "body_path": "docs/project/issues/11.03.md"
+  },
+  {
+    "id": "11.04",
+    "title": "[DEVOPS] Run real GPS and offline pilot",
+    "milestone": "M11 — Field Pilot, Launch and Final Handover",
+    "milestone_key": "M11",
+    "summary": "On-site A/B/airplane-mode/restart/recapture scenarios reconcile saved vs server IDs",
+    "approach": "Physical-device checklist and per-failure recovery evidence",
+    "edge": "Location capture away from interview spot or lost draft blocks expansion",
+    "dependencies": [
+      "11.02",
+      "10.07"
+    ],
+    "priority": "P1",
+    "size": "M",
+    "labels": [
+      "type:research",
+      "area:devops",
+      "priority:p1",
+      "status:blocked",
+      "field-validation-required"
+    ],
+    "doc": "docs/operations/field-deployment.md",
+    "user": "research lead",
+    "privacy": "Real collection requires institutional gate, secure devices and consent. Public launch uses only approved evidence.",
+    "body_path": "docs/project/issues/11.04.md"
+  },
+  {
+    "id": "11.05",
+    "title": "[DEVOPS] Audit survey consent and data quality",
+    "milestone": "M11 — Field Pilot, Launch and Final Handover",
+    "milestone_key": "M11",
+    "summary": "Eligible records have current consent, valid version, topic links and review",
+    "approach": "Reconcile counts/duplicates/missingness and exclusion reasons",
+    "edge": "Unverified official claim never passes as verified statement",
+    "dependencies": [
+      "11.04",
+      "09.04",
+      "09.05"
+    ],
+    "priority": "P1",
+    "size": "M",
+    "labels": [
+      "type:research",
+      "area:devops",
+      "priority:p1",
+      "status:blocked",
+      "field-validation-required"
+    ],
+    "doc": "docs/operations/field-deployment.md",
+    "user": "research lead",
+    "privacy": "Real collection requires institutional gate, secure devices and consent. Public launch uses only approved evidence.",
+    "body_path": "docs/project/issues/11.05.md"
+  },
+  {
+    "id": "11.06",
+    "title": "[DEVOPS] Audit historical sources and media attribution",
+    "milestone": "M11 — Field Pilot, Launch and Final Handover",
+    "milestone_key": "M11",
+    "summary": "Published comparisons/panoramas/quotes have source/date/rights and permission",
+    "approach": "Trace every derivative and historical claim back to approved evidence",
+    "edge": "Absent historical image/date yields unavailable feature, not fake content",
+    "dependencies": [
+      "09.07",
+      "06.06",
+      "06.07"
+    ],
+    "priority": "P1",
+    "size": "M",
+    "labels": [
+      "type:research",
+      "area:devops",
+      "priority:p1",
+      "status:blocked",
+      "field-validation-required"
+    ],
+    "doc": "docs/operations/field-deployment.md",
+    "user": "research lead",
+    "privacy": "Real collection requires institutional gate, secure devices and consent. Public launch uses only approved evidence.",
+    "body_path": "docs/project/issues/11.06.md"
+  },
+  {
+    "id": "11.07",
+    "title": "[DEVOPS] Provision staging and production deployment",
+    "milestone": "M11 — Field Pilot, Launch and Final Handover",
+    "milestone_key": "M11",
+    "summary": "Approved host/region/budget, secrets, HTTPS and release rollback are documented and tested",
+    "approach": "Deploy container/static apps, PostGIS, storage and backup jobs with production collection disabled initially",
+    "edge": "No paid activation without approval; staging contains synthetic data only",
+    "dependencies": [
+      "03.09",
+      "00.09",
+      "10.03"
+    ],
+    "priority": "P1",
+    "size": "M",
+    "labels": [
+      "type:research",
+      "area:devops",
+      "priority:p1",
+      "status:blocked",
+      "field-validation-required"
+    ],
+    "doc": "docs/operations/field-deployment.md",
+    "user": "research lead",
+    "privacy": "Real collection requires institutional gate, secure devices and consent. Public launch uses only approved evidence.",
+    "body_path": "docs/project/issues/11.07.md"
+  },
+  {
+    "id": "11.08",
+    "title": "[DEVOPS] Validate final research dataset and snapshots",
+    "milestone": "M11 — Field Pilot, Launch and Final Handover",
+    "milestone_key": "M11",
+    "summary": "Approved dataset reproduces counts and lists unresolved research limitations",
+    "approach": "Freeze reviewed revision set, run QA and retain exclusion/rights inventory",
+    "edge": "Targets unmet recorded honestly; no demo fixtures in real findings",
+    "dependencies": [
+      "11.05",
+      "11.06",
+      "08.10"
+    ],
+    "priority": "P1",
+    "size": "M",
+    "labels": [
+      "type:research",
+      "area:devops",
+      "priority:p1",
+      "status:blocked",
+      "field-validation-required"
+    ],
+    "doc": "docs/operations/field-deployment.md",
+    "user": "research lead",
+    "privacy": "Real collection requires institutional gate, secure devices and consent. Public launch uses only approved evidence.",
+    "body_path": "docs/project/issues/11.08.md"
+  },
+  {
+    "id": "11.09",
+    "title": "[DEVOPS] Verify release readiness and demonstrate end to end",
+    "milestone": "M11 — Field Pilot, Launch and Final Handover",
+    "milestone_key": "M11",
+    "summary": "Public demonstration passes privacy, sources, accessibility, restore and performance gates",
+    "approach": "Release checklist and synthetic private capture plus real approved public evidence",
+    "edge": "Missing mandatory gate blocks release; no unlicensed media or invented results",
+    "dependencies": [
+      "11.08",
+      "10.10",
+      "10.11",
+      "11.03"
+    ],
+    "priority": "P1",
+    "size": "M",
+    "labels": [
+      "type:research",
+      "area:devops",
+      "priority:p1",
+      "status:blocked",
+      "field-validation-required",
+      "milestone-blocker"
+    ],
+    "doc": "docs/operations/field-deployment.md",
+    "user": "research lead",
+    "privacy": "Real collection requires institutional gate, secure devices and consent. Public launch uses only approved evidence.",
+    "body_path": "docs/project/issues/11.09.md"
+  },
+  {
+    "id": "11.10",
+    "title": "[DEVOPS] Complete handover and maintenance ownership",
+    "milestone": "M11 — Field Pilot, Launch and Final Handover",
+    "milestone_key": "M11",
+    "summary": "Actual maintainers receive runbooks, costs, rights, recovery evidence and known limits",
+    "approach": "Owner-approved vault transfer, renewal schedule and standard final report",
+    "edge": "No imaginary support owner or untested restore claim",
+    "dependencies": [
+      "11.09"
+    ],
+    "priority": "P1",
+    "size": "M",
+    "labels": [
+      "type:research",
+      "area:devops",
+      "priority:p1",
+      "status:blocked",
+      "field-validation-required"
+    ],
+    "doc": "docs/operations/field-deployment.md",
+    "user": "research lead",
+    "privacy": "Real collection requires institutional gate, secure devices and consent. Public launch uses only approved evidence.",
+    "body_path": "docs/project/issues/11.10.md"
+  },
+  {
+    "id": "12.01",
+    "title": "[FRONTEND] Build rich guided map tours",
+    "milestone": "M12 — Advanced and Stretch Features",
+    "milestone_key": "M12",
+    "summary": "Approved ordered stops support accessible narrative and verified optional routes",
+    "approach": "Tour schema and map/list navigation with editorial sources",
+    "edge": "Unpublished stop skipped without exposing private content",
+    "dependencies": [
+      "11.09",
+      "07.09"
+    ],
+    "priority": "P3",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:frontend",
+      "priority:p3",
+      "status:blocked",
+      "stretch-goal"
+    ],
+    "doc": "docs/project/release-plan.md",
+    "user": "public research reader",
+    "privacy": "Stretch features cannot weaken core privacy, evidence, accessibility or rights controls.",
+    "body_path": "docs/project/issues/12.01.md"
+  },
+  {
+    "id": "12.02",
+    "title": "[FRONTEND] Expand English Gujarati and Hindi localization",
+    "milestone": "M12 — Advanced and Stretch Features",
+    "milestone_key": "M12",
+    "summary": "Fluent-reviewed UI/content/consent expansion preserves source language provenance",
+    "approach": "Translation catalogs, script fonts, search aliases and localized tests",
+    "edge": "Missing translation has labeled fallback; machine-only consent rejected",
+    "dependencies": [
+      "11.09",
+      "10.09"
+    ],
+    "priority": "P3",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:frontend",
+      "priority:p3",
+      "status:blocked",
+      "stretch-goal"
+    ],
+    "doc": "docs/project/release-plan.md",
+    "user": "public research reader",
+    "privacy": "Stretch features cannot weaken core privacy, evidence, accessibility or rights controls.",
+    "body_path": "docs/project/issues/12.02.md"
+  },
+  {
+    "id": "12.03",
+    "title": "[FRONTEND] Analyze surveyed walkability and accessibility",
+    "milestone": "M12 — Advanced and Stretch Features",
+    "milestone_key": "M12",
+    "summary": "Dated corridor audits expose rubric, coverage and access limitations",
+    "approach": "Verified crossings/footpath/shade geometry and evidence-linked analysis",
+    "edge": "No automated accessibility promise from incomplete map data",
+    "dependencies": [
+      "11.09",
+      "02.07"
+    ],
+    "priority": "P3",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:frontend",
+      "priority:p3",
+      "status:blocked",
+      "stretch-goal"
+    ],
+    "doc": "docs/project/release-plan.md",
+    "user": "public research reader",
+    "privacy": "Stretch features cannot weaken core privacy, evidence, accessibility or rights controls.",
+    "body_path": "docs/project/issues/12.03.md"
+  },
+  {
+    "id": "12.04",
+    "title": "[FRONTEND] Create consented community audio archive",
+    "milestone": "M12 — Advanced and Stretch Features",
+    "milestone_key": "M12",
+    "summary": "Approved recordings have transcripts, scope, credit and withdrawal lineage",
+    "approach": "Accessible media archive with restricted originals and reviewed derivatives",
+    "edge": "Revoked voice consent removes public audio and related transcript scope",
+    "dependencies": [
+      "11.09",
+      "06.09",
+      "09.10"
+    ],
+    "priority": "P3",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:frontend",
+      "priority:p3",
+      "status:blocked",
+      "stretch-goal"
+    ],
+    "doc": "docs/project/release-plan.md",
+    "user": "public research reader",
+    "privacy": "Stretch features cannot weaken core privacy, evidence, accessibility or rights controls.",
+    "body_path": "docs/project/issues/12.04.md"
+  },
+  {
+    "id": "12.05",
+    "title": "[FRONTEND] Prototype clearly hypothetical future scenarios",
+    "milestone": "M12 — Advanced and Stretch Features",
+    "milestone_key": "M12",
+    "summary": "Viewer labels proposals as illustrative ideas with assumptions and uncertainty",
+    "approach": "Separate scenario data/model from measured or official planning evidence",
+    "edge": "Scenario never rendered as official prediction or current fact",
+    "dependencies": [
+      "11.09",
+      "12.03"
+    ],
+    "priority": "P3",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:frontend",
+      "priority:p3",
+      "status:blocked",
+      "stretch-goal"
+    ],
+    "doc": "docs/project/release-plan.md",
+    "user": "public research reader",
+    "privacy": "Stretch features cannot weaken core privacy, evidence, accessibility or rights controls.",
+    "body_path": "docs/project/issues/12.05.md"
+  },
+  {
+    "id": "12.06",
+    "title": "[FRONTEND] Evaluate advanced 3D data and performance",
+    "milestone": "M12 — Advanced and Stretch Features",
+    "milestone_key": "M12",
+    "summary": "Evidence-backed feasibility decision covers licensed buildings/terrain and devices",
+    "approach": "MapLibre extrusion/terrain prototype with budget and non-WebGL fallback",
+    "edge": "No claim 3D geometry provides panoramic street coverage",
+    "dependencies": [
+      "11.09",
+      "06.08"
+    ],
+    "priority": "P3",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:frontend",
+      "priority:p3",
+      "status:blocked",
+      "stretch-goal"
+    ],
+    "doc": "docs/project/release-plan.md",
+    "user": "public research reader",
+    "privacy": "Stretch features cannot weaken core privacy, evidence, accessibility or rights controls.",
+    "body_path": "docs/project/issues/12.06.md"
+  },
+  {
+    "id": "12.07",
+    "title": "[FRONTEND] Build privacy-safe reported-issue hotspot views",
+    "milestone": "M12 — Advanced and Stretch Features",
+    "milestone_key": "M12",
+    "summary": "Hotspots reflect sampled reports and pass additional disclosure review",
+    "approach": "Coarse approved spatial aggregation with sensitivity/coverage notes",
+    "edge": "Low-n and filter differencing cannot expose interview points",
+    "dependencies": [
+      "11.09",
+      "08.07",
+      "08.09"
+    ],
+    "priority": "P3",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:frontend",
+      "priority:p3",
+      "status:blocked",
+      "stretch-goal"
+    ],
+    "doc": "docs/project/release-plan.md",
+    "user": "public research reader",
+    "privacy": "Stretch features cannot weaken core privacy, evidence, accessibility or rights controls.",
+    "body_path": "docs/project/issues/12.07.md"
+  },
+  {
+    "id": "12.08",
+    "title": "[FRONTEND] Export approved research report and charts",
+    "milestone": "M12 — Advanced and Stretch Features",
+    "milestone_key": "M12",
+    "summary": "Report contains cited snapshots, dates, denominators and sample caveats",
+    "approach": "Accessible PDF/CSV/SVG export from versioned public evidence",
+    "edge": "Suppressed cells remain suppressed; map attribution retained",
+    "dependencies": [
+      "11.09",
+      "09.09"
+    ],
+    "priority": "P3",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:frontend",
+      "priority:p3",
+      "status:blocked",
+      "stretch-goal"
+    ],
+    "doc": "docs/project/release-plan.md",
+    "user": "public research reader",
+    "privacy": "Stretch features cannot weaken core privacy, evidence, accessibility or rights controls.",
+    "body_path": "docs/project/issues/12.08.md"
+  },
+  {
+    "id": "12.09",
+    "title": "[FRONTEND] Evaluate human-reviewed qualitative AI assistance",
+    "milestone": "M12 — Advanced and Stretch Features",
+    "milestone_key": "M12",
+    "summary": "Only approved deidentified input can produce reviewed labeled draft themes",
+    "approach": "Privacy/model/vendor approval, human coding comparison and provenance",
+    "edge": "No raw interviews sent to external model or unsourced summaries auto-published",
+    "dependencies": [
+      "11.09",
+      "08.03",
+      "09.10"
+    ],
+    "priority": "P3",
+    "size": "M",
+    "labels": [
+      "type:feature",
+      "area:frontend",
+      "priority:p3",
+      "status:blocked",
+      "stretch-goal"
+    ],
+    "doc": "docs/project/release-plan.md",
+    "user": "public research reader",
+    "privacy": "Stretch features cannot weaken core privacy, evidence, accessibility or rights controls.",
+    "body_path": "docs/project/issues/12.09.md"
+  }
+]

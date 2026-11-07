@@ -1,0 +1,10 @@
+name: Focused development or research task
+description: Define a bounded, reviewable task using the project contract
+body:
+  - type: textarea
+    id: contract
+    attributes:
+      label: Task contract
+      description: Include Summary, Why, User story, Scope, Out of scope, Technical approach, Data/privacy, Dependencies, Steps, Acceptance, Tests, Edge cases, Documentation, DoD, Priority, Size, Labels and Milestone.
+    validations:
+      required: true

@@ -1,0 +1,16 @@
+node_modules/
+dist/
+coverage/
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+data/
+uploads/
+backups/
+*.sqlite*
+*.log
+.venv/
+__pycache__/
+.planning-tmp/
