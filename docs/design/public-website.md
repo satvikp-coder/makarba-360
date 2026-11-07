@@ -60,3 +60,25 @@ Home uses a permitted image and clear research purpose. Then & Now offers slider
 - **No fabricated findings:** Then & Now and Community Voices are introductions only; the page contains no counts, percentages, ratings or quotations (tested). Findings appear on their own pages only when approved aggregated data exists.
 - **Tests (8):** structure and links, featured places from the contract, no numbers/findings, empty/error states, fallback with no `<img>`, approved/unsafe/incomplete/failed hero media, axe.
 - **Limitations:** no approved hero photograph exists yet (needs rights-cleared media, see the human-action list, H9); responsive visual layout is checked in a real browser under #82.
+
+## Location profile pages (issue #77)
+
+`/places/:slug` is one reusable template (`apps/web/src/Profile.tsx`); no place is hand-coded. Data comes only from the public contract: the published locations list (to resolve the slug), `/locations/:slug/history` and `/media/:id`, each validated by `@makarba/contracts` before rendering (an invalid payload is shown as an error, never partially).
+
+| Section | With data | Without data |
+|---|---|---|
+| Header | name, category, geometry kind (point/line/area), "Show on the map" link, "Demonstration data" label for synthetic fixtures | – |
+| Description | not in the current public DTO | "No approved description has been published yet." (a description field is requested from Developer A / #63-#64) |
+| History | events with precision-aware date, text, evidence type and the cited source | "No verified history has been published yet."; a failed load says "History could not be loaded." |
+| Photographs | https-only images with alt text, date, credit and licence | "No approved photographs yet."; an unavailable one says so, no broken image |
+| Then & Now | shown only when the API supplies a comparison pair; dates and evidence quality shown, link to the comparison | section absent |
+| Community findings | none yet | plain statement; no count is invented and a missing value is never shown as zero |
+| Sources | citation, licence, verification state, https link with `rel="noopener noreferrer"` | "No sources listed yet." |
+
+Dates use `formatDated`: unknown shows "Date unknown", and a year stays "2021 (year)" – it is never promoted to an exact date.
+
+**Unpublished / withdrawn places:** if the slug is not in the current published list the page renders the same generic not-found page as any unknown URL, makes no history or media request, and shows no name or preview. Page state is keyed by slug so one place can never display another's content, and profile requests use `cache: "no-store"` so a withdrawn place is not revived from a browser cache. Whether the server also sends `Cache-Control: no-store`/404 for withdrawn places is Developer A's side (#81) and is tested at integration.
+
+**Deviation from the #17 spec:** sections are stacked with headings rather than ARIA tabs/accordion; the reading order is the same. Tabs can be layered on later without changing the data flow.
+
+Tests: 11 profile tests (published, missing data, unknown/withdrawn, list-removed, history 404/empty/503, contract-violating payload, unavailable media, public-endpoints-only, Then & Now gating, axe, date formatting). Limitations: tested against the synthetic mock contract only – live integration needs Developer A (#81, #64); panorama (#69, #79), gallery (#78) and the Then & Now component (#68) are separate issues.
