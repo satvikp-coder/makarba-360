@@ -56,7 +56,7 @@ jobs:
         with: { node-version: 22, cache: pnpm }
       - run: pnpm install --frozen-lockfile
       - name: Migration and grant integration tests (issue #22)
-        run: pnpm --filter @makarba/db test
+        run: pnpm --filter @makarba/db --filter @makarba/auth test
         env:
           TEST_DATABASE_URL: postgres://makarba_dev:makarba_dev_password@127.0.0.1:5432/makarba_dev
       - name: Bootstrap is idempotent
