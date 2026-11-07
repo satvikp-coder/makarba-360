@@ -1,5 +1,7 @@
 # Planning QA review
 
+Historical initial-setup report. Current ownership, readiness and reclassified dependency verification are recorded in allocation-verification.json and allocation-audit.md; the initial counts below are not the live two-developer allocation.
+
 Review date: 2026-11-07. This checks the planning package and actual GitHub setup; it is not a product security, GPS or offline reliability certification.
 
 Automated verification (`python scripts/verify_planning.py`) read the actual GitHub repository, all paginated issues, milestones and labels. Result: **zero errors**. The machine-readable result is [qa-results.json](qa-results.json); [remote-snapshot.json](remote-snapshot.json) records the inspected assignments.

@@ -24,6 +24,8 @@ def pages(path):
         if len(x)<100: return out
         n+=1
 def main():
+    if (ROOT/'docs/project/developer-issue-allocation.json').exists():
+        raise RuntimeError('Two-developer allocation is authoritative. Use allocate_workstreams.py; legacy publication would overwrite ownership/dependency sections.')
     state=json.loads(STATE.read_text(encoding='utf-8')) if STATE.exists() else {'repository':REPO,'stages':{},'issues':{},'milestones':{},'limitations':[]}
     def persist(): save(STATE,state)
     state['stages'].update(audit='complete',requirements='complete',architecture='complete',ux='complete',roadmap='complete',catalogue='complete')

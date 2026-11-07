@@ -11,10 +11,15 @@
     "priority": "P0",
     "size": "S",
     "labels": [
-      "type:docs",
       "area:devops",
+      "handoff:required",
+      "owner:developer-a",
+      "phase:foundation",
       "priority:p0",
-      "status:ready"
+      "size:s",
+      "status:ready",
+      "type:docs",
+      "workstream:core-platform"
     ],
     "doc": "docs/product/requirements.md",
     "user": "project contributor",
@@ -26,7 +31,14 @@
       "node_id": "I_kwDOVmCBdc8AAAABdPDp-w",
       "url": "https://github.com/satvikp-coder/makarba-360/issues/1"
     },
-    "dependency_numbers": []
+    "dependency_numbers": [],
+    "points": 1,
+    "integration_dependencies": [],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "A",
+    "allocation_phase": "foundation",
+    "original_dependency_numbers": []
   },
   {
     "id": "00.02",
@@ -42,10 +54,16 @@
     "priority": "P0",
     "size": "S",
     "labels": [
-      "type:docs",
       "area:devops",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-b",
+      "phase:parallel",
       "priority:p0",
-      "status:blocked"
+      "size:s",
+      "status:blocked",
+      "type:docs",
+      "workstream:public-experience"
     ],
     "doc": "docs/product/requirements.md",
     "user": "project contributor",
@@ -58,6 +76,15 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/2"
     },
     "dependency_numbers": [
+      1
+    ],
+    "points": 1,
+    "integration_dependencies": [],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
       1
     ]
   },
@@ -75,10 +102,16 @@
     "priority": "P0",
     "size": "S",
     "labels": [
-      "type:docs",
       "area:devops",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-a",
+      "phase:parallel",
       "priority:p0",
-      "status:blocked"
+      "size:s",
+      "status:blocked",
+      "type:docs",
+      "workstream:core-platform"
     ],
     "doc": "docs/product/requirements.md",
     "user": "project contributor",
@@ -91,6 +124,15 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/3"
     },
     "dependency_numbers": [
+      2
+    ],
+    "points": 1,
+    "integration_dependencies": [],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "A",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
       2
     ]
   },
@@ -106,12 +148,18 @@
       "00.03"
     ],
     "priority": "P0",
-    "size": "S",
+    "size": "M",
     "labels": [
-      "type:docs",
       "area:devops",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-a",
+      "phase:parallel",
       "priority:p0",
-      "status:blocked"
+      "size:m",
+      "status:blocked",
+      "type:docs",
+      "workstream:core-platform"
     ],
     "doc": "docs/product/requirements.md",
     "user": "project contributor",
@@ -125,6 +173,15 @@
     },
     "dependency_numbers": [
       3
+    ],
+    "points": 3,
+    "integration_dependencies": [],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "A",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
+      3
     ]
   },
   {
@@ -135,16 +192,19 @@
     "summary": "Boundary authority/source and research extent review procedure are recorded",
     "approach": "Compare available municipal records, basemap and field verification plan",
     "edge": "No invented official polygon or broad Ahmedabad assumption",
-    "dependencies": [
-      "00.04"
-    ],
+    "dependencies": [],
     "priority": "P0",
-    "size": "S",
+    "size": "M",
     "labels": [
-      "type:docs",
       "area:devops",
+      "handoff:required",
+      "owner:developer-b",
+      "phase:parallel",
       "priority:p0",
-      "status:blocked"
+      "size:m",
+      "status:ready",
+      "type:docs",
+      "workstream:public-experience"
     ],
     "doc": "docs/product/requirements.md",
     "user": "project contributor",
@@ -156,7 +216,16 @@
       "node_id": "I_kwDOVmCBdc8AAAABdPDsbg",
       "url": "https://github.com/satvikp-coder/makarba-360/issues/5"
     },
-    "dependency_numbers": [
+    "dependency_numbers": [],
+    "points": 3,
+    "integration_dependencies": [],
+    "soft_dependencies": [
+      "00.04"
+    ],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
       4
     ]
   },
@@ -169,15 +238,21 @@
     "approach": "Review visitor/researcher/lead/admin grants and separation of duties",
     "edge": "Admin role alone cannot view all research records",
     "dependencies": [
-      "00.03"
+      "00.01"
     ],
     "priority": "P0",
-    "size": "S",
+    "size": "M",
     "labels": [
-      "type:docs",
       "area:devops",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-a",
+      "phase:foundation",
       "priority:p0",
-      "status:blocked"
+      "size:m",
+      "status:blocked",
+      "type:docs",
+      "workstream:core-platform"
     ],
     "doc": "docs/product/requirements.md",
     "user": "project contributor",
@@ -190,6 +265,17 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/6"
     },
     "dependency_numbers": [
+      1
+    ],
+    "points": 3,
+    "integration_dependencies": [],
+    "soft_dependencies": [
+      "00.03"
+    ],
+    "operational_dependencies": [],
+    "allocation_owner": "A",
+    "allocation_phase": "foundation",
+    "original_dependency_numbers": [
       3
     ]
   },
@@ -208,10 +294,16 @@
     "priority": "P0",
     "size": "S",
     "labels": [
-      "type:docs",
       "area:devops",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-a",
+      "phase:parallel",
       "priority:p0",
-      "status:blocked"
+      "size:s",
+      "status:blocked",
+      "type:docs",
+      "workstream:core-platform"
     ],
     "doc": "docs/product/requirements.md",
     "user": "project contributor",
@@ -224,6 +316,16 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/7"
     },
     "dependency_numbers": [
+      2,
+      6
+    ],
+    "points": 1,
+    "integration_dependencies": [],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "A",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
       2,
       6
     ]
@@ -240,12 +342,17 @@
       "00.07"
     ],
     "priority": "P0",
-    "size": "S",
+    "size": "M",
     "labels": [
-      "type:docs",
       "area:devops",
+      "dependency:blocked",
+      "owner:developer-a",
+      "phase:parallel",
       "priority:p0",
-      "status:blocked"
+      "size:m",
+      "status:blocked",
+      "type:docs",
+      "workstream:core-platform"
     ],
     "doc": "docs/product/requirements.md",
     "user": "project contributor",
@@ -259,6 +366,15 @@
     },
     "dependency_numbers": [
       7
+    ],
+    "points": 3,
+    "integration_dependencies": [],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "A",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
+      7
     ]
   },
   {
@@ -270,15 +386,22 @@
     "approach": "Review monolith, PostGIS, offline and public projection decisions",
     "edge": "No optional provider capability silently promised",
     "dependencies": [
-      "00.08"
+      "00.01",
+      "00.06"
     ],
     "priority": "P0",
-    "size": "S",
+    "size": "M",
     "labels": [
-      "type:docs",
       "area:devops",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-a",
+      "phase:foundation",
       "priority:p0",
-      "status:blocked"
+      "size:m",
+      "status:blocked",
+      "type:docs",
+      "workstream:core-platform"
     ],
     "doc": "docs/product/requirements.md",
     "user": "project contributor",
@@ -291,6 +414,18 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/9"
     },
     "dependency_numbers": [
+      1,
+      6
+    ],
+    "points": 3,
+    "integration_dependencies": [],
+    "soft_dependencies": [
+      "00.08"
+    ],
+    "operational_dependencies": [],
+    "allocation_owner": "A",
+    "allocation_phase": "foundation",
+    "original_dependency_numbers": [
       8
     ]
   },
@@ -306,12 +441,18 @@
       "00.09"
     ],
     "priority": "P0",
-    "size": "S",
+    "size": "XL",
     "labels": [
-      "type:docs",
       "area:devops",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-a",
+      "phase:foundation",
       "priority:p0",
-      "status:blocked"
+      "size:xl",
+      "status:blocked",
+      "type:docs",
+      "workstream:core-platform"
     ],
     "doc": "docs/product/requirements.md",
     "user": "project contributor",
@@ -324,6 +465,15 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/10"
     },
     "dependency_numbers": [
+      9
+    ],
+    "points": 8,
+    "integration_dependencies": [],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "A",
+    "allocation_phase": "foundation",
+    "original_dependency_numbers": [
       9
     ]
   },
@@ -340,13 +490,19 @@
       "00.06"
     ],
     "priority": "P0",
-    "size": "S",
+    "size": "M",
     "labels": [
-      "type:docs",
       "area:devops",
+      "dependency:blocked",
+      "handoff:required",
+      "milestone-blocker",
+      "owner:developer-a",
+      "phase:parallel",
       "priority:p0",
+      "size:m",
       "status:blocked",
-      "milestone-blocker"
+      "type:docs",
+      "workstream:core-platform"
     ],
     "doc": "docs/product/requirements.md",
     "user": "project contributor",
@@ -361,6 +517,16 @@
     "dependency_numbers": [
       4,
       6
+    ],
+    "points": 3,
+    "integration_dependencies": [],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "A",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
+      4,
+      6
     ]
   },
   {
@@ -371,16 +537,19 @@
     "summary": "Approved palette/typography/spacing has tested contrast and licensed fonts",
     "approach": "Turn design-system and contrast audit into reviewed token specification",
     "edge": "Accent text failing AA is rejected",
-    "dependencies": [
-      "00.03"
-    ],
+    "dependencies": [],
     "priority": "P2",
-    "size": "S",
+    "size": "M",
     "labels": [
-      "type:design",
       "area:frontend",
+      "handoff:required",
+      "owner:developer-b",
+      "phase:parallel",
       "priority:p2",
-      "status:blocked"
+      "size:m",
+      "status:ready",
+      "type:design",
+      "workstream:public-experience"
     ],
     "doc": "docs/design/design-system.md",
     "user": "public visitor",
@@ -392,7 +561,16 @@
       "node_id": "I_kwDOVmCBdc8AAAABdPDxBg",
       "url": "https://github.com/satvikp-coder/makarba-360/issues/12"
     },
-    "dependency_numbers": [
+    "dependency_numbers": [],
+    "points": 3,
+    "integration_dependencies": [],
+    "soft_dependencies": [
+      "00.03"
+    ],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
       3
     ]
   },
@@ -405,16 +583,20 @@
     "approach": "Review P01–P13 sitemap and empty/loading/error states",
     "edge": "No public Submit Survey entry or anonymous write journey",
     "dependencies": [
-      "01.01",
-      "00.07"
+      "01.01"
     ],
     "priority": "P2",
-    "size": "S",
+    "size": "M",
     "labels": [
-      "type:design",
       "area:frontend",
+      "dependency:blocked",
+      "owner:developer-b",
+      "phase:parallel",
       "priority:p2",
-      "status:blocked"
+      "size:m",
+      "status:blocked",
+      "type:design",
+      "workstream:public-experience"
     ],
     "doc": "docs/design/design-system.md",
     "user": "public visitor",
@@ -427,8 +609,19 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/13"
     },
     "dependency_numbers": [
-      12,
-      7
+      12
+    ],
+    "points": 3,
+    "integration_dependencies": [],
+    "soft_dependencies": [
+      "00.07"
+    ],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
+      7,
+      12
     ]
   },
   {
@@ -445,10 +638,15 @@
     "priority": "P2",
     "size": "S",
     "labels": [
-      "type:design",
       "area:frontend",
+      "dependency:blocked",
+      "owner:developer-b",
+      "phase:parallel",
       "priority:p2",
-      "status:blocked"
+      "size:s",
+      "status:blocked",
+      "type:design",
+      "workstream:public-experience"
     ],
     "doc": "docs/design/design-system.md",
     "user": "public visitor",
@@ -461,6 +659,15 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/14"
     },
     "dependency_numbers": [
+      13
+    ],
+    "points": 1,
+    "integration_dependencies": [],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
       13
     ]
   },
@@ -476,12 +683,17 @@
       "01.02"
     ],
     "priority": "P2",
-    "size": "S",
+    "size": "M",
     "labels": [
-      "type:design",
       "area:frontend",
+      "dependency:blocked",
+      "owner:developer-b",
+      "phase:parallel",
       "priority:p2",
-      "status:blocked"
+      "size:m",
+      "status:blocked",
+      "type:design",
+      "workstream:public-experience"
     ],
     "doc": "docs/design/design-system.md",
     "user": "public visitor",
@@ -494,6 +706,15 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/15"
     },
     "dependency_numbers": [
+      13
+    ],
+    "points": 3,
+    "integration_dependencies": [],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
       13
     ]
   },
@@ -509,12 +730,17 @@
       "01.04"
     ],
     "priority": "P2",
-    "size": "S",
+    "size": "M",
     "labels": [
-      "type:design",
       "area:frontend",
+      "dependency:blocked",
+      "owner:developer-b",
+      "phase:parallel",
       "priority:p2",
-      "status:blocked"
+      "size:m",
+      "status:blocked",
+      "type:design",
+      "workstream:public-experience"
     ],
     "doc": "docs/design/design-system.md",
     "user": "public visitor",
@@ -527,6 +753,15 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/16"
     },
     "dependency_numbers": [
+      15
+    ],
+    "points": 3,
+    "integration_dependencies": [],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
       15
     ]
   },
@@ -542,12 +777,17 @@
       "01.04"
     ],
     "priority": "P2",
-    "size": "S",
+    "size": "M",
     "labels": [
-      "type:design",
       "area:frontend",
+      "dependency:blocked",
+      "owner:developer-b",
+      "phase:parallel",
       "priority:p2",
-      "status:blocked"
+      "size:m",
+      "status:blocked",
+      "type:design",
+      "workstream:public-experience"
     ],
     "doc": "docs/design/design-system.md",
     "user": "public visitor",
@@ -560,6 +800,15 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/17"
     },
     "dependency_numbers": [
+      15
+    ],
+    "points": 3,
+    "integration_dependencies": [],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
       15
     ]
   },
@@ -575,12 +824,17 @@
       "01.06"
     ],
     "priority": "P2",
-    "size": "S",
+    "size": "M",
     "labels": [
-      "type:design",
       "area:frontend",
+      "dependency:blocked",
+      "owner:developer-b",
+      "phase:parallel",
       "priority:p2",
-      "status:blocked"
+      "size:m",
+      "status:blocked",
+      "type:design",
+      "workstream:public-experience"
     ],
     "doc": "docs/design/design-system.md",
     "user": "public visitor",
@@ -594,6 +848,15 @@
     },
     "dependency_numbers": [
       17
+    ],
+    "points": 3,
+    "integration_dependencies": [],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
+      17
     ]
   },
   {
@@ -605,16 +868,20 @@
     "approach": "Specify chart/table pairs and allowed cohort filters",
     "edge": "Small groups and no-data never rendered misleadingly as zero",
     "dependencies": [
-      "01.02",
-      "00.04"
+      "01.02"
     ],
     "priority": "P2",
-    "size": "S",
+    "size": "M",
     "labels": [
-      "type:design",
       "area:frontend",
+      "dependency:blocked",
+      "owner:developer-b",
+      "phase:parallel",
       "priority:p2",
-      "status:blocked"
+      "size:m",
+      "status:blocked",
+      "type:design",
+      "workstream:public-experience"
     ],
     "doc": "docs/design/design-system.md",
     "user": "public visitor",
@@ -627,8 +894,19 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/19"
     },
     "dependency_numbers": [
-      13,
-      4
+      13
+    ],
+    "points": 3,
+    "integration_dependencies": [],
+    "soft_dependencies": [
+      "00.04"
+    ],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
+      4,
+      13
     ]
   },
   {
@@ -640,16 +918,21 @@
     "approach": "Review F01–F13 with bilingual script and offline/permission states",
     "edge": "Denied consent stops capture; A/B place distinction survives review",
     "dependencies": [
-      "01.01",
-      "00.06"
+      "01.01"
     ],
     "priority": "P2",
-    "size": "S",
+    "size": "L",
     "labels": [
-      "type:design",
       "area:frontend",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-b",
+      "phase:parallel",
       "priority:p2",
-      "status:blocked"
+      "size:l",
+      "status:blocked",
+      "type:design",
+      "workstream:public-experience"
     ],
     "doc": "docs/design/design-system.md",
     "user": "public visitor",
@@ -662,8 +945,19 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/20"
     },
     "dependency_numbers": [
-      12,
-      6
+      12
+    ],
+    "points": 5,
+    "integration_dependencies": [
+      "00.06"
+    ],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
+      6,
+      12
     ]
   },
   {
@@ -675,16 +969,21 @@
     "approach": "Prototype tables/cards, role-limited navigation and bulk-action preview",
     "edge": "Unscoped administrator cannot open raw data review",
     "dependencies": [
-      "01.01",
-      "00.06"
+      "01.01"
     ],
     "priority": "P2",
-    "size": "S",
+    "size": "L",
     "labels": [
-      "type:design",
       "area:frontend",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-b",
+      "phase:parallel",
       "priority:p2",
-      "status:blocked"
+      "size:l",
+      "status:blocked",
+      "type:design",
+      "workstream:public-experience"
     ],
     "doc": "docs/design/design-system.md",
     "user": "public visitor",
@@ -697,8 +996,19 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/21"
     },
     "dependency_numbers": [
-      12,
-      6
+      12
+    ],
+    "points": 5,
+    "integration_dependencies": [
+      "00.06"
+    ],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
+      6,
+      12
     ]
   },
   {
@@ -714,12 +1024,17 @@
       "03.05"
     ],
     "priority": "P1",
-    "size": "M",
+    "size": "L",
     "labels": [
-      "type:feature",
       "area:gis",
+      "dependency:blocked",
+      "owner:developer-a",
+      "phase:parallel",
       "priority:p1",
-      "status:blocked"
+      "size:l",
+      "status:blocked",
+      "type:feature",
+      "workstream:core-platform"
     ],
     "doc": "docs/architecture/gis-design.md",
     "user": "GIS reviewer",
@@ -732,6 +1047,16 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/22"
     },
     "dependency_numbers": [
+      10,
+      36
+    ],
+    "points": 5,
+    "integration_dependencies": [],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "A",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
       10,
       36
     ]
@@ -751,11 +1076,17 @@
     "priority": "P1",
     "size": "M",
     "labels": [
-      "type:feature",
       "area:gis",
+      "dependency:blocked",
+      "field-validation-required",
+      "handoff:required",
+      "owner:developer-a",
+      "phase:parallel",
       "priority:p1",
+      "size:m",
       "status:blocked",
-      "field-validation-required"
+      "type:feature",
+      "workstream:core-platform"
     ],
     "doc": "docs/architecture/gis-design.md",
     "user": "GIS reviewer",
@@ -770,6 +1101,16 @@
     "dependency_numbers": [
       5,
       22
+    ],
+    "points": 3,
+    "integration_dependencies": [],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "A",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
+      5,
+      22
     ]
   },
   {
@@ -780,16 +1121,18 @@
     "summary": "Provider terms, ODbL attribution, request budget and offline permissions are recorded",
     "approach": "Compare licensed tile services and institution hosting; configure attribution",
     "edge": "Standard OSM tiles not bulk-cached offline",
-    "dependencies": [
-      "00.09"
-    ],
+    "dependencies": [],
     "priority": "P1",
-    "size": "S",
+    "size": "M",
     "labels": [
-      "type:feature",
       "area:gis",
+      "owner:developer-b",
+      "phase:parallel",
       "priority:p1",
-      "status:blocked"
+      "size:m",
+      "status:ready",
+      "type:feature",
+      "workstream:public-experience"
     ],
     "doc": "docs/architecture/gis-design.md",
     "user": "GIS reviewer",
@@ -801,7 +1144,16 @@
       "node_id": "I_kwDOVmCBdc8AAAABdPD4hw",
       "url": "https://github.com/satvikp-coder/makarba-360/issues/24"
     },
-    "dependency_numbers": [
+    "dependency_numbers": [],
+    "points": 3,
+    "integration_dependencies": [],
+    "soft_dependencies": [
+      "00.09"
+    ],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
       9
     ]
   },
@@ -814,17 +1166,23 @@
     "approach": "Create shared map adapter, bounds configuration and selected ID state",
     "edge": "Renderer/context loss preserves accessible navigation",
     "dependencies": [
-      "02.02",
-      "02.03",
-      "01.04"
+      "00.10",
+      "01.04",
+      "02.03"
     ],
     "priority": "P1",
-    "size": "M",
+    "size": "L",
     "labels": [
-      "type:feature",
       "area:gis",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-b",
+      "phase:parallel",
       "priority:p1",
-      "status:blocked"
+      "size:l",
+      "status:blocked",
+      "type:feature",
+      "workstream:public-experience"
     ],
     "doc": "docs/architecture/gis-design.md",
     "user": "GIS reviewer",
@@ -837,9 +1195,22 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/25"
     },
     "dependency_numbers": [
+      10,
+      15,
+      24
+    ],
+    "points": 5,
+    "integration_dependencies": [
+      "02.02"
+    ],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
+      15,
       23,
-      24,
-      15
+      24
     ]
   },
   {
@@ -851,16 +1222,22 @@
     "approach": "Migrate categories and expose approved read model",
     "edge": "Referenced category can archive without breaking history",
     "dependencies": [
-      "02.01",
-      "01.01"
+      "01.01",
+      "02.01"
     ],
     "priority": "P1",
     "size": "M",
     "labels": [
-      "type:feature",
       "area:gis",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-a",
+      "phase:parallel",
       "priority:p1",
-      "status:blocked"
+      "size:m",
+      "status:blocked",
+      "type:feature",
+      "workstream:core-platform"
     ],
     "doc": "docs/architecture/gis-design.md",
     "user": "GIS reviewer",
@@ -873,8 +1250,18 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/26"
     },
     "dependency_numbers": [
-      22,
-      12
+      12,
+      22
+    ],
+    "points": 3,
+    "integration_dependencies": [],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "A",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
+      12,
+      22
     ]
   },
   {
@@ -890,12 +1277,18 @@
       "02.05"
     ],
     "priority": "P1",
-    "size": "M",
+    "size": "L",
     "labels": [
-      "type:feature",
       "area:gis",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-a",
+      "phase:parallel",
       "priority:p1",
-      "status:blocked"
+      "size:l",
+      "status:blocked",
+      "type:feature",
+      "workstream:core-platform"
     ],
     "doc": "docs/architecture/gis-design.md",
     "user": "GIS reviewer",
@@ -910,6 +1303,16 @@
     "dependency_numbers": [
       22,
       26
+    ],
+    "points": 5,
+    "integration_dependencies": [],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "A",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
+      22,
+      26
     ]
   },
   {
@@ -921,16 +1324,22 @@
     "approach": "Stage OSM extracts with IDs/version/licence and validation report",
     "edge": "Restricted imagery tracing or unverified road names blocked",
     "dependencies": [
-      "02.02",
-      "02.06"
+      "00.05",
+      "02.03"
     ],
     "priority": "P1",
-    "size": "M",
+    "size": "L",
     "labels": [
-      "type:feature",
       "area:gis",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-b",
+      "phase:parallel",
       "priority:p1",
-      "status:blocked"
+      "size:l",
+      "status:blocked",
+      "type:feature",
+      "workstream:public-experience"
     ],
     "doc": "docs/architecture/gis-design.md",
     "user": "GIS reviewer",
@@ -943,6 +1352,19 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/28"
     },
     "dependency_numbers": [
+      5,
+      24
+    ],
+    "points": 5,
+    "integration_dependencies": [
+      "02.02",
+      "02.06"
+    ],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
       23,
       27
     ]
@@ -956,16 +1378,22 @@
     "approach": "Index aliases and categories; separate line/polygon layers from point clusters",
     "edge": "Zero matches, antimeridian-invalid bbox and excessive bounds handled",
     "dependencies": [
-      "02.04",
-      "02.06"
+      "00.10",
+      "02.04"
     ],
     "priority": "P1",
-    "size": "M",
+    "size": "L",
     "labels": [
-      "type:feature",
       "area:gis",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-b",
+      "phase:parallel",
       "priority:p1",
-      "status:blocked"
+      "size:l",
+      "status:blocked",
+      "type:feature",
+      "workstream:public-experience"
     ],
     "doc": "docs/architecture/gis-design.md",
     "user": "GIS reviewer",
@@ -978,6 +1406,18 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/29"
     },
     "dependency_numbers": [
+      10,
+      25
+    ],
+    "points": 5,
+    "integration_dependencies": [
+      "02.06"
+    ],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
       25,
       27
     ]
@@ -995,12 +1435,18 @@
       "03.04"
     ],
     "priority": "P1",
-    "size": "M",
+    "size": "L",
     "labels": [
-      "type:feature",
       "area:gis",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-a",
+      "phase:parallel",
       "priority:p1",
-      "status:blocked"
+      "size:l",
+      "status:blocked",
+      "type:feature",
+      "workstream:core-platform"
     ],
     "doc": "docs/architecture/gis-design.md",
     "user": "GIS reviewer",
@@ -1015,6 +1461,16 @@
     "dependency_numbers": [
       27,
       35
+    ],
+    "points": 5,
+    "integration_dependencies": [],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "A",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
+      27,
+      35
     ]
   },
   {
@@ -1026,16 +1482,21 @@
     "approach": "Stage GeoJSON and approved export formats with limits and audit",
     "edge": "Malformed geometry or private coordinate export rejected",
     "dependencies": [
-      "02.06",
-      "03.04"
+      "00.10"
     ],
     "priority": "P1",
-    "size": "M",
+    "size": "L",
     "labels": [
-      "type:feature",
       "area:gis",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-b",
+      "phase:parallel",
       "priority:p1",
-      "status:blocked"
+      "size:l",
+      "status:blocked",
+      "type:feature",
+      "workstream:public-experience"
     ],
     "doc": "docs/architecture/gis-design.md",
     "user": "GIS reviewer",
@@ -1048,6 +1509,18 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/31"
     },
     "dependency_numbers": [
+      10
+    ],
+    "points": 5,
+    "integration_dependencies": [
+      "02.06",
+      "03.04"
+    ],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
       27,
       35
     ]
@@ -1065,12 +1538,17 @@
       "00.10"
     ],
     "priority": "P0",
-    "size": "M",
+    "size": "L",
     "labels": [
-      "type:security",
       "area:privacy",
+      "dependency:blocked",
+      "owner:developer-a",
+      "phase:parallel",
       "priority:p0",
-      "status:blocked"
+      "size:l",
+      "status:blocked",
+      "type:security",
+      "workstream:core-platform"
     ],
     "doc": "docs/architecture/privacy-security.md",
     "user": "authorised team member",
@@ -1083,6 +1561,16 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/32"
     },
     "dependency_numbers": [
+      6,
+      10
+    ],
+    "points": 5,
+    "integration_dependencies": [],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "A",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
       6,
       10
     ]
@@ -1101,10 +1589,15 @@
     "priority": "P0",
     "size": "M",
     "labels": [
-      "type:security",
       "area:privacy",
+      "dependency:blocked",
+      "owner:developer-a",
+      "phase:parallel",
       "priority:p0",
-      "status:blocked"
+      "size:m",
+      "status:blocked",
+      "type:security",
+      "workstream:core-platform"
     ],
     "doc": "docs/architecture/privacy-security.md",
     "user": "authorised team member",
@@ -1118,6 +1611,15 @@
     },
     "dependency_numbers": [
       32
+    ],
+    "points": 3,
+    "integration_dependencies": [],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "A",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
+      32
     ]
   },
   {
@@ -1129,16 +1631,21 @@
     "approach": "Central authorization service with deny-by-default capabilities",
     "edge": "Researcher cannot read another study or grant admin role",
     "dependencies": [
-      "03.01",
-      "00.06"
+      "00.06",
+      "03.01"
     ],
     "priority": "P0",
-    "size": "M",
+    "size": "L",
     "labels": [
-      "type:security",
       "area:privacy",
+      "dependency:blocked",
+      "owner:developer-a",
+      "phase:parallel",
       "priority:p0",
-      "status:blocked"
+      "size:l",
+      "status:blocked",
+      "type:security",
+      "workstream:core-platform"
     ],
     "doc": "docs/architecture/privacy-security.md",
     "user": "authorised team member",
@@ -1151,8 +1658,18 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/34"
     },
     "dependency_numbers": [
-      32,
-      6
+      6,
+      32
+    ],
+    "points": 5,
+    "integration_dependencies": [],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "A",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
+      6,
+      32
     ]
   },
   {
@@ -1167,12 +1684,18 @@
       "03.03"
     ],
     "priority": "P0",
-    "size": "M",
+    "size": "L",
     "labels": [
-      "type:security",
       "area:privacy",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-a",
+      "phase:parallel",
       "priority:p0",
-      "status:blocked"
+      "size:l",
+      "status:blocked",
+      "type:security",
+      "workstream:core-platform"
     ],
     "doc": "docs/architecture/privacy-security.md",
     "user": "authorised team member",
@@ -1185,6 +1708,15 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/35"
     },
     "dependency_numbers": [
+      34
+    ],
+    "points": 5,
+    "integration_dependencies": [],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "A",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
       34
     ]
   },
@@ -1200,12 +1732,17 @@
       "00.09"
     ],
     "priority": "P0",
-    "size": "M",
+    "size": "L",
     "labels": [
-      "type:security",
       "area:privacy",
+      "dependency:blocked",
+      "owner:developer-a",
+      "phase:parallel",
       "priority:p0",
-      "status:blocked"
+      "size:l",
+      "status:blocked",
+      "type:security",
+      "workstream:core-platform"
     ],
     "doc": "docs/architecture/privacy-security.md",
     "user": "authorised team member",
@@ -1219,6 +1756,15 @@
     },
     "dependency_numbers": [
       9
+    ],
+    "points": 5,
+    "integration_dependencies": [],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "A",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
+      9
     ]
   },
   {
@@ -1230,16 +1776,21 @@
     "approach": "Append-only consent decisions linked to interview, script and revision",
     "edge": "Consent withdrawal or refusal cannot be overwritten by checkbox",
     "dependencies": [
-      "03.04",
-      "00.11"
+      "03.04"
     ],
     "priority": "P0",
-    "size": "M",
+    "size": "L",
     "labels": [
-      "type:security",
       "area:privacy",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-a",
+      "phase:parallel",
       "priority:p0",
-      "status:blocked"
+      "size:l",
+      "status:blocked",
+      "type:security",
+      "workstream:core-platform"
     ],
     "doc": "docs/architecture/privacy-security.md",
     "user": "authorised team member",
@@ -1252,8 +1803,19 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/37"
     },
     "dependency_numbers": [
-      35,
-      11
+      35
+    ],
+    "points": 5,
+    "integration_dependencies": [],
+    "soft_dependencies": [],
+    "operational_dependencies": [
+      "00.11"
+    ],
+    "allocation_owner": "A",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
+      11,
+      35
     ]
   },
   {
@@ -1269,13 +1831,19 @@
       "03.05"
     ],
     "priority": "P0",
-    "size": "M",
+    "size": "L",
     "labels": [
-      "type:security",
       "area:privacy",
+      "dependency:blocked",
+      "handoff:required",
+      "milestone-blocker",
+      "owner:developer-a",
+      "phase:parallel",
       "priority:p0",
+      "size:l",
       "status:blocked",
-      "milestone-blocker"
+      "type:security",
+      "workstream:core-platform"
     ],
     "doc": "docs/architecture/privacy-security.md",
     "user": "authorised team member",
@@ -1288,6 +1856,16 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/38"
     },
     "dependency_numbers": [
+      35,
+      36
+    ],
+    "points": 5,
+    "integration_dependencies": [],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "A",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
       35,
       36
     ]
@@ -1307,10 +1885,16 @@
     "priority": "P0",
     "size": "M",
     "labels": [
-      "type:security",
       "area:privacy",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-a",
+      "phase:parallel",
       "priority:p0",
-      "status:blocked"
+      "size:m",
+      "status:blocked",
+      "type:security",
+      "workstream:core-platform"
     ],
     "doc": "docs/architecture/privacy-security.md",
     "user": "authorised team member",
@@ -1323,6 +1907,16 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/39"
     },
     "dependency_numbers": [
+      35,
+      36
+    ],
+    "points": 3,
+    "integration_dependencies": [],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "A",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
       35,
       36
     ]
@@ -1341,10 +1935,16 @@
     "priority": "P0",
     "size": "M",
     "labels": [
-      "type:security",
       "area:privacy",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-a",
+      "phase:parallel",
       "priority:p0",
-      "status:blocked"
+      "size:m",
+      "status:blocked",
+      "type:security",
+      "workstream:core-platform"
     ],
     "doc": "docs/architecture/privacy-security.md",
     "user": "authorised team member",
@@ -1358,6 +1958,15 @@
     },
     "dependency_numbers": [
       10
+    ],
+    "points": 3,
+    "integration_dependencies": [],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "A",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
+      10
     ]
   },
   {
@@ -1369,17 +1978,22 @@
     "approach": "Exercise CSRF/XSS/IDOR/rate limits/upload threat paths",
     "edge": "Valid authentication cannot bypass consent or publication review",
     "dependencies": [
-      "03.07",
-      "03.08",
-      "03.09"
+      "00.10",
+      "00.06"
     ],
     "priority": "P0",
-    "size": "M",
+    "size": "XL",
     "labels": [
-      "type:security",
       "area:privacy",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-b",
+      "phase:parallel",
       "priority:p0",
-      "status:blocked"
+      "size:xl",
+      "status:blocked",
+      "type:security",
+      "workstream:public-experience"
     ],
     "doc": "docs/architecture/privacy-security.md",
     "user": "authorised team member",
@@ -1392,6 +2006,20 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/41"
     },
     "dependency_numbers": [
+      10,
+      6
+    ],
+    "points": 8,
+    "integration_dependencies": [
+      "03.07",
+      "03.08",
+      "03.09"
+    ],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
       38,
       39,
       40
@@ -1406,16 +2034,21 @@
     "approach": "Migrations/runtime schemas for choice/text/scale/topic links",
     "edge": "Unsure/refused are not numeric zero or empty-string answers",
     "dependencies": [
-      "02.01",
-      "00.04"
+      "00.04",
+      "02.01"
     ],
     "priority": "P1",
-    "size": "M",
+    "size": "L",
     "labels": [
-      "type:feature",
       "area:survey",
+      "dependency:blocked",
+      "owner:developer-a",
+      "phase:parallel",
       "priority:p1",
-      "status:blocked"
+      "size:l",
+      "status:blocked",
+      "type:feature",
+      "workstream:core-platform"
     ],
     "doc": "docs/research/survey-questionnaire.md",
     "user": "field researcher",
@@ -1428,8 +2061,18 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/42"
     },
     "dependency_numbers": [
-      22,
-      4
+      4,
+      22
+    ],
+    "points": 5,
+    "integration_dependencies": [],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "A",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
+      4,
+      22
     ]
   },
   {
@@ -1444,12 +2087,17 @@
       "04.01"
     ],
     "priority": "P1",
-    "size": "M",
+    "size": "L",
     "labels": [
-      "type:feature",
       "area:survey",
+      "dependency:blocked",
+      "owner:developer-a",
+      "phase:parallel",
       "priority:p1",
-      "status:blocked"
+      "size:l",
+      "status:blocked",
+      "type:feature",
+      "workstream:core-platform"
     ],
     "doc": "docs/research/survey-questionnaire.md",
     "user": "field researcher",
@@ -1463,6 +2111,15 @@
     },
     "dependency_numbers": [
       42
+    ],
+    "points": 5,
+    "integration_dependencies": [],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "A",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
+      42
     ]
   },
   {
@@ -1474,16 +2131,21 @@
     "approach": "Visit API with assignment validation and scoped ownership",
     "edge": "Ending visit with pending drafts prompts reconciliation",
     "dependencies": [
-      "03.04",
-      "02.02"
+      "02.02",
+      "03.04"
     ],
     "priority": "P1",
     "size": "M",
     "labels": [
-      "type:feature",
       "area:survey",
+      "dependency:blocked",
+      "owner:developer-a",
+      "phase:parallel",
       "priority:p1",
-      "status:blocked"
+      "size:m",
+      "status:blocked",
+      "type:feature",
+      "workstream:core-platform"
     ],
     "doc": "docs/research/survey-questionnaire.md",
     "user": "field researcher",
@@ -1496,8 +2158,18 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/44"
     },
     "dependency_numbers": [
-      35,
-      23
+      23,
+      35
+    ],
+    "points": 3,
+    "integration_dependencies": [],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "A",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
+      23,
+      35
     ]
   },
   {
@@ -1509,17 +2181,23 @@
     "approach": "Phone flow F02–F04 with instrument/version pin and draft lifecycle",
     "edge": "Repeated tap cannot start duplicate logical interview",
     "dependencies": [
+      "01.09",
       "04.02",
-      "04.03",
-      "01.09"
+      "04.03"
     ],
     "priority": "P1",
     "size": "M",
     "labels": [
-      "type:feature",
       "area:survey",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-a",
+      "phase:parallel",
       "priority:p1",
-      "status:blocked"
+      "size:m",
+      "status:blocked",
+      "type:feature",
+      "workstream:core-platform"
     ],
     "doc": "docs/research/survey-questionnaire.md",
     "user": "field researcher",
@@ -1532,9 +2210,20 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/45"
     },
     "dependency_numbers": [
+      20,
       43,
-      44,
-      20
+      44
+    ],
+    "points": 3,
+    "integration_dependencies": [],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "A",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
+      20,
+      43,
+      44
     ]
   },
   {
@@ -1552,10 +2241,15 @@
     "priority": "P1",
     "size": "M",
     "labels": [
-      "type:feature",
       "area:survey",
+      "dependency:blocked",
+      "owner:developer-a",
+      "phase:parallel",
       "priority:p1",
-      "status:blocked"
+      "size:m",
+      "status:blocked",
+      "type:feature",
+      "workstream:core-platform"
     ],
     "doc": "docs/research/survey-questionnaire.md",
     "user": "field researcher",
@@ -1568,6 +2262,16 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/46"
     },
     "dependency_numbers": [
+      42,
+      45
+    ],
+    "points": 3,
+    "integration_dependencies": [],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "A",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
       42,
       45
     ]
@@ -1587,10 +2291,15 @@
     "priority": "P1",
     "size": "M",
     "labels": [
-      "type:feature",
       "area:survey",
+      "dependency:blocked",
+      "owner:developer-a",
+      "phase:parallel",
       "priority:p1",
-      "status:blocked"
+      "size:m",
+      "status:blocked",
+      "type:feature",
+      "workstream:core-platform"
     ],
     "doc": "docs/research/survey-questionnaire.md",
     "user": "field researcher",
@@ -1605,6 +2314,16 @@
     "dependency_numbers": [
       37,
       45
+    ],
+    "points": 3,
+    "integration_dependencies": [],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "A",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
+      37,
+      45
     ]
   },
   {
@@ -1616,17 +2335,23 @@
     "approach": "HTTPS Geolocation adapter with timeout, denied and unavailable states",
     "edge": "No fabricated coordinate after denied or failed capture",
     "dependencies": [
-      "04.06",
-      "01.09"
+      "01.09",
+      "04.06"
     ],
     "priority": "P1",
-    "size": "M",
+    "size": "L",
     "labels": [
-      "type:feature",
       "area:survey",
+      "dependency:blocked",
+      "field-validation-required",
+      "handoff:required",
+      "owner:developer-a",
+      "phase:parallel",
       "priority:p1",
+      "size:l",
       "status:blocked",
-      "field-validation-required"
+      "type:feature",
+      "workstream:core-platform"
     ],
     "doc": "docs/research/survey-questionnaire.md",
     "user": "field researcher",
@@ -1639,8 +2364,18 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/48"
     },
     "dependency_numbers": [
-      47,
-      20
+      20,
+      47
+    ],
+    "points": 5,
+    "integration_dependencies": [],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "A",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
+      20,
+      47
     ]
   },
   {
@@ -1652,17 +2387,22 @@
     "approach": "Use ≤20, >20–50, >50m labels; preserve raw/effective fix revisions",
     "edge": "Manual pin never receives invented device accuracy",
     "dependencies": [
-      "04.07",
-      "02.04"
+      "04.07"
     ],
     "priority": "P1",
-    "size": "M",
+    "size": "L",
     "labels": [
-      "type:feature",
       "area:survey",
+      "dependency:blocked",
+      "field-validation-required",
+      "handoff:required",
+      "owner:developer-a",
+      "phase:parallel",
       "priority:p1",
+      "size:l",
       "status:blocked",
-      "field-validation-required"
+      "type:feature",
+      "workstream:core-platform"
     ],
     "doc": "docs/research/survey-questionnaire.md",
     "user": "field researcher",
@@ -1675,8 +2415,19 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/49"
     },
     "dependency_numbers": [
-      48,
-      25
+      48
+    ],
+    "points": 5,
+    "integration_dependencies": [
+      "02.04"
+    ],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "A",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
+      25,
+      48
     ]
   },
   {
@@ -1689,16 +2440,21 @@
     "edge": "Interview at A discussing B never moves A to B; multiple subjects not blanket-copied",
     "dependencies": [
       "04.01",
-      "02.06",
-      "04.08"
+      "02.06"
     ],
     "priority": "P1",
-    "size": "M",
+    "size": "L",
     "labels": [
-      "type:feature",
       "area:survey",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-a",
+      "phase:parallel",
       "priority:p1",
-      "status:blocked"
+      "size:l",
+      "status:blocked",
+      "type:feature",
+      "workstream:core-platform"
     ],
     "doc": "docs/research/survey-questionnaire.md",
     "user": "field researcher",
@@ -1712,7 +2468,19 @@
     },
     "dependency_numbers": [
       42,
+      27
+    ],
+    "points": 5,
+    "integration_dependencies": [
+      "04.08"
+    ],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "A",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
       27,
+      42,
       49
     ]
   },
@@ -1730,12 +2498,18 @@
       "04.09"
     ],
     "priority": "P1",
-    "size": "M",
+    "size": "L",
     "labels": [
-      "type:feature",
       "area:survey",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-a",
+      "phase:parallel",
       "priority:p1",
-      "status:blocked"
+      "size:l",
+      "status:blocked",
+      "type:feature",
+      "workstream:core-platform"
     ],
     "doc": "docs/research/survey-questionnaire.md",
     "user": "field researcher",
@@ -1751,6 +2525,17 @@
       43,
       46,
       50
+    ],
+    "points": 5,
+    "integration_dependencies": [],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "A",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
+      43,
+      46,
+      50
     ]
   },
   {
@@ -1762,17 +2547,22 @@
     "approach": "Persist local transaction then queue submit with validation summary",
     "edge": "App close during save does not falsely report success",
     "dependencies": [
-      "04.10",
       "04.06",
+      "04.10",
       "05.02"
     ],
     "priority": "P1",
-    "size": "M",
+    "size": "L",
     "labels": [
-      "type:feature",
       "area:survey",
+      "dependency:blocked",
+      "owner:developer-a",
+      "phase:parallel",
       "priority:p1",
-      "status:blocked"
+      "size:l",
+      "status:blocked",
+      "type:feature",
+      "workstream:core-platform"
     ],
     "doc": "docs/research/survey-questionnaire.md",
     "user": "field researcher",
@@ -1785,8 +2575,19 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/52"
     },
     "dependency_numbers": [
-      51,
       47,
+      51,
+      55
+    ],
+    "points": 5,
+    "integration_dependencies": [],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "A",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
+      47,
+      51,
       55
     ]
   },
@@ -1805,10 +2606,16 @@
     "priority": "P1",
     "size": "M",
     "labels": [
-      "type:feature",
       "area:survey",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-a",
+      "phase:parallel",
       "priority:p1",
-      "status:blocked"
+      "size:m",
+      "status:blocked",
+      "type:feature",
+      "workstream:core-platform"
     ],
     "doc": "docs/research/survey-questionnaire.md",
     "user": "field researcher",
@@ -1823,6 +2630,16 @@
     "dependency_numbers": [
       52,
       57
+    ],
+    "points": 3,
+    "integration_dependencies": [],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "A",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
+      52,
+      57
     ]
   },
   {
@@ -1834,18 +2651,24 @@
     "approach": "Implement observation rubric/version, visit-place linkage, mobile observation form and review state",
     "edge": "Observation without a participant never creates a survey respondent or invented consent",
     "dependencies": [
-      "04.03",
+      "01.09",
       "02.06",
       "03.04",
-      "01.09"
+      "04.03"
     ],
     "priority": "P1",
-    "size": "M",
+    "size": "L",
     "labels": [
-      "type:feature",
       "area:survey",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-a",
+      "phase:parallel",
       "priority:p1",
-      "status:blocked"
+      "size:l",
+      "status:blocked",
+      "type:feature",
+      "workstream:core-platform"
     ],
     "doc": "docs/research/survey-questionnaire.md",
     "user": "field researcher",
@@ -1858,10 +2681,22 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/96"
     },
     "dependency_numbers": [
-      44,
+      20,
       27,
       35,
-      20
+      44
+    ],
+    "points": 5,
+    "integration_dependencies": [],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "A",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
+      20,
+      27,
+      35,
+      44
     ]
   },
   {
@@ -1873,18 +2708,23 @@
     "approach": "Threat assessment, quota/eviction prototype and fallback import contract",
     "edge": "Unencrypted browser storage never claimed inherently safe",
     "dependencies": [
-      "00.11",
       "00.09",
-      "01.09"
+      "00.10"
     ],
     "priority": "P0",
-    "size": "M",
+    "size": "XL",
     "labels": [
-      "type:feature",
       "area:offline",
+      "dependency:blocked",
+      "handoff:required",
+      "milestone-blocker",
+      "owner:developer-b",
+      "phase:parallel",
       "priority:p0",
+      "size:xl",
       "status:blocked",
-      "milestone-blocker"
+      "type:feature",
+      "workstream:public-experience"
     ],
     "doc": "docs/architecture/offline-sync.md",
     "user": "field researcher",
@@ -1897,8 +2737,22 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/54"
     },
     "dependency_numbers": [
-      11,
       9,
+      10
+    ],
+    "points": 8,
+    "integration_dependencies": [
+      "01.09"
+    ],
+    "soft_dependencies": [],
+    "operational_dependencies": [
+      "00.11"
+    ],
+    "allocation_owner": "B",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
+      9,
+      11,
       20
     ]
   },
@@ -1911,16 +2765,22 @@
     "approach": "IndexedDB protected vault, autosave marker, quota alarms and key-unlock design",
     "edge": "Quota failure/key loss/eviction produce honest recovery limits",
     "dependencies": [
-      "05.01",
-      "04.01"
+      "04.01",
+      "05.01"
     ],
     "priority": "P0",
-    "size": "M",
+    "size": "XL",
     "labels": [
-      "type:feature",
       "area:offline",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-a",
+      "phase:parallel",
       "priority:p0",
-      "status:blocked"
+      "size:xl",
+      "status:blocked",
+      "type:feature",
+      "workstream:core-platform"
     ],
     "doc": "docs/architecture/offline-sync.md",
     "user": "field researcher",
@@ -1933,8 +2793,18 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/55"
     },
     "dependency_numbers": [
-      54,
-      42
+      42,
+      54
+    ],
+    "points": 8,
+    "integration_dependencies": [],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "A",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
+      42,
+      54
     ]
   },
   {
@@ -1946,16 +2816,22 @@
     "approach": "Memory-only unlocked key, idle/background lock and online reauth before sync",
     "edge": "Offline revoked account cannot be assumed instantly revoked; reconnect quarantines",
     "dependencies": [
-      "05.01",
-      "03.01"
+      "03.01",
+      "05.01"
     ],
     "priority": "P0",
-    "size": "M",
+    "size": "L",
     "labels": [
-      "type:feature",
       "area:offline",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-a",
+      "phase:parallel",
       "priority:p0",
-      "status:blocked"
+      "size:l",
+      "status:blocked",
+      "type:feature",
+      "workstream:core-platform"
     ],
     "doc": "docs/architecture/offline-sync.md",
     "user": "field researcher",
@@ -1968,8 +2844,18 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/56"
     },
     "dependency_numbers": [
-      54,
-      32
+      32,
+      54
+    ],
+    "points": 5,
+    "integration_dependencies": [],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "A",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
+      32,
+      54
     ]
   },
   {
@@ -1981,18 +2867,23 @@
     "approach": "Unique operation/interview IDs, request hash, base revision and atomic receipt transaction",
     "edge": "Same key changed payload gets 409; response loss retry adds no duplicate",
     "dependencies": [
+      "03.07",
       "04.02",
       "04.09",
-      "03.07",
       "05.03"
     ],
     "priority": "P0",
-    "size": "M",
+    "size": "XL",
     "labels": [
-      "type:feature",
       "area:offline",
+      "dependency:blocked",
+      "owner:developer-a",
+      "phase:parallel",
       "priority:p0",
-      "status:blocked"
+      "size:xl",
+      "status:blocked",
+      "type:feature",
+      "workstream:core-platform"
     ],
     "doc": "docs/architecture/offline-sync.md",
     "user": "field researcher",
@@ -2005,9 +2896,21 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/57"
     },
     "dependency_numbers": [
+      38,
       43,
       50,
+      56
+    ],
+    "points": 8,
+    "integration_dependencies": [],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "A",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
       38,
+      43,
+      50,
       56
     ]
   },
@@ -2020,16 +2923,22 @@
     "approach": "Jittered bounded retries, 401 reauth, 409 resolution and rejected record state",
     "edge": "No last-write-wins on consent/GPS; offline-to-online partial failure retained",
     "dependencies": [
-      "05.04",
-      "05.02"
+      "05.02",
+      "05.04"
     ],
     "priority": "P1",
-    "size": "M",
+    "size": "XL",
     "labels": [
-      "type:feature",
       "area:offline",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-a",
+      "phase:parallel",
       "priority:p1",
-      "status:blocked"
+      "size:xl",
+      "status:blocked",
+      "type:feature",
+      "workstream:core-platform"
     ],
     "doc": "docs/architecture/offline-sync.md",
     "user": "field researcher",
@@ -2042,8 +2951,18 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/58"
     },
     "dependency_numbers": [
-      57,
-      55
+      55,
+      57
+    ],
+    "points": 8,
+    "integration_dependencies": [],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "A",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
+      55,
+      57
     ]
   },
   {
@@ -2058,12 +2977,18 @@
       "05.04"
     ],
     "priority": "P1",
-    "size": "M",
+    "size": "L",
     "labels": [
-      "type:feature",
       "area:offline",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-a",
+      "phase:parallel",
       "priority:p1",
-      "status:blocked"
+      "size:l",
+      "status:blocked",
+      "type:feature",
+      "workstream:core-platform"
     ],
     "doc": "docs/architecture/offline-sync.md",
     "user": "field researcher",
@@ -2077,6 +3002,15 @@
     },
     "dependency_numbers": [
       57
+    ],
+    "points": 5,
+    "integration_dependencies": [],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "A",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
+      57
     ]
   },
   {
@@ -2089,16 +3023,21 @@
     "edge": "Half upload, executable/polyglot and scanner failure remain private",
     "dependencies": [
       "03.09",
-      "03.07",
-      "05.04"
+      "03.07"
     ],
     "priority": "P1",
-    "size": "M",
+    "size": "XL",
     "labels": [
-      "type:feature",
       "area:offline",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-a",
+      "phase:parallel",
       "priority:p1",
-      "status:blocked"
+      "size:xl",
+      "status:blocked",
+      "type:feature",
+      "workstream:core-platform"
     ],
     "doc": "docs/architecture/offline-sync.md",
     "user": "field researcher",
@@ -2112,7 +3051,19 @@
     },
     "dependency_numbers": [
       40,
+      38
+    ],
+    "points": 8,
+    "integration_dependencies": [
+      "05.04"
+    ],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "A",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
       38,
+      40,
       57
     ]
   },
@@ -2125,16 +3076,21 @@
     "approach": "Media permissions, EXIF removal and face/plate redaction review",
     "edge": "Unknown rights or withdrawn consent blocks public copy",
     "dependencies": [
-      "05.07",
-      "03.06"
+      "00.10"
     ],
     "priority": "P1",
-    "size": "M",
+    "size": "L",
     "labels": [
-      "type:feature",
       "area:offline",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-b",
+      "phase:parallel",
       "priority:p1",
-      "status:blocked"
+      "size:l",
+      "status:blocked",
+      "type:feature",
+      "workstream:public-experience"
     ],
     "doc": "docs/architecture/offline-sync.md",
     "user": "field researcher",
@@ -2147,8 +3103,20 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/61"
     },
     "dependency_numbers": [
-      60,
-      37
+      10
+    ],
+    "points": 5,
+    "integration_dependencies": [
+      "05.07",
+      "03.06"
+    ],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
+      37,
+      60
     ]
   },
   {
@@ -2160,18 +3128,23 @@
     "approach": "Airplane mode/restart/low-storage/key loss/foreground resume test script",
     "edge": "Never clear local source before verified server receipt and attachment reconciliation",
     "dependencies": [
-      "05.05",
-      "05.06",
-      "05.08"
+      "00.10",
+      "05.01"
     ],
     "priority": "P1",
-    "size": "M",
+    "size": "XL",
     "labels": [
-      "type:feature",
       "area:offline",
+      "dependency:blocked",
+      "field-validation-required",
+      "handoff:required",
+      "owner:developer-b",
+      "phase:integration",
       "priority:p1",
+      "size:xl",
       "status:blocked",
-      "field-validation-required"
+      "type:feature",
+      "workstream:public-experience"
     ],
     "doc": "docs/architecture/offline-sync.md",
     "user": "field researcher",
@@ -2184,6 +3157,20 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/62"
     },
     "dependency_numbers": [
+      10,
+      54
+    ],
+    "points": 8,
+    "integration_dependencies": [
+      "05.05",
+      "05.06",
+      "05.08"
+    ],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "integration",
+    "original_dependency_numbers": [
       58,
       59,
       61
@@ -2198,17 +3185,23 @@
     "approach": "Map immutable source instance IDs to sync UUIDs, validate forms and subject links, quarantine incompatible rows; document not-applicable decision if PWA selected",
     "edge": "Reimport creates no duplicate; subject geometry never substitutes interview GPS; unapproved vendor receives no data",
     "dependencies": [
+      "04.02",
       "05.01",
-      "05.04",
-      "04.02"
+      "05.04"
     ],
     "priority": "P1",
-    "size": "M",
+    "size": "XL",
     "labels": [
-      "type:feature",
       "area:offline",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-a",
+      "phase:parallel",
       "priority:p1",
-      "status:blocked"
+      "size:xl",
+      "status:blocked",
+      "type:feature",
+      "workstream:core-platform"
     ],
     "doc": "docs/architecture/offline-sync.md",
     "user": "field researcher",
@@ -2221,9 +3214,20 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/97"
     },
     "dependency_numbers": [
+      43,
       54,
-      57,
-      43
+      57
+    ],
+    "points": 8,
+    "integration_dependencies": [],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "A",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
+      43,
+      54,
+      57
     ]
   },
   {
@@ -2235,15 +3239,21 @@
     "approach": "Localized content revisions and last-reviewed metadata linked to locations",
     "edge": "Unreviewed content cannot inherit geometry approval as publication approval",
     "dependencies": [
-      "02.06"
+      "00.10"
     ],
     "priority": "P2",
     "size": "M",
     "labels": [
-      "type:feature",
       "area:historical",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-b",
+      "phase:parallel",
       "priority:p2",
-      "status:blocked"
+      "size:m",
+      "status:blocked",
+      "type:feature",
+      "workstream:public-experience"
     ],
     "doc": "docs/research/historical-evidence.md",
     "user": "research editor",
@@ -2256,6 +3266,17 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/63"
     },
     "dependency_numbers": [
+      10
+    ],
+    "points": 3,
+    "integration_dependencies": [
+      "02.06"
+    ],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
       27
     ]
   },
@@ -2268,16 +3289,21 @@
     "approach": "Draft/review/approve transitions with category/history/media references",
     "edge": "Stale revision or invented site condition rejected",
     "dependencies": [
-      "06.01",
-      "03.04"
+      "06.01"
     ],
     "priority": "P2",
-    "size": "M",
+    "size": "L",
     "labels": [
-      "type:feature",
       "area:historical",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-b",
+      "phase:parallel",
       "priority:p2",
-      "status:blocked"
+      "size:l",
+      "status:blocked",
+      "type:feature",
+      "workstream:public-experience"
     ],
     "doc": "docs/research/historical-evidence.md",
     "user": "research editor",
@@ -2290,8 +3316,19 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/64"
     },
     "dependency_numbers": [
-      63,
-      35
+      63
+    ],
+    "points": 5,
+    "integration_dependencies": [
+      "03.04"
+    ],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
+      35,
+      63
     ]
   },
   {
@@ -2303,16 +3340,20 @@
     "approach": "Source schema and reviewer UI/API preserve disputed accounts",
     "edge": "Missing source/date cannot become verified chronology",
     "dependencies": [
-      "06.01",
-      "00.04"
+      "06.01"
     ],
     "priority": "P2",
-    "size": "M",
+    "size": "L",
     "labels": [
-      "type:feature",
       "area:historical",
+      "dependency:blocked",
+      "owner:developer-b",
+      "phase:parallel",
       "priority:p2",
-      "status:blocked"
+      "size:l",
+      "status:blocked",
+      "type:feature",
+      "workstream:public-experience"
     ],
     "doc": "docs/research/historical-evidence.md",
     "user": "research editor",
@@ -2325,8 +3366,19 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/65"
     },
     "dependency_numbers": [
-      63,
-      4
+      63
+    ],
+    "points": 5,
+    "integration_dependencies": [],
+    "soft_dependencies": [
+      "00.04"
+    ],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
+      4,
+      63
     ]
   },
   {
@@ -2343,10 +3395,15 @@
     "priority": "P2",
     "size": "M",
     "labels": [
-      "type:feature",
       "area:historical",
+      "dependency:blocked",
+      "owner:developer-b",
+      "phase:parallel",
       "priority:p2",
-      "status:blocked"
+      "size:m",
+      "status:blocked",
+      "type:feature",
+      "workstream:public-experience"
     ],
     "doc": "docs/research/historical-evidence.md",
     "user": "research editor",
@@ -2360,6 +3417,15 @@
     },
     "dependency_numbers": [
       65
+    ],
+    "points": 3,
+    "integration_dependencies": [],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
+      65
     ]
   },
   {
@@ -2371,16 +3437,20 @@
     "approach": "Link before/after assets and quality review at current revision",
     "edge": "Missing historical date or mismatched place blocks publication",
     "dependencies": [
-      "06.03",
-      "05.08"
+      "06.03"
     ],
     "priority": "P2",
     "size": "M",
     "labels": [
-      "type:feature",
       "area:historical",
+      "dependency:blocked",
+      "owner:developer-b",
+      "phase:parallel",
       "priority:p2",
-      "status:blocked"
+      "size:m",
+      "status:blocked",
+      "type:feature",
+      "workstream:public-experience"
     ],
     "doc": "docs/research/historical-evidence.md",
     "user": "research editor",
@@ -2393,8 +3463,19 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/67"
     },
     "dependency_numbers": [
-      65,
-      61
+      65
+    ],
+    "points": 3,
+    "integration_dependencies": [
+      "05.08"
+    ],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
+      61,
+      65
     ]
   },
   {
@@ -2406,16 +3487,22 @@
     "approach": "Responsive image comparison with text description and lazy media",
     "edge": "Unsupported pair hidden; image failure preserves narrative",
     "dependencies": [
-      "06.05",
+      "00.10",
       "01.07"
     ],
     "priority": "P2",
-    "size": "M",
+    "size": "L",
     "labels": [
-      "type:feature",
       "area:historical",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-b",
+      "phase:parallel",
       "priority:p2",
-      "status:blocked"
+      "size:l",
+      "status:blocked",
+      "type:feature",
+      "workstream:public-experience"
     ],
     "doc": "docs/research/historical-evidence.md",
     "user": "research editor",
@@ -2428,8 +3515,20 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/68"
     },
     "dependency_numbers": [
-      67,
+      10,
       18
+    ],
+    "points": 5,
+    "integration_dependencies": [
+      "06.05"
+    ],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
+      18,
+      67
     ]
   },
   {
@@ -2441,16 +3540,22 @@
     "approach": "Lazy Pannellum adapter, keyboard controls and permitted derivative URLs",
     "edge": "WebGL failure/large texture does not block place page",
     "dependencies": [
-      "05.08",
+      "00.10",
       "01.06"
     ],
     "priority": "P2",
-    "size": "M",
+    "size": "L",
     "labels": [
-      "type:feature",
       "area:historical",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-b",
+      "phase:parallel",
       "priority:p2",
-      "status:blocked"
+      "size:l",
+      "status:blocked",
+      "type:feature",
+      "workstream:public-experience"
     ],
     "doc": "docs/research/historical-evidence.md",
     "user": "research editor",
@@ -2463,8 +3568,20 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/69"
     },
     "dependency_numbers": [
-      61,
+      10,
       17
+    ],
+    "points": 5,
+    "integration_dependencies": [
+      "05.08"
+    ],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
+      17,
+      61
     ]
   },
   {
@@ -2476,16 +3593,20 @@
     "approach": "Check supported Google viewer/embed and Mapillary access without scraping",
     "edge": "No billing activation or continuous coverage promise without approval",
     "dependencies": [
-      "02.03",
-      "00.09"
+      "02.03"
     ],
     "priority": "P2",
-    "size": "S",
+    "size": "M",
     "labels": [
-      "type:feature",
       "area:historical",
+      "dependency:blocked",
+      "owner:developer-b",
+      "phase:parallel",
       "priority:p2",
-      "status:blocked"
+      "size:m",
+      "status:blocked",
+      "type:feature",
+      "workstream:public-experience"
     ],
     "doc": "docs/research/historical-evidence.md",
     "user": "research editor",
@@ -2498,8 +3619,19 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/70"
     },
     "dependency_numbers": [
-      24,
-      9
+      24
+    ],
+    "points": 3,
+    "integration_dependencies": [],
+    "soft_dependencies": [
+      "00.09"
+    ],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
+      9,
+      24
     ]
   },
   {
@@ -2512,16 +3644,21 @@
     "edge": "Unverified official claim or revoked quote remains unpublished",
     "dependencies": [
       "06.02",
-      "06.04",
-      "03.06"
+      "06.04"
     ],
     "priority": "P2",
-    "size": "M",
+    "size": "L",
     "labels": [
-      "type:feature",
       "area:historical",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-b",
+      "phase:parallel",
       "priority:p2",
-      "status:blocked"
+      "size:l",
+      "status:blocked",
+      "type:feature",
+      "workstream:public-experience"
     ],
     "doc": "docs/research/historical-evidence.md",
     "user": "research editor",
@@ -2535,8 +3672,20 @@
     },
     "dependency_numbers": [
       64,
-      66,
-      37
+      66
+    ],
+    "points": 5,
+    "integration_dependencies": [
+      "03.06"
+    ],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
+      37,
+      64,
+      66
     ]
   },
   {
@@ -2554,10 +3703,16 @@
     "priority": "P2",
     "size": "M",
     "labels": [
-      "type:feature",
       "area:frontend",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-b",
+      "phase:parallel",
       "priority:p2",
-      "status:blocked"
+      "size:m",
+      "status:blocked",
+      "type:feature",
+      "workstream:public-experience"
     ],
     "doc": "docs/design/public-website.md",
     "user": "public visitor",
@@ -2572,6 +3727,16 @@
     "dependency_numbers": [
       10,
       13
+    ],
+    "points": 3,
+    "integration_dependencies": [],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
+      10,
+      13
     ]
   },
   {
@@ -2584,16 +3749,21 @@
     "edge": "No approved hero/media gives honest fallback",
     "dependencies": [
       "07.01",
-      "01.03",
-      "07.10"
+      "01.03"
     ],
     "priority": "P2",
     "size": "M",
     "labels": [
-      "type:feature",
       "area:frontend",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-b",
+      "phase:parallel",
       "priority:p2",
-      "status:blocked"
+      "size:m",
+      "status:blocked",
+      "type:feature",
+      "workstream:public-experience"
     ],
     "doc": "docs/design/public-website.md",
     "user": "public visitor",
@@ -2607,7 +3777,19 @@
     },
     "dependency_numbers": [
       72,
+      14
+    ],
+    "points": 3,
+    "integration_dependencies": [
+      "07.10"
+    ],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
       14,
+      72,
       81
     ]
   },
@@ -2621,16 +3803,21 @@
     "edge": "No private interview source/layer in network requests",
     "dependencies": [
       "02.04",
-      "07.01",
-      "07.10"
+      "07.01"
     ],
     "priority": "P2",
-    "size": "M",
+    "size": "L",
     "labels": [
-      "type:feature",
       "area:frontend",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-b",
+      "phase:parallel",
       "priority:p2",
-      "status:blocked"
+      "size:l",
+      "status:blocked",
+      "type:feature",
+      "workstream:public-experience"
     ],
     "doc": "docs/design/public-website.md",
     "user": "public visitor",
@@ -2643,6 +3830,18 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/74"
     },
     "dependency_numbers": [
+      25,
+      72
+    ],
+    "points": 5,
+    "integration_dependencies": [
+      "07.10"
+    ],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
       25,
       72,
       81
@@ -2657,16 +3856,21 @@
     "approach": "Bind approved categories/layers to URL and map source filters",
     "edge": "Empty result retains reset/list controls and attribution",
     "dependencies": [
-      "07.03",
-      "02.05"
+      "07.03"
     ],
     "priority": "P2",
     "size": "M",
     "labels": [
-      "type:feature",
       "area:frontend",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-b",
+      "phase:parallel",
       "priority:p2",
-      "status:blocked"
+      "size:m",
+      "status:blocked",
+      "type:feature",
+      "workstream:public-experience"
     ],
     "doc": "docs/design/public-website.md",
     "user": "public visitor",
@@ -2679,8 +3883,19 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/75"
     },
     "dependency_numbers": [
-      74,
-      26
+      74
+    ],
+    "points": 3,
+    "integration_dependencies": [
+      "02.05"
+    ],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
+      26,
+      74
     ]
   },
   {
@@ -2693,16 +3908,21 @@
     "edge": "Rapid stale response cannot overwrite newer search; private candidate hidden",
     "dependencies": [
       "02.08",
-      "07.10",
       "07.03"
     ],
     "priority": "P2",
     "size": "M",
     "labels": [
-      "type:feature",
       "area:frontend",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-b",
+      "phase:parallel",
       "priority:p2",
-      "status:blocked"
+      "size:m",
+      "status:blocked",
+      "type:feature",
+      "workstream:public-experience"
     ],
     "doc": "docs/design/public-website.md",
     "user": "public visitor",
@@ -2716,8 +3936,20 @@
     },
     "dependency_numbers": [
       29,
-      81,
       74
+    ],
+    "points": 3,
+    "integration_dependencies": [
+      "07.10"
+    ],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
+      29,
+      74,
+      81
     ]
   },
   {
@@ -2729,17 +3961,22 @@
     "approach": "Deep-link P05 using public DTO with modular evidence sections",
     "edge": "Withdrawn/unpublished place has safe 404 and no cached source leak",
     "dependencies": [
-      "07.10",
-      "01.06",
-      "06.02"
+      "07.01",
+      "01.06"
     ],
     "priority": "P2",
-    "size": "M",
+    "size": "L",
     "labels": [
-      "type:feature",
       "area:frontend",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-b",
+      "phase:parallel",
       "priority:p2",
-      "status:blocked"
+      "size:l",
+      "status:blocked",
+      "type:feature",
+      "workstream:public-experience"
     ],
     "doc": "docs/design/public-website.md",
     "user": "public visitor",
@@ -2752,9 +3989,22 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/77"
     },
     "dependency_numbers": [
-      81,
+      72,
+      17
+    ],
+    "points": 5,
+    "integration_dependencies": [
+      "07.10",
+      "06.02"
+    ],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
       17,
-      64
+      64,
+      81
     ]
   },
   {
@@ -2766,16 +4016,20 @@
     "approach": "Accessible focus-managed gallery with lazy image sizes",
     "edge": "Original object URL/EXIF never exposed; missing asset fallback",
     "dependencies": [
-      "05.08",
       "07.06"
     ],
     "priority": "P2",
     "size": "M",
     "labels": [
-      "type:feature",
       "area:frontend",
+      "dependency:blocked",
+      "owner:developer-b",
+      "phase:parallel",
       "priority:p2",
-      "status:blocked"
+      "size:m",
+      "status:blocked",
+      "type:feature",
+      "workstream:public-experience"
     ],
     "doc": "docs/design/public-website.md",
     "user": "public visitor",
@@ -2788,6 +4042,17 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/78"
     },
     "dependency_numbers": [
+      77
+    ],
+    "points": 3,
+    "integration_dependencies": [
+      "05.08"
+    ],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
       61,
       77
     ]
@@ -2802,16 +4067,20 @@
     "edge": "Unavailable provider/denied third-party load leaves usable profile",
     "dependencies": [
       "06.07",
-      "06.08",
       "07.06"
     ],
     "priority": "P2",
     "size": "M",
     "labels": [
-      "type:feature",
       "area:frontend",
+      "dependency:blocked",
+      "owner:developer-b",
+      "phase:parallel",
       "priority:p2",
-      "status:blocked"
+      "size:m",
+      "status:blocked",
+      "type:feature",
+      "workstream:public-experience"
     ],
     "doc": "docs/design/public-website.md",
     "user": "public visitor",
@@ -2824,6 +4093,18 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/79"
     },
     "dependency_numbers": [
+      69,
+      77
+    ],
+    "points": 3,
+    "integration_dependencies": [
+      "06.08"
+    ],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
       69,
       70,
       77
@@ -2839,16 +4120,20 @@
     "edge": "Withdrawal invalidation removes stale attributed content",
     "dependencies": [
       "06.06",
-      "06.09",
       "07.06"
     ],
     "priority": "P2",
-    "size": "M",
+    "size": "L",
     "labels": [
-      "type:feature",
       "area:frontend",
+      "dependency:blocked",
+      "owner:developer-b",
+      "phase:parallel",
       "priority:p2",
-      "status:blocked"
+      "size:l",
+      "status:blocked",
+      "type:feature",
+      "workstream:public-experience"
     ],
     "doc": "docs/design/public-website.md",
     "user": "public visitor",
@@ -2861,6 +4146,18 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/80"
     },
     "dependency_numbers": [
+      68,
+      77
+    ],
+    "points": 5,
+    "integration_dependencies": [
+      "06.09"
+    ],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
       68,
       71,
       77
@@ -2875,17 +4172,23 @@
     "approach": "Separate public DB pool/schema and GET-only routes with cache invalidation",
     "edge": "Anonymous write/raw survey/exact interview GPS requests fail",
     "dependencies": [
-      "03.07",
-      "09.08",
-      "08.09"
+      "00.10",
+      "03.05",
+      "03.07"
     ],
     "priority": "P2",
-    "size": "M",
+    "size": "XL",
     "labels": [
-      "type:feature",
       "area:frontend",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-a",
+      "phase:integration",
       "priority:p2",
-      "status:blocked"
+      "size:xl",
+      "status:blocked",
+      "type:feature",
+      "workstream:core-platform"
     ],
     "doc": "docs/design/public-website.md",
     "user": "public visitor",
@@ -2898,9 +4201,23 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/81"
     },
     "dependency_numbers": [
+      10,
+      36,
+      38
+    ],
+    "points": 8,
+    "integration_dependencies": [
+      "09.08",
+      "08.09"
+    ],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "A",
+    "allocation_phase": "integration",
+    "original_dependency_numbers": [
       38,
-      103,
-      92
+      92,
+      103
     ]
   },
   {
@@ -2912,17 +4229,22 @@
     "approach": "Implement approved responsive frames, safe areas and focus behavior",
     "edge": "320px/zoom/orientation/soft keyboard do not hide navigation",
     "dependencies": [
+      "01.05",
       "07.03",
-      "07.06",
-      "01.05"
+      "07.06"
     ],
     "priority": "P2",
-    "size": "M",
+    "size": "L",
     "labels": [
-      "type:feature",
       "area:frontend",
+      "dependency:blocked",
+      "owner:developer-b",
+      "phase:parallel",
       "priority:p2",
-      "status:blocked"
+      "size:l",
+      "status:blocked",
+      "type:feature",
+      "workstream:public-experience"
     ],
     "doc": "docs/design/public-website.md",
     "user": "public visitor",
@@ -2935,9 +4257,20 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/82"
     },
     "dependency_numbers": [
+      16,
       74,
-      77,
-      16
+      77
+    ],
+    "points": 5,
+    "integration_dependencies": [],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
+      16,
+      74,
+      77
     ]
   },
   {
@@ -2950,16 +4283,21 @@
     "edge": "No invented team/contact, unverified results or unsupported translation claim",
     "dependencies": [
       "07.01",
-      "00.04",
       "01.02"
     ],
     "priority": "P2",
     "size": "M",
     "labels": [
-      "type:feature",
       "area:frontend",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-b",
+      "phase:parallel",
       "priority:p2",
-      "status:blocked"
+      "size:m",
+      "status:blocked",
+      "type:feature",
+      "workstream:public-experience"
     ],
     "doc": "docs/design/public-website.md",
     "user": "public visitor",
@@ -2973,8 +4311,20 @@
     },
     "dependency_numbers": [
       72,
-      4,
       13
+    ],
+    "points": 3,
+    "integration_dependencies": [
+      "00.04"
+    ],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
+      4,
+      13,
+      72
     ]
   },
   {
@@ -2987,16 +4337,21 @@
     "edge": "Invalid/unpublished/branch-inactive answers excluded; unsure not zero",
     "dependencies": [
       "04.02",
-      "09.04",
       "03.06"
     ],
     "priority": "P2",
-    "size": "M",
+    "size": "XL",
     "labels": [
-      "type:feature",
       "area:analytics",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-a",
+      "phase:parallel",
       "priority:p2",
-      "status:blocked"
+      "size:xl",
+      "status:blocked",
+      "type:feature",
+      "workstream:core-platform"
     ],
     "doc": "docs/architecture/analytics.md",
     "user": "research reader",
@@ -3010,8 +4365,20 @@
     },
     "dependency_numbers": [
       43,
-      99,
       37
+    ],
+    "points": 8,
+    "integration_dependencies": [
+      "09.04"
+    ],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "A",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
+      37,
+      43,
+      99
     ]
   },
   {
@@ -3023,15 +4390,21 @@
     "approach": "Versioned snapshot count/query and denominator metadata",
     "edge": "Multi-place interview not counted repeatedly in overall distribution",
     "dependencies": [
-      "08.01"
+      "00.10"
     ],
     "priority": "P2",
     "size": "M",
     "labels": [
-      "type:feature",
       "area:analytics",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-b",
+      "phase:parallel",
       "priority:p2",
-      "status:blocked"
+      "size:m",
+      "status:blocked",
+      "type:feature",
+      "workstream:public-experience"
     ],
     "doc": "docs/architecture/analytics.md",
     "user": "research reader",
@@ -3044,6 +4417,17 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/85"
     },
     "dependency_numbers": [
+      10
+    ],
+    "points": 3,
+    "integration_dependencies": [
+      "08.01"
+    ],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
       84
     ]
   },
@@ -3056,16 +4440,21 @@
     "approach": "Stable taxonomy, multi-label coding provenance and valid-base rule",
     "edge": "Percentages may exceed 100 only with explicit multi-response note",
     "dependencies": [
-      "08.01",
-      "04.10"
+      "00.10"
     ],
     "priority": "P2",
-    "size": "M",
+    "size": "L",
     "labels": [
-      "type:feature",
       "area:analytics",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-b",
+      "phase:parallel",
       "priority:p2",
-      "status:blocked"
+      "size:l",
+      "status:blocked",
+      "type:feature",
+      "workstream:public-experience"
     ],
     "doc": "docs/architecture/analytics.md",
     "user": "research reader",
@@ -3078,8 +4467,20 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/86"
     },
     "dependency_numbers": [
-      84,
-      51
+      10
+    ],
+    "points": 5,
+    "integration_dependencies": [
+      "08.01",
+      "04.10"
+    ],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
+      51,
+      84
     ]
   },
   {
@@ -3091,15 +4492,21 @@
     "approach": "Scale/ordinal counts and question-version mappings; no unsupported causal claims",
     "edge": "Rating unsure not zero; incompatible versions not silently pooled",
     "dependencies": [
-      "08.01"
+      "00.10"
     ],
     "priority": "P2",
     "size": "M",
     "labels": [
-      "type:feature",
       "area:analytics",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-b",
+      "phase:parallel",
       "priority:p2",
-      "status:blocked"
+      "size:m",
+      "status:blocked",
+      "type:feature",
+      "workstream:public-experience"
     ],
     "doc": "docs/architecture/analytics.md",
     "user": "research reader",
@@ -3112,6 +4519,17 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/87"
     },
     "dependency_numbers": [
+      10
+    ],
+    "points": 3,
+    "integration_dependencies": [
+      "08.01"
+    ],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
       84
     ]
   },
@@ -3124,18 +4542,24 @@
     "approach": "ECharts + accessible tables consuming fixed approved snapshots",
     "edge": "Small category suppressed including complementary cell reconstruction",
     "dependencies": [
+      "00.10",
+      "01.08",
       "08.02",
-      "08.04",
-      "08.09",
-      "01.08"
+      "08.04"
     ],
     "priority": "P2",
-    "size": "M",
+    "size": "L",
     "labels": [
-      "type:feature",
       "area:analytics",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-b",
+      "phase:parallel",
       "priority:p2",
-      "status:blocked"
+      "size:l",
+      "status:blocked",
+      "type:feature",
+      "workstream:public-experience"
     ],
     "doc": "docs/architecture/analytics.md",
     "user": "research reader",
@@ -3148,10 +4572,24 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/88"
     },
     "dependency_numbers": [
+      10,
+      19,
+      85,
+      87
+    ],
+    "points": 5,
+    "integration_dependencies": [
+      "08.09"
+    ],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
+      19,
       85,
       87,
-      92,
-      19
+      92
     ]
   },
   {
@@ -3163,17 +4601,21 @@
     "approach": "Aggregate scoped answer/topic groups and distinct interview bases",
     "edge": "Interview at A discussing B contributes to B topic, not A rating",
     "dependencies": [
-      "08.01",
-      "04.09",
-      "08.09"
+      "00.10"
     ],
     "priority": "P2",
-    "size": "M",
+    "size": "L",
     "labels": [
-      "type:feature",
       "area:analytics",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-b",
+      "phase:parallel",
       "priority:p2",
-      "status:blocked"
+      "size:l",
+      "status:blocked",
+      "type:feature",
+      "workstream:public-experience"
     ],
     "doc": "docs/architecture/analytics.md",
     "user": "research reader",
@@ -3186,8 +4628,21 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/89"
     },
     "dependency_numbers": [
-      84,
+      10
+    ],
+    "points": 5,
+    "integration_dependencies": [
+      "08.01",
+      "04.09",
+      "08.09"
+    ],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
       50,
+      84,
       92
     ]
   },
@@ -3200,17 +4655,23 @@
     "approach": "Fixed grid/policy version and suppression pipeline with no raw centroid export",
     "edge": "Low-n cells/out-of-area fixes do not reveal precise individuals",
     "dependencies": [
+      "02.02",
       "08.01",
-      "08.09",
-      "02.02"
+      "08.09"
     ],
     "priority": "P2",
-    "size": "M",
+    "size": "XL",
     "labels": [
-      "type:feature",
       "area:analytics",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-a",
+      "phase:integration",
       "priority:p2",
-      "status:blocked"
+      "size:xl",
+      "status:blocked",
+      "type:feature",
+      "workstream:core-platform"
     ],
     "doc": "docs/architecture/analytics.md",
     "user": "research reader",
@@ -3223,9 +4684,20 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/90"
     },
     "dependency_numbers": [
+      23,
       84,
-      92,
-      23
+      92
+    ],
+    "points": 8,
+    "integration_dependencies": [],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "A",
+    "allocation_phase": "integration",
+    "original_dependency_numbers": [
+      23,
+      84,
+      92
     ]
   },
   {
@@ -3239,16 +4711,21 @@
     "dependencies": [
       "08.02",
       "08.03",
-      "08.04",
-      "08.09"
+      "08.04"
     ],
     "priority": "P2",
-    "size": "M",
+    "size": "L",
     "labels": [
-      "type:feature",
       "area:analytics",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-b",
+      "phase:parallel",
       "priority:p2",
-      "status:blocked"
+      "size:l",
+      "status:blocked",
+      "type:feature",
+      "workstream:public-experience"
     ],
     "doc": "docs/architecture/analytics.md",
     "user": "research reader",
@@ -3261,6 +4738,19 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/91"
     },
     "dependency_numbers": [
+      85,
+      86,
+      87
+    ],
+    "points": 5,
+    "integration_dependencies": [
+      "08.09"
+    ],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
       85,
       86,
       87,
@@ -3276,17 +4766,23 @@
     "approach": "Versioned fixed cohorts and privacy tests; institutional approval of provisional k5/grid",
     "edge": "Suppressed cell cannot be reconstructed by totals/date differences",
     "dependencies": [
-      "08.01",
-      "03.10"
+      "03.10",
+      "08.01"
     ],
     "priority": "P2",
-    "size": "M",
+    "size": "XL",
     "labels": [
-      "type:feature",
       "area:analytics",
+      "dependency:blocked",
+      "handoff:required",
+      "milestone-blocker",
+      "owner:developer-a",
+      "phase:parallel",
       "priority:p2",
+      "size:xl",
       "status:blocked",
-      "milestone-blocker"
+      "type:feature",
+      "workstream:core-platform"
     ],
     "doc": "docs/architecture/analytics.md",
     "user": "research reader",
@@ -3299,8 +4795,18 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/92"
     },
     "dependency_numbers": [
-      84,
-      41
+      41,
+      84
+    ],
+    "points": 8,
+    "integration_dependencies": [],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "A",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
+      41,
+      84
     ]
   },
   {
@@ -3312,19 +4818,22 @@
     "approach": "Independent expected tables and question/method notes beside each metric",
     "edge": "Missing, rejected, withdrawn, duplicate and multi-place fixtures handled",
     "dependencies": [
-      "08.02",
-      "08.03",
-      "08.04",
-      "08.07",
-      "08.08"
+      "00.10",
+      "10.01"
     ],
     "priority": "P2",
-    "size": "M",
+    "size": "L",
     "labels": [
-      "type:feature",
       "area:analytics",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-b",
+      "phase:integration",
       "priority:p2",
-      "status:blocked"
+      "size:l",
+      "status:blocked",
+      "type:feature",
+      "workstream:public-experience"
     ],
     "doc": "docs/architecture/analytics.md",
     "user": "research reader",
@@ -3337,6 +4846,25 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/93"
     },
     "dependency_numbers": [
+      10,
+      106
+    ],
+    "points": 5,
+    "integration_dependencies": [
+      "08.02",
+      "08.03",
+      "08.04",
+      "08.07",
+      "08.08",
+      "08.05",
+      "08.01",
+      "08.09"
+    ],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "integration",
+    "original_dependency_numbers": [
       85,
       86,
       87,
@@ -3353,16 +4881,22 @@
     "approach": "Private app shell and study selector with capability checks",
     "edge": "Technical administrator sees no raw records without explicit grant",
     "dependencies": [
-      "03.04",
+      "00.10",
       "01.10"
     ],
     "priority": "P1",
-    "size": "M",
+    "size": "L",
     "labels": [
-      "type:feature",
       "area:admin",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-b",
+      "phase:parallel",
       "priority:p1",
-      "status:blocked"
+      "size:l",
+      "status:blocked",
+      "type:feature",
+      "workstream:public-experience"
     ],
     "doc": "docs/design/admin-dashboard.md",
     "user": "research lead",
@@ -3375,8 +4909,20 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/94"
     },
     "dependency_numbers": [
-      35,
+      10,
       21
+    ],
+    "points": 5,
+    "integration_dependencies": [
+      "03.04"
+    ],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
+      21,
+      35
     ]
   },
   {
@@ -3388,16 +4934,22 @@
     "approach": "Reuse account service with audited reason/confirmation and role separation",
     "edge": "Self-escalation and cross-study grant denied",
     "dependencies": [
-      "09.01",
+      "00.10",
       "03.02"
     ],
     "priority": "P1",
     "size": "M",
     "labels": [
-      "type:feature",
       "area:admin",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-a",
+      "phase:parallel",
       "priority:p1",
-      "status:blocked"
+      "size:m",
+      "status:blocked",
+      "type:feature",
+      "workstream:core-platform"
     ],
     "doc": "docs/design/admin-dashboard.md",
     "user": "research lead",
@@ -3410,8 +4962,20 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/95"
     },
     "dependency_numbers": [
-      94,
+      10,
       33
+    ],
+    "points": 3,
+    "integration_dependencies": [
+      "09.01"
+    ],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "A",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
+      33,
+      94
     ]
   },
   {
@@ -3423,16 +4987,21 @@
     "approach": "Scoped progress queries with stale/device-status caveats",
     "edge": "Unknown offline drafts not falsely counted as synced",
     "dependencies": [
-      "09.01",
       "04.03"
     ],
     "priority": "P1",
     "size": "M",
     "labels": [
-      "type:feature",
       "area:admin",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-a",
+      "phase:parallel",
       "priority:p1",
-      "status:blocked"
+      "size:m",
+      "status:blocked",
+      "type:feature",
+      "workstream:core-platform"
     ],
     "doc": "docs/design/admin-dashboard.md",
     "user": "research lead",
@@ -3445,8 +5014,19 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/98"
     },
     "dependency_numbers": [
-      94,
       44
+    ],
+    "points": 3,
+    "integration_dependencies": [
+      "09.01"
+    ],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "A",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
+      44,
+      94
     ]
   },
   {
@@ -3458,17 +5038,22 @@
     "approach": "Review state machine with current revision checks and eligibility flag",
     "edge": "Self approval or stale decision cannot make record public-eligible",
     "dependencies": [
-      "09.01",
       "04.10",
       "03.08"
     ],
     "priority": "P1",
-    "size": "M",
+    "size": "L",
     "labels": [
-      "type:feature",
       "area:admin",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-a",
+      "phase:integration",
       "priority:p1",
-      "status:blocked"
+      "size:l",
+      "status:blocked",
+      "type:feature",
+      "workstream:core-platform"
     ],
     "doc": "docs/design/admin-dashboard.md",
     "user": "research lead",
@@ -3481,9 +5066,21 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/99"
     },
     "dependency_numbers": [
-      94,
       51,
       39
+    ],
+    "points": 5,
+    "integration_dependencies": [
+      "09.01"
+    ],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "A",
+    "allocation_phase": "integration",
+    "original_dependency_numbers": [
+      39,
+      51,
+      94
     ]
   },
   {
@@ -3495,17 +5092,22 @@
     "approach": "Private map/list flags with reasoned correction revision workflow",
     "edge": "Poor accuracy cannot be silently snapped to subject place",
     "dependencies": [
-      "09.04",
+      "02.02",
       "04.08",
-      "02.02"
+      "09.04"
     ],
     "priority": "P1",
-    "size": "M",
+    "size": "L",
     "labels": [
-      "type:feature",
       "area:admin",
+      "dependency:blocked",
+      "owner:developer-a",
+      "phase:integration",
       "priority:p1",
-      "status:blocked"
+      "size:l",
+      "status:blocked",
+      "type:feature",
+      "workstream:core-platform"
     ],
     "doc": "docs/design/admin-dashboard.md",
     "user": "research lead",
@@ -3518,9 +5120,20 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/100"
     },
     "dependency_numbers": [
-      99,
+      23,
       49,
-      23
+      99
+    ],
+    "points": 5,
+    "integration_dependencies": [],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "A",
+    "allocation_phase": "integration",
+    "original_dependency_numbers": [
+      23,
+      49,
+      99
     ]
   },
   {
@@ -3532,16 +5145,21 @@
     "approach": "Candidate review state, geometry diff and reviewer evidence",
     "edge": "Rejected/out-of-boundary candidate remains private",
     "dependencies": [
-      "09.01",
-      "02.09"
+      "00.10"
     ],
     "priority": "P1",
-    "size": "M",
+    "size": "L",
     "labels": [
-      "type:feature",
       "area:admin",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-b",
+      "phase:integration",
       "priority:p1",
-      "status:blocked"
+      "size:l",
+      "status:blocked",
+      "type:feature",
+      "workstream:public-experience"
     ],
     "doc": "docs/design/admin-dashboard.md",
     "user": "research lead",
@@ -3554,8 +5172,20 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/101"
     },
     "dependency_numbers": [
-      94,
-      30
+      10
+    ],
+    "points": 5,
+    "integration_dependencies": [
+      "09.01",
+      "02.09"
+    ],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "integration",
+    "original_dependency_numbers": [
+      30,
+      94
     ]
   },
   {
@@ -3567,17 +5197,22 @@
     "approach": "Unified evidence/media queue with independent consent/rights checks",
     "edge": "Unknown rights, unverified official attribution or missing date blocks item",
     "dependencies": [
-      "09.01",
-      "06.03",
-      "05.08"
+      "00.10",
+      "06.03"
     ],
     "priority": "P1",
-    "size": "M",
+    "size": "L",
     "labels": [
-      "type:feature",
       "area:admin",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-b",
+      "phase:integration",
       "priority:p1",
-      "status:blocked"
+      "size:l",
+      "status:blocked",
+      "type:feature",
+      "workstream:public-experience"
     ],
     "doc": "docs/design/admin-dashboard.md",
     "user": "research lead",
@@ -3590,9 +5225,22 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/102"
     },
     "dependency_numbers": [
-      94,
+      10,
+      65
+    ],
+    "points": 5,
+    "integration_dependencies": [
+      "09.01",
+      "05.08"
+    ],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "integration",
+    "original_dependency_numbers": [
+      61,
       65,
-      61
+      94
     ]
   },
   {
@@ -3605,18 +5253,22 @@
     "edge": "Stale consent, self approval or withdrawal invalidates affected public copies",
     "dependencies": [
       "09.04",
-      "09.06",
-      "09.07",
       "03.08"
     ],
     "priority": "P1",
-    "size": "M",
+    "size": "XL",
     "labels": [
-      "type:feature",
       "area:admin",
+      "dependency:blocked",
+      "handoff:required",
+      "milestone-blocker",
+      "owner:developer-a",
+      "phase:integration",
       "priority:p1",
+      "size:xl",
       "status:blocked",
-      "milestone-blocker"
+      "type:feature",
+      "workstream:core-platform"
     ],
     "doc": "docs/design/admin-dashboard.md",
     "user": "research lead",
@@ -3630,9 +5282,22 @@
     },
     "dependency_numbers": [
       99,
-      101,
-      102,
       39
+    ],
+    "points": 8,
+    "integration_dependencies": [
+      "09.06",
+      "09.07"
+    ],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "A",
+    "allocation_phase": "integration",
+    "original_dependency_numbers": [
+      39,
+      99,
+      101,
+      102
     ]
   },
   {
@@ -3644,17 +5309,22 @@
     "approach": "Async export job, formula-safe CSV, private expiring download and audit",
     "edge": "Spreadsheet injection, low-n export and unauthorized download rejected",
     "dependencies": [
-      "09.04",
-      "08.09",
-      "02.10"
+      "00.10",
+      "00.09"
     ],
     "priority": "P1",
-    "size": "M",
+    "size": "L",
     "labels": [
-      "type:feature",
       "area:admin",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-b",
+      "phase:integration",
       "priority:p1",
-      "status:blocked"
+      "size:l",
+      "status:blocked",
+      "type:feature",
+      "workstream:public-experience"
     ],
     "doc": "docs/design/admin-dashboard.md",
     "user": "research lead",
@@ -3667,9 +5337,24 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/104"
     },
     "dependency_numbers": [
-      99,
+      10,
+      9
+    ],
+    "points": 5,
+    "integration_dependencies": [
+      "09.04",
+      "08.09",
+      "02.10",
+      "07.10"
+    ],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "integration",
+    "original_dependency_numbers": [
+      31,
       92,
-      31
+      99
     ]
   },
   {
@@ -3681,17 +5366,23 @@
     "approach": "Receipt verification, lineage traversal, tombstones and backup restore replay",
     "edge": "Withdrawal while jobs run cannot republish revoked content",
     "dependencies": [
-      "09.08",
       "03.06",
-      "03.08"
+      "03.08",
+      "09.08"
     ],
     "priority": "P1",
-    "size": "M",
+    "size": "XL",
     "labels": [
-      "type:feature",
       "area:admin",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-a",
+      "phase:integration",
       "priority:p1",
-      "status:blocked"
+      "size:xl",
+      "status:blocked",
+      "type:feature",
+      "workstream:core-platform"
     ],
     "doc": "docs/design/admin-dashboard.md",
     "user": "research lead",
@@ -3704,9 +5395,20 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/105"
     },
     "dependency_numbers": [
-      103,
       37,
-      39
+      39,
+      103
+    ],
+    "points": 8,
+    "integration_dependencies": [],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "A",
+    "allocation_phase": "integration",
+    "original_dependency_numbers": [
+      37,
+      39,
+      103
     ]
   },
   {
@@ -3723,10 +5425,16 @@
     "priority": "P1",
     "size": "M",
     "labels": [
-      "type:test",
       "area:devops",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-b",
+      "phase:parallel",
       "priority:p1",
-      "status:blocked"
+      "size:m",
+      "status:blocked",
+      "type:test",
+      "workstream:public-experience"
     ],
     "doc": "docs/project/test-strategy.md",
     "user": "quality reviewer",
@@ -3740,6 +5448,15 @@
     },
     "dependency_numbers": [
       10
+    ],
+    "points": 3,
+    "integration_dependencies": [],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
+      10
     ]
   },
   {
@@ -3751,17 +5468,22 @@
     "approach": "Ephemeral PostGIS/API integration fixtures using real HTTP contracts",
     "edge": "Unknown fields, stale revisions and excessive query limits rejected",
     "dependencies": [
-      "10.01",
-      "05.04",
-      "07.10"
+      "00.10",
+      "10.01"
     ],
     "priority": "P1",
-    "size": "M",
+    "size": "L",
     "labels": [
-      "type:test",
       "area:devops",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-a",
+      "phase:integration",
       "priority:p1",
-      "status:blocked"
+      "size:l",
+      "status:blocked",
+      "type:test",
+      "workstream:core-platform"
     ],
     "doc": "docs/project/test-strategy.md",
     "user": "quality reviewer",
@@ -3774,9 +5496,22 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/107"
     },
     "dependency_numbers": [
-      106,
+      10,
+      106
+    ],
+    "points": 5,
+    "integration_dependencies": [
+      "05.04",
+      "07.10"
+    ],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "A",
+    "allocation_phase": "integration",
+    "original_dependency_numbers": [
       57,
-      81
+      81,
+      106
     ]
   },
   {
@@ -3788,16 +5523,22 @@
     "approach": "PostGIS test fixtures and least-privilege migration checks",
     "edge": "Invalid polygon/null geometry/wrong CRS cannot publish",
     "dependencies": [
-      "10.01",
-      "02.10"
+      "00.10",
+      "10.01"
     ],
     "priority": "P1",
-    "size": "M",
+    "size": "L",
     "labels": [
-      "type:test",
       "area:devops",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-b",
+      "phase:parallel",
       "priority:p1",
-      "status:blocked"
+      "size:l",
+      "status:blocked",
+      "type:test",
+      "workstream:public-experience"
     ],
     "doc": "docs/project/test-strategy.md",
     "user": "quality reviewer",
@@ -3810,8 +5551,20 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/108"
     },
     "dependency_numbers": [
-      106,
-      31
+      10,
+      106
+    ],
+    "points": 5,
+    "integration_dependencies": [
+      "02.10"
+    ],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
+      31,
+      106
     ]
   },
   {
@@ -3823,16 +5576,22 @@
     "approach": "Negative API/session/CSRF capability matrix test suite",
     "edge": "Researcher cannot invoke admin or another collector record",
     "dependencies": [
-      "10.02",
-      "03.10"
+      "10.01",
+      "03.01"
     ],
     "priority": "P0",
-    "size": "M",
+    "size": "L",
     "labels": [
-      "type:test",
       "area:devops",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-a",
+      "phase:integration",
       "priority:p0",
-      "status:blocked"
+      "size:l",
+      "status:blocked",
+      "type:test",
+      "workstream:core-platform"
     ],
     "doc": "docs/project/test-strategy.md",
     "user": "quality reviewer",
@@ -3845,8 +5604,21 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/109"
     },
     "dependency_numbers": [
-      107,
-      41
+      106,
+      32
+    ],
+    "points": 5,
+    "integration_dependencies": [
+      "10.02",
+      "03.10"
+    ],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "A",
+    "allocation_phase": "integration",
+    "original_dependency_numbers": [
+      41,
+      107
     ]
   },
   {
@@ -3858,17 +5630,22 @@
     "approach": "DTO schema snapshots, DB grant tests and media metadata inspection",
     "edge": "Public cache/export/search errors cannot leak private fields",
     "dependencies": [
-      "10.02",
-      "09.08",
-      "09.09"
+      "00.10",
+      "10.01"
     ],
     "priority": "P0",
-    "size": "M",
+    "size": "L",
     "labels": [
-      "type:test",
       "area:devops",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-a",
+      "phase:integration",
       "priority:p0",
-      "status:blocked"
+      "size:l",
+      "status:blocked",
+      "type:test",
+      "workstream:core-platform"
     ],
     "doc": "docs/project/test-strategy.md",
     "user": "quality reviewer",
@@ -3881,9 +5658,25 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/110"
     },
     "dependency_numbers": [
-      107,
+      10,
+      106
+    ],
+    "points": 5,
+    "integration_dependencies": [
+      "10.02",
+      "09.08",
+      "09.09",
+      "07.10",
+      "08.09"
+    ],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "A",
+    "allocation_phase": "integration",
+    "original_dependency_numbers": [
       103,
-      104
+      104,
+      107
     ]
   },
   {
@@ -3895,16 +5688,22 @@
     "approach": "Mock geolocation adapter plus physical-device capture checklist",
     "edge": "Manual correction preserves raw fix and no fabricated accuracy",
     "dependencies": [
-      "04.09",
+      "00.10",
       "10.01"
     ],
     "priority": "P1",
-    "size": "M",
+    "size": "L",
     "labels": [
-      "type:test",
       "area:devops",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-a",
+      "phase:parallel",
       "priority:p1",
-      "status:blocked"
+      "size:l",
+      "status:blocked",
+      "type:test",
+      "workstream:core-platform"
     ],
     "doc": "docs/project/test-strategy.md",
     "user": "quality reviewer",
@@ -3917,6 +5716,18 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/111"
     },
     "dependency_numbers": [
+      10,
+      106
+    ],
+    "points": 5,
+    "integration_dependencies": [
+      "04.09"
+    ],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "A",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
       50,
       106
     ]
@@ -3930,16 +5741,22 @@
     "approach": "Fault injection, queue/vault tests and server transaction concurrency",
     "edge": "Two simultaneous operation sends commit once; rejected attachments retained",
     "dependencies": [
-      "05.09",
-      "10.02"
+      "05.01",
+      "10.01"
     ],
     "priority": "P0",
-    "size": "M",
+    "size": "XL",
     "labels": [
-      "type:test",
       "area:devops",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-a",
+      "phase:integration",
       "priority:p0",
-      "status:blocked"
+      "size:xl",
+      "status:blocked",
+      "type:test",
+      "workstream:core-platform"
     ],
     "doc": "docs/project/test-strategy.md",
     "user": "quality reviewer",
@@ -3952,6 +5769,19 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/112"
     },
     "dependency_numbers": [
+      54,
+      106
+    ],
+    "points": 8,
+    "integration_dependencies": [
+      "05.09",
+      "10.02"
+    ],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "A",
+    "allocation_phase": "integration",
+    "original_dependency_numbers": [
       62,
       107
     ]
@@ -3965,18 +5795,22 @@
     "approach": "Playwright browser flows with test identity and synthetic fixtures",
     "edge": "No consent/withdrawal/unauthorized request blocks intended exposure",
     "dependencies": [
-      "07.11",
-      "09.10",
-      "08.10",
-      "10.07"
+      "07.01",
+      "10.01"
     ],
     "priority": "P1",
-    "size": "M",
+    "size": "XL",
     "labels": [
-      "type:test",
       "area:devops",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-b",
+      "phase:integration",
       "priority:p1",
-      "status:blocked"
+      "size:xl",
+      "status:blocked",
+      "type:test",
+      "workstream:public-experience"
     ],
     "doc": "docs/project/test-strategy.md",
     "user": "quality reviewer",
@@ -3989,9 +5823,28 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/113"
     },
     "dependency_numbers": [
+      72,
+      106
+    ],
+    "points": 8,
+    "integration_dependencies": [
+      "07.11",
+      "09.10",
+      "08.10",
+      "10.07",
+      "07.07",
+      "07.08",
+      "07.09",
+      "08.05"
+    ],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "integration",
+    "original_dependency_numbers": [
       82,
-      105,
       93,
+      105,
       112
     ]
   },
@@ -4004,17 +5857,21 @@
     "approach": "axe checks plus NVDA/VoiceOver, contrast/zoom/reflow/reduced-motion testing",
     "edge": "Canvas-only navigation, focus trap loss and untranslated consent flagged",
     "dependencies": [
-      "07.11",
-      "09.01",
-      "01.09"
+      "01.01",
+      "07.01"
     ],
     "priority": "P1",
-    "size": "M",
+    "size": "L",
     "labels": [
-      "type:test",
       "area:devops",
+      "dependency:blocked",
+      "owner:developer-b",
+      "phase:parallel",
       "priority:p1",
-      "status:blocked"
+      "size:l",
+      "status:blocked",
+      "type:test",
+      "workstream:public-experience"
     ],
     "doc": "docs/project/test-strategy.md",
     "user": "quality reviewer",
@@ -4027,9 +5884,23 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/114"
     },
     "dependency_numbers": [
+      12,
+      72
+    ],
+    "points": 5,
+    "integration_dependencies": [
+      "07.11",
+      "09.01",
+      "01.09"
+    ],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
+      20,
       82,
-      94,
-      20
+      94
     ]
   },
   {
@@ -4041,18 +5912,22 @@
     "approach": "CI jobs, bundle/network budget and reviewable exception process",
     "edge": "Failing required checks prevent merge; no blanket allow-failure",
     "dependencies": [
-      "10.04",
-      "10.05",
-      "10.08",
-      "10.09"
+      "00.10",
+      "10.01"
     ],
     "priority": "P1",
-    "size": "M",
+    "size": "XL",
     "labels": [
-      "type:test",
       "area:devops",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-b",
+      "phase:integration",
       "priority:p1",
-      "status:blocked"
+      "size:xl",
+      "status:blocked",
+      "type:test",
+      "workstream:public-experience"
     ],
     "doc": "docs/project/test-strategy.md",
     "user": "quality reviewer",
@@ -4065,6 +5940,21 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/115"
     },
     "dependency_numbers": [
+      10,
+      106
+    ],
+    "points": 8,
+    "integration_dependencies": [
+      "10.04",
+      "10.05",
+      "10.08",
+      "10.09"
+    ],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "integration",
+    "original_dependency_numbers": [
       109,
       110,
       113,
@@ -4084,12 +5974,18 @@
       "11.07"
     ],
     "priority": "P1",
-    "size": "M",
+    "size": "L",
     "labels": [
-      "type:test",
       "area:devops",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-a",
+      "phase:integration",
       "priority:p1",
-      "status:blocked"
+      "size:l",
+      "status:blocked",
+      "type:test",
+      "workstream:core-platform"
     ],
     "doc": "docs/project/test-strategy.md",
     "user": "quality reviewer",
@@ -4104,6 +6000,16 @@
     "dependency_numbers": [
       105,
       124
+    ],
+    "points": 5,
+    "integration_dependencies": [],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "A",
+    "allocation_phase": "integration",
+    "original_dependency_numbers": [
+      105,
+      124
     ]
   },
   {
@@ -4115,18 +6021,23 @@
     "approach": "Record actual OS/browser/device matrix and tested limitations",
     "edge": "Storage eviction, background suspension and WebGL loss documented",
     "dependencies": [
-      "10.06",
-      "10.07",
-      "10.09"
+      "00.10",
+      "05.01"
     ],
     "priority": "P1",
-    "size": "M",
+    "size": "XL",
     "labels": [
-      "type:test",
       "area:devops",
+      "dependency:blocked",
+      "field-validation-required",
+      "handoff:required",
+      "owner:developer-b",
+      "phase:integration",
       "priority:p1",
+      "size:xl",
       "status:blocked",
-      "field-validation-required"
+      "type:test",
+      "workstream:public-experience"
     ],
     "doc": "docs/project/test-strategy.md",
     "user": "quality reviewer",
@@ -4139,6 +6050,20 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/117"
     },
     "dependency_numbers": [
+      10,
+      54
+    ],
+    "points": 8,
+    "integration_dependencies": [
+      "10.06",
+      "10.07",
+      "10.09"
+    ],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "integration",
+    "original_dependency_numbers": [
       111,
       112,
       114
@@ -4153,18 +6078,23 @@
     "approach": "Synthetic interview exercise using SOP and approved scripts",
     "edge": "Researcher unable to recover/identify unsynced draft not cleared for field",
     "dependencies": [
-      "00.11",
-      "04.12",
-      "05.09"
+      "00.04",
+      "01.09"
     ],
     "priority": "P1",
     "size": "M",
     "labels": [
-      "type:research",
       "area:devops",
+      "dependency:blocked",
+      "field-validation-required",
+      "handoff:required",
+      "owner:developer-b",
+      "phase:integration",
       "priority:p1",
+      "size:m",
       "status:blocked",
-      "field-validation-required"
+      "type:research",
+      "workstream:public-experience"
     ],
     "doc": "docs/operations/field-deployment.md",
     "user": "research lead",
@@ -4177,6 +6107,20 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/118"
     },
     "dependency_numbers": [
+      4,
+      20
+    ],
+    "points": 3,
+    "integration_dependencies": [
+      "00.11",
+      "04.12",
+      "05.09"
+    ],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "integration",
+    "original_dependency_numbers": [
       11,
       53,
       62
@@ -4191,18 +6135,27 @@
     "approach": "Small approved pilot across stakeholder contexts and safe locations",
     "edge": "No real participant pilot before ethics/offline/security gates",
     "dependencies": [
+      "00.11",
       "11.01",
       "10.04",
-      "10.12"
+      "05.09",
+      "10.06",
+      "10.07"
     ],
     "priority": "P1",
-    "size": "M",
+    "size": "L",
     "labels": [
-      "type:research",
       "area:devops",
+      "dependency:blocked",
+      "field-validation-required",
+      "handoff:required",
+      "owner:developer-b",
+      "phase:integration",
       "priority:p1",
+      "size:l",
       "status:blocked",
-      "field-validation-required"
+      "type:research",
+      "workstream:public-experience"
     ],
     "doc": "docs/operations/field-deployment.md",
     "user": "research lead",
@@ -4215,9 +6168,25 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/119"
     },
     "dependency_numbers": [
+      11,
       118,
       109,
-      117
+      62,
+      111,
+      112
+    ],
+    "points": 5,
+    "integration_dependencies": [],
+    "soft_dependencies": [
+      "10.12"
+    ],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "integration",
+    "original_dependency_numbers": [
+      109,
+      117,
+      118
     ]
   },
   {
@@ -4233,13 +6202,19 @@
       "09.06"
     ],
     "priority": "P1",
-    "size": "M",
+    "size": "L",
     "labels": [
-      "type:research",
       "area:devops",
+      "dependency:blocked",
+      "field-validation-required",
+      "handoff:required",
+      "owner:developer-b",
+      "phase:integration",
       "priority:p1",
+      "size:l",
       "status:blocked",
-      "field-validation-required"
+      "type:research",
+      "workstream:public-experience"
     ],
     "doc": "docs/operations/field-deployment.md",
     "user": "research lead",
@@ -4254,6 +6229,22 @@
     "dependency_numbers": [
       28,
       101
+    ],
+    "points": 5,
+    "integration_dependencies": [
+      "02.02",
+      "07.10",
+      "07.03",
+      "07.05",
+      "07.06"
+    ],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "integration",
+    "original_dependency_numbers": [
+      28,
+      101
     ]
   },
   {
@@ -4265,17 +6256,23 @@
     "approach": "Physical-device checklist and per-failure recovery evidence",
     "edge": "Location capture away from interview spot or lost draft blocks expansion",
     "dependencies": [
-      "11.02",
-      "10.07"
+      "10.07",
+      "11.02"
     ],
     "priority": "P1",
-    "size": "M",
+    "size": "L",
     "labels": [
-      "type:research",
       "area:devops",
+      "dependency:blocked",
+      "field-validation-required",
+      "handoff:required",
+      "owner:developer-a",
+      "phase:integration",
       "priority:p1",
+      "size:l",
       "status:blocked",
-      "field-validation-required"
+      "type:research",
+      "workstream:core-platform"
     ],
     "doc": "docs/operations/field-deployment.md",
     "user": "research lead",
@@ -4288,8 +6285,18 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/121"
     },
     "dependency_numbers": [
-      119,
-      112
+      112,
+      119
+    ],
+    "points": 5,
+    "integration_dependencies": [],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "A",
+    "allocation_phase": "integration",
+    "original_dependency_numbers": [
+      112,
+      119
     ]
   },
   {
@@ -4301,18 +6308,23 @@
     "approach": "Reconcile counts/duplicates/missingness and exclusion reasons",
     "edge": "Unverified official claim never passes as verified statement",
     "dependencies": [
-      "11.04",
       "09.04",
-      "09.05"
+      "09.05",
+      "11.04"
     ],
     "priority": "P1",
     "size": "M",
     "labels": [
-      "type:research",
       "area:devops",
+      "dependency:blocked",
+      "field-validation-required",
+      "owner:developer-a",
+      "phase:integration",
       "priority:p1",
+      "size:m",
       "status:blocked",
-      "field-validation-required"
+      "type:research",
+      "workstream:core-platform"
     ],
     "doc": "docs/operations/field-deployment.md",
     "user": "research lead",
@@ -4325,9 +6337,20 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/122"
     },
     "dependency_numbers": [
-      121,
       99,
-      100
+      100,
+      121
+    ],
+    "points": 3,
+    "integration_dependencies": [],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "A",
+    "allocation_phase": "integration",
+    "original_dependency_numbers": [
+      99,
+      100,
+      121
     ]
   },
   {
@@ -4346,11 +6369,17 @@
     "priority": "P1",
     "size": "M",
     "labels": [
-      "type:research",
       "area:devops",
+      "dependency:blocked",
+      "field-validation-required",
+      "handoff:required",
+      "owner:developer-b",
+      "phase:integration",
       "priority:p1",
+      "size:m",
       "status:blocked",
-      "field-validation-required"
+      "type:research",
+      "workstream:public-experience"
     ],
     "doc": "docs/operations/field-deployment.md",
     "user": "research lead",
@@ -4366,6 +6395,21 @@
       102,
       68,
       69
+    ],
+    "points": 3,
+    "integration_dependencies": [
+      "06.05",
+      "07.08",
+      "07.09"
+    ],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "integration",
+    "original_dependency_numbers": [
+      68,
+      69,
+      102
     ]
   },
   {
@@ -4377,18 +6421,23 @@
     "approach": "Deploy container/static apps, PostGIS, storage and backup jobs with production collection disabled initially",
     "edge": "No paid activation without approval; staging contains synthetic data only",
     "dependencies": [
-      "03.09",
       "00.09",
-      "10.03"
+      "03.09"
     ],
     "priority": "P1",
-    "size": "M",
+    "size": "XL",
     "labels": [
-      "type:research",
       "area:devops",
+      "dependency:blocked",
+      "field-validation-required",
+      "handoff:required",
+      "owner:developer-b",
+      "phase:integration",
       "priority:p1",
+      "size:xl",
       "status:blocked",
-      "field-validation-required"
+      "type:research",
+      "workstream:public-experience"
     ],
     "doc": "docs/operations/field-deployment.md",
     "user": "research lead",
@@ -4401,8 +6450,20 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/124"
     },
     "dependency_numbers": [
-      40,
       9,
+      40
+    ],
+    "points": 8,
+    "integration_dependencies": [
+      "10.03"
+    ],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "integration",
+    "original_dependency_numbers": [
+      9,
+      40,
       108
     ]
   },
@@ -4415,18 +6476,24 @@
     "approach": "Freeze reviewed revision set, run QA and retain exclusion/rights inventory",
     "edge": "Targets unmet recorded honestly; no demo fixtures in real findings",
     "dependencies": [
+      "08.10",
       "11.05",
-      "11.06",
-      "08.10"
+      "11.06"
     ],
     "priority": "P1",
-    "size": "M",
+    "size": "L",
     "labels": [
-      "type:research",
       "area:devops",
+      "dependency:blocked",
+      "field-validation-required",
+      "handoff:required",
+      "owner:developer-a",
+      "phase:integration",
       "priority:p1",
+      "size:l",
       "status:blocked",
-      "field-validation-required"
+      "type:research",
+      "workstream:core-platform"
     ],
     "doc": "docs/operations/field-deployment.md",
     "user": "research lead",
@@ -4439,9 +6506,20 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/125"
     },
     "dependency_numbers": [
+      93,
       122,
-      123,
-      93
+      123
+    ],
+    "points": 5,
+    "integration_dependencies": [],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "A",
+    "allocation_phase": "integration",
+    "original_dependency_numbers": [
+      93,
+      122,
+      123
     ]
   },
   {
@@ -4456,17 +6534,26 @@
       "11.08",
       "10.10",
       "10.11",
-      "11.03"
+      "11.03",
+      "10.12",
+      "10.05",
+      "11.06"
     ],
     "priority": "P1",
-    "size": "M",
+    "size": "L",
     "labels": [
-      "type:research",
       "area:devops",
-      "priority:p1",
-      "status:blocked",
+      "dependency:blocked",
       "field-validation-required",
-      "milestone-blocker"
+      "handoff:required",
+      "milestone-blocker",
+      "owner:developer-b",
+      "phase:integration",
+      "priority:p1",
+      "size:l",
+      "status:blocked",
+      "type:research",
+      "workstream:public-experience"
     ],
     "doc": "docs/operations/field-deployment.md",
     "user": "research lead",
@@ -4482,7 +6569,22 @@
       125,
       115,
       116,
-      120
+      120,
+      117,
+      110,
+      123
+    ],
+    "points": 5,
+    "integration_dependencies": [],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "integration",
+    "original_dependency_numbers": [
+      115,
+      116,
+      120,
+      125
     ]
   },
   {
@@ -4499,11 +6601,16 @@
     "priority": "P1",
     "size": "M",
     "labels": [
-      "type:research",
       "area:devops",
+      "dependency:blocked",
+      "field-validation-required",
+      "owner:developer-b",
+      "phase:integration",
       "priority:p1",
+      "size:m",
       "status:blocked",
-      "field-validation-required"
+      "type:research",
+      "workstream:public-experience"
     ],
     "doc": "docs/operations/field-deployment.md",
     "user": "research lead",
@@ -4517,6 +6624,15 @@
     },
     "dependency_numbers": [
       126
+    ],
+    "points": 3,
+    "integration_dependencies": [],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "integration",
+    "original_dependency_numbers": [
+      126
     ]
   },
   {
@@ -4528,17 +6644,22 @@
     "approach": "Tour schema and map/list navigation with editorial sources",
     "edge": "Unpublished stop skipped without exposing private content",
     "dependencies": [
-      "11.09",
-      "07.09"
+      "07.09",
+      "11.09"
     ],
     "priority": "P3",
-    "size": "M",
+    "size": "L",
     "labels": [
-      "type:feature",
       "area:frontend",
+      "dependency:blocked",
+      "owner:developer-b",
+      "phase:parallel",
       "priority:p3",
+      "size:l",
       "status:blocked",
-      "stretch-goal"
+      "stretch-goal",
+      "type:feature",
+      "workstream:public-experience"
     ],
     "doc": "docs/project/release-plan.md",
     "user": "public research reader",
@@ -4551,8 +6672,18 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/128"
     },
     "dependency_numbers": [
-      126,
-      80
+      80,
+      126
+    ],
+    "points": 5,
+    "integration_dependencies": [],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
+      80,
+      126
     ]
   },
   {
@@ -4564,17 +6695,22 @@
     "approach": "Translation catalogs, script fonts, search aliases and localized tests",
     "edge": "Missing translation has labeled fallback; machine-only consent rejected",
     "dependencies": [
-      "11.09",
-      "10.09"
+      "10.09",
+      "11.09"
     ],
     "priority": "P3",
-    "size": "M",
+    "size": "L",
     "labels": [
-      "type:feature",
       "area:frontend",
+      "dependency:blocked",
+      "owner:developer-b",
+      "phase:parallel",
       "priority:p3",
+      "size:l",
       "status:blocked",
-      "stretch-goal"
+      "stretch-goal",
+      "type:feature",
+      "workstream:public-experience"
     ],
     "doc": "docs/project/release-plan.md",
     "user": "public research reader",
@@ -4587,8 +6723,18 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/129"
     },
     "dependency_numbers": [
-      126,
-      114
+      114,
+      126
+    ],
+    "points": 5,
+    "integration_dependencies": [],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
+      114,
+      126
     ]
   },
   {
@@ -4600,17 +6746,22 @@
     "approach": "Verified crossings/footpath/shade geometry and evidence-linked analysis",
     "edge": "No automated accessibility promise from incomplete map data",
     "dependencies": [
-      "11.09",
-      "02.07"
+      "02.07",
+      "11.09"
     ],
     "priority": "P3",
-    "size": "M",
+    "size": "XL",
     "labels": [
-      "type:feature",
       "area:frontend",
+      "dependency:blocked",
+      "owner:developer-b",
+      "phase:parallel",
       "priority:p3",
+      "size:xl",
       "status:blocked",
-      "stretch-goal"
+      "stretch-goal",
+      "type:feature",
+      "workstream:public-experience"
     ],
     "doc": "docs/project/release-plan.md",
     "user": "public research reader",
@@ -4623,8 +6774,18 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/130"
     },
     "dependency_numbers": [
-      126,
-      28
+      28,
+      126
+    ],
+    "points": 8,
+    "integration_dependencies": [],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
+      28,
+      126
     ]
   },
   {
@@ -4636,18 +6797,24 @@
     "approach": "Accessible media archive with restricted originals and reviewed derivatives",
     "edge": "Revoked voice consent removes public audio and related transcript scope",
     "dependencies": [
-      "11.09",
       "06.09",
-      "09.10"
+      "09.10",
+      "11.09"
     ],
     "priority": "P3",
-    "size": "M",
+    "size": "L",
     "labels": [
-      "type:feature",
       "area:frontend",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-b",
+      "phase:parallel",
       "priority:p3",
+      "size:l",
       "status:blocked",
-      "stretch-goal"
+      "stretch-goal",
+      "type:feature",
+      "workstream:public-experience"
     ],
     "doc": "docs/project/release-plan.md",
     "user": "public research reader",
@@ -4660,9 +6827,20 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/131"
     },
     "dependency_numbers": [
-      126,
       71,
-      105
+      105,
+      126
+    ],
+    "points": 5,
+    "integration_dependencies": [],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
+      71,
+      105,
+      126
     ]
   },
   {
@@ -4678,13 +6856,18 @@
       "12.03"
     ],
     "priority": "P3",
-    "size": "M",
+    "size": "XL",
     "labels": [
-      "type:feature",
       "area:frontend",
+      "dependency:blocked",
+      "owner:developer-b",
+      "phase:parallel",
       "priority:p3",
+      "size:xl",
       "status:blocked",
-      "stretch-goal"
+      "stretch-goal",
+      "type:feature",
+      "workstream:public-experience"
     ],
     "doc": "docs/project/release-plan.md",
     "user": "public research reader",
@@ -4699,6 +6882,16 @@
     "dependency_numbers": [
       126,
       130
+    ],
+    "points": 8,
+    "integration_dependencies": [],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
+      126,
+      130
     ]
   },
   {
@@ -4710,17 +6903,22 @@
     "approach": "MapLibre extrusion/terrain prototype with budget and non-WebGL fallback",
     "edge": "No claim 3D geometry provides panoramic street coverage",
     "dependencies": [
-      "11.09",
-      "06.08"
+      "06.08",
+      "11.09"
     ],
     "priority": "P3",
-    "size": "M",
+    "size": "XL",
     "labels": [
-      "type:feature",
       "area:frontend",
+      "dependency:blocked",
+      "owner:developer-b",
+      "phase:parallel",
       "priority:p3",
+      "size:xl",
       "status:blocked",
-      "stretch-goal"
+      "stretch-goal",
+      "type:feature",
+      "workstream:public-experience"
     ],
     "doc": "docs/project/release-plan.md",
     "user": "public research reader",
@@ -4733,8 +6931,18 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/133"
     },
     "dependency_numbers": [
-      126,
-      70
+      70,
+      126
+    ],
+    "points": 8,
+    "integration_dependencies": [],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
+      70,
+      126
     ]
   },
   {
@@ -4746,18 +6954,24 @@
     "approach": "Coarse approved spatial aggregation with sensitivity/coverage notes",
     "edge": "Low-n and filter differencing cannot expose interview points",
     "dependencies": [
-      "11.09",
       "08.07",
-      "08.09"
+      "08.09",
+      "11.09"
     ],
     "priority": "P3",
-    "size": "M",
+    "size": "XL",
     "labels": [
-      "type:feature",
       "area:frontend",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-b",
+      "phase:parallel",
       "priority:p3",
+      "size:xl",
       "status:blocked",
-      "stretch-goal"
+      "stretch-goal",
+      "type:feature",
+      "workstream:public-experience"
     ],
     "doc": "docs/project/release-plan.md",
     "user": "public research reader",
@@ -4770,9 +6984,20 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/134"
     },
     "dependency_numbers": [
-      126,
       90,
-      92
+      92,
+      126
+    ],
+    "points": 8,
+    "integration_dependencies": [],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
+      90,
+      92,
+      126
     ]
   },
   {
@@ -4784,17 +7009,22 @@
     "approach": "Accessible PDF/CSV/SVG export from versioned public evidence",
     "edge": "Suppressed cells remain suppressed; map attribution retained",
     "dependencies": [
-      "11.09",
-      "09.09"
+      "09.09",
+      "11.09"
     ],
     "priority": "P3",
-    "size": "M",
+    "size": "L",
     "labels": [
-      "type:feature",
       "area:frontend",
+      "dependency:blocked",
+      "owner:developer-b",
+      "phase:parallel",
       "priority:p3",
+      "size:l",
       "status:blocked",
-      "stretch-goal"
+      "stretch-goal",
+      "type:feature",
+      "workstream:public-experience"
     ],
     "doc": "docs/project/release-plan.md",
     "user": "public research reader",
@@ -4807,8 +7037,18 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/135"
     },
     "dependency_numbers": [
-      126,
-      104
+      104,
+      126
+    ],
+    "points": 5,
+    "integration_dependencies": [],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "B",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
+      104,
+      126
     ]
   },
   {
@@ -4820,18 +7060,24 @@
     "approach": "Privacy/model/vendor approval, human coding comparison and provenance",
     "edge": "No raw interviews sent to external model or unsourced summaries auto-published",
     "dependencies": [
-      "11.09",
       "08.03",
-      "09.10"
+      "09.10",
+      "11.09"
     ],
     "priority": "P3",
-    "size": "M",
+    "size": "XL",
     "labels": [
-      "type:feature",
       "area:frontend",
+      "dependency:blocked",
+      "handoff:required",
+      "owner:developer-a",
+      "phase:parallel",
       "priority:p3",
+      "size:xl",
       "status:blocked",
-      "stretch-goal"
+      "stretch-goal",
+      "type:feature",
+      "workstream:core-platform"
     ],
     "doc": "docs/project/release-plan.md",
     "user": "public research reader",
@@ -4844,9 +7090,20 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/136"
     },
     "dependency_numbers": [
-      126,
       86,
-      105
+      105,
+      126
+    ],
+    "points": 8,
+    "integration_dependencies": [],
+    "soft_dependencies": [],
+    "operational_dependencies": [],
+    "allocation_owner": "A",
+    "allocation_phase": "parallel",
+    "original_dependency_numbers": [
+      86,
+      105,
+      126
     ]
   }
 ]

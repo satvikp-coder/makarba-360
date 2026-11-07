@@ -4,6 +4,8 @@ Planning baseline: 2026-11-07. Proposed design; no participant collection or pro
 
 Version prefix `/api/v1`. JSON over HTTPS, UUID IDs generated before offline capture, RFC3339 UTC timestamps plus original offset/device time; GeoJSON longitude-first EPSG:4326. Explicit pagination limits (default 50, max 200), bounded bbox and filter cardinality. Runtime schemas reject unknown sensitive fields on public DTOs. Errors: `{code,message,fieldErrors,requestId,retryable}` with no raw values or stack traces.
 
+The two-developer v1 planning handoff refines these shapes and public history/media descriptors in [developer-handoffs.md](../project/developer-handoffs.md), with executable synthetic fixture checks. #9 reviews/freezes contracts and #10 implements shared runtime/TypeScript validators and mock API mode. These documents are not a claim that the API exists.
+
 | Route | Access | Contract / result |
 |---|---|---|
 | GET /public/locations?bbox=&category=&q= | Public projection role | Published feature summaries; ETag; no interview IDs |

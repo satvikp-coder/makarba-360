@@ -10,6 +10,8 @@ Interview position and discussed place are separate. Raw responses, exact interv
 
 Start with [requirements](docs/product/requirements.md), [architecture](docs/architecture/overview.md), [data model](docs/architecture/data-model.md), [UX screens](docs/product/screen-inventory.md), [roadmap](docs/project/roadmap.md), [issue index](docs/project/issue-index.md), and [setup progress](docs/project/setup-progress.json).
 
+Two-developer plan: [workstreams](docs/project/two-developer-workstreams.md), [your guide](docs/project/DEVELOPER_A_GUIDE.md), [Varun's reserved guide](docs/project/DEVELOPER_B_GUIDE.md), [handoff contracts](docs/project/developer-handoffs.md), and [workload balance](docs/project/workload-balance.md). A owns the core/private platform; B owns the public experience and agreed independent quality/content modules. B assignees remain unchanged while the collaboration invitation is unaccepted.
+
 The supplied 23-page blueprint was read in full; see [source provenance](docs/source/README.md) and [traceability](docs/project/traceability-matrix.md). Original PDF redistribution is not assumed; its checksum and page summaries are retained.
 
 Releases: A technical foundation; B private offline-capable fieldwork MVP; C approved public demonstration. Advanced work is optional. Institutional ethics/legal verification, a verified study boundary and offline security validation are external gates before real fieldwork.
