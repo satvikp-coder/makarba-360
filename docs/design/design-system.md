@@ -103,3 +103,46 @@ Layout at >=1200: header 64px, layers/search panel 256px, map flexes, details pa
 | Privacy | map layers contain only published public features; no interview positions or raw coordinates exist in any layer or URL |
 
 Limitations: these are specifications, reviewed by me and not yet by a human designer or user testing; implementation is #72/#74.
+
+## Mobile map bottom sheet (issue #16)
+
+States: **peek** 112px (place name + Expand button), **half** 50vh, **full** (below the 56px header). All heights use `dvh`/safe-area insets (`env(safe-area-inset-bottom)`) so browser chrome and notches never cover content. Every state change is available as a visible button (Expand / Collapse / Close); dragging is an optional extra, never the only way.
+
+| Concern | Specification |
+|---|---|
+| Floating controls | Search and Layers sit top of the map; zoom +/- sit right; attribution bottom-left of the map, above the sheet peek, never hidden by it |
+| Soft keyboard | When a text field in the sheet is focused, the sheet is sized to the *visual* viewport (`visualViewport` API) and scrolls the field into view. The search field and its submit/clear actions stay above the keyboard; the sheet cannot be dragged below the field being edited. Search lives in the top bar, not inside the sheet, so an expanded sheet can never cover it |
+| Orientation | On rotation the sheet keeps its logical state (peek/half/full); in landscape, "half" becomes a 360px side panel so the map keeps usable height |
+| Keyboard / screen reader | Sheet is a labelled `region`; Expand/Collapse buttons have `aria-expanded`; Escape collapses to peek and returns focus to the selected marker or list item; the list alternative is reachable without the map |
+| States | Loading skeleton with status text; empty ("No place selected" with a list of nearby places); error with Retry; offline/stale label |
+| Reduced motion | State changes jump without animation |
+| Limitation | Specification only. Behaviour on real iOS/Android keyboards is verified in #82/#117 on actual devices; not yet tested. |
+
+## Place profile interface (issue #17)
+
+Order (also the reading and tab order): title and category → source/verification status → summary → tabs **History**, **Media**, **Then & Now**, **Community findings**, **Sources** → related places. Tabs follow the WAI-ARIA tabs pattern (arrow keys, Home/End); on mobile they become an accordion with the same order and headings.
+
+| Section | Present | Missing content |
+|---|---|---|
+| History | dated, sourced statements with evidence quality | "No verified history has been published yet." No fabricated dates |
+| Media | gallery with date, credit, licence and alt text describing the evidence | "No approved photographs yet." No stock imagery |
+| Then & Now | only when a verified pair exists (see #18) | section and tab omitted |
+| Community findings | the safe cohort summary from #19 with n and caveat | "Not enough responses to show findings." (never zero) |
+| Sources | every citation with licence and last-reviewed date; broken source flagged but citation retained | "No sources listed" blocks publication, so should not occur |
+
+**Unpublished places:** a place that is not published returns the same safe 404 page as a place that does not exist, with no title, preview, metadata, thumbnail or search suggestion; server contract only returns `publicationState: "published"` features. Client code must not render drafts even if one were supplied.
+
+## Community Insights dashboard (issue #19)
+
+Implemented as a tested view model in `packages/insights-view` that the dashboard must use. Every chart is paired with a data table and a caption built by `captionFor()`, which throws unless **n, valid/missing/unsure counts, collection period and the sample note** are present.
+
+| Situation | Display |
+|---|---|
+| Normal cohort | chart + table; caption "n = …, valid …, missing …, unsure …; denominator; counting rule; period; sample caveat" |
+| Suppressed (small group) | "Hidden to protect privacy… not zero"; no number, no bar, no inference from totals |
+| No data / absent / invalid count | "No data" (never 0) |
+| Explicit zero from a ready cohort | "0" |
+| Invalid payload (fails contract, leaks counts when suppressed, below k5, denominators mismatch) | "could not be validated"; not shown |
+| Request failure | retry message, distinct from the above |
+
+Allowed filters are only the fixed, reviewed cohorts and date windows the API supplies. There is no free-form query builder, and filter combinations that would reveal a suppressed group are not offered because the server returns them already suppressed. The sample note must say results come from a convenience sample and are not representative of all residents. Tests: 7 passing with synthetic fixtures. Limitation: the dashboard UI itself is #88/#91/#74 later; live data waits for Developer A's analytics API (#84, #92).
