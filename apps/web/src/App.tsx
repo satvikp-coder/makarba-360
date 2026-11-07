@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { Link, NavLink, Outlet, Route, Routes, useLocation } from "react-router-dom";
 import { mainNavigation, publicRoutes, type NavGroup } from "@makarba/public-ia";
 import { fetchPlaces, type PlacesResult } from "./api.js";
+import { MapView, type MapStatus } from "./map/MapView.js";
 import { LANGUAGES, strings, type Lang } from "./i18n.js";
 
 const NAV_TARGET: Record<Exclude<NavGroup, "footer">, string> = {
@@ -61,8 +62,10 @@ function Home() {
 }
 
 /** List alternative for the map (P02-P04): same published places, no map or WebGL needed. */
-export function PlaceList({ fetcher }: { fetcher?: typeof fetch }) {
+export function PlaceList({ fetcher, withMap = false }: { fetcher?: typeof fetch; withMap?: boolean }) {
   const t = strings.en;
+  const [selected, setSelected] = useState<string | null>(null);
+  const [mapStatus, setMapStatus] = useState<MapStatus>("loading");
   const [r, setR] = useState<PlacesResult | "loading">("loading");
   const load = useCallback(() => {
     const ac = new AbortController();
@@ -81,10 +84,20 @@ export function PlaceList({ fetcher }: { fetcher?: typeof fetch }) {
         {r !== "loading" && r.status === "ok" && r.places.length === 0 && <span>{t.emptyPlaces}</span>}
       </div>
       {r !== "loading" && r.status === "error" && r.retryable && <button type="button" onClick={load}>{t.retry}</button>}
+      {withMap && r !== "loading" && r.status === "ok" && r.places.length > 0 && (
+        <MapView features={r.features} sourceAttribution={r.synthetic ? "Demonstration place data (synthetic)" : "Place data: Makarba 360 published snapshot"} selectedId={selected} onSelect={setSelected} onStatus={setMapStatus} />
+      )}
+      {withMap && mapStatus === "unavailable" && <p><small>Map unavailable - the list is the full alternative.</small></p>}
       {r !== "loading" && r.status === "ok" && r.places.length > 0 && (
         <>
           {r.synthetic && <p><strong>{t.synthetic}</strong></p>}
-          <ul>{r.places.map((p) => <li key={p.id}>{p.name} <small>({p.category})</small></li>)}</ul>
+          <ul>{r.places.map((p) => (
+            <li key={p.id}>
+              {withMap ? <button type="button" aria-pressed={selected === p.id} onClick={() => setSelected(selected === p.id ? null : p.id)}>{p.name}</button> : p.name}{" "}
+              <small>({p.category})</small>
+              {selected === p.id && <span role="status"> - selected</span>}
+            </li>
+          ))}</ul>
         </>
       )}
     </section>
@@ -112,7 +125,7 @@ export function App() {
     <Routes>
       <Route element={<Layout />}>
         <Route index element={<Home />} />
-        <Route path="/explore" element={<PlaceList />} />
+        <Route path="/explore" element={<PlaceList withMap />} />
         {pageRoutes.map((r) => <Route key={r.path} path={r.path} element={<Pending title={r.title} />} />)}
         <Route path="/stories/index" element={<Pending title="Then & Now" />} />
         <Route path="*" element={<NotFound />} />
