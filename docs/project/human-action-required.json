@@ -1,0 +1,148 @@
+{
+ "note": "Machine-readable copy of HUMAN_ACTION_REQUIRED.md. No approval is recorded here; all items are pending.",
+ "tasks": [
+  {
+   "id": "H1",
+   "priority": "P0",
+   "issues": [
+    6,
+    32,
+    34,
+    35
+   ],
+   "title": "Approve or change the capability matrix",
+   "owner": "project owner + faculty supervisor/research lead (institution decides)",
+   "where": "docs/project/capability-matrix.md; GitHub issue #6",
+   "evidence": "approver's own GitHub comment or signed minutes; docs/project/approvals/capability-matrix-approval.md",
+   "unblocks": "closing #6/#34/#32, production start, #35 closure",
+   "next_claude_action": "verify evidence, set approved_by/approved_on/status in capability-matrix.json, update MFA role list, rerun tests, close issues"
+  },
+  {
+   "id": "H2",
+   "priority": "P0",
+   "issues": [
+    32
+   ],
+   "title": "Choose and configure an OIDC identity provider with MFA",
+   "owner": "project owner + institution IT",
+   "where": "provider admin console; secrets in the hosting secret store",
+   "evidence": "provider note + staging sign-in test note on #32",
+   "unblocks": "closing #32; real sign-in",
+   "next_claude_action": "wire provider configuration, run staging sign-in check, close #32"
+  },
+  {
+   "id": "H3",
+   "priority": "P0",
+   "issues": [
+    11,
+    37,
+    119,
+    121
+   ],
+   "title": "Institutional ethics and legal approval",
+   "owner": "institution ethics committee via faculty supervisor",
+   "where": "institution process; material in docs/research/",
+   "evidence": "written decision (private) + docs/project/approvals/ethics-approval-reference.md",
+   "unblocks": "any real interview/consent/GPS data",
+   "next_claude_action": "record reference, unlock operational gates, update consent scripts if required"
+  },
+  {
+   "id": "H4",
+   "priority": "P1",
+   "issues": [
+    1
+   ],
+   "title": "Enable GitHub branch protection on main",
+   "owner": "repository owner",
+   "where": "GitHub Settings > Rules",
+   "evidence": "screenshot or comment on #1",
+   "unblocks": "enforced checks",
+   "next_claude_action": "update governance.md to state protection is enabled"
+  },
+  {
+   "id": "H5",
+   "priority": "P1",
+   "issues": [
+    23,
+    26,
+    27,
+    45,
+    49,
+    55,
+    56,
+    57
+   ],
+   "title": "Developer B deliverables Developer A is waiting on",
+   "owner": "Developer B",
+   "where": "issues #5, #12, #20, #25, #54",
+   "evidence": "merged PRs and passing conformance",
+   "unblocks": "GIS and survey chain",
+   "next_claude_action": "recheck GitHub and resume"
+  },
+  {
+   "id": "H6",
+   "priority": "P1",
+   "issues": [
+    54,
+    62,
+    111,
+    112,
+    117,
+    118,
+    119,
+    121,
+    122
+   ],
+   "title": "Real-device and field validation",
+   "owner": "research lead and trained researchers",
+   "where": "physical devices; Makarba; docs/research SOPs",
+   "evidence": "docs/project/approvals/device-test-results.md and lead audit",
+   "unblocks": "offline/GPS acceptance, pilot",
+   "next_claude_action": "attach evidence, finish acceptance criteria"
+  },
+  {
+   "id": "H7",
+   "priority": "P1",
+   "issues": [
+    116,
+    124,
+    81
+   ],
+   "title": "Hosting, region and spending-cap decision",
+   "owner": "project owner + supervisor",
+   "where": "written decision",
+   "evidence": "decision note with region and monthly cap",
+   "unblocks": "staging/production, restore rehearsal",
+   "next_claude_action": "write deployment configuration within the approved cap"
+  },
+  {
+   "id": "H8",
+   "priority": "P2",
+   "issues": [
+    92,
+    103,
+    125
+   ],
+   "title": "Disclosure threshold and publication approval",
+   "owner": "research lead + ethics contact",
+   "where": "docs/project/approvals/disclosure-policy.md",
+   "evidence": "written decision",
+   "unblocks": "analytics release, publication",
+   "next_claude_action": "set thresholds, finish #92/#103"
+  },
+  {
+   "id": "H9",
+   "priority": "P2",
+   "issues": [
+    123,
+    125
+   ],
+   "title": "Rights and evidence verification of public content",
+   "owner": "research lead",
+   "where": "per-asset records",
+   "evidence": "rights record per photo/quote/claim",
+   "unblocks": "public release",
+   "next_claude_action": "record verification state in the dataset"
+  }
+ ]
+}
