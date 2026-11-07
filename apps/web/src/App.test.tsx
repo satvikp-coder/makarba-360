@@ -7,6 +7,8 @@ import { MemoryRouter } from "react-router-dom";
 import { afterEach, describe, expect, it } from "vitest";
 import { publicRoutes } from "@makarba/public-ia";
 import { App, PlaceList } from "./App.js";
+import { vi } from "vitest";
+vi.mock("./map/MapView.js", () => ({ MapView: () => <div data-testid="map" /> }));
 
 const bundle = JSON.parse(readFileSync(resolve(process.cwd(), "../../docs/project/contracts/fixture-bundle.json"), "utf8"));
 const json = (body: unknown, status = 200) => Promise.resolve(new Response(JSON.stringify(body), { status, headers: { "content-type": "application/json" } }));
@@ -89,5 +91,16 @@ describe("place list alternative", () => {
     render(<PlaceList fetcher={(() => json({}, 404)) as unknown as typeof fetch} />);
     await screen.findByText("Places could not be loaded.");
     expect(screen.queryByRole("button", { name: "Try again" })).toBeNull();
+  });
+});
+
+describe("explore page with map", () => {
+  it("keeps the full list when the map is present and lets the list select a place", async () => {
+    render(<PlaceList fetcher={okFetch} withMap />);
+    expect(await screen.findByTestId("map")).toBeTruthy();
+    const btn = (await screen.findAllByRole("button"))[0]!;
+    await userEvent.click(btn);
+    expect(btn.getAttribute("aria-pressed")).toBe("true");
+    expect(screen.getAllByRole("listitem").length).toBe(bundle.locations.features.length);
   });
 });

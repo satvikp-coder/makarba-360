@@ -36,3 +36,18 @@ Source of terms: OpenStreetMap Foundation Tile Usage Policy (https://operations.
 | Fallback | Tile or WebGL failure falls back to the searchable list (see design-system.md, #15); attribution of data stays in the footer. |
 | Privacy | Tile requests reveal the viewer's IP and viewed area to the tile host; the privacy page must say so. Interview positions are never sent to a tile provider. |
 | Not allowed | Scraping or tracing Google or other restricted imagery; embedding paid APIs without approval. |
+
+## Initial MapLibre map (issue #25)
+
+`apps/web/src/map/MapView.tsx` renders already-validated, published public features with MapLibre GL JS. Explore (`/explore`) shows the map and the full place list; selecting in either marks the place in both.
+
+| Aspect | Behaviour |
+|---|---|
+| Basemap | Raster tile URL from `VITE_BASEMAP_TILE_URL`, default standard OSM tiles (development/pilot only, see the #24 decision). No tile prefetching or offline caching. |
+| Attribution | Always-visible, non-compact: "© OpenStreetMap contributors" (style source) plus the place-data source line (e.g. "Demonstration place data (synthetic)" for fixtures). |
+| Layers | GeoJSON source `places` with fill (Polygon), line (LineString) and circle (Point) layers; selected point enlarged. Cooperative gestures avoid trapping page scroll on mobile. |
+| Data | Only features that pass `validatePublic("locations")` reach the map; invalid payloads never render. Fixtures use obviously synthetic coordinates (not Makarba) and the page labels them "Demonstration data". No interview positions exist in any layer. |
+| Failure | WebGL unsupported, constructor error or `webglcontextlost` sets status `unavailable`: the map region is hidden, a status message points to the list, and the list (same places, selection supported) keeps working. The map is removed on unmount. |
+| Not done | Clustering, layer toggles, search (#74-#76), verified Makarba boundary/roads (#5, #28, #120), bulk offline tiles. |
+
+Verification: 5 MapView tests with a mocked MapLibre (attribution, layers/data, click selection, WebGL failure, context loss, cleanup) and an Explore integration test. **Not yet verified in a real browser or on real devices** (WebGL rendering, tile loading): to be covered by #82/#117; the PR notes this limitation.
