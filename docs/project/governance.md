@@ -31,3 +31,6 @@ Until application issues are merged, this repository contains planning, design, 
 ## Verification
 
 `python scripts/check_governance.py` fails if governance/policy docs add a licence declaration or a contact e-mail address, and `python -m unittest scripts/test_check_governance.py` exercises both the passing and failing paths.
+
+## Dependency semantics for approval-gated issues
+A hard prerequisite is satisfied for *implementation* once its code is merged and verified. An issue left open only for a human approval or real-provider check (for example #6, #32, #40) is "code-complete, closure pending": dependants may be implemented and merged, but must not be closed before that issue closes, and the dependant's PR must say so. No security, consent or approval requirement is removed by this rule.
