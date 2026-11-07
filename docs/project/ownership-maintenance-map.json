@@ -1,0 +1,960 @@
+{
+  "current_mapping": {
+    "A": "varunkarthic",
+    "B": "satvikp-coder"
+  },
+  "records": [
+    {
+      "number": 1,
+      "state": "closed",
+      "technical_role": "A",
+      "current_maintainer": "varunkarthic",
+      "historical_contribution_owner": "satvikp-coder"
+    },
+    {
+      "number": 2,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 3,
+      "state": "open",
+      "technical_role": "A",
+      "current_maintainer": "varunkarthic",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 4,
+      "state": "open",
+      "technical_role": "A",
+      "current_maintainer": "varunkarthic",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 5,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 6,
+      "state": "open",
+      "technical_role": "A",
+      "current_maintainer": "varunkarthic",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 7,
+      "state": "open",
+      "technical_role": "A",
+      "current_maintainer": "varunkarthic",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 8,
+      "state": "open",
+      "technical_role": "A",
+      "current_maintainer": "varunkarthic",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 9,
+      "state": "closed",
+      "technical_role": "A",
+      "current_maintainer": "varunkarthic",
+      "historical_contribution_owner": "satvikp-coder"
+    },
+    {
+      "number": 10,
+      "state": "closed",
+      "technical_role": "A",
+      "current_maintainer": "varunkarthic",
+      "historical_contribution_owner": "satvikp-coder"
+    },
+    {
+      "number": 11,
+      "state": "open",
+      "technical_role": "A",
+      "current_maintainer": "varunkarthic",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 12,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 13,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 14,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 15,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 16,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 17,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 18,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 19,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 20,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 21,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 22,
+      "state": "closed",
+      "technical_role": "A",
+      "current_maintainer": "varunkarthic",
+      "historical_contribution_owner": "satvikp-coder"
+    },
+    {
+      "number": 23,
+      "state": "open",
+      "technical_role": "A",
+      "current_maintainer": "varunkarthic",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 24,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 25,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 26,
+      "state": "open",
+      "technical_role": "A",
+      "current_maintainer": "varunkarthic",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 27,
+      "state": "open",
+      "technical_role": "A",
+      "current_maintainer": "varunkarthic",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 28,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 29,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 30,
+      "state": "open",
+      "technical_role": "A",
+      "current_maintainer": "varunkarthic",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 31,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 32,
+      "state": "open",
+      "technical_role": "A",
+      "current_maintainer": "varunkarthic",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 33,
+      "state": "open",
+      "technical_role": "A",
+      "current_maintainer": "varunkarthic",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 34,
+      "state": "open",
+      "technical_role": "A",
+      "current_maintainer": "varunkarthic",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 35,
+      "state": "open",
+      "technical_role": "A",
+      "current_maintainer": "varunkarthic",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 36,
+      "state": "closed",
+      "technical_role": "A",
+      "current_maintainer": "varunkarthic",
+      "historical_contribution_owner": "satvikp-coder"
+    },
+    {
+      "number": 37,
+      "state": "open",
+      "technical_role": "A",
+      "current_maintainer": "varunkarthic",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 38,
+      "state": "open",
+      "technical_role": "A",
+      "current_maintainer": "varunkarthic",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 39,
+      "state": "closed",
+      "technical_role": "A",
+      "current_maintainer": "varunkarthic",
+      "historical_contribution_owner": "satvikp-coder"
+    },
+    {
+      "number": 40,
+      "state": "open",
+      "technical_role": "A",
+      "current_maintainer": "varunkarthic",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 41,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 42,
+      "state": "open",
+      "technical_role": "A",
+      "current_maintainer": "varunkarthic",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 43,
+      "state": "open",
+      "technical_role": "A",
+      "current_maintainer": "varunkarthic",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 44,
+      "state": "open",
+      "technical_role": "A",
+      "current_maintainer": "varunkarthic",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 45,
+      "state": "open",
+      "technical_role": "A",
+      "current_maintainer": "varunkarthic",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 46,
+      "state": "open",
+      "technical_role": "A",
+      "current_maintainer": "varunkarthic",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 47,
+      "state": "open",
+      "technical_role": "A",
+      "current_maintainer": "varunkarthic",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 48,
+      "state": "open",
+      "technical_role": "A",
+      "current_maintainer": "varunkarthic",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 49,
+      "state": "open",
+      "technical_role": "A",
+      "current_maintainer": "varunkarthic",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 50,
+      "state": "open",
+      "technical_role": "A",
+      "current_maintainer": "varunkarthic",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 51,
+      "state": "open",
+      "technical_role": "A",
+      "current_maintainer": "varunkarthic",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 52,
+      "state": "open",
+      "technical_role": "A",
+      "current_maintainer": "varunkarthic",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 53,
+      "state": "open",
+      "technical_role": "A",
+      "current_maintainer": "varunkarthic",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 54,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 55,
+      "state": "open",
+      "technical_role": "A",
+      "current_maintainer": "varunkarthic",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 56,
+      "state": "open",
+      "technical_role": "A",
+      "current_maintainer": "varunkarthic",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 57,
+      "state": "open",
+      "technical_role": "A",
+      "current_maintainer": "varunkarthic",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 58,
+      "state": "open",
+      "technical_role": "A",
+      "current_maintainer": "varunkarthic",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 59,
+      "state": "open",
+      "technical_role": "A",
+      "current_maintainer": "varunkarthic",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 60,
+      "state": "open",
+      "technical_role": "A",
+      "current_maintainer": "varunkarthic",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 61,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 62,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 63,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 64,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 65,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 66,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 67,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 68,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 69,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 70,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 71,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 72,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 73,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 74,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 75,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 76,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 77,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 78,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 79,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 80,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 81,
+      "state": "open",
+      "technical_role": "A",
+      "current_maintainer": "varunkarthic",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 82,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 83,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 84,
+      "state": "open",
+      "technical_role": "A",
+      "current_maintainer": "varunkarthic",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 85,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 86,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 87,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 88,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 89,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 90,
+      "state": "open",
+      "technical_role": "A",
+      "current_maintainer": "varunkarthic",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 91,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 92,
+      "state": "open",
+      "technical_role": "A",
+      "current_maintainer": "varunkarthic",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 93,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 94,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 95,
+      "state": "open",
+      "technical_role": "A",
+      "current_maintainer": "varunkarthic",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 96,
+      "state": "open",
+      "technical_role": "A",
+      "current_maintainer": "varunkarthic",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 97,
+      "state": "open",
+      "technical_role": "A",
+      "current_maintainer": "varunkarthic",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 98,
+      "state": "open",
+      "technical_role": "A",
+      "current_maintainer": "varunkarthic",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 99,
+      "state": "open",
+      "technical_role": "A",
+      "current_maintainer": "varunkarthic",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 100,
+      "state": "open",
+      "technical_role": "A",
+      "current_maintainer": "varunkarthic",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 101,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 102,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 103,
+      "state": "open",
+      "technical_role": "A",
+      "current_maintainer": "varunkarthic",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 104,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 105,
+      "state": "open",
+      "technical_role": "A",
+      "current_maintainer": "varunkarthic",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 106,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 107,
+      "state": "open",
+      "technical_role": "A",
+      "current_maintainer": "varunkarthic",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 108,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 109,
+      "state": "open",
+      "technical_role": "A",
+      "current_maintainer": "varunkarthic",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 110,
+      "state": "open",
+      "technical_role": "A",
+      "current_maintainer": "varunkarthic",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 111,
+      "state": "open",
+      "technical_role": "A",
+      "current_maintainer": "varunkarthic",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 112,
+      "state": "open",
+      "technical_role": "A",
+      "current_maintainer": "varunkarthic",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 113,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 114,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 115,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 116,
+      "state": "open",
+      "technical_role": "A",
+      "current_maintainer": "varunkarthic",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 117,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 118,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 119,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 120,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 121,
+      "state": "open",
+      "technical_role": "A",
+      "current_maintainer": "varunkarthic",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 122,
+      "state": "open",
+      "technical_role": "A",
+      "current_maintainer": "varunkarthic",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 123,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 124,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 125,
+      "state": "open",
+      "technical_role": "A",
+      "current_maintainer": "varunkarthic",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 126,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 127,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 128,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 129,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 130,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 131,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 132,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 133,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 134,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 135,
+      "state": "open",
+      "technical_role": "B",
+      "current_maintainer": "satvikp-coder",
+      "historical_contribution_owner": null
+    },
+    {
+      "number": 136,
+      "state": "open",
+      "technical_role": "A",
+      "current_maintainer": "varunkarthic",
+      "historical_contribution_owner": null
+    }
+  ]
+}

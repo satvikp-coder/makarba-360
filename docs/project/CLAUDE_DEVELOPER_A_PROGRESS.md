@@ -1,5 +1,7 @@
 # Developer A progress ledger (Claude)
 
+**PRE-SWAP HISTORICAL IMPLEMENTATION RECORD — Satvik.** Existing PRs, merge SHAs and results below retain their actual attribution. Varun is now Developer A/current core maintainer and owns all remaining follow-up; Satvik is Developer B. Use DEVELOPER_A_GUIDE.md and ownership-swap-map.json for the current queue.
+
 Main SHA at checkpoint: `bd9cb21cd033ab29fd69872b74a152d9c0cd7f14`. GitHub is authoritative; this file is a checkpoint. The allocation JSON status fields are a planning snapshot and are not updated per issue.
 
 Total Developer A issues: 63. Closed: 6. Human items: [HUMAN_ACTION_REQUIRED.md](HUMAN_ACTION_REQUIRED.md).

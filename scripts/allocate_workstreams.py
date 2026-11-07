@@ -147,6 +147,8 @@ def topo(rows,production=False):
         done.append(layer[0]); layers.append(layer)
     return done,layers
 def plan():
+    if PLAN.exists() and json.loads(PLAN.read_text(encoding='utf-8')).get('ownership_schema_version')==2:
+        raise RuntimeError('People swap is active; legacy initial allocation cannot reset it. Use swap_ownership.py.')
     base=json.loads(BASE.read_text(encoding='utf-8')); rows=[]
     friend=api('users/varunkarthic')
     if friend['login'].lower()!='varunkarthic' or friend['type']!='User': raise RuntimeError('Unverified friend identity')
@@ -213,6 +215,9 @@ def labels_for(r,original):
     return sorted(set(labels))
 
 def render():
+    if loadplan().get('ownership_schema_version')==2:
+        from swap_ownership import render as render_current_mapping
+        return render_current_mapping()
     p=loadplan(); rows=p['issues']; base=json.loads(BASE.read_text(encoding='utf-8')); originals={i['number']:i for i in base['issues']}; by={r['number']:r for r in rows}; catalog=json.loads((ROOT/'docs/project/issue-catalog.yaml').read_text(encoding='utf-8')); catby={i['id']:i for i in catalog}; keys={r['number']:r['catalog_id'] for r in rows}
     for r in rows:
         if r['status']!='open': continue  # Preserve completed work and its accepted body/labels.
@@ -403,6 +408,8 @@ For each selected batch: deliver its linked issue outputs, run relevant contract
     put('docs/project/github-issue-views.md','# GitHub tracking views\n\nThe actual Projects audit returned INSUFFICIENT_SCOPES (read:project unavailable); no existing board could be inspected or updated and no duplicate board was created. No board URL is claimed. These issue filters work with actual ownership/phase labels and do not depend on Varun being assignable.\n\n'+ '\n'.join('- ['+name+'](https://github.com/'+REPO+'/issues?'+urlencode({'q':q})+') — `'+q+'`' for name,q in views.items())+'\n\nIn-progress and in-review filters are intentionally empty until implementation starts. Move status labels deliberately when prerequisites/evidence change; assignment alone is not In Progress. Milestones remain the original 13 and are not renamed/deleted. See [milestones](https://github.com/'+REPO+'/milestones).')
 
 def apply_allocation():
+    if loadplan().get('ownership_schema_version')==2:
+        raise RuntimeError('People swap is active; use swap_ownership.py apply, never restore the original people mapping.')
     p=loadplan(); rows=p['issues']; base=json.loads(BASE.read_text(encoding='utf-8')); progress=json.loads(PROGRESS.read_text(encoding='utf-8'))
     if api('user')['login']!='satvikp-coder': raise RuntimeError('Wrong authenticated user')
     repo=api('repos/'+REPO)

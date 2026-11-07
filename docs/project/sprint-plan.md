@@ -1,6 +1,6 @@
 # Flexible sprint/start-wave plan
 
-Generated from developer-issue-allocation.json. No dates, product implementation or participant data. GitHub B assignment is pending invitation acceptance; labels reserve B work as requested. Issue #1 was completed concurrently in PR #137 and is preserved; remaining work begins at #6.
+Current ownership: Developer A = Varun (`varunkarthic`, core-platform); Developer B = Satvik (`satvikp-coder`, public-experience). The workstreams did not swap. Satvik retains authorship of his merged foundation; Varun now maintains it.
 
 S0–S6 are dependency-ordered macro waves, not six timeboxed sprints. Use the [capacity batches](capacity-batches.md) to limit each planning selection to a provisional 20 points per developer, then calibrate against actual availability/velocity. These are start waves, not dates or promises that external research approval arrives in a week. Work may carry to its live-integration wave; no issue is closed until its original acceptance and declared close policy pass. Integration prerequisites may lie in later waves for mock-backed work; the gate remains open and is explicitly tracked. Optional Sprint 6 is not part of core release.
 

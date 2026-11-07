@@ -213,8 +213,8 @@
   "updated_at": "2026-11-07T09:15:48.355827+00:00",
   "verification": "docs/project/allocation-verification.json",
   "pending_assignments": {
-    "developer_b": 73,
-    "reason": "invitation unaccepted; owner explicitly requested leaving B assignees unchanged"
+    "developer_a": 57,
+    "reason": "Varun assignments await eligibility where pending; B public tasks now belong to Satvik"
   },
   "pending_setup": [
     "Commit/push planning branch and verify CI/merge"
@@ -231,5 +231,12 @@
     "pr": 137,
     "merge_commit": "b514de4d5ede7dfc55ea7df3c62b988abca79c68"
   },
-  "planning_pr": "https://github.com/satvikp-coder/makarba-360/pull/138"
+  "planning_pr": "https://github.com/satvikp-coder/makarba-360/pull/138",
+  "current_ownership_mapping": {
+    "A": "varunkarthic",
+    "B": "satvikp-coder"
+  },
+  "current_ownership_record": "docs/project/ownership-swap-map.json",
+  "previous_assignment_notes": "Historical checkpoint; superseded by the frozen ownership swap for open work.",
+  "record_type": "historical initial allocation checkpoint; current swap status is ownership-swap-progress.json"
 }

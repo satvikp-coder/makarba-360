@@ -7,7 +7,7 @@ Rules that apply to every item:
 - Evidence goes in the repository under `docs/project/approvals/` (create the folder) **and** is linked in a comment on the GitHub issue. Never put real participant data, passwords, or personal details in GitHub; the repository is public.
 - Where this file says "the institution", the real person or office must be identified by you. The repository deliberately does not name anyone (see [governance](governance.md)).
 
-State of the software (checked against GitHub): issues #1, #9, #10, #22 and #36 are finished and closed. Issues #6, #32, #34 and #40 have all their code merged but stay **open** for the human items below. See the [progress ledger](CLAUDE_DEVELOPER_A_PROGRESS.md).
+State at the ownership snapshot: #1, #9, #10, #22, #36 and #39 are closed. #6, #32, #33, #34, #35 and #40 have merged artifacts but remain open for approval, provider, UI/integration or final acceptance. Varun inherits their remaining core follow-up; Satvik keeps credit for the merged work.
 
 ---
 
@@ -60,8 +60,8 @@ State of the software (checked against GitHub): issues #1, #9, #10, #22 and #36 
 - **Proof:** screenshot of the rule or a comment on [#1](https://github.com/satvikp-coder/makarba-360/issues/1).
 - **Why:** today anyone with write access can merge without checks; the repository relied on discipline.
 
-### H5. Work only Developer B can do (my friend)
-Developer B now has these unblocked by the finished scaffold: #12, #2, #5, #24, #106, #63, #85–#87, and anything listed "ready" on their label. Things Developer A is waiting for from B:
+### H5. Developer B public/UX deliverables — Satvik
+Satvik (Developer B) now has these unblocked by the finished scaffold: #12, #2, #5, #24, #106, #63, #85–#87, and anything listed "ready" on their label. Things Developer A is waiting for from B:
 - #5 verified study extent (also needs a human to verify the map source) → blocks #23.
 - #12 visual tokens and #26 taxonomy icons → blocks #26, #27, and everything geographic behind it.
 - #20 field screen design → needs to exist before #45 can be finished.
@@ -101,3 +101,28 @@ Developer B now has these unblocked by the finished scaffold: #12, #2, #5, #24, 
 Paste this, filling the brackets:
 
 > Resume Makarba 360 Developer A work. Evidence now exists for: [H1 / H2 / H3 / ...] at [paths and issue comment links]. Re-read GitHub, verify each piece of evidence really exists and was written by the right person, update `capability-matrix.json` and the docs accordingly, run all tests, merge eligible PRs, close issues #[...] whose acceptance criteria are now met, then continue with the next ready Developer A issues from `docs/project/CLAUDE_DEVELOPER_A_PROGRESS.md`.
+
+
+
+
+<!-- ownership-swap-human-map -->
+## Current implementation owners versus human approvers
+
+Current ownership: Developer A = Varun (`varunkarthic`, core-platform); Developer B = Satvik (`satvikp-coder`, public-experience). The workstreams did not swap. Satvik retains authorship of his merged foundation; Varun now maintains it.
+
+Changing implementation ownership does not grant ethics, stakeholder, consent, publication, spending or account authority. Approval facts/evidence below are preserved and no pending approval is marked complete.
+
+| Item | Current implementation owner(s) | Required human approver | Actual approval status / evidence | Next action |
+|---|---|---|---|---|
+| H1 | #6: varunkarthic, #32: varunkarthic, #34: varunkarthic, #35: varunkarthic | project owner + faculty supervisor/research lead (institution decides) | Pending in existing register; approver's own GitHub comment or signed minutes; docs/project/approvals/capability-matrix-approval.md | verify evidence, set approved_by/approved_on/status in capability-matrix.json, update MFA role list, rerun tests, close issues |
+| H2 | #32: varunkarthic | project owner + institution IT | Pending in existing register; provider note + staging sign-in test note on #32 | wire provider configuration, run staging sign-in check, close #32 |
+| H3 | #11: varunkarthic, #37: varunkarthic, #119: satvikp-coder, #121: varunkarthic | institution ethics committee via faculty supervisor | Pending in existing register; written decision (private) + docs/project/approvals/ethics-approval-reference.md | record reference, unlock operational gates, update consent scripts if required |
+| H4 | #1: varunkarthic | repository owner | Pending in existing register; screenshot or comment on #1 | update governance.md to state protection is enabled |
+| H5 | #23: varunkarthic, #26: varunkarthic, #27: varunkarthic, #45: varunkarthic, #49: varunkarthic, #55: varunkarthic, #56: varunkarthic, #57: varunkarthic | Developer B | Pending in existing register; merged PRs and passing conformance | recheck GitHub and resume |
+| H6 | #54: satvikp-coder, #62: satvikp-coder, #111: varunkarthic, #112: varunkarthic, #117: satvikp-coder, #118: satvikp-coder, #119: satvikp-coder, #121: varunkarthic, #122: varunkarthic | research lead and trained researchers | Pending in existing register; docs/project/approvals/device-test-results.md and lead audit | attach evidence, finish acceptance criteria |
+| H7 | #116: varunkarthic, #124: satvikp-coder, #81: varunkarthic | project owner + supervisor | Pending in existing register; decision note with region and monthly cap | write deployment configuration within the approved cap |
+| H8 | #92: varunkarthic, #103: varunkarthic, #125: varunkarthic | research lead + ethics contact | Pending in existing register; written decision | set thresholds, finish #92/#103 |
+| H9 | #123: satvikp-coder, #125: varunkarthic | research lead | Pending in existing register; rights record per photo/quote/claim | record verification state in the dataset |
+
+### GitHub collaborator acceptance — Varun (A)
+Varun must sign into **varunkarthic**, open the existing repository invitation from GitHub notifications/email or the repository invitation page, and accept **write** access. Satvik cannot accept on his behalf. The owner can inspect Settings → Collaborators to confirm acceptance; do not grant admin or send a duplicate invitation. Then check `gh api repos/satvikp-coder/makarba-360/assignees/varunkarthic --include` (expected HTTP 204) and rerun `python scripts/swap_ownership.py resume`. It uses the frozen role mapping and will not reverse the swap. No human research approval is implied by GitHub access.

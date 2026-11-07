@@ -19,6 +19,10 @@ def cycles(rows,fields):
         color[n]=2
     for n in by: visit(n)
 def main():
+    current=json.loads((ROOT/'docs/project/developer-issue-allocation.json').read_text(encoding='utf-8'))
+    if current.get('ownership_schema_version')==2:
+        from verify_ownership_swap import main as verify_current_mapping
+        return verify_current_mapping()
     p=json.loads((ROOT/'docs/project/developer-issue-allocation.json').read_text(encoding='utf-8')); rows=p['issues']; baseline=json.loads((ROOT/'docs/project/allocation-baseline.json').read_text(encoding='utf-8')); orig={x['number']:x for x in baseline['issues']}; errors=[]
     def check(ok,message):
         if not ok: errors.append(message)

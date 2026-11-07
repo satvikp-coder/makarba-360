@@ -1,5 +1,7 @@
 # Implementation roadmap
 
+Current ownership: Developer A = Varun (`varunkarthic`, core-platform); Developer B = Satvik (`satvikp-coder`, public-experience). The workstreams did not swap. Satvik retains authorship of his merged foundation; Varun now maintains it.
+
 Planning baseline: 2026-11-07. Proposed design; no participant collection or product implementation has occurred.
 
 Planning run creates the architecture/backlog, not the software. No deadlines or team assignments are assumed. Start by reviewing M00 artifacts against issue acceptance evidence, then establish development scaffold. Use issue-dependencies.md and JSON DAG rather than numbered milestone order.
