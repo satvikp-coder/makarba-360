@@ -4,7 +4,7 @@ Generated from developer-issue-allocation.json. No dates, product implementation
 
 Own the restricted core, shared contracts and private field application. #1 is already completed in PR #137. Begin #6 → #9 → #10. Keep the first handoff small; do not build the whole backend before enabling B mocks.
 
-Technically ready now: [#6](https://github.com/satvikp-coder/makarba-360/issues/6).
+Technically ready now: [#6](https://github.com/satvikp-coder/makarba-360/issues/6), [#9](https://github.com/satvikp-coder/makarba-360/issues/9).
 
 Recommended owner queue:
 
@@ -15,7 +15,7 @@ Recommended owner queue:
 ### Foundation
 
 - **A-02 [#6](https://github.com/satvikp-coder/makarba-360/issues/6) — [DEVOPS] Approve stakeholder capability matrix** (M/3 points; Sprint 0). Hard: [#1](https://github.com/satvikp-coder/makarba-360/issues/1); live integration: None. Output: Every action has role, study scope and ownership policy.
-- **A-03 [#9](https://github.com/satvikp-coder/makarba-360/issues/9) — [DEVOPS] Review architecture diagrams and ADR baseline** (M/3 points; Sprint 0). Hard: [#1](https://github.com/satvikp-coder/makarba-360/issues/1), [#6](https://github.com/satvikp-coder/makarba-360/issues/6); live integration: None. Output: Context, component, deployment and trust boundaries have review evidence.
+- **A-03 [#9](https://github.com/satvikp-coder/makarba-360/issues/9) — [DEVOPS] Review architecture diagrams and ADR baseline** (M/3 points; Sprint 0). Hard: [#1](https://github.com/satvikp-coder/makarba-360/issues/1); live integration: None. Output: Context, component, deployment and trust boundaries have review evidence.
 - **A-04 [#10](https://github.com/satvikp-coder/makarba-360/issues/10) — [DEVOPS] Scaffold development setup and CI governance** (XL/8 points; Sprint 0). Hard: [#9](https://github.com/satvikp-coder/makarba-360/issues/9); live integration: None. Output: A clean Windows checkout can start synthetic development services using documented steps.
 
 ### Parallel
@@ -40,9 +40,9 @@ Recommended owner queue:
 
 ### Parallel
 
-- **A-10 [#32](https://github.com/satvikp-coder/makarba-360/issues/32) — [PRIVACY] Integrate identity provider and secure sessions** (L/5 points; Sprint 1). Hard: [#6](https://github.com/satvikp-coder/makarba-360/issues/6), [#10](https://github.com/satvikp-coder/makarba-360/issues/10); live integration: None. Output: Team sign-in/logout, expiry, revocation and MFA policy have verified behavior.
+- **A-10 [#32](https://github.com/satvikp-coder/makarba-360/issues/32) — [PRIVACY] Integrate identity provider and secure sessions** (L/5 points; Sprint 1). Hard: [#10](https://github.com/satvikp-coder/makarba-360/issues/10); live integration: [#6](https://github.com/satvikp-coder/makarba-360/issues/6). Output: Team sign-in/logout, expiry, revocation and MFA policy have verified behavior.
 - **A-11 [#33](https://github.com/satvikp-coder/makarba-360/issues/33) — [PRIVACY] Implement researcher invitation and deactivation** (M/3 points; Sprint 1). Hard: [#32](https://github.com/satvikp-coder/makarba-360/issues/32); live integration: None. Output: Only authorised trained invited users can collect in assigned studies.
-- **A-12 [#34](https://github.com/satvikp-coder/makarba-360/issues/34) — [PRIVACY] Implement role and study authorization** (L/5 points; Sprint 1). Hard: [#6](https://github.com/satvikp-coder/makarba-360/issues/6), [#32](https://github.com/satvikp-coder/makarba-360/issues/32); live integration: None. Output: Every private route evaluates role, study and record ownership.
+- **A-12 [#34](https://github.com/satvikp-coder/makarba-360/issues/34) — [PRIVACY] Implement role and study authorization** (L/5 points; Sprint 1). Hard: [#32](https://github.com/satvikp-coder/makarba-360/issues/32); live integration: [#6](https://github.com/satvikp-coder/makarba-360/issues/6). Output: Every private route evaluates role, study and record ownership.
 - **A-13 [#35](https://github.com/satvikp-coder/makarba-360/issues/35) — [PRIVACY] Enforce capability matrix across API and UI** (L/5 points; Sprint 1). Hard: [#34](https://github.com/satvikp-coder/makarba-360/issues/34); live integration: None. Output: UI actions and API handlers agree with approved capabilities.
 - **A-14 [#36](https://github.com/satvikp-coder/makarba-360/issues/36) — [PRIVACY] Harden database access and migration credentials** (L/5 points; Sprint 1). Hard: [#9](https://github.com/satvikp-coder/makarba-360/issues/9); live integration: None. Output: Runtime roles cannot run DDL or read forbidden schemas.
 - **A-15 [#37](https://github.com/satvikp-coder/makarba-360/issues/37) — [PRIVACY] Implement scoped versioned consent records** (L/5 points; Sprint 1). Hard: [#35](https://github.com/satvikp-coder/makarba-360/issues/35); live integration: None. Output: Recording, aggregate and identifiable media/story permission are independent.

@@ -384,20 +384,18 @@
     "approach": "Review monolith, PostGIS, offline and public projection decisions",
     "edge": "No optional provider capability silently promised",
     "dependencies": [
-      "00.01",
-      "00.06"
+      "00.01"
     ],
     "priority": "P0",
     "size": "M",
     "labels": [
       "area:devops",
-      "dependency:blocked",
       "handoff:required",
       "owner:developer-a",
       "phase:foundation",
       "priority:p0",
       "size:m",
-      "status:blocked",
+      "status:ready",
       "type:docs",
       "workstream:core-platform"
     ],
@@ -412,12 +410,12 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/9"
     },
     "dependency_numbers": [
-      1,
-      6
+      1
     ],
     "points": 3,
     "integration_dependencies": [],
     "soft_dependencies": [
+      "00.06",
       "00.08"
     ],
     "operational_dependencies": [],
@@ -1532,7 +1530,6 @@
     "approach": "OIDC code/PKCE backend exchange, opaque server sessions and cookie/CSRF policy",
     "edge": "Cross-site login state mismatch and expired session denied",
     "dependencies": [
-      "00.06",
       "00.10"
     ],
     "priority": "P0",
@@ -1559,11 +1556,12 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/32"
     },
     "dependency_numbers": [
-      6,
       10
     ],
     "points": 5,
-    "integration_dependencies": [],
+    "integration_dependencies": [
+      "00.06"
+    ],
     "soft_dependencies": [],
     "operational_dependencies": [],
     "allocation_owner": "A",
@@ -1629,7 +1627,6 @@
     "approach": "Central authorization service with deny-by-default capabilities",
     "edge": "Researcher cannot read another study or grant admin role",
     "dependencies": [
-      "00.06",
       "03.01"
     ],
     "priority": "P0",
@@ -1656,11 +1653,12 @@
       "url": "https://github.com/satvikp-coder/makarba-360/issues/34"
     },
     "dependency_numbers": [
-      6,
       32
     ],
     "points": 5,
-    "integration_dependencies": [],
+    "integration_dependencies": [
+      "00.06"
+    ],
     "soft_dependencies": [],
     "operational_dependencies": [],
     "allocation_owner": "A",
