@@ -2,7 +2,7 @@
 
 Planning baseline: 2026-11-07. Proposed design; no participant collection or product implementation has occurred.
 
-Implement F01–F13. One-handed large controls, short steps, readable outdoors, persistent saved/sync status. Standard interview target 5–8 minutes, measured in pilot rather than asserted. No consent defaults or leading answer defaults. English/Gujarati scripts are reviewed by fluent humans; language can switch without losing answers.
+Implement F01–F14; structured site observations are separate from participant interviews. One-handed large controls, short steps, readable outdoors, persistent saved/sync status. Standard interview target 5–8 minutes, measured in pilot rather than asserted. No consent defaults or leading answer defaults. English/Gujarati scripts are reviewed by fluent humans; language can switch without losing answers.
 
 ```text
 [Visit name] [Offline: 2 saved] [Lock]

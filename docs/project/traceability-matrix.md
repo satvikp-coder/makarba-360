@@ -6,58 +6,58 @@ All 23 blueprint pages were read. Prompt requirements are additionally registere
 
 | PDF page | Section / content | Requirements | Component/document | Development issues |
 |---|---|---|---|---|
-| 1 | Identity and critical participation rule | R01 R21 | [product/vision.md](../product/vision.md) | 00.03, 07.01 |
-| 2 | Private collection to public results overview | R01 R10 R16 | [architecture/overview.md](../architecture/overview.md) | 04.09, 07.10, 09.08 |
-| 3 | Participatory method, questions, boundary | R02 R21 | [research/methodology.md](../research/methodology.md) | 00.04, 00.05, 02.02 |
-| 4 | Roles and team field workflow | R07 R08 R14 | [product/personas.md](../product/personas.md) | 03.04, 04.03, 11.01 |
-| 5 | Public map-first pages and no survey entry | R03 R20 | [design/public-website.md](../design/public-website.md) | 01.02, 07.01, 07.11 |
-| 6 | Map layers, place details and candidates | R02 R03 R04 | [architecture/gis-design.md](../architecture/gis-design.md) | 02.05, 02.06, 02.07, 07.06 |
-| 7 | Then & Now and realistic panoramas | R05 R06 | [architecture/media-pipeline.md](../architecture/media-pipeline.md) | 06.05, 06.06, 06.07, 06.08 |
-| 8 | Core field survey and two positions | R08 R10 R12 | [architecture/offline-sync.md](../architecture/offline-sync.md) | 04.09, 05.01, 05.04 |
-| 9 | GPS metadata quality and privacy | R10 R11 | [research/gps-protocol.md](../research/gps-protocol.md) | 04.07, 04.08, 03.07 |
-| 10 | Questionnaire A–D and official verification | R08 R09 R15 | [research/survey-questionnaire.md](../research/survey-questionnaire.md) | 04.01, 04.05, 04.10 |
-| 11 | Explicitly fictional sample and evidence separation | R10 R15 R17 | [research/methodology.md](../research/methodology.md) | 04.09, 08.01, 06.09 |
-| 12 | Before/during/after field visit | R13 R21 | [research/field-visit-sop.md](../research/field-visit-sop.md) | 11.01, 05.08 |
-| 13 | Suggested three-pass sample and targets | R21 R24 | [research/sampling-plan.md](../research/sampling-plan.md) | 00.04, 11.02, 11.08 |
-| 14 | Researcher/admin screens and offline fallback | R07 R12 R14 | [product/screen-inventory.md](../product/screen-inventory.md) | 01.09, 01.10, 05.01, 09.04 |
-| 15 | Insights metrics, safe coverage and counts | R17 R18 | [architecture/analytics.md](../architecture/analytics.md) | 08.01, 08.07, 08.09, 08.10 |
-| 16 | Stack and shared backend | R22 | [architecture/overview.md](../architecture/overview.md) | 00.09, 00.10 |
-| 17 | Core relational model | R09 R10 R19 | [architecture/data-model.md](../architecture/data-model.md) | 02.01, 04.01, 04.09 |
-| 18 | Visual identity, localization and stretch scope | R03 R20 R25 | [design/design-system.md](../design/design-system.md) | 01.01, 12.01, 12.02, 12.03, 12.05, 12.08 |
-| 19 | Privacy consent ethics and disputed accounts | R08 R15 R16 R18 R19 R21 | [architecture/privacy-security.md](../architecture/privacy-security.md) | 00.11, 03.06, 09.10, 08.09 |
-| 20 | Build phases and critical tests | R23 R24 | [project/test-strategy.md](../project/test-strategy.md) | 10.04, 10.05, 10.07, 11.09 |
-| 21 | Demonstration and final deliverables | R24 | [project/release-plan.md](../project/release-plan.md) | 11.08, 11.09, 11.10 |
-| 22 | Ready field checklist and definition | R21 R24 | [research/field-visit-sop.md](../research/field-visit-sop.md) | 11.01, 11.05 |
-| 23 | Technical references and assumptions | R06 R12 R22 | [source/technical-references.md](../source/technical-references.md) | 00.09, 05.01, 06.08 |
+| 1 | Identity and critical participation rule | R01 R21 | [product/vision.md](../product/vision.md) | [#3](https://github.com/satvikp-coder/makarba-360/issues/3), [#72](https://github.com/satvikp-coder/makarba-360/issues/72) |
+| 2 | Private collection to public results overview | R01 R10 R16 | [architecture/overview.md](../architecture/overview.md) | [#50](https://github.com/satvikp-coder/makarba-360/issues/50), [#81](https://github.com/satvikp-coder/makarba-360/issues/81), [#103](https://github.com/satvikp-coder/makarba-360/issues/103) |
+| 3 | Participatory method, questions, boundary | R02 R21 | [research/methodology.md](../research/methodology.md) | [#4](https://github.com/satvikp-coder/makarba-360/issues/4), [#5](https://github.com/satvikp-coder/makarba-360/issues/5), [#23](https://github.com/satvikp-coder/makarba-360/issues/23) |
+| 4 | Roles and team field workflow | R07 R08 R14 | [product/personas.md](../product/personas.md) | [#35](https://github.com/satvikp-coder/makarba-360/issues/35), [#44](https://github.com/satvikp-coder/makarba-360/issues/44), [#118](https://github.com/satvikp-coder/makarba-360/issues/118) |
+| 5 | Public map-first pages and no survey entry | R03 R20 | [design/public-website.md](../design/public-website.md) | [#13](https://github.com/satvikp-coder/makarba-360/issues/13), [#72](https://github.com/satvikp-coder/makarba-360/issues/72), [#82](https://github.com/satvikp-coder/makarba-360/issues/82) |
+| 6 | Map layers, place details and candidates | R02 R03 R04 | [architecture/gis-design.md](../architecture/gis-design.md) | [#26](https://github.com/satvikp-coder/makarba-360/issues/26), [#27](https://github.com/satvikp-coder/makarba-360/issues/27), [#28](https://github.com/satvikp-coder/makarba-360/issues/28), [#77](https://github.com/satvikp-coder/makarba-360/issues/77) |
+| 7 | Then & Now and realistic panoramas | R05 R06 | [architecture/media-pipeline.md](../architecture/media-pipeline.md) | [#67](https://github.com/satvikp-coder/makarba-360/issues/67), [#68](https://github.com/satvikp-coder/makarba-360/issues/68), [#69](https://github.com/satvikp-coder/makarba-360/issues/69), [#70](https://github.com/satvikp-coder/makarba-360/issues/70) |
+| 8 | Core field survey and two positions | R08 R10 R12 | [architecture/offline-sync.md](../architecture/offline-sync.md) | [#50](https://github.com/satvikp-coder/makarba-360/issues/50), [#54](https://github.com/satvikp-coder/makarba-360/issues/54), [#57](https://github.com/satvikp-coder/makarba-360/issues/57) |
+| 9 | GPS metadata quality and privacy | R10 R11 | [research/gps-protocol.md](../research/gps-protocol.md) | [#48](https://github.com/satvikp-coder/makarba-360/issues/48), [#49](https://github.com/satvikp-coder/makarba-360/issues/49), [#38](https://github.com/satvikp-coder/makarba-360/issues/38) |
+| 10 | Questionnaire A–D and official verification | R08 R09 R15 | [research/survey-questionnaire.md](../research/survey-questionnaire.md) | [#42](https://github.com/satvikp-coder/makarba-360/issues/42), [#46](https://github.com/satvikp-coder/makarba-360/issues/46), [#51](https://github.com/satvikp-coder/makarba-360/issues/51) |
+| 11 | Explicitly fictional sample and evidence separation | R10 R15 R17 | [research/methodology.md](../research/methodology.md) | [#50](https://github.com/satvikp-coder/makarba-360/issues/50), [#84](https://github.com/satvikp-coder/makarba-360/issues/84), [#71](https://github.com/satvikp-coder/makarba-360/issues/71) |
+| 12 | Before/during/after field visit | R13 R21 | [research/field-visit-sop.md](../research/field-visit-sop.md) | [#118](https://github.com/satvikp-coder/makarba-360/issues/118), [#61](https://github.com/satvikp-coder/makarba-360/issues/61) |
+| 13 | Suggested three-pass sample and targets | R21 R24 | [research/sampling-plan.md](../research/sampling-plan.md) | [#4](https://github.com/satvikp-coder/makarba-360/issues/4), [#119](https://github.com/satvikp-coder/makarba-360/issues/119), [#125](https://github.com/satvikp-coder/makarba-360/issues/125) |
+| 14 | Researcher/admin screens and offline fallback | R07 R12 R14 | [product/screen-inventory.md](../product/screen-inventory.md) | [#20](https://github.com/satvikp-coder/makarba-360/issues/20), [#21](https://github.com/satvikp-coder/makarba-360/issues/21), [#54](https://github.com/satvikp-coder/makarba-360/issues/54), [#99](https://github.com/satvikp-coder/makarba-360/issues/99) |
+| 15 | Insights metrics, safe coverage and counts | R17 R18 | [architecture/analytics.md](../architecture/analytics.md) | [#84](https://github.com/satvikp-coder/makarba-360/issues/84), [#90](https://github.com/satvikp-coder/makarba-360/issues/90), [#92](https://github.com/satvikp-coder/makarba-360/issues/92), [#93](https://github.com/satvikp-coder/makarba-360/issues/93) |
+| 16 | Stack and shared backend | R22 | [architecture/overview.md](../architecture/overview.md) | [#9](https://github.com/satvikp-coder/makarba-360/issues/9), [#10](https://github.com/satvikp-coder/makarba-360/issues/10) |
+| 17 | Core relational model | R09 R10 R19 | [architecture/data-model.md](../architecture/data-model.md) | [#22](https://github.com/satvikp-coder/makarba-360/issues/22), [#42](https://github.com/satvikp-coder/makarba-360/issues/42), [#50](https://github.com/satvikp-coder/makarba-360/issues/50) |
+| 18 | Visual identity, localization and stretch scope | R03 R20 R25 | [design/design-system.md](../design/design-system.md) | [#12](https://github.com/satvikp-coder/makarba-360/issues/12), [#128](https://github.com/satvikp-coder/makarba-360/issues/128), [#129](https://github.com/satvikp-coder/makarba-360/issues/129), [#130](https://github.com/satvikp-coder/makarba-360/issues/130), [#132](https://github.com/satvikp-coder/makarba-360/issues/132), [#135](https://github.com/satvikp-coder/makarba-360/issues/135) |
+| 19 | Privacy consent ethics and disputed accounts | R08 R15 R16 R18 R19 R21 | [architecture/privacy-security.md](../architecture/privacy-security.md) | [#11](https://github.com/satvikp-coder/makarba-360/issues/11), [#37](https://github.com/satvikp-coder/makarba-360/issues/37), [#105](https://github.com/satvikp-coder/makarba-360/issues/105), [#92](https://github.com/satvikp-coder/makarba-360/issues/92) |
+| 20 | Build phases and critical tests | R23 R24 | [project/test-strategy.md](../project/test-strategy.md) | [#109](https://github.com/satvikp-coder/makarba-360/issues/109), [#110](https://github.com/satvikp-coder/makarba-360/issues/110), [#112](https://github.com/satvikp-coder/makarba-360/issues/112), [#126](https://github.com/satvikp-coder/makarba-360/issues/126) |
+| 21 | Demonstration and final deliverables | R24 | [project/release-plan.md](../project/release-plan.md) | [#125](https://github.com/satvikp-coder/makarba-360/issues/125), [#126](https://github.com/satvikp-coder/makarba-360/issues/126), [#127](https://github.com/satvikp-coder/makarba-360/issues/127) |
+| 22 | Ready field checklist and definition | R21 R24 | [research/field-visit-sop.md](../research/field-visit-sop.md) | [#118](https://github.com/satvikp-coder/makarba-360/issues/118), [#122](https://github.com/satvikp-coder/makarba-360/issues/122) |
+| 23 | Technical references and assumptions | R06 R12 R22 | [source/technical-references.md](../source/technical-references.md) | [#9](https://github.com/satvikp-coder/makarba-360/issues/9), [#54](https://github.com/satvikp-coder/makarba-360/issues/54), [#70](https://github.com/satvikp-coder/makarba-360/issues/70) |
 
 Full requirement-level issue coverage:
 
 | Requirement | Issue links |
 |---|---|
-| R01 | 00.03, 00.06, 04.04, 07.01, 07.10 |
-| R02 | 00.05, 02.02, 02.05, 02.06, 02.07, 09.06, 11.03 |
-| R03 | 01.04, 01.05, 02.08, 07.03, 07.04, 07.05, 07.11 |
-| R04 | 06.01, 06.02, 07.06, 07.07 |
-| R05 | 06.03, 06.04, 06.05, 06.06 |
-| R06 | 06.07, 06.08, 07.08, 12.06 |
-| R07 | 03.01, 03.02, 03.03, 03.04, 04.03, 11.01 |
-| R08 | 00.11, 03.06, 04.06 |
-| R09 | 04.01, 04.02, 04.05, 04.10 |
-| R10 | 04.09, 08.06, 10.06 |
-| R11 | 04.07, 04.08, 09.05, 10.06 |
-| R12 | 05.01, 05.02, 05.03, 05.04, 05.05, 05.06, 05.09 |
-| R13 | 05.07, 05.08 |
-| R14 | 04.12, 09.04, 09.05, 09.06 |
-| R15 | 04.05, 06.03, 06.09, 09.07 |
-| R16 | 07.10, 09.08, 09.10 |
-| R17 | 08.01, 08.02, 08.03, 08.04, 08.05, 08.06, 08.10 |
-| R18 | 08.07, 08.08, 08.09 |
-| R19 | 03.08, 09.02, 09.09, 09.10, 10.11 |
-| R20 | 01.01, 01.09, 07.12, 10.09, 12.02 |
-| R21 | 00.04, 00.11, 07.12, 11.01, 11.05, 11.06 |
-| R22 | 00.10, 03.09, 11.07, 11.10 |
-| R23 | 10.01, 10.02, 10.03, 10.04, 10.05, 10.06, 10.07, 10.08, 10.09, 10.10, 10.12 |
-| R24 | 11.02, 11.03, 11.04, 11.08, 11.09, 11.10 |
-| R25 | 12.01, 12.03, 12.04, 12.05, 12.07, 12.08, 12.09 |
+| R01 | [#3](https://github.com/satvikp-coder/makarba-360/issues/3), [#6](https://github.com/satvikp-coder/makarba-360/issues/6), [#45](https://github.com/satvikp-coder/makarba-360/issues/45), [#72](https://github.com/satvikp-coder/makarba-360/issues/72), [#81](https://github.com/satvikp-coder/makarba-360/issues/81) |
+| R02 | [#5](https://github.com/satvikp-coder/makarba-360/issues/5), [#23](https://github.com/satvikp-coder/makarba-360/issues/23), [#26](https://github.com/satvikp-coder/makarba-360/issues/26), [#27](https://github.com/satvikp-coder/makarba-360/issues/27), [#28](https://github.com/satvikp-coder/makarba-360/issues/28), [#101](https://github.com/satvikp-coder/makarba-360/issues/101), [#120](https://github.com/satvikp-coder/makarba-360/issues/120) |
+| R03 | [#15](https://github.com/satvikp-coder/makarba-360/issues/15), [#16](https://github.com/satvikp-coder/makarba-360/issues/16), [#29](https://github.com/satvikp-coder/makarba-360/issues/29), [#74](https://github.com/satvikp-coder/makarba-360/issues/74), [#75](https://github.com/satvikp-coder/makarba-360/issues/75), [#76](https://github.com/satvikp-coder/makarba-360/issues/76), [#82](https://github.com/satvikp-coder/makarba-360/issues/82) |
+| R04 | [#63](https://github.com/satvikp-coder/makarba-360/issues/63), [#64](https://github.com/satvikp-coder/makarba-360/issues/64), [#77](https://github.com/satvikp-coder/makarba-360/issues/77), [#78](https://github.com/satvikp-coder/makarba-360/issues/78) |
+| R05 | [#65](https://github.com/satvikp-coder/makarba-360/issues/65), [#66](https://github.com/satvikp-coder/makarba-360/issues/66), [#67](https://github.com/satvikp-coder/makarba-360/issues/67), [#68](https://github.com/satvikp-coder/makarba-360/issues/68) |
+| R06 | [#69](https://github.com/satvikp-coder/makarba-360/issues/69), [#70](https://github.com/satvikp-coder/makarba-360/issues/70), [#79](https://github.com/satvikp-coder/makarba-360/issues/79), [#133](https://github.com/satvikp-coder/makarba-360/issues/133) |
+| R07 | [#32](https://github.com/satvikp-coder/makarba-360/issues/32), [#33](https://github.com/satvikp-coder/makarba-360/issues/33), [#34](https://github.com/satvikp-coder/makarba-360/issues/34), [#35](https://github.com/satvikp-coder/makarba-360/issues/35), [#44](https://github.com/satvikp-coder/makarba-360/issues/44), [#118](https://github.com/satvikp-coder/makarba-360/issues/118) |
+| R08 | [#11](https://github.com/satvikp-coder/makarba-360/issues/11), [#37](https://github.com/satvikp-coder/makarba-360/issues/37), [#47](https://github.com/satvikp-coder/makarba-360/issues/47) |
+| R09 | [#42](https://github.com/satvikp-coder/makarba-360/issues/42), [#43](https://github.com/satvikp-coder/makarba-360/issues/43), [#46](https://github.com/satvikp-coder/makarba-360/issues/46), [#51](https://github.com/satvikp-coder/makarba-360/issues/51) |
+| R10 | [#50](https://github.com/satvikp-coder/makarba-360/issues/50), [#89](https://github.com/satvikp-coder/makarba-360/issues/89), [#111](https://github.com/satvikp-coder/makarba-360/issues/111) |
+| R11 | [#48](https://github.com/satvikp-coder/makarba-360/issues/48), [#49](https://github.com/satvikp-coder/makarba-360/issues/49), [#100](https://github.com/satvikp-coder/makarba-360/issues/100), [#111](https://github.com/satvikp-coder/makarba-360/issues/111) |
+| R12 | [#54](https://github.com/satvikp-coder/makarba-360/issues/54), [#55](https://github.com/satvikp-coder/makarba-360/issues/55), [#56](https://github.com/satvikp-coder/makarba-360/issues/56), [#57](https://github.com/satvikp-coder/makarba-360/issues/57), [#58](https://github.com/satvikp-coder/makarba-360/issues/58), [#59](https://github.com/satvikp-coder/makarba-360/issues/59), [#62](https://github.com/satvikp-coder/makarba-360/issues/62) |
+| R13 | [#60](https://github.com/satvikp-coder/makarba-360/issues/60), [#61](https://github.com/satvikp-coder/makarba-360/issues/61) |
+| R14 | [#53](https://github.com/satvikp-coder/makarba-360/issues/53), [#96](https://github.com/satvikp-coder/makarba-360/issues/96), [#99](https://github.com/satvikp-coder/makarba-360/issues/99), [#100](https://github.com/satvikp-coder/makarba-360/issues/100), [#101](https://github.com/satvikp-coder/makarba-360/issues/101) |
+| R15 | [#46](https://github.com/satvikp-coder/makarba-360/issues/46), [#65](https://github.com/satvikp-coder/makarba-360/issues/65), [#71](https://github.com/satvikp-coder/makarba-360/issues/71), [#102](https://github.com/satvikp-coder/makarba-360/issues/102) |
+| R16 | [#81](https://github.com/satvikp-coder/makarba-360/issues/81), [#103](https://github.com/satvikp-coder/makarba-360/issues/103), [#105](https://github.com/satvikp-coder/makarba-360/issues/105) |
+| R17 | [#84](https://github.com/satvikp-coder/makarba-360/issues/84), [#85](https://github.com/satvikp-coder/makarba-360/issues/85), [#86](https://github.com/satvikp-coder/makarba-360/issues/86), [#87](https://github.com/satvikp-coder/makarba-360/issues/87), [#88](https://github.com/satvikp-coder/makarba-360/issues/88), [#89](https://github.com/satvikp-coder/makarba-360/issues/89), [#93](https://github.com/satvikp-coder/makarba-360/issues/93) |
+| R18 | [#90](https://github.com/satvikp-coder/makarba-360/issues/90), [#91](https://github.com/satvikp-coder/makarba-360/issues/91), [#92](https://github.com/satvikp-coder/makarba-360/issues/92) |
+| R19 | [#39](https://github.com/satvikp-coder/makarba-360/issues/39), [#95](https://github.com/satvikp-coder/makarba-360/issues/95), [#104](https://github.com/satvikp-coder/makarba-360/issues/104), [#105](https://github.com/satvikp-coder/makarba-360/issues/105), [#116](https://github.com/satvikp-coder/makarba-360/issues/116) |
+| R20 | [#12](https://github.com/satvikp-coder/makarba-360/issues/12), [#20](https://github.com/satvikp-coder/makarba-360/issues/20), [#83](https://github.com/satvikp-coder/makarba-360/issues/83), [#114](https://github.com/satvikp-coder/makarba-360/issues/114), [#129](https://github.com/satvikp-coder/makarba-360/issues/129) |
+| R21 | [#4](https://github.com/satvikp-coder/makarba-360/issues/4), [#11](https://github.com/satvikp-coder/makarba-360/issues/11), [#83](https://github.com/satvikp-coder/makarba-360/issues/83), [#118](https://github.com/satvikp-coder/makarba-360/issues/118), [#122](https://github.com/satvikp-coder/makarba-360/issues/122), [#123](https://github.com/satvikp-coder/makarba-360/issues/123) |
+| R22 | [#10](https://github.com/satvikp-coder/makarba-360/issues/10), [#40](https://github.com/satvikp-coder/makarba-360/issues/40), [#124](https://github.com/satvikp-coder/makarba-360/issues/124), [#127](https://github.com/satvikp-coder/makarba-360/issues/127) |
+| R23 | [#106](https://github.com/satvikp-coder/makarba-360/issues/106), [#107](https://github.com/satvikp-coder/makarba-360/issues/107), [#108](https://github.com/satvikp-coder/makarba-360/issues/108), [#109](https://github.com/satvikp-coder/makarba-360/issues/109), [#110](https://github.com/satvikp-coder/makarba-360/issues/110), [#111](https://github.com/satvikp-coder/makarba-360/issues/111), [#112](https://github.com/satvikp-coder/makarba-360/issues/112), [#113](https://github.com/satvikp-coder/makarba-360/issues/113), [#114](https://github.com/satvikp-coder/makarba-360/issues/114), [#115](https://github.com/satvikp-coder/makarba-360/issues/115), [#117](https://github.com/satvikp-coder/makarba-360/issues/117) |
+| R24 | [#119](https://github.com/satvikp-coder/makarba-360/issues/119), [#120](https://github.com/satvikp-coder/makarba-360/issues/120), [#121](https://github.com/satvikp-coder/makarba-360/issues/121), [#125](https://github.com/satvikp-coder/makarba-360/issues/125), [#126](https://github.com/satvikp-coder/makarba-360/issues/126), [#127](https://github.com/satvikp-coder/makarba-360/issues/127) |
+| R25 | [#128](https://github.com/satvikp-coder/makarba-360/issues/128), [#130](https://github.com/satvikp-coder/makarba-360/issues/130), [#131](https://github.com/satvikp-coder/makarba-360/issues/131), [#132](https://github.com/satvikp-coder/makarba-360/issues/132), [#134](https://github.com/satvikp-coder/makarba-360/issues/134), [#135](https://github.com/satvikp-coder/makarba-360/issues/135), [#136](https://github.com/satvikp-coder/makarba-360/issues/136) |
 
-N01–N03/N07 map to M03/M05/M10 negative and fault tests; N04 to 10.09; N05/N06 to 10.10; N08 to 10.11; N09 to 10.12; N10 to 00.10/11.07/11.10. Blueprint p8 encryption is an aspiration subject to ADR-004 feasibility, never a claim browser storage is encrypted. P13 collection sequence is not a deadline. P11 fictional responses are excluded from all real datasets.
+N01–N03/N07 map to M03/M05/M10 negative and fault tests; N04 to [#114](https://github.com/satvikp-coder/makarba-360/issues/114); N05/N06 to [#115](https://github.com/satvikp-coder/makarba-360/issues/115); N08 to [#116](https://github.com/satvikp-coder/makarba-360/issues/116); N09 to [#117](https://github.com/satvikp-coder/makarba-360/issues/117); N10 to 00.10/11.07/11.10. Blueprint p8 encryption is an aspiration subject to ADR-004 feasibility, never a claim browser storage is encrypted. P13 collection sequence is not a deadline. P11 fictional responses are excluded from all real datasets.

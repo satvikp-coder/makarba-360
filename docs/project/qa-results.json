@@ -1,0 +1,323 @@
+{
+  "issue_count": 136,
+  "milestone_counts": {
+    "M00": 11,
+    "M01": 10,
+    "M02": 10,
+    "M03": 10,
+    "M04": 13,
+    "M05": 10,
+    "M06": 9,
+    "M07": 12,
+    "M08": 10,
+    "M09": 10,
+    "M10": 12,
+    "M11": 10,
+    "M12": 9
+  },
+  "priorities": {
+    "P0": 28,
+    "P2": 41,
+    "P1": 58,
+    "P3": 9
+  },
+  "dependency_edges": 303,
+  "acyclic": true,
+  "topological_layers": [
+    [
+      "00.01"
+    ],
+    [
+      "00.02"
+    ],
+    [
+      "00.03"
+    ],
+    [
+      "00.04",
+      "00.06",
+      "01.01"
+    ],
+    [
+      "00.05",
+      "00.07",
+      "00.11",
+      "01.09",
+      "01.10"
+    ],
+    [
+      "00.08",
+      "01.02"
+    ],
+    [
+      "00.09",
+      "01.03",
+      "01.04",
+      "01.08"
+    ],
+    [
+      "00.10",
+      "01.05",
+      "01.06",
+      "02.03",
+      "03.05",
+      "05.01"
+    ],
+    [
+      "01.07",
+      "02.01",
+      "03.01",
+      "03.09",
+      "06.08",
+      "07.01",
+      "10.01"
+    ],
+    [
+      "02.02",
+      "02.05",
+      "03.02",
+      "03.03",
+      "04.01",
+      "05.03",
+      "07.12"
+    ],
+    [
+      "02.04",
+      "02.06",
+      "03.04",
+      "04.02",
+      "05.02"
+    ],
+    [
+      "02.07",
+      "02.08",
+      "02.09",
+      "02.10",
+      "03.06",
+      "03.07",
+      "03.08",
+      "04.03",
+      "06.01",
+      "09.01"
+    ],
+    [
+      "03.10",
+      "04.04",
+      "04.13",
+      "06.02",
+      "06.03",
+      "09.02",
+      "09.03",
+      "09.06",
+      "10.03"
+    ],
+    [
+      "04.05",
+      "04.06",
+      "06.04",
+      "11.03",
+      "11.07"
+    ],
+    [
+      "04.07",
+      "06.09"
+    ],
+    [
+      "04.08"
+    ],
+    [
+      "04.09"
+    ],
+    [
+      "04.10",
+      "05.04",
+      "10.06"
+    ],
+    [
+      "04.11",
+      "05.05",
+      "05.06",
+      "05.07",
+      "05.10",
+      "09.04"
+    ],
+    [
+      "04.12",
+      "05.08",
+      "08.01",
+      "09.05"
+    ],
+    [
+      "05.09",
+      "06.05",
+      "06.07",
+      "08.02",
+      "08.03",
+      "08.04",
+      "08.09",
+      "09.07"
+    ],
+    [
+      "06.06",
+      "08.05",
+      "08.06",
+      "08.07",
+      "08.08",
+      "09.08",
+      "09.09",
+      "11.01"
+    ],
+    [
+      "07.10",
+      "08.10",
+      "09.10",
+      "11.06"
+    ],
+    [
+      "07.02",
+      "07.03",
+      "07.06",
+      "10.02",
+      "10.11"
+    ],
+    [
+      "07.04",
+      "07.05",
+      "07.07",
+      "07.08",
+      "07.09",
+      "07.11",
+      "10.04",
+      "10.05",
+      "10.07"
+    ],
+    [
+      "10.08",
+      "10.09"
+    ],
+    [
+      "10.10",
+      "10.12"
+    ],
+    [
+      "11.02"
+    ],
+    [
+      "11.04"
+    ],
+    [
+      "11.05"
+    ],
+    [
+      "11.08"
+    ],
+    [
+      "11.09"
+    ],
+    [
+      "11.10",
+      "12.01",
+      "12.02",
+      "12.03",
+      "12.04",
+      "12.06",
+      "12.07",
+      "12.08",
+      "12.09"
+    ],
+    [
+      "12.05"
+    ]
+  ],
+  "documents": 192,
+  "source_pages_traced": 23,
+  "screens": 39,
+  "critical_tests_specified": 20,
+  "blocked_issue_count": 135,
+  "ready_issue_count": 1,
+  "errors": [],
+  "remote": {
+    "url": "https://github.com/satvikp-coder/makarba-360",
+    "owner": "satvikp-coder",
+    "private": true,
+    "default_branch": "main",
+    "commit": "4f24e4ddd76c09c39af43c2a88b1064c28802c7b",
+    "issue_count": 136,
+    "milestones": [
+      {
+        "number": 1,
+        "title": "M00 — Requirements, Research and Repository Foundation",
+        "url": "https://github.com/satvikp-coder/makarba-360/milestone/1"
+      },
+      {
+        "number": 2,
+        "title": "M01 — UI/UX and Design System",
+        "url": "https://github.com/satvikp-coder/makarba-360/milestone/2"
+      },
+      {
+        "number": 3,
+        "title": "M02 — GIS, Map Data and Spatial Foundation",
+        "url": "https://github.com/satvikp-coder/makarba-360/milestone/3"
+      },
+      {
+        "number": 4,
+        "title": "M03 — Authentication, Privacy and Data Security",
+        "url": "https://github.com/satvikp-coder/makarba-360/milestone/4"
+      },
+      {
+        "number": 5,
+        "title": "M04 — Field Survey and GPS Collection",
+        "url": "https://github.com/satvikp-coder/makarba-360/milestone/5"
+      },
+      {
+        "number": 6,
+        "title": "M05 — Offline Fieldwork, Synchronisation and Media",
+        "url": "https://github.com/satvikp-coder/makarba-360/milestone/6"
+      },
+      {
+        "number": 7,
+        "title": "M06 — Heritage, Historical Evidence and 360° Content",
+        "url": "https://github.com/satvikp-coder/makarba-360/milestone/7"
+      },
+      {
+        "number": 8,
+        "title": "M07 — Public Interactive Website",
+        "url": "https://github.com/satvikp-coder/makarba-360/milestone/8"
+      },
+      {
+        "number": 9,
+        "title": "M08 — Community Insights and Survey Analytics",
+        "url": "https://github.com/satvikp-coder/makarba-360/milestone/9"
+      },
+      {
+        "number": 10,
+        "title": "M09 — Research Administration and Publication Management",
+        "url": "https://github.com/satvikp-coder/makarba-360/milestone/10"
+      },
+      {
+        "number": 11,
+        "title": "M10 — Quality Assurance, Accessibility and Performance",
+        "url": "https://github.com/satvikp-coder/makarba-360/milestone/11"
+      },
+      {
+        "number": 12,
+        "title": "M11 — Field Pilot, Launch and Final Handover",
+        "url": "https://github.com/satvikp-coder/makarba-360/milestone/12"
+      },
+      {
+        "number": 13,
+        "title": "M12 — Advanced and Stretch Features",
+        "url": "https://github.com/satvikp-coder/makarba-360/milestone/13"
+      }
+    ],
+    "label_count": 45,
+    "missing_label_definitions": [],
+    "permissions": {
+      "admin": true,
+      "maintain": true,
+      "push": true,
+      "triage": true,
+      "pull": true
+    }
+  }
+}

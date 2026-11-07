@@ -16,7 +16,7 @@ requirements=[
 ('R11','GPS permission/quality/times/manual provenance/recapture/out-of-area review; never fabricate','M04 M09 M10','04.07 04.08 09.05 10.06','F06 A05'),
 ('R12','Protected offline drafts, lock/recovery limits, stable IDs, transactional idempotency/conflicts','M05','05.01 05.02 05.03 05.04 05.05 05.06 05.09','F10 F11'),
 ('R13','Secure media upload/rights/EXIF stripping/redaction, resumable partial failures','M05','05.07 05.08','F09 A07'),
-('R14','Review, corrections, duplicates, own history and candidate location approval','M04 M09','04.12 09.04 09.05 09.06','F12 F13 A04 A06'),
+('R14','Review, corrections, duplicates, own history, independent observations and candidate location approval','M04 M09','04.12 04.13 09.04 09.05 09.06','F12 F13 F14 A04 A06'),
 ('R15','Distinct observations, opinions, historical claims, verified facts and official attribution','M04 M06 M09','04.05 06.03 06.09 09.07','P08 A07'),
 ('R16','Independent publication approval, allowlisted public projection, invalidation and withdrawal','M07 M09','07.10 09.08 09.10','A08 A10'),
 ('R17','Valid-answer counts, stakeholder/issues/rating/change/place analysis, reproducibility and caveats','M08','08.01 08.02 08.03 08.04 08.05 08.06 08.10','P09'),
@@ -28,7 +28,7 @@ requirements=[
 ('R23','Unit/API/spatial/privacy/GPS/offline/browser/device/performance/security quality gates','M10','10.01 10.02 10.03 10.04 10.05 10.06 10.07 10.08 10.09 10.10 10.12','all'),
 ('R24','Field pilot, verified dataset, public demo, final report and handover','M11','11.02 11.03 11.04 11.08 11.09 11.10','all'),
 ('R25','Guided tours, walkability, audio archive, hypothetical scenarios, hotspots, report export, human-reviewed AI','M12','12.01 12.03 12.04 12.05 12.07 12.08 12.09','P10/P09')]
-doc('product/requirements.md','Requirements register','''Normative source: user prompt plus supplied 23-page blueprint. Requirements below are decomposed into 134 focused issue contracts. All capabilities are proposed; evidence/approvals not yet obtained. Core release is A/B/C, R25 is stretch except basic story navigation; R20 requires localization infrastructure and approved core English/Gujarati scripts, Hindi is optional. Every functional requirement must be tested positively and against its relevant privacy/failure condition.
+doc('product/requirements.md','Requirements register','''Normative source: user prompt plus supplied 23-page blueprint. Requirements below are decomposed into 136 focused issue contracts. All capabilities are proposed; evidence/approvals not yet obtained. Core release is A/B/C, R25 is stretch except basic story navigation; R20 requires localization infrastructure and approved core English/Gujarati scripts, Hindi is optional. Every functional requirement must be tested positively and against its relevant privacy/failure condition.
 
 | ID | Requirement | Workstreams | Stable issue IDs | Screens |
 |---|---|---|---|---|
@@ -149,7 +149,7 @@ Release A: requirements/contracts, development infrastructure, least-privilege d
 
 Independent streams: visual design and historical source/licence research can proceed alongside backend/identity and offline feasibility once requirements stabilize. GIS validation can proceed once grants/schema are ready; media and question UI share stable contracts. Public shell can use synthetic DTO fixtures while publication/privacy service is built; live public data waits for those dependencies. Do not introduce blanket milestone dependencies that create cycles across early/late subwork.
 
-The supplied inventory totals 133 issues, slightly above the approximate 100–130 suggestion; keeping each requested task separate and adding a necessary ethics/legal gate yields 134. Detailed acceptance/edge/test contracts are local Markdown and GitHub issues; no vague epic substitutes.''')
+The supplied inventory totals 133 issues, slightly above the approximate 100–130 suggestion; keeping each requested task separate and adding ethics/legal, independent observation and conditional fallback-import tasks yields 136. Detailed acceptance/edge/test contracts are local Markdown and GitHub issues; no vague epic substitutes.''')
 doc('project/release-plan.md','Release strategy and gates','''| Release | Included scope | Exit evidence |
 |---|---|---|
 | A — Technical foundation | M00 baseline, M01 essential frames, M02 core spatial foundation, M03 identity/grants/secrets, M10 initial harness | Clean Windows local startup using synthetic data; migration/grant/geometry tests; map renders; secure role boundaries; ADRs reviewed |

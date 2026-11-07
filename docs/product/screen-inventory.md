@@ -44,3 +44,4 @@ Every screen is future implementation scope. Authenticated field/admin routes ha
 | A10 | Audit and withdrawals | Revision history, receipt lookup, revoke/purge status | Do not show payload in operational audit logs |
 | A11 | Questionnaire versions | Draft/branch validation, preview, publish/retire, compatibility | Published form immutable; no silent answer migration |
 | A12 | Operations and backups | Job retry/dead letter, backups/restore evidence, retention schedule | Restore needs restricted authorization and tombstone replay |
+| F14 | Structured site observation | Visit/place, dated condition rubric, observer, evidence photos and review state | No participant respondent or consent record invented for a site audit; evidence labels stay distinct |

@@ -2,7 +2,7 @@
 
 Planning baseline: 2026-11-07. Proposed design; no participant collection or product implementation has occurred.
 
-Normative source: user prompt plus supplied 23-page blueprint. Requirements below are decomposed into 134 focused issue contracts. All capabilities are proposed; evidence/approvals not yet obtained. Core release is A/B/C, R25 is stretch except basic story navigation; R20 requires localization infrastructure and approved core English/Gujarati scripts, Hindi is optional. Every functional requirement must be tested positively and against its relevant privacy/failure condition.
+Normative source: user prompt plus supplied 23-page blueprint. Requirements below are decomposed into 136 focused issue contracts. All capabilities are proposed; evidence/approvals not yet obtained. Core release is A/B/C, R25 is stretch except basic story navigation; R20 requires localization infrastructure and approved core English/Gujarati scripts, Hindi is optional. Every functional requirement must be tested positively and against its relevant privacy/failure condition.
 
 | ID | Requirement | Workstreams | Stable issue IDs | Screens |
 |---|---|---|---|---|
@@ -19,7 +19,7 @@ Normative source: user prompt plus supplied 23-page blueprint. Requirements belo
 | R11 | GPS permission/quality/times/manual provenance/recapture/out-of-area review; never fabricate | M04 M09 M10 | 04.07 04.08 09.05 10.06 | F06 A05 |
 | R12 | Protected offline drafts, lock/recovery limits, stable IDs, transactional idempotency/conflicts | M05 | 05.01 05.02 05.03 05.04 05.05 05.06 05.09 | F10 F11 |
 | R13 | Secure media upload/rights/EXIF stripping/redaction, resumable partial failures | M05 | 05.07 05.08 | F09 A07 |
-| R14 | Review, corrections, duplicates, own history and candidate location approval | M04 M09 | 04.12 09.04 09.05 09.06 | F12 F13 A04 A06 |
+| R14 | Review, corrections, duplicates, own history, independent observations and candidate location approval | M04 M09 | 04.12 04.13 09.04 09.05 09.06 | F12 F13 F14 A04 A06 |
 | R15 | Distinct observations, opinions, historical claims, verified facts and official attribution | M04 M06 M09 | 04.05 06.03 06.09 09.07 | P08 A07 |
 | R16 | Independent publication approval, allowlisted public projection, invalidation and withdrawal | M07 M09 | 07.10 09.08 09.10 | A08 A10 |
 | R17 | Valid-answer counts, stakeholder/issues/rating/change/place analysis, reproducibility and caveats | M08 | 08.01 08.02 08.03 08.04 08.05 08.06 08.10 | P09 |

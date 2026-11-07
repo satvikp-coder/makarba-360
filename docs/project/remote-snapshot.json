@@ -1,0 +1,1614 @@
+{
+  "repository": {
+    "url": "https://github.com/satvikp-coder/makarba-360",
+    "owner": "satvikp-coder",
+    "private": true,
+    "default_branch": "main",
+    "commit": "4f24e4ddd76c09c39af43c2a88b1064c28802c7b",
+    "issue_count": 136,
+    "milestones": [
+      {
+        "number": 1,
+        "title": "M00 — Requirements, Research and Repository Foundation",
+        "url": "https://github.com/satvikp-coder/makarba-360/milestone/1"
+      },
+      {
+        "number": 2,
+        "title": "M01 — UI/UX and Design System",
+        "url": "https://github.com/satvikp-coder/makarba-360/milestone/2"
+      },
+      {
+        "number": 3,
+        "title": "M02 — GIS, Map Data and Spatial Foundation",
+        "url": "https://github.com/satvikp-coder/makarba-360/milestone/3"
+      },
+      {
+        "number": 4,
+        "title": "M03 — Authentication, Privacy and Data Security",
+        "url": "https://github.com/satvikp-coder/makarba-360/milestone/4"
+      },
+      {
+        "number": 5,
+        "title": "M04 — Field Survey and GPS Collection",
+        "url": "https://github.com/satvikp-coder/makarba-360/milestone/5"
+      },
+      {
+        "number": 6,
+        "title": "M05 — Offline Fieldwork, Synchronisation and Media",
+        "url": "https://github.com/satvikp-coder/makarba-360/milestone/6"
+      },
+      {
+        "number": 7,
+        "title": "M06 — Heritage, Historical Evidence and 360° Content",
+        "url": "https://github.com/satvikp-coder/makarba-360/milestone/7"
+      },
+      {
+        "number": 8,
+        "title": "M07 — Public Interactive Website",
+        "url": "https://github.com/satvikp-coder/makarba-360/milestone/8"
+      },
+      {
+        "number": 9,
+        "title": "M08 — Community Insights and Survey Analytics",
+        "url": "https://github.com/satvikp-coder/makarba-360/milestone/9"
+      },
+      {
+        "number": 10,
+        "title": "M09 — Research Administration and Publication Management",
+        "url": "https://github.com/satvikp-coder/makarba-360/milestone/10"
+      },
+      {
+        "number": 11,
+        "title": "M10 — Quality Assurance, Accessibility and Performance",
+        "url": "https://github.com/satvikp-coder/makarba-360/milestone/11"
+      },
+      {
+        "number": 12,
+        "title": "M11 — Field Pilot, Launch and Final Handover",
+        "url": "https://github.com/satvikp-coder/makarba-360/milestone/12"
+      },
+      {
+        "number": 13,
+        "title": "M12 — Advanced and Stretch Features",
+        "url": "https://github.com/satvikp-coder/makarba-360/milestone/13"
+      }
+    ],
+    "label_count": 45,
+    "missing_label_definitions": [],
+    "permissions": {
+      "admin": true,
+      "maintain": true,
+      "push": true,
+      "triage": true,
+      "pull": true
+    }
+  },
+  "issues": [
+    {
+      "number": 136,
+      "title": "[FRONTEND] Evaluate human-reviewed qualitative AI assistance",
+      "milestone": 13,
+      "labels": [
+        "type:feature",
+        "area:frontend",
+        "priority:p3",
+        "status:blocked",
+        "stretch-goal"
+      ]
+    },
+    {
+      "number": 135,
+      "title": "[FRONTEND] Export approved research report and charts",
+      "milestone": 13,
+      "labels": [
+        "type:feature",
+        "area:frontend",
+        "priority:p3",
+        "status:blocked",
+        "stretch-goal"
+      ]
+    },
+    {
+      "number": 134,
+      "title": "[FRONTEND] Build privacy-safe reported-issue hotspot views",
+      "milestone": 13,
+      "labels": [
+        "type:feature",
+        "area:frontend",
+        "priority:p3",
+        "status:blocked",
+        "stretch-goal"
+      ]
+    },
+    {
+      "number": 133,
+      "title": "[FRONTEND] Evaluate advanced 3D data and performance",
+      "milestone": 13,
+      "labels": [
+        "type:feature",
+        "area:frontend",
+        "priority:p3",
+        "status:blocked",
+        "stretch-goal"
+      ]
+    },
+    {
+      "number": 132,
+      "title": "[FRONTEND] Prototype clearly hypothetical future scenarios",
+      "milestone": 13,
+      "labels": [
+        "type:feature",
+        "area:frontend",
+        "priority:p3",
+        "status:blocked",
+        "stretch-goal"
+      ]
+    },
+    {
+      "number": 131,
+      "title": "[FRONTEND] Create consented community audio archive",
+      "milestone": 13,
+      "labels": [
+        "type:feature",
+        "area:frontend",
+        "priority:p3",
+        "status:blocked",
+        "stretch-goal"
+      ]
+    },
+    {
+      "number": 130,
+      "title": "[FRONTEND] Analyze surveyed walkability and accessibility",
+      "milestone": 13,
+      "labels": [
+        "type:feature",
+        "area:frontend",
+        "priority:p3",
+        "status:blocked",
+        "stretch-goal"
+      ]
+    },
+    {
+      "number": 129,
+      "title": "[FRONTEND] Expand English Gujarati and Hindi localization",
+      "milestone": 13,
+      "labels": [
+        "type:feature",
+        "area:frontend",
+        "priority:p3",
+        "status:blocked",
+        "stretch-goal"
+      ]
+    },
+    {
+      "number": 128,
+      "title": "[FRONTEND] Build rich guided map tours",
+      "milestone": 13,
+      "labels": [
+        "type:feature",
+        "area:frontend",
+        "priority:p3",
+        "status:blocked",
+        "stretch-goal"
+      ]
+    },
+    {
+      "number": 127,
+      "title": "[DEVOPS] Complete handover and maintenance ownership",
+      "milestone": 12,
+      "labels": [
+        "type:research",
+        "area:devops",
+        "priority:p1",
+        "status:blocked",
+        "field-validation-required"
+      ]
+    },
+    {
+      "number": 126,
+      "title": "[DEVOPS] Verify release readiness and demonstrate end to end",
+      "milestone": 12,
+      "labels": [
+        "type:research",
+        "area:devops",
+        "priority:p1",
+        "status:blocked",
+        "milestone-blocker",
+        "field-validation-required"
+      ]
+    },
+    {
+      "number": 125,
+      "title": "[DEVOPS] Validate final research dataset and snapshots",
+      "milestone": 12,
+      "labels": [
+        "type:research",
+        "area:devops",
+        "priority:p1",
+        "status:blocked",
+        "field-validation-required"
+      ]
+    },
+    {
+      "number": 124,
+      "title": "[DEVOPS] Provision staging and production deployment",
+      "milestone": 12,
+      "labels": [
+        "type:research",
+        "area:devops",
+        "priority:p1",
+        "status:blocked",
+        "field-validation-required"
+      ]
+    },
+    {
+      "number": 123,
+      "title": "[DEVOPS] Audit historical sources and media attribution",
+      "milestone": 12,
+      "labels": [
+        "type:research",
+        "area:devops",
+        "priority:p1",
+        "status:blocked",
+        "field-validation-required"
+      ]
+    },
+    {
+      "number": 122,
+      "title": "[DEVOPS] Audit survey consent and data quality",
+      "milestone": 12,
+      "labels": [
+        "type:research",
+        "area:devops",
+        "priority:p1",
+        "status:blocked",
+        "field-validation-required"
+      ]
+    },
+    {
+      "number": 121,
+      "title": "[DEVOPS] Run real GPS and offline pilot",
+      "milestone": 12,
+      "labels": [
+        "type:research",
+        "area:devops",
+        "priority:p1",
+        "status:blocked",
+        "field-validation-required"
+      ]
+    },
+    {
+      "number": 120,
+      "title": "[DEVOPS] Verify candidate places and road data",
+      "milestone": 12,
+      "labels": [
+        "type:research",
+        "area:devops",
+        "priority:p1",
+        "status:blocked",
+        "field-validation-required"
+      ]
+    },
+    {
+      "number": 119,
+      "title": "[DEVOPS] Run consent-approved small field usability pilot",
+      "milestone": 12,
+      "labels": [
+        "type:research",
+        "area:devops",
+        "priority:p1",
+        "status:blocked",
+        "field-validation-required"
+      ]
+    },
+    {
+      "number": 118,
+      "title": "[DEVOPS] Train researchers and rehearse field checklist",
+      "milestone": 12,
+      "labels": [
+        "type:research",
+        "area:devops",
+        "priority:p1",
+        "status:blocked",
+        "field-validation-required"
+      ]
+    },
+    {
+      "number": 117,
+      "title": "[DEVOPS] Validate real mobile browser compatibility",
+      "milestone": 11,
+      "labels": [
+        "type:test",
+        "area:devops",
+        "priority:p1",
+        "status:blocked",
+        "field-validation-required"
+      ]
+    },
+    {
+      "number": 116,
+      "title": "[DEVOPS] Rehearse encrypted backup and restore",
+      "milestone": 11,
+      "labels": [
+        "type:test",
+        "area:devops",
+        "priority:p1",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 115,
+      "title": "[DEVOPS] Enforce performance security and CI gates",
+      "milestone": 11,
+      "labels": [
+        "type:test",
+        "area:devops",
+        "priority:p1",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 114,
+      "title": "[DEVOPS] Audit keyboard screen reader and localization access",
+      "milestone": 11,
+      "labels": [
+        "type:test",
+        "area:devops",
+        "priority:p1",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 113,
+      "title": "[DEVOPS] Test end-to-end public field and review journeys",
+      "milestone": 11,
+      "labels": [
+        "type:test",
+        "area:devops",
+        "priority:p1",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 112,
+      "title": "[DEVOPS] Test offline to online sync reliability",
+      "milestone": 11,
+      "labels": [
+        "type:test",
+        "area:devops",
+        "priority:p0",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 111,
+      "title": "[DEVOPS] Test GPS permission quality and correction edges",
+      "milestone": 11,
+      "labels": [
+        "type:test",
+        "area:devops",
+        "priority:p1",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 110,
+      "title": "[DEVOPS] Test private-to-public exposure boundary",
+      "milestone": 11,
+      "labels": [
+        "type:test",
+        "area:devops",
+        "priority:p0",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 109,
+      "title": "[DEVOPS] Test authorization abuse paths",
+      "milestone": 11,
+      "labels": [
+        "type:test",
+        "area:devops",
+        "priority:p0",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 108,
+      "title": "[DEVOPS] Test migrations and spatial invariants",
+      "milestone": 11,
+      "labels": [
+        "type:test",
+        "area:devops",
+        "priority:p1",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 107,
+      "title": "[DEVOPS] Test API integration and validation",
+      "milestone": 11,
+      "labels": [
+        "type:test",
+        "area:devops",
+        "priority:p1",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 106,
+      "title": "[DEVOPS] Establish meaningful unit test harness",
+      "milestone": 11,
+      "labels": [
+        "type:test",
+        "area:devops",
+        "priority:p1",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 105,
+      "title": "[ADMIN] Implement correction withdrawal and retention workflows",
+      "milestone": 10,
+      "labels": [
+        "type:feature",
+        "area:admin",
+        "priority:p1",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 104,
+      "title": "[ADMIN] Implement purpose-limited anonymised exports",
+      "milestone": 10,
+      "labels": [
+        "type:feature",
+        "area:admin",
+        "priority:p1",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 103,
+      "title": "[ADMIN] Implement publication preview approval and revoke",
+      "milestone": 10,
+      "labels": [
+        "type:feature",
+        "area:admin",
+        "priority:p1",
+        "status:blocked",
+        "milestone-blocker"
+      ]
+    },
+    {
+      "number": 102,
+      "title": "[ADMIN] Review historical evidence and media rights",
+      "milestone": 10,
+      "labels": [
+        "type:feature",
+        "area:admin",
+        "priority:p1",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 101,
+      "title": "[ADMIN] Approve candidate locations and geometry",
+      "milestone": 10,
+      "labels": [
+        "type:feature",
+        "area:admin",
+        "priority:p1",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 100,
+      "title": "[ADMIN] Review private GPS quality and outliers",
+      "milestone": 10,
+      "labels": [
+        "type:feature",
+        "area:admin",
+        "priority:p1",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 99,
+      "title": "[ADMIN] Build survey moderation and validation queue",
+      "milestone": 10,
+      "labels": [
+        "type:feature",
+        "area:admin",
+        "priority:p1",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 98,
+      "title": "[ADMIN] Monitor visits and research progress",
+      "milestone": 10,
+      "labels": [
+        "type:feature",
+        "area:admin",
+        "priority:p1",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 97,
+      "title": "[OFFLINE] Implement conditional approved external collection importer",
+      "milestone": 6,
+      "labels": [
+        "type:feature",
+        "area:offline",
+        "priority:p1",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 96,
+      "title": "[SURVEY] Capture structured field observations separately from interviews",
+      "milestone": 5,
+      "labels": [
+        "type:feature",
+        "area:survey",
+        "priority:p1",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 95,
+      "title": "[ADMIN] Build account and training administration",
+      "milestone": 10,
+      "labels": [
+        "type:feature",
+        "area:admin",
+        "priority:p1",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 94,
+      "title": "[ADMIN] Build role-limited research dashboard",
+      "milestone": 10,
+      "labels": [
+        "type:feature",
+        "area:admin",
+        "priority:p1",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 93,
+      "title": "[ANALYTICS] Verify analytics with reproducible fixtures",
+      "milestone": 9,
+      "labels": [
+        "type:feature",
+        "area:analytics",
+        "priority:p2",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 92,
+      "title": "[ANALYTICS] Enforce disclosure and small-sample controls",
+      "milestone": 9,
+      "labels": [
+        "type:feature",
+        "area:analytics",
+        "priority:p2",
+        "status:blocked",
+        "milestone-blocker"
+      ]
+    },
+    {
+      "number": 91,
+      "title": "[ANALYTICS] Implement constrained dashboard cohorts and dates",
+      "milestone": 9,
+      "labels": [
+        "type:feature",
+        "area:analytics",
+        "priority:p2",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 90,
+      "title": "[ANALYTICS] Build safe survey coverage snapshots",
+      "milestone": 9,
+      "labels": [
+        "type:feature",
+        "area:analytics",
+        "priority:p2",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 89,
+      "title": "[ANALYTICS] Publish location-level sample summaries",
+      "milestone": 9,
+      "labels": [
+        "type:feature",
+        "area:analytics",
+        "priority:p2",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 88,
+      "title": "[ANALYTICS] Build stakeholder comparison chart tables",
+      "milestone": 9,
+      "labels": [
+        "type:feature",
+        "area:analytics",
+        "priority:p2",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 87,
+      "title": "[ANALYTICS] Analyze ratings and perceived changes",
+      "milestone": 9,
+      "labels": [
+        "type:feature",
+        "area:analytics",
+        "priority:p2",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 86,
+      "title": "[ANALYTICS] Analyze reported issues with codebook",
+      "milestone": 9,
+      "labels": [
+        "type:feature",
+        "area:analytics",
+        "priority:p2",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 85,
+      "title": "[ANALYTICS] Aggregate stakeholder distributions",
+      "milestone": 9,
+      "labels": [
+        "type:feature",
+        "area:analytics",
+        "priority:p2",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 84,
+      "title": "[ANALYTICS] Implement reproducible valid-answer aggregation",
+      "milestone": 9,
+      "labels": [
+        "type:feature",
+        "area:analytics",
+        "priority:p2",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 83,
+      "title": "[FRONTEND] Publish methodology sources and accessibility pages",
+      "milestone": 8,
+      "labels": [
+        "type:feature",
+        "area:frontend",
+        "priority:p2",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 82,
+      "title": "[FRONTEND] Verify responsive public map journeys",
+      "milestone": 8,
+      "labels": [
+        "type:feature",
+        "area:frontend",
+        "priority:p2",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 81,
+      "title": "[FRONTEND] Implement read-only public projection API",
+      "milestone": 8,
+      "labels": [
+        "type:feature",
+        "area:frontend",
+        "priority:p2",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 80,
+      "title": "[FRONTEND] Integrate public history and Community Voices",
+      "milestone": 8,
+      "labels": [
+        "type:feature",
+        "area:frontend",
+        "priority:p2",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 79,
+      "title": "[FRONTEND] Present panorama and unavailable coverage states",
+      "milestone": 8,
+      "labels": [
+        "type:feature",
+        "area:frontend",
+        "priority:p2",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 78,
+      "title": "[FRONTEND] Build approved photo gallery",
+      "milestone": 8,
+      "labels": [
+        "type:feature",
+        "area:frontend",
+        "priority:p2",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 77,
+      "title": "[FRONTEND] Build location profile pages",
+      "milestone": 8,
+      "labels": [
+        "type:feature",
+        "area:frontend",
+        "priority:p2",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 76,
+      "title": "[FRONTEND] Build public location search",
+      "milestone": 8,
+      "labels": [
+        "type:feature",
+        "area:frontend",
+        "priority:p2",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 75,
+      "title": "[FRONTEND] Build map layer and category controls",
+      "milestone": 8,
+      "labels": [
+        "type:feature",
+        "area:frontend",
+        "priority:p2",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 74,
+      "title": "[FRONTEND] Build public map explorer",
+      "milestone": 8,
+      "labels": [
+        "type:feature",
+        "area:frontend",
+        "priority:p2",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 73,
+      "title": "[FRONTEND] Build evidence-led home page",
+      "milestone": 8,
+      "labels": [
+        "type:feature",
+        "area:frontend",
+        "priority:p2",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 72,
+      "title": "[FRONTEND] Build public shell and accessible navigation",
+      "milestone": 8,
+      "labels": [
+        "type:feature",
+        "area:frontend",
+        "priority:p2",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 71,
+      "title": "[HISTORICAL] Publish verified location stories and accounts",
+      "milestone": 7,
+      "labels": [
+        "type:feature",
+        "area:historical",
+        "priority:p2",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 70,
+      "title": "[HISTORICAL] Evaluate third-party street imagery licensing",
+      "milestone": 7,
+      "labels": [
+        "type:feature",
+        "area:historical",
+        "priority:p2",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 69,
+      "title": "[HISTORICAL] Integrate owned panorama viewer",
+      "milestone": 7,
+      "labels": [
+        "type:feature",
+        "area:historical",
+        "priority:p2",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 68,
+      "title": "[HISTORICAL] Build accessible Then and Now component",
+      "milestone": 7,
+      "labels": [
+        "type:feature",
+        "area:historical",
+        "priority:p2",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 67,
+      "title": "[HISTORICAL] Implement historical comparison pair model",
+      "milestone": 7,
+      "labels": [
+        "type:feature",
+        "area:historical",
+        "priority:p2",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 66,
+      "title": "[HISTORICAL] Implement sourced timeline events",
+      "milestone": 7,
+      "labels": [
+        "type:feature",
+        "area:historical",
+        "priority:p2",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 65,
+      "title": "[HISTORICAL] Implement historical evidence provenance",
+      "milestone": 7,
+      "labels": [
+        "type:feature",
+        "area:historical",
+        "priority:p2",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 64,
+      "title": "[HISTORICAL] Implement editorial place description workflow",
+      "milestone": 7,
+      "labels": [
+        "type:feature",
+        "area:historical",
+        "priority:p2",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 63,
+      "title": "[HISTORICAL] Implement versioned place content model",
+      "milestone": 7,
+      "labels": [
+        "type:feature",
+        "area:historical",
+        "priority:p2",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 62,
+      "title": "[OFFLINE] Test field network and device-loss recovery",
+      "milestone": 6,
+      "labels": [
+        "type:feature",
+        "area:offline",
+        "priority:p1",
+        "status:blocked",
+        "field-validation-required"
+      ]
+    },
+    {
+      "number": 61,
+      "title": "[OFFLINE] Manage photo metadata credit and permissions",
+      "milestone": 6,
+      "labels": [
+        "type:feature",
+        "area:offline",
+        "priority:p1",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 60,
+      "title": "[OFFLINE] Implement quarantined resumable media uploads",
+      "milestone": 6,
+      "labels": [
+        "type:feature",
+        "area:offline",
+        "priority:p1",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 59,
+      "title": "[OFFLINE] Prevent duplicates without deleting genuine interviews",
+      "milestone": 6,
+      "labels": [
+        "type:feature",
+        "area:offline",
+        "priority:p1",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 58,
+      "title": "[OFFLINE] Handle sync retries conflicts and rejections",
+      "milestone": 6,
+      "labels": [
+        "type:feature",
+        "area:offline",
+        "priority:p1",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 57,
+      "title": "[OFFLINE] Implement idempotent transactional sync",
+      "milestone": 6,
+      "labels": [
+        "type:feature",
+        "area:offline",
+        "priority:p0",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 56,
+      "title": "[OFFLINE] Implement offline session and device lock policy",
+      "milestone": 6,
+      "labels": [
+        "type:feature",
+        "area:offline",
+        "priority:p0",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 55,
+      "title": "[OFFLINE] Persist protected recoverable local drafts",
+      "milestone": 6,
+      "labels": [
+        "type:feature",
+        "area:offline",
+        "priority:p0",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 54,
+      "title": "[OFFLINE] Validate offline approach and fallback",
+      "milestone": 6,
+      "labels": [
+        "type:feature",
+        "area:offline",
+        "priority:p0",
+        "status:blocked",
+        "milestone-blocker"
+      ]
+    },
+    {
+      "number": 53,
+      "title": "[SURVEY] Implement own submission history and corrections",
+      "milestone": 5,
+      "labels": [
+        "type:feature",
+        "area:survey",
+        "priority:p1",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 52,
+      "title": "[SURVEY] Implement interview review and durable save",
+      "milestone": 5,
+      "labels": [
+        "type:feature",
+        "area:survey",
+        "priority:p1",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 51,
+      "title": "[SURVEY] Render and validate versioned questions",
+      "milestone": 5,
+      "labels": [
+        "type:feature",
+        "area:survey",
+        "priority:p1",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 50,
+      "title": "[SURVEY] Store independent interview and subject geography",
+      "milestone": 5,
+      "labels": [
+        "type:feature",
+        "area:survey",
+        "priority:p1",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 49,
+      "title": "[SURVEY] Display GPS quality recapture and corrections",
+      "milestone": 5,
+      "labels": [
+        "type:feature",
+        "area:survey",
+        "priority:p1",
+        "status:blocked",
+        "field-validation-required"
+      ]
+    },
+    {
+      "number": 48,
+      "title": "[SURVEY] Capture mobile geolocation and permission state",
+      "milestone": 5,
+      "labels": [
+        "type:feature",
+        "area:survey",
+        "priority:p1",
+        "status:blocked",
+        "field-validation-required"
+      ]
+    },
+    {
+      "number": 47,
+      "title": "[SURVEY] Record consent and interview metadata",
+      "milestone": 5,
+      "labels": [
+        "type:feature",
+        "area:survey",
+        "priority:p1",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 46,
+      "title": "[SURVEY] Capture participant categories and official claims",
+      "milestone": 5,
+      "labels": [
+        "type:feature",
+        "area:survey",
+        "priority:p1",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 45,
+      "title": "[SURVEY] Implement interview start workflow",
+      "milestone": 5,
+      "labels": [
+        "type:feature",
+        "area:survey",
+        "priority:p1",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 44,
+      "title": "[SURVEY] Implement field visit sessions",
+      "milestone": 5,
+      "labels": [
+        "type:feature",
+        "area:survey",
+        "priority:p1",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 43,
+      "title": "[SURVEY] Implement immutable questionnaire versions",
+      "milestone": 5,
+      "labels": [
+        "type:feature",
+        "area:survey",
+        "priority:p1",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 42,
+      "title": "[SURVEY] Implement survey question and answer schema",
+      "milestone": 5,
+      "labels": [
+        "type:feature",
+        "area:survey",
+        "priority:p1",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 41,
+      "title": "[PRIVACY] Test security threat model and privacy boundaries",
+      "milestone": 4,
+      "labels": [
+        "type:security",
+        "area:privacy",
+        "priority:p0",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 40,
+      "title": "[PRIVACY] Configure secure secrets and environments",
+      "milestone": 4,
+      "labels": [
+        "type:security",
+        "area:privacy",
+        "priority:p0",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 39,
+      "title": "[PRIVACY] Implement security audit events",
+      "milestone": 4,
+      "labels": [
+        "type:security",
+        "area:privacy",
+        "priority:p0",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 38,
+      "title": "[PRIVACY] Protect raw interview and GPS endpoints",
+      "milestone": 4,
+      "labels": [
+        "type:security",
+        "area:privacy",
+        "priority:p0",
+        "status:blocked",
+        "milestone-blocker"
+      ]
+    },
+    {
+      "number": 37,
+      "title": "[PRIVACY] Implement scoped versioned consent records",
+      "milestone": 4,
+      "labels": [
+        "type:security",
+        "area:privacy",
+        "priority:p0",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 36,
+      "title": "[PRIVACY] Harden database access and migration credentials",
+      "milestone": 4,
+      "labels": [
+        "type:security",
+        "area:privacy",
+        "priority:p0",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 35,
+      "title": "[PRIVACY] Enforce capability matrix across API and UI",
+      "milestone": 4,
+      "labels": [
+        "type:security",
+        "area:privacy",
+        "priority:p0",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 34,
+      "title": "[PRIVACY] Implement role and study authorization",
+      "milestone": 4,
+      "labels": [
+        "type:security",
+        "area:privacy",
+        "priority:p0",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 33,
+      "title": "[PRIVACY] Implement researcher invitation and deactivation",
+      "milestone": 4,
+      "labels": [
+        "type:security",
+        "area:privacy",
+        "priority:p0",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 32,
+      "title": "[PRIVACY] Integrate identity provider and secure sessions",
+      "milestone": 4,
+      "labels": [
+        "type:security",
+        "area:privacy",
+        "priority:p0",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 31,
+      "title": "[GIS] Implement validated GIS import and export",
+      "milestone": 3,
+      "labels": [
+        "type:feature",
+        "area:gis",
+        "priority:p1",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 30,
+      "title": "[GIS] Implement geographic candidate editing",
+      "milestone": 3,
+      "labels": [
+        "type:feature",
+        "area:gis",
+        "priority:p1",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 29,
+      "title": "[GIS] Provide reusable spatial search and clustering",
+      "milestone": 3,
+      "labels": [
+        "type:feature",
+        "area:gis",
+        "priority:p1",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 28,
+      "title": "[GIS] Import and verify road corridors",
+      "milestone": 3,
+      "labels": [
+        "type:feature",
+        "area:gis",
+        "priority:p1",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 27,
+      "title": "[GIS] Support point route and polygon locations",
+      "milestone": 3,
+      "labels": [
+        "type:feature",
+        "area:gis",
+        "priority:p1",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 26,
+      "title": "[GIS] Implement location category taxonomy",
+      "milestone": 3,
+      "labels": [
+        "type:feature",
+        "area:gis",
+        "priority:p1",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 25,
+      "title": "[GIS] Integrate initial MapLibre map",
+      "milestone": 3,
+      "labels": [
+        "type:feature",
+        "area:gis",
+        "priority:p1",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 24,
+      "title": "[GIS] Select basemap provider and attribution",
+      "milestone": 3,
+      "labels": [
+        "type:feature",
+        "area:gis",
+        "priority:p1",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 23,
+      "title": "[GIS] Store and validate versioned study boundary",
+      "milestone": 3,
+      "labels": [
+        "type:feature",
+        "area:gis",
+        "priority:p1",
+        "status:blocked",
+        "field-validation-required"
+      ]
+    },
+    {
+      "number": 22,
+      "title": "[GIS] Provision PostGIS migrations and roles",
+      "milestone": 3,
+      "labels": [
+        "type:feature",
+        "area:gis",
+        "priority:p1",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 21,
+      "title": "[FRONTEND] Design responsive research management",
+      "milestone": 2,
+      "labels": [
+        "type:design",
+        "area:frontend",
+        "priority:p2",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 20,
+      "title": "[FRONTEND] Design accessible field interview screens",
+      "milestone": 2,
+      "labels": [
+        "type:design",
+        "area:frontend",
+        "priority:p2",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 19,
+      "title": "[FRONTEND] Design Community Insights dashboard",
+      "milestone": 2,
+      "labels": [
+        "type:design",
+        "area:frontend",
+        "priority:p2",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 18,
+      "title": "[FRONTEND] Design Then and Now comparison",
+      "milestone": 2,
+      "labels": [
+        "type:design",
+        "area:frontend",
+        "priority:p2",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 17,
+      "title": "[FRONTEND] Design place profile interface",
+      "milestone": 2,
+      "labels": [
+        "type:design",
+        "area:frontend",
+        "priority:p2",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 16,
+      "title": "[FRONTEND] Specify mobile map bottom sheet",
+      "milestone": 2,
+      "labels": [
+        "type:design",
+        "area:frontend",
+        "priority:p2",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 15,
+      "title": "[FRONTEND] Specify desktop map-first layout",
+      "milestone": 2,
+      "labels": [
+        "type:design",
+        "area:frontend",
+        "priority:p2",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 14,
+      "title": "[FRONTEND] Specify home page wireframes",
+      "milestone": 2,
+      "labels": [
+        "type:design",
+        "area:frontend",
+        "priority:p2",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 13,
+      "title": "[FRONTEND] Design public information architecture",
+      "milestone": 2,
+      "labels": [
+        "type:design",
+        "area:frontend",
+        "priority:p2",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 12,
+      "title": "[FRONTEND] Define visual identity and accessible tokens",
+      "milestone": 2,
+      "labels": [
+        "type:design",
+        "area:frontend",
+        "priority:p2",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 11,
+      "title": "[DEVOPS] Obtain institutional ethics and legal verification",
+      "milestone": 1,
+      "labels": [
+        "type:docs",
+        "area:devops",
+        "priority:p0",
+        "status:blocked",
+        "milestone-blocker"
+      ]
+    },
+    {
+      "number": 10,
+      "title": "[DEVOPS] Scaffold development setup and CI governance",
+      "milestone": 1,
+      "labels": [
+        "type:docs",
+        "area:devops",
+        "priority:p0",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 9,
+      "title": "[DEVOPS] Review architecture diagrams and ADR baseline",
+      "milestone": 1,
+      "labels": [
+        "type:docs",
+        "area:devops",
+        "priority:p0",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 8,
+      "title": "[DEVOPS] Baseline non-functional requirements",
+      "milestone": 1,
+      "labels": [
+        "type:docs",
+        "area:devops",
+        "priority:p0",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 7,
+      "title": "[DEVOPS] Baseline functional requirements catalogue",
+      "milestone": 1,
+      "labels": [
+        "type:docs",
+        "area:devops",
+        "priority:p0",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 6,
+      "title": "[DEVOPS] Approve stakeholder capability matrix",
+      "milestone": 1,
+      "labels": [
+        "type:docs",
+        "area:devops",
+        "priority:p0",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 5,
+      "title": "[DEVOPS] Specify and verify geographical study extent",
+      "milestone": 1,
+      "labels": [
+        "type:docs",
+        "area:devops",
+        "priority:p0",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 4,
+      "title": "[DEVOPS] Validate research questions and methodology",
+      "milestone": 1,
+      "labels": [
+        "type:docs",
+        "area:devops",
+        "priority:p0",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 3,
+      "title": "[DEVOPS] Approve product vision and boundaries",
+      "milestone": 1,
+      "labels": [
+        "type:docs",
+        "area:devops",
+        "priority:p0",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 2,
+      "title": "[DEVOPS] Trace all source blueprint requirements",
+      "milestone": 1,
+      "labels": [
+        "type:docs",
+        "area:devops",
+        "priority:p0",
+        "status:blocked"
+      ]
+    },
+    {
+      "number": 1,
+      "title": "[DEVOPS] Establish repository governance",
+      "milestone": 1,
+      "labels": [
+        "type:docs",
+        "area:devops",
+        "priority:p0",
+        "status:ready"
+      ]
+    }
+  ]
+}

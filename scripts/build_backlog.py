@@ -141,6 +141,8 @@ Build privacy-safe reported-issue hotspot views|Hotspots reflect sampled reports
 Export approved research report and charts|Report contains cited snapshots, dates, denominators and sample caveats|Accessible PDF/CSV/SVG export from versioned public evidence|Suppressed cells remain suppressed; map attribution retained|11.09 09.09
 Evaluate human-reviewed qualitative AI assistance|Only approved deidentified input can produce reviewed labeled draft themes|Privacy/model/vendor approval, human coding comparison and provenance|No raw interviews sent to external model or unsourced summaries auto-published|11.09 08.03 09.10'''
 ]
+raw[4]+='\nCapture structured field observations separately from interviews|Researchers can save dated place-condition audits independently of respondent opinions|Implement observation rubric/version, visit-place linkage, mobile observation form and review state|Observation without a participant never creates a survey respondent or invented consent|04.03 02.06 03.04 01.09'
+raw[5]+='\nImplement conditional approved external collection importer|If ODK or Kobo is selected, approved submissions import once with preserved consent GPS topics and form version|Map immutable source instance IDs to sync UUIDs, validate forms and subject links, quarantine incompatible rows; document not-applicable decision if PWA selected|Reimport creates no duplicate; subject geometry never substitutes interview GPS; unapproved vendor receives no data|05.01 05.04 04.02'
 areas=['devops','frontend','gis','privacy','survey','offline','historical','frontend','analytics','admin','devops','devops','frontend']
 types=['docs','design','feature','security','feature','feature','feature','feature','feature','feature','test','research','feature']
 refs=['docs/product/requirements.md','docs/design/design-system.md','docs/architecture/gis-design.md','docs/architecture/privacy-security.md','docs/research/survey-questionnaire.md','docs/architecture/offline-sync.md','docs/research/historical-evidence.md','docs/design/public-website.md','docs/architecture/analytics.md','docs/design/admin-dashboard.md','docs/project/test-strategy.md','docs/operations/field-deployment.md','docs/project/release-plan.md']
@@ -179,7 +181,7 @@ def body(i, mapping=None):
     def link(k):
         if mapping and k in mapping: return f"#{mapping[k]['number']} ({k})"
         return k
-    deps='; '.join(link(k) for k in i['dependencies']) or 'No issue blockers; verify repository access and planning baseline.'
+    deps='; '.join(link(k) for k in i['dependencies']) or 'No issue blockers; verify repository access and planning baseline'
     return f'''<!-- makarba-catalog-id:{i['id']} -->
 ### Summary
 {i['summary']}.
@@ -256,7 +258,7 @@ def render(mapping=None):
         catalog.append(item)
     # JSON is a strict YAML 1.2 subset and avoids an additional runtime dependency.
     put('docs/project/issue-catalog.yaml',json.dumps(catalog,ensure_ascii=False,indent=2))
-    lines=['# Issue index','',f'{len(issues)} focused issues: the supplied minimum inventory totals 133; one separate institutional ethics/legal gate makes 134. No product issue is completed by this planning run. Stable IDs make publishing resumable.','']
+    lines=['# Issue index','',f'{len(issues)} focused issues: the supplied minimum inventory totals 133; separate ethics/legal, structured observation and conditional fallback-import tasks make 136. No product issue is completed by this planning run. Stable IDs make publishing resumable.','']
     for m,title in enumerate(milestone_titles):
         lines += [f'## M{m:02d} — {title}','']
         for i in issues:

@@ -124,6 +124,7 @@ screens = [
 ('A10','Audit and withdrawals','Revision history, receipt lookup, revoke/purge status','Do not show payload in operational audit logs'),
 ('A11','Questionnaire versions','Draft/branch validation, preview, publish/retire, compatibility','Published form immutable; no silent answer migration'),
 ('A12','Operations and backups','Job retry/dead letter, backups/restore evidence, retention schedule','Restore needs restricted authorization and tombstone replay')]
+screens.append(('F14','Structured site observation','Visit/place, dated condition rubric, observer, evidence photos and review state','No participant respondent or consent record invented for a site audit; evidence labels stay distinct'))
 doc('product/screen-inventory.md','Complete screen inventory','''Every screen is future implementation scope. Authenticated field/admin routes have independent guards; public routes never expose interview entry. Shared states: loading skeleton/status, empty explanation, actionable retry error, offline/stale warning, keyboard focus restoration and reduced motion.
 
 | ID | Screen | Main content/actions | Required failure/accessibility state |
@@ -131,7 +132,7 @@ doc('product/screen-inventory.md','Complete screen inventory','''Every screen is
 '''+ '\n'.join('| '+' | '.join(s)+' |' for s in screens))
 doc('design/design-system.md','Visual design system','''Identity: a warm digital urban atlas combining geography, archival evidence and restrained photography. Avoid generic admin ornament and fabricated map art. Typography: locally hosted licensed Noto Sans for English plus Noto Sans Gujarati/Devanagari, with Noto Serif headings only if script coverage tested. Body 16px/1.5; captions 14px; headings fluid 28–48px. Dates/numbers align with tabular numerals. Spacing scale 4/8/12/16/24/32/48/64px, 8px panel radius, subtle single shadow, maximum prose width 70ch.
 
-Tokens: background ivory #F6F2E9; primary text/deep teal #163D3B; accent terracotta #D27A55; sandstone #E6BC6C; lake #4C91A3. Use teal text on light accent fills; do not use light accent text on ivory for body copy. Contrast calculations below are generated using WCAG sRGB luminance; normal text ≥4.5:1, large text ≥3:1, focus/UI boundary ≥3:1. Dark focus outline with offset on light surfaces; light outline on teal. Marker icon+shape+label distinguishes category without color alone.
+Tokens: background ivory #F6F2E9; primary text/deep teal #163D3B; accent terracotta #D27A55; sandstone #E6BC6C; lake #4C91A3. Use teal body text on ivory or sandstone only. Teal on terracotta/lake fails normal-text AA in the initial audit; use a tested darker foreground or reserve these accents for non-text decoration. Do not use light accent text on ivory for body copy. Contrast calculations below are generated using WCAG sRGB luminance; normal text ≥4.5:1, large text ≥3:1, focus/UI boundary ≥3:1. Dark focus outline with offset on light surfaces; light outline on teal. Marker icon+shape+label distinguishes category without color alone.
 
 Breakpoints: <768 mobile, 768–1199 compact, ≥1200 desktop. Desktop header 64px, layers 256px, details 360px; map flexes. Compact uses collapsible drawers. Mobile header 56px, safe-area padding, 44px preferred touch targets, sheet peek 112px / half 50vh / full under header; drag gesture has equivalent buttons. No essential action depends on hover or dragging.
 
@@ -168,7 +169,7 @@ MOBILE
 ```
 
 Home uses a permitted image and clear research purpose. Then & Now offers slider plus side-by-side and text descriptions; date/source/evidence quality visible beside each image. Panorama opens on demand with static fallback and source date. Voices labels quotation, recollection, analyst theme and verified evidence separately. Insights shows valid n, excluded/missing/unsure, period and sample caveat next to chart, not only in footer. Guided story has ordered stops and accessible list; no invented route. Sources/credits and accessibility/language settings always reachable. Empty research findings explain collection status; demo fixtures are unmistakably synthetic and not mixed with production.''')
-doc('design/fieldwork-app.md','Fieldwork UX and wireframes','''Implement F01–F13. One-handed large controls, short steps, readable outdoors, persistent saved/sync status. Standard interview target 5–8 minutes, measured in pilot rather than asserted. No consent defaults or leading answer defaults. English/Gujarati scripts are reviewed by fluent humans; language can switch without losing answers.
+doc('design/fieldwork-app.md','Fieldwork UX and wireframes','''Implement F01–F14; structured site observations are separate from participant interviews. One-handed large controls, short steps, readable outdoors, persistent saved/sync status. Standard interview target 5–8 minutes, measured in pilot rather than asserted. No consent defaults or leading answer defaults. English/Gujarati scripts are reviewed by fluent humans; language can switch without losing answers.
 
 ```text
 [Visit name] [Offline: 2 saved] [Lock]
