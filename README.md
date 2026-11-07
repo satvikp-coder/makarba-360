@@ -4,6 +4,8 @@ Participatory Urban Mapping and Community Insights Platform for Makarba, Ahmedab
 
 **Planning-first repository. No product features implemented.** Authorised researchers collect face-to-face interviews; public visitors only explore approved places, evidence, stories and aggregates. There is no public survey submission.
 
+The source repository is **public**, following the owner's explicit request after planning setup. This does not make research records or the future field/admin applications public. See the [visibility decision](docs/project/visibility-decision.md).
+
 Interview position and discussed place are separate. Raw responses, exact interview GPS, consent and original media stay private. No geography or findings in this repository are verified field results.
 
 Start with [requirements](docs/product/requirements.md), [architecture](docs/architecture/overview.md), [data model](docs/architecture/data-model.md), [UX screens](docs/product/screen-inventory.md), [roadmap](docs/project/roadmap.md), [issue index](docs/project/issue-index.md), and [setup progress](docs/project/setup-progress.json).

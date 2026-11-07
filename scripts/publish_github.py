@@ -30,7 +30,8 @@ def main():
     state['limitations']=['GitHub Projects query rejected: token lacks read:project/project scopes; board not created. No board URL exists.']
     persist()
     repo=api('repos/'+REPO); state['remote']={k:repo[k] for k in ['full_name','html_url','private','default_branch','permissions']}; persist()
-    if not repo['private']: raise RuntimeError('Repository must remain private')
+    expected_private=state.get('expected_visibility','private')=='private'
+    if repo['private']!=expected_private: raise RuntimeError('Repository visibility differs from the recorded owner decision; inspect before proceeding')
     palette={'type':'1D76DB','area':'0E8A16','priority':'B60205','status':'D4C5F9'}
     groups={'type':['feature','bug','docs','research','security','test','infrastructure','design','refactor'],'area':['frontend','backend','database','gis','survey','gps','offline','media','analytics','admin','privacy','historical','devops'],'priority':['p0','p1','p2','p3'],'status':['ready','blocked','needs-design','needs-research','needs-review']}
     labels={f'{g}:{v}':dict(name=f'{g}:{v}',color=palette[g],description=({'type':'Work category: ','area':'Subsystem: ','priority':'Priority: ','status':'Workflow state: '}[g])+v) for g,vals in groups.items() for v in vals}

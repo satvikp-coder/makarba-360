@@ -12,9 +12,10 @@
     "milestones": "complete",
     "dependencies": "complete",
     "project_board": "unavailable: insufficient token scopes",
-    "github_setup": "complete: private main repository, labels, milestones and issues verified",
+    "github_setup": "complete: public main repository per subsequent owner request; labels, milestones and issues verified",
     "planning_qa": "complete: zero local/remote catalogue errors",
-    "final_publication": "final mapping and QA commit prepared; verify_push.py verifies final pushed content"
+    "final_publication": "complete: planning commit 0ffa030 verified locally/remotely with 218 matching blobs and passing CI; visibility record follow-up is verified with the same read-only command",
+    "visibility": "public: explicit owner request, actual API verified"
   },
   "issues": {
     "00.01": {
@@ -907,7 +908,7 @@
   "remote": {
     "full_name": "satvikp-coder/makarba-360",
     "html_url": "https://github.com/satvikp-coder/makarba-360",
-    "private": true,
+    "private": false,
     "default_branch": "main",
     "permissions": {
       "admin": true,
@@ -964,6 +965,9 @@
     "qa_results": "docs/project/qa-results.json",
     "final_push_command": "python scripts/verify_push.py",
     "ci_workflow": "Planning integrity",
-    "product_tests_run": false
-  }
+    "product_tests_run": false,
+    "planning_commit": "0ffa03015b738b8e5d2bf2bb159694517a4c0d21",
+    "planning_ci": "https://github.com/satvikp-coder/makarba-360/actions/runs/42356060251"
+  },
+  "expected_visibility": "public"
 }
