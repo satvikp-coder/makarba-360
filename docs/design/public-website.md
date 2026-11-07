@@ -92,3 +92,14 @@ Tests: 11 profile tests (published, missing data, unknown/withdrawn, list-remove
 **A defect these tests found and fixed:** at 320px the full sheet covered the lower part of the wrapped header navigation. Fixed with the sticky header and `--header-h`.
 
 **Not verified (kept open on the issue):** soft-keyboard behaviour on real iOS/Android devices (desktop emulation is not a phone; there is also no text input in the sheet yet because search is #76 and will live in the top bar), touch gestures such as dragging the sheet (not implemented; buttons only), Safari/Firefox, real tile loading from a provider, and screen readers. Tracked by #117 and #114 and in the human-action list.
+
+## Methodology, sources and accessibility pages (issue #83)
+
+Implemented in `apps/web/src/ResearchPages.tsx` at `/research/methodology` (P11), `/research/sources` (P12) and `/accessibility` (P13). Text is derived from `docs/research/methodology.md` and `sampling-plan.md`.
+
+- **Methodology:** states up front that it describes the *planned* approach and that real data collection has not started and needs ethics approval; explains the convenience/purposive sample (results are not estimates for all residents, no confidence intervals), counting rules (one interview counted once overall; place summaries use interviews about that place; multi-answer questions can exceed 100%), suppression (hidden is not zero and is not derivable), the difference between no data, zero and hidden, the four evidence classes, and privacy (no exact interview positions, names, raw answers or recordings).
+- **Sources and credits:** OpenStreetMap contributors (ODbL) credit; says place pages carry their own citations and that no historical sources or photographs are listed until rights and dates are checked; a corrections note says no public contact route exists yet.
+- **Accessibility and language:** lists what is built in; says plainly that human assistive-technology review has not happened and no conformance is claimed; the language paragraph is generated from the app's actual language table, so it cannot advertise Gujarati or Hindi before they are enabled.
+- **No invented content:** tests assert no email address, phone number, team names or titles, response counts or percentages-of-respondents, and no "fully accessible"/"WCAG conformant" wording.
+- **Tests (6 new, 53 total):** limits stated, no invented content, OSM credit, language claims match the app, no conformance claim, routes render with one h1 and pass axe.
+- **Limitations:** the wording has not been reviewed by the research lead (see human-action list) and the methodology page must be updated when the approved plan changes; Gujarati/Hindi versions await reviewed translations (#129).

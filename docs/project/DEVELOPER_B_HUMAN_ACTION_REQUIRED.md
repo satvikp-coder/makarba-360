@@ -15,3 +15,7 @@ When done, paste the evidence links on the matching issue and tell Claude to res
 ## Real-device check for the map explorer (issues #82, #117)
 
 Automated Chromium tests pass (see `docs/design/public-website.md`), but a person must still confirm on real phones. Who: anyone with an Android phone (Chrome) and an iPhone (Safari). Steps: open the deployed or locally served `/explore`; tap Expand, select a place, rotate the phone, pinch-zoom the page to 200%, and (once search exists, #76) tap the search field so the keyboard opens. Check that the header navigation, Expand/Close buttons and map attribution are never covered. Record device, OS, browser version and pass/fail per step in a comment on #82. Claude then closes #82.
+
+## Research-lead review of public methodology wording (issues #83, #4)
+
+Who: the research lead. Where: `apps/web/src/ResearchPages.tsx` (or the live `/research/methodology` page). Steps: read the three public pages; confirm the sampling, counting and privacy statements match the approved research plan and consent process; list any wording to change as a comment on #83. Evidence: a comment on #83 saying "reviewed, approved" or listing edits, with the reviewer's own GitHub account. Claude then applies edits and updates the page once #4 is closed.
