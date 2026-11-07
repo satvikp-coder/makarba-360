@@ -1,0 +1,13 @@
+:root { --ivory:#F6F2E9; --teal:#163D3B; --sand:#E6BC6C; --error:#9B1C1C; }
+*{box-sizing:border-box}
+body{margin:0;background:var(--ivory);color:var(--teal);font:16px/1.5 "Noto Sans",system-ui,sans-serif}
+header,footer{display:flex;flex-wrap:wrap;gap:16px;align-items:center;padding:8px 16px;background:var(--teal);color:var(--ivory)}
+header a,footer a{color:var(--ivory)}
+nav ul{display:flex;flex-wrap:wrap;gap:16px;list-style:none;margin:0;padding:0}
+nav a,button,select{min-height:44px;display:inline-flex;align-items:center}
+.brand{font-weight:700;text-decoration:none}
+main{max-width:70ch;margin:0 auto;padding:24px 16px}
+.skip{position:absolute;left:-999px}.skip:focus{left:8px;top:8px;background:var(--sand);color:var(--teal);padding:8px;z-index:10}
+:focus-visible{outline:3px solid var(--sand);outline-offset:2px}
+main :focus-visible{outline-color:var(--teal)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
