@@ -1,0 +1,224 @@
+{
+  "status": "PROPOSED \u2014 AWAITING STAKEHOLDER APPROVAL",
+  "issue": 6,
+  "approved_by": null,
+  "approved_on": null,
+  "principles": [
+    "Roles are additive explicit grants scoped to study and record ownership.",
+    "Administrator is not a universal data reader.",
+    "A researcher cannot approve their own public content; publication needs an independent reviewer.",
+    "Break-glass requires reason, expiry and audit; never silent.",
+    "Server-side enforcement on every private route; UI visibility is not authorisation.",
+    "Official respondent status is an evidence workflow, not an application role."
+  ],
+  "roles": [
+    "visitor",
+    "researcher",
+    "lead",
+    "reviewer",
+    "administrator"
+  ],
+  "actions": [
+    {
+      "id": "public.read_published",
+      "description": "Read published map, stories, safe aggregates",
+      "scope": "public",
+      "ownership_policy": "any",
+      "grants": {
+        "visitor": "read",
+        "researcher": "read",
+        "lead": "read",
+        "reviewer": "read",
+        "administrator": "read"
+      }
+    },
+    {
+      "id": "visit.start",
+      "description": "Start field visit",
+      "scope": "study",
+      "ownership_policy": "assigned_researcher",
+      "grants": {
+        "researcher": "own"
+      }
+    },
+    {
+      "id": "interview.create",
+      "description": "Create interview survey record",
+      "scope": "study",
+      "ownership_policy": "assigned_researcher",
+      "grants": {
+        "researcher": "own"
+      }
+    },
+    {
+      "id": "interview.edit_draft",
+      "description": "Edit own unsynced/draft interview",
+      "scope": "record",
+      "ownership_policy": "owner",
+      "grants": {
+        "researcher": "own"
+      }
+    },
+    {
+      "id": "gps.capture",
+      "description": "Capture interview GPS (separate from subject location)",
+      "scope": "record",
+      "ownership_policy": "owner",
+      "grants": {
+        "researcher": "own"
+      }
+    },
+    {
+      "id": "subject_location.link",
+      "description": "Link discussed place to interview",
+      "scope": "record",
+      "ownership_policy": "owner",
+      "grants": {
+        "researcher": "own"
+      }
+    },
+    {
+      "id": "interview.view_private",
+      "description": "View raw interview answers and exact interview GPS",
+      "scope": "record",
+      "ownership_policy": "owner_or_assigned_study_review",
+      "grants": {
+        "researcher": "own",
+        "lead": "assigned"
+      }
+    },
+    {
+      "id": "interview.request_correction",
+      "description": "Request correction of submitted record",
+      "scope": "record",
+      "ownership_policy": "owner",
+      "grants": {
+        "researcher": "own"
+      }
+    },
+    {
+      "id": "interview.review_correction",
+      "description": "Review/approve correction revision",
+      "scope": "record",
+      "ownership_policy": "assigned_study",
+      "grants": {
+        "lead": "assigned",
+        "reviewer": "assigned"
+      }
+    },
+    {
+      "id": "location.propose_geometry",
+      "description": "Propose private location geometry candidate",
+      "scope": "study",
+      "ownership_policy": "assigned_researcher",
+      "grants": {
+        "researcher": "own"
+      }
+    },
+    {
+      "id": "location.review_geometry",
+      "description": "Review geometry changes",
+      "scope": "study",
+      "ownership_policy": "assigned_study",
+      "grants": {
+        "lead": "assigned"
+      }
+    },
+    {
+      "id": "consent.verify",
+      "description": "Verify consent/sources for publication",
+      "scope": "record",
+      "ownership_policy": "assigned_study",
+      "grants": {
+        "lead": "assigned",
+        "reviewer": "assigned"
+      }
+    },
+    {
+      "id": "media.submit",
+      "description": "Submit consented media candidate",
+      "scope": "record",
+      "ownership_policy": "owner",
+      "grants": {
+        "researcher": "own"
+      }
+    },
+    {
+      "id": "content.publish",
+      "description": "Approve and publish content",
+      "scope": "record",
+      "ownership_policy": "independent_reviewer",
+      "grants": {
+        "lead": "assigned",
+        "reviewer": "assigned"
+      }
+    },
+    {
+      "id": "analytics.view_aggregate",
+      "description": "View privacy-safe aggregates (min-n applied)",
+      "scope": "study",
+      "ownership_policy": "assigned_study",
+      "grants": {
+        "researcher": "assigned",
+        "lead": "assigned",
+        "reviewer": "assigned",
+        "administrator": "read"
+      }
+    },
+    {
+      "id": "export.restricted",
+      "description": "Create restricted research export",
+      "scope": "study",
+      "ownership_policy": "approved_purpose_and_study",
+      "grants": {
+        "lead": "grant"
+      }
+    },
+    {
+      "id": "export.operate_job",
+      "description": "Operate approved export job (no content access)",
+      "scope": "system",
+      "ownership_policy": "explicit_grant",
+      "grants": {
+        "administrator": "grant"
+      }
+    },
+    {
+      "id": "user.manage",
+      "description": "Invite, deactivate and assign roles",
+      "scope": "system",
+      "ownership_policy": "audited",
+      "grants": {
+        "administrator": "grant"
+      }
+    },
+    {
+      "id": "config.manage",
+      "description": "Manage backups and system configuration",
+      "scope": "system",
+      "ownership_policy": "audited",
+      "grants": {
+        "administrator": "grant"
+      }
+    },
+    {
+      "id": "audit.view",
+      "description": "View non-content security audit events",
+      "scope": "system",
+      "ownership_policy": "audited",
+      "grants": {
+        "administrator": "grant",
+        "lead": "assigned"
+      }
+    },
+    {
+      "id": "breakglass.access",
+      "description": "Break-glass raw access (reason, expiry, audit)",
+      "scope": "record",
+      "ownership_policy": "time_boxed_reason",
+      "grants": {
+        "administrator": "grant"
+      }
+    }
+  ]
+}
