@@ -15,7 +15,8 @@
     "@makarba/contracts": "workspace:*",
     "express": "^4.21.0",
     "@makarba/auth": "workspace:*",
-    "@makarba/authz": "workspace:*"
+    "@makarba/authz": "workspace:*",
+    "@makarba/audit": "workspace:*"
   },
   "devDependencies": {
     "@types/express": "^4.17.21",

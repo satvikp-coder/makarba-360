@@ -1,7 +1,7 @@
 import { Router, type Request, type RequestHandler } from "express";
 import type { Authorizer, Context, Resource } from "@makarba/authz";
 import { requireCsrf, requireSession } from "./auth-routes.js";
-import { requirePermission, type PrincipalSource } from "./permission.js";
+import { requirePermission, type PermissionAudit, type PrincipalSource } from "./permission.js";
 import type { SessionService } from "@makarba/auth";
 
 /**
@@ -25,6 +25,8 @@ export interface PrivateApiDeps {
   principals: PrincipalSource;
   sessions: SessionService;
   routes: PrivateRoute[];
+  /** Records every authorization decision (content-free). Strongly recommended outside tests. */
+  audit?: PermissionAudit;
 }
 
 export function validateRoutes(authz: Authorizer, routes: PrivateRoute[]): string[] {
@@ -53,7 +55,7 @@ export function privateApi(deps: PrivateApiDeps): Router {
   r.use(requireSession(deps.sessions), requireCsrf(deps.sessions));
 
   for (const route of deps.routes) {
-    r[route.method](route.path, requirePermission(deps.authz, deps.principals, route.action, route.resolve, route.context), route.handler);
+    r[route.method](route.path, requirePermission(deps.authz, deps.principals, route.action, route.resolve, route.context, deps.audit), route.handler);
   }
 
   // Hints for the UI only. The server re-checks every request; a hidden or shown button never grants access.
