@@ -13,3 +13,6 @@ main :focus-visible{outline-color:var(--teal)}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 .map{height:60vh;min-height:320px;border:1px solid var(--teal);border-radius:8px}
 .map-wrap{margin:16px 0}
+.hero-fallback{display:grid;place-items:center;min-height:180px;background:var(--teal);color:var(--ivory);border-radius:8px;font-size:2rem;font-weight:700}
+figure{margin:0}img{max-width:100%;height:auto}
+.cta{display:inline-flex;align-items:center;min-height:44px;padding:0 16px;background:var(--teal);color:var(--ivory);border-radius:8px;text-decoration:none}

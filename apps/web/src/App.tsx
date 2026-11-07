@@ -3,6 +3,7 @@ import { Link, NavLink, Outlet, Route, Routes, useLocation, useSearchParams } fr
 import { sanitizeQuery } from "@makarba/public-ia";
 import { mainNavigation, publicRoutes, type NavGroup } from "@makarba/public-ia";
 import { fetchPlaces, type PlacesResult } from "./api.js";
+import { Home } from "./Home.js";
 import { MapView, type MapStatus } from "./map/MapView.js";
 import { LANGUAGES, strings, type Lang } from "./i18n.js";
 
@@ -49,17 +50,6 @@ function Layout() {
 function titleFor(path: string): string {
   const route = publicRoutes.find((r) => !r.path.includes(":") && r.path === path);
   return route?.title ?? "Makarba 360°";
-}
-
-function Home() {
-  const t = strings.en;
-  return (
-    <section aria-labelledby="h">
-      <h1 id="h">{t.siteName}</h1>
-      <p>{t.homeLead}</p>
-      <p><Link to="/explore">{t.homeCta}</Link></p>
-    </section>
-  );
 }
 
 /** List alternative for the map (P02-P04): same published places, no map or WebGL needed. */
