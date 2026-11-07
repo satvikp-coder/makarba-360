@@ -1,0 +1,50 @@
+{
+  "contractVersion": "1.0.0",
+  "notice": "Synthetic contract fixtures only. No Makarba geography, participant records, historical facts or measured findings.",
+  "locations": {
+    "type": "FeatureCollection",
+    "features": [
+      {"type":"Feature","id":"00000000-0000-4000-8000-000000000001","geometry":{"type":"Point","coordinates":[10,10]},"properties":{"locationId":"00000000-0000-4000-8000-000000000001","slug":"synthetic-point","name":{"en":"Synthetic Atlas Point"},"category":"heritage","publicationState":"published","lastReviewedDate":"2026-01-01","sourceIds":["synthetic-source-1"],"mediaIds":["synthetic-media-1"]}},
+      {"type":"Feature","id":"00000000-0000-4000-8000-000000000002","geometry":{"type":"MultiLineString","coordinates":[[[10,10],[10.01,10.01]]]},"properties":{"locationId":"00000000-0000-4000-8000-000000000002","slug":"synthetic-route","name":{"en":"Synthetic Test Route"},"category":"transport","publicationState":"published","lastReviewedDate":"2026-01-01","sourceIds":["synthetic-source-1"],"mediaIds":[]}},
+      {"type":"Feature","id":"00000000-0000-4000-8000-000000000003","geometry":{"type":"MultiPolygon","coordinates":[[[[10,10],[10.01,10],[10.01,10.01],[10,10.01],[10,10]]]]},"properties":{"locationId":"00000000-0000-4000-8000-000000000003","slug":"synthetic-area","name":{"en":"Synthetic Test Area"},"category":"community","publicationState":"published","lastReviewedDate":"2026-01-01","sourceIds":["synthetic-source-1"],"mediaIds":[]}}
+    ],
+    "page":{"limit":50,"nextCursor":null},
+    "meta":{"contractVersion":"1.0.0","datasetKind":"synthetic","snapshotId":"synthetic-snapshot-1","methodologyUrl":"/research"}
+  },
+  "insights": {
+    "cohorts":[
+      {"cohortId":"synthetic-safe","suppressed":false,"n":40,"validAnswerN":30,"missingN":5,"unsureN":5,"respondentCategories":[{"code":"resident","count":20},{"code":"worker","count":20}],"ratings":[{"value":1,"count":10},{"value":3,"count":10},{"value":5,"count":10}],"issues":[{"code":"walking","count":20},{"code":"maintenance","count":10}],"denominatorLabel":"30 valid synthetic answers; categories shown only within this independent test cohort","countingRule":"Distinct interview base; multiple subject cohorts can overlap"},
+      {"cohortId":"synthetic-small-independent","suppressed":true,"n":null,"validAnswerN":null,"missingN":null,"unsureN":null,"respondentCategories":[],"ratings":[],"issues":[],"reasonCode":"DISCLOSURE_POLICY"}
+    ],
+    "collectionPeriod":{"fromMonth":"2026-01","throughMonth":"2026-02"},
+    "questionVersion":"synthetic-survey-v1",
+    "policyVersion":"synthetic-disclosure-v1",
+    "sampleNote":"Synthetic test counts only, not real Makarba findings or population estimates. Independent cohorts do not expose a common total.",
+    "meta":{"contractVersion":"1.0.0","datasetKind":"synthetic","snapshotId":"synthetic-insights-1","methodologyUrl":"/research"}
+  },
+  "history": {
+    "locationId":"00000000-0000-4000-8000-000000000001",
+    "sources":[{"id":"synthetic-source-1","citation":"Invented test citation, not a historical source","url":"https://example.invalid/synthetic-source","licence":"synthetic-test-only","verificationState":"synthetic"}],
+    "events":[{"id":"synthetic-event-1","sourceId":"synthetic-source-1","date":{"value":"2021","precision":"year"},"evidenceType":"account","text":"Synthetic account for labeling tests; no actual event claimed"}],
+    "comparisonPairs":[{"id":"synthetic-pair-1","locationId":"00000000-0000-4000-8000-000000000001","beforeMediaId":"synthetic-before","afterMediaId":"synthetic-after","beforeDate":{"value":"2021","precision":"year"},"afterDate":{"value":"2026-01-01","precision":"day"},"sourceIds":["synthetic-source-1"],"matchingViewpointNotes":"Synthetic matching test only","evidenceQuality":"synthetic"}],
+    "meta":{"contractVersion":"1.0.0","datasetKind":"synthetic","snapshotId":"synthetic-history-1","methodologyUrl":"/research"}
+  },
+  "media": {
+    "id":"synthetic-media-1",
+    "locationId":"00000000-0000-4000-8000-000000000001",
+    "url":"https://example.invalid/public/synthetic-panorama.webp",
+    "contentType":"image/webp",
+    "width":4096,
+    "height":2048,
+    "format":"equirectangular",
+    "alt":"Synthetic panorama placeholder; no real photograph supplied",
+    "credit":"Synthetic test asset descriptor",
+    "licence":"synthetic-test-only",
+    "capturedDate":{"value":"2026-01-01","precision":"day"},
+    "publicationState":"published",
+    "staticFallbackUrl":"https://example.invalid/public/synthetic-static.webp",
+    "meta":{"contractVersion":"1.0.0","datasetKind":"synthetic","snapshotId":"synthetic-media-1","methodologyUrl":"/research"}
+  },
+  "missingMedia":{"code":"NOT_FOUND","message":"No published media available","fieldErrors":{},"requestId":"synthetic-request-404","retryable":false},
+  "invalidFilter":{"code":"VALIDATION_ERROR","message":"Invalid public filter","fieldErrors":{"cohort":"Unsupported cohort"},"requestId":"synthetic-request-422","retryable":false}
+}

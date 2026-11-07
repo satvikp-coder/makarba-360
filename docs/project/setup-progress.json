@@ -969,5 +969,13 @@
     "planning_commit": "0ffa03015b738b8e5d2bf2bb159694517a4c0d21",
     "planning_ci": "https://github.com/satvikp-coder/makarba-360/actions/runs/42356060251"
   },
-  "expected_visibility": "public"
+  "expected_visibility": "public",
+  "two_developer_allocation": {
+    "record": "docs/project/developer-issue-allocation.json",
+    "verification": "docs/project/allocation-verification.json",
+    "progress": "docs/project/allocation-progress.json",
+    "developer_a": "satvikp-coder",
+    "developer_b": "varunkarthic",
+    "b_assignees": "unchanged per owner request while invitation is unaccepted"
+  }
 }
