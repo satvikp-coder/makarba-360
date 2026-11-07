@@ -54,3 +54,5 @@ Governance (issue #1): branch/PR rules, vacant roles, absence of a source licenc
 Capability matrix (issue #6, PROPOSED — awaiting stakeholder approval): `docs/project/capability-matrix.md`; permission failures return authorisation errors, never partial raw data; admin alone has no research-record access.
 
 Architecture review (issue #9): boundary, interface-ownership and optional-provider evidence in `docs/architecture/review-baseline.md`; the offline vault is a provisional component until the #54 feasibility gate (ADR 004); no optional provider (third-party panorama, paid imagery, ODK/Kobo fallback) is promised; independent human review remains pending. Lifecycle/error states for the public API are in `docs/project/developer-handoffs.md`.
+
+Development scaffold (issue #10): shared contracts, synthetic mock API states (success, empty, suppressed, validation 422, not-found 404, transient 503) and fail-fast environment errors are documented in `docs/operations/local-development.md`; browser bundles receive no server secrets (`scripts/check_secret_exposure.py`).
