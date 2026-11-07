@@ -34,6 +34,7 @@ def main():
         layers.append(layer); done.update(layer)
     # All repository-local markdown destinations resolve, except public URLs and anchors.
     for p in ROOT.rglob('*.md'):
+        if {'node_modules','dist','.git'} & set(p.relative_to(ROOT).parts): continue  # third-party / generated files are not project docs
         for target in re.findall(r'\]\(([^)]+)\)',p.read_text(encoding='utf-8')):
             if '://' in target or target.startswith('#'): continue
             dest=(p.parent/target.split('#')[0]).resolve()
