@@ -1,7 +1,7 @@
 {
   "repository": "satvikp-coder/makarba-360",
   "baseline_commit": "13d2d4b82a4ccc4853be71e680f1a333a679442e",
-  "stage": "remote allocation verified: 136 classified, 63 A assignees, 73 B reservations unchanged; documentation publication pending",
+  "stage": "remote allocation verified; concurrent completed governance preserved; PR #138 CI/merge verification pending",
   "friend_username": "varunkarthic",
   "friend_assignment": "pending invitation acceptance; explicit owner instruction to leave unchanged",
   "updated_issues": [
@@ -219,5 +219,17 @@
   "pending_setup": [
     "Commit/push planning branch and verify CI/merge"
   ],
-  "verdict": "PARTIAL — PLANNING COMPLETE BUT REMOTE ASSIGNMENTS INCOMPLETE"
+  "verdict": "PARTIAL — PLANNING COMPLETE BUT REMOTE ASSIGNMENTS INCOMPLETE",
+  "current_open_issue_count": 135,
+  "open_assigned_a": 62,
+  "open_reserved_b": 73,
+  "preserved_completed": [
+    1
+  ],
+  "concurrent_completion": {
+    "issue": 1,
+    "pr": 137,
+    "merge_commit": "b514de4d5ede7dfc55ea7df3c62b988abca79c68"
+  },
+  "planning_pr": "https://github.com/satvikp-coder/makarba-360/pull/138"
 }
