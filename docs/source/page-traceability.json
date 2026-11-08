@@ -1,0 +1,342 @@
+{
+ "source": "Makarba_360_Complete_Project_Blueprint.pdf",
+ "pdfSha256": "f03118d0f904673c8e751599e128540ffe5ed5daac1d4fc6c969474f802b0994",
+ "pages": 23,
+ "textExtraction": "PyMuPDF page text, UTF-8, as written to blueprint-extracted.txt (the text after each '=== PAGE n ===' marker)",
+ "entries": [
+  {
+   "page": 1,
+   "title": "Cover: Makarba 360, People, Places & Change",
+   "textSha256": "d4ac364afcc3db309fee6e65d567ee7d72686c84c6e6d87e1a2f5e89305739f1",
+   "requirements": [
+    "R01"
+   ],
+   "documents": [
+    "docs/product/vision.md",
+    "docs/research/methodology.md"
+   ],
+   "caveat": "Contains the non-negotiable rule: the public does not fill surveys."
+  },
+  {
+   "page": 2,
+   "title": "Quick summary: what you are building",
+   "textSha256": "d7eb484f716f923ba74c35ecdbab1001c3a74d960f72097b8ea3630d2c002d14",
+   "requirements": [
+    "R03",
+    "R04",
+    "R05",
+    "R06",
+    "R17"
+   ],
+   "documents": [
+    "docs/product/vision.md",
+    "docs/product/user-journeys.md"
+   ],
+   "caveat": ""
+  },
+  {
+   "page": 3,
+   "title": "1. What participatory mapping means",
+   "textSha256": "23f03302260dab6dfd827b35fbe19bc8a603a419918914bac38aaf970a810901",
+   "requirements": [
+    "R10",
+    "R15"
+   ],
+   "documents": [
+    "docs/research/methodology.md"
+   ],
+   "caveat": ""
+  },
+  {
+   "page": 4,
+   "title": "2. Who uses the software?",
+   "textSha256": "3c7b57220630f966e390968b899718c1593c264542195acb5a981f94c0ddd050",
+   "requirements": [
+    "R01",
+    "R07",
+    "R16"
+   ],
+   "documents": [
+    "docs/product/personas.md",
+    "docs/project/capability-matrix.md"
+   ],
+   "caveat": ""
+  },
+  {
+   "page": 5,
+   "title": "3. What the public website looks like",
+   "textSha256": "45acb8d986622dbb64d9691538d1dc42e656e498fa48d84fa0fe779429da291f",
+   "requirements": [
+    "R03",
+    "R04",
+    "R20"
+   ],
+   "documents": [
+    "docs/design/public-website.md",
+    "docs/product/screen-inventory.md"
+   ],
+   "caveat": ""
+  },
+  {
+   "page": 6,
+   "title": "4. The interactive Makarba map",
+   "textSha256": "2232535e19ea6a424fb077239402f01d2267dadb8e750c9d87e9af40417975cd",
+   "requirements": [
+    "R02",
+    "R03",
+    "R06"
+   ],
+   "documents": [
+    "docs/architecture/gis-design.md",
+    "docs/design/public-website.md"
+   ],
+   "caveat": "Layer names are suggestions; boundary and place data remain unverified."
+  },
+  {
+   "page": 7,
+   "title": "5. The Then & Now and 360-degree features",
+   "textSha256": "d8a5311799ee92990159309476495607234e1dbd9444f631adebf327224ba249",
+   "requirements": [
+    "R05",
+    "R06"
+   ],
+   "documents": [
+    "docs/research/historical-evidence.md",
+    "docs/architecture/media-pipeline.md"
+   ],
+   "caveat": "The 2021 example is an illustration; no 2021 photograph is claimed to exist."
+  },
+  {
+   "page": 8,
+   "title": "6. The most important feature: field survey + GPS",
+   "textSha256": "f423426c511de480eaf2e01c44079539a50de8a6b4ed09159bc124db98b93c83",
+   "requirements": [
+    "R10",
+    "R11",
+    "R12"
+   ],
+   "documents": [
+    "docs/architecture/data-model.md",
+    "docs/research/gps-protocol.md",
+    "docs/design/fieldwork-app.md"
+   ],
+   "caveat": "The encrypted-draft aspiration must be validated, not assumed (see docs/source/README.md)."
+  },
+  {
+   "page": 9,
+   "title": "7. How GPS recording should work",
+   "textSha256": "c5d2d9756760206088141216f74d6272d8950fb2a1b539adccae382aa2e7e3f0",
+   "requirements": [
+    "R11"
+   ],
+   "documents": [
+    "docs/research/gps-protocol.md",
+    "docs/architecture/data-model.md"
+   ],
+   "caveat": ""
+  },
+  {
+   "page": 10,
+   "title": "8. Complete survey structure for your team",
+   "textSha256": "b49b2c540bda6769170dddcd7c6a7e72a5e922412f567b2b88988e7d1ba7d9ca",
+   "requirements": [
+    "R08",
+    "R09"
+   ],
+   "documents": [
+    "docs/research/survey-questionnaire.md",
+    "docs/research/consent-protocol.md"
+   ],
+   "caveat": "The 5-8 minute target is measured in the pilot, not asserted."
+  },
+  {
+   "page": 11,
+   "title": "9. An example survey record",
+   "textSha256": "4a17604f14d605db60da093b81b37102c0ad5f4197496920bfbd5ffd1903063a",
+   "requirements": [
+    "R09",
+    "R10"
+   ],
+   "documents": [
+    "docs/research/data-dictionary.md"
+   ],
+   "caveat": "FICTIONAL example record. It must never become a result, a coordinate or a statement about Makarba."
+  },
+  {
+   "page": 12,
+   "title": "10. Field visit: what to do before, during and after",
+   "textSha256": "836f6c032477fa5c04fb729b588513b57d4278c0c5f411ad55f394d5790a81da",
+   "requirements": [
+    "R07",
+    "R21",
+    "R24"
+   ],
+   "documents": [
+    "docs/research/field-visit-sop.md"
+   ],
+   "caveat": ""
+  },
+  {
+   "page": 13,
+   "title": "11. Suggested fieldwork schedule and sample",
+   "textSha256": "6e60a7e6ff6b9f70e497d6e33967f3dbd1b13aa04dd45208eec721ebd6464d10",
+   "requirements": [
+    "R21",
+    "R24"
+   ],
+   "documents": [
+    "docs/research/sampling-plan.md",
+    "docs/research/field-visit-sop.md"
+   ],
+   "caveat": "The three-day first pass is a suggested sequence, not a committed schedule; the sample is not a population estimate."
+  },
+  {
+   "page": 14,
+   "title": "12. The private researcher dashboard",
+   "textSha256": "d7cae24f7173e19c25c1e657fb0e07aaf6393bb0f1e7b696a5d6f3962aa53972",
+   "requirements": [
+    "R07",
+    "R12",
+    "R14"
+   ],
+   "documents": [
+    "docs/design/fieldwork-app.md",
+    "docs/design/admin-dashboard.md"
+   ],
+   "caveat": ""
+  },
+  {
+   "page": 15,
+   "title": "13. The Community Insights dashboard",
+   "textSha256": "a91809d81430e790520ea7c8b7e5d71d8f4e524fb6bedc9d53efa25708eb4f23",
+   "requirements": [
+    "R17",
+    "R18"
+   ],
+   "documents": [
+    "docs/architecture/analytics.md"
+   ],
+   "caveat": "Public charts must use real cleaned responses; before fieldwork show an empty or clearly labelled demonstration state."
+  },
+  {
+   "page": 16,
+   "title": "14. How the software works behind the scenes",
+   "textSha256": "13d805faf6b36e6b05986d80799af202617b704cef52df2efd8f72bfbaf9f4ec",
+   "requirements": [
+    "R16",
+    "R19",
+    "R22"
+   ],
+   "documents": [
+    "docs/architecture/overview.md",
+    "docs/architecture/component-diagram.md"
+   ],
+   "caveat": ""
+  },
+  {
+   "page": 17,
+   "title": "Basic data structure",
+   "textSha256": "3b21aac8934f5f27968e405d55fcf38ab1c770be3149e6fd2ad6c03d34d95a21",
+   "requirements": [
+    "R02",
+    "R10",
+    "R16"
+   ],
+   "documents": [
+    "docs/architecture/data-model.md"
+   ],
+   "caveat": ""
+  },
+  {
+   "page": 18,
+   "title": "15. Design choices for a beautiful final project",
+   "textSha256": "1032ecf57fe0dc735b72cf0fe66e9c85f555a73cb1025be48c1dfb681855d12b",
+   "requirements": [
+    "R03",
+    "R20"
+   ],
+   "documents": [
+    "docs/design/design-system.md",
+    "docs/design/accessibility.md"
+   ],
+   "caveat": ""
+  },
+  {
+   "page": 19,
+   "title": "16. Privacy, consent and research quality",
+   "textSha256": "6b39615417e138269ac88887644b8891632c7607b6e0818480626c63a6fda233",
+   "requirements": [
+    "R08",
+    "R13",
+    "R16",
+    "R19"
+   ],
+   "documents": [
+    "docs/research/consent-protocol.md",
+    "docs/architecture/privacy-security.md",
+    "docs/architecture/media-pipeline.md"
+   ],
+   "caveat": ""
+  },
+  {
+   "page": 20,
+   "title": "17. Build plan, testing and handover",
+   "textSha256": "99c85b8ff562abfbe3f73e84da741b8acb56e70059b9ed7e123879e244e9e85f",
+   "requirements": [
+    "R22",
+    "R23",
+    "R24"
+   ],
+   "documents": [
+    "docs/project/test-strategy.md",
+    "docs/project/implementation-order.md"
+   ],
+   "caveat": ""
+  },
+  {
+   "page": 21,
+   "title": "18. A realistic first demonstration",
+   "textSha256": "78c48da430b7414371b41e67073dbca29efb792954c683a7a9ba96cff0b42266",
+   "requirements": [
+    "R24"
+   ],
+   "documents": [
+    "docs/product/user-journeys.md",
+    "docs/project/test-strategy.md"
+   ],
+   "caveat": "A demonstration needs real collected data; none exists."
+  },
+  {
+   "page": 22,
+   "title": "19. Ready-to-use fieldwork checklist",
+   "textSha256": "3ea0f80d4a56f5ba9e203ad11a23188c00ca9cfd6f35b6a9765d27f0f2230c9b",
+   "requirements": [
+    "R12",
+    "R21"
+   ],
+   "documents": [
+    "docs/research/field-visit-sop.md"
+   ],
+   "caveat": ""
+  },
+  {
+   "page": 23,
+   "title": "20. References and implementation notes",
+   "textSha256": "4cffb36501c2b2d56e5a9f3d6f30b39ef29d590da0ce400cc9a58e570e9e123a",
+   "requirements": [
+    "R21",
+    "R22"
+   ],
+   "documents": [
+    "docs/source/technical-references.md"
+   ],
+   "caveat": "References are not substitutes for local verification, university guidance or permission to use historical material."
+  }
+ ],
+ "notFromBlueprint": [
+  {
+   "requirement": "R25",
+   "reason": "Stretch scope (guided tours, walkability, audio archive, hypothetical scenarios, hotspots, report export) comes from the user master prompt, not from a blueprint page; it is traced through requirements.md only."
+  }
+ ]
+}
