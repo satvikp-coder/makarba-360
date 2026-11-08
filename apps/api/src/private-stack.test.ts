@@ -141,7 +141,7 @@ describe.skipIf(!url)("private API stack on PostGIS with a fake identity provide
     const r = await signIn("sub-researcher");
     expect((await call(r, "post", "/locations", newPlace)).status).toBe(201);
     await admin.query("UPDATE private.users SET active = false WHERE id = $1", [ids["researcher"]]);
-    expect((await call(r, "post", "/locations", { ...newPlace, name: { en: "second" } })).status).toBe(403);
+    expect((await call(r, "post", "/locations", { ...newPlace, name: { en: "second" } })).status).toBe(401);
     expect((await signIn("sub-researcher")).body.code).toBe("NOT_PROVISIONED");
     await admin.query("UPDATE private.users SET active = true WHERE id = $1", [ids["researcher"]]);
     const again = await signIn("sub-researcher");
