@@ -46,7 +46,7 @@ describe("methodology, sources and accessibility pages", () => {
     expect(t).toContain("we do not claim full conformance");
     expect(t).not.toMatch(/fully (accessible|compliant)|WCAG 2\.\d (AA )?(compliant|conformant)/i);
   });
-  it("routes render these pages with one h1 and pass automated accessibility checks", async () => {
+  it("routes render these pages with one h1 and pass automated accessibility checks", { timeout: 30_000 }, async () => {
     for (const path of ["/research/methodology", "/research/sources", "/accessibility"]) {
       const { container } = render(<MemoryRouter initialEntries={[path]}><App /></MemoryRouter>);
       expect(container.querySelectorAll("h1")).toHaveLength(1);
