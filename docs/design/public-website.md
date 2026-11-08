@@ -135,3 +135,19 @@ Implemented in `apps/web/src/filters.ts` and the explorer (`App.tsx`).
 **Tests.** 11 component tests (URL safety, captions, unknown date, counting, failure, referrer, keyboard navigation, focus return, axe) and 2 real-Chromium tests (real dialog: Escape and focus return, page inert; failing image at 320px). Images are 1x1 synthetic PNGs.
 
 **Limits.** Touch gestures (swipe, pinch zoom) are not implemented; navigation is by buttons and keys. No real photographs exist; screen-reader behaviour of the dialog and real-device checks are pending (#114, #117). Live media rights/consent integration (#61 pipeline) is not claimed.
+
+## Public location search (#76)
+
+Search box on the explorer (`role="search"`, native `type="search"`, 44px high, Enter or the Search button), backed by `@makarba/geo-search` (#29) over the already-fetched, contract-validated published features.
+
+**What it matches.** Every language in a place's name (a Gujarati name finds the place), and its slug; case-, accent- and spacing-insensitive. (The shared public contract has no separate alias field, so `aliases` only match if the contract adds one; the search code already handles them.) Queries are trimmed, collapsed and capped at 100 characters, and are rendered only as text.
+
+**State.** The query is in the URL (`?q=`), alongside `?place=` and the filters, so a shared link restores the search, the narrowed list and map, and the selected place. Search combines with category and layer filters (AND). A status line says "1 place matches “atlas”." / "No places match “zzzz”." / "Searching…"; no match keeps the map with its attribution, the Clear search button and the filters.
+
+**Stale responses and private data.** Each query gets a sequence number and an abort signal; only the answer to the latest query is applied, so a slow older response cannot overwrite a newer one, and while a search is pending the list shows nothing from the previous query. Search results are mapped back onto the published places already on the page: any id a source returns that is not a published place (for example a private candidate) is ignored, and no private data is available to the component in the first place. A failing source shows "Search could not be completed. Clear the search to see all places." and never falls back to unfiltered or stale results.
+
+**Local by design.** The default source searches in the browser, so the query is never sent anywhere (verified in the browser test: no API request contains the query). A remote source can replace it through the `makeSource` interface when the public search API exists (#81).
+
+**Tests.** 13 component tests (names, Gujarati, accents, no match, restore from link, filter AND, hostile query, axe, out-of-order responses, pending, private id ignored, failing source) and 2 real-Chromium tests (real map, reload, back/forward, selection, no-match with attribution, 375px). Tiles stubbed.
+
+**Limits.** Searches names only (no addresses, categories as text, or fuzzy/typo matching). Local search covers the first 200 places the API returns. No real device or screen-reader check.

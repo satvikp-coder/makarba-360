@@ -91,3 +91,9 @@ html{overflow-wrap:anywhere}
 .pano-host { width: 100%; height: min(60vh, 28rem); min-height: 16rem; }
 .pano-host[hidden] { display: none; }
 .panorama button { min-height: 44px; padding: 0 1rem; }
+
+/* Search (#76) */
+.search { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; margin: .5rem 0; }
+.search input[type="search"] { min-height: 44px; flex: 1 1 12rem; padding: 0 .75rem; font-size: 1rem; }
+.search button { min-height: 44px; padding: 0 1rem; }
+.search-status { flex-basis: 100%; margin: 0; }
