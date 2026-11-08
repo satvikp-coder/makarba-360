@@ -1,0 +1,15 @@
+{
+  "_comment": "Register of REAL geography review events (issues #5, #28, #120). Empty on purpose: nothing is verified. Add an item only after an authorised person has actually reviewed the file. Template item below is not part of the register. Check with: python scripts/check_geo_review.py",
+  "template": {
+    "id": "boundary-v1",
+    "kind": "boundary | road | place",
+    "file": "docs/research/geo/boundary-v1.geojson",
+    "fileSha256": "sha256 of that file",
+    "importedBy": "name of the person who imported the file",
+    "source": { "name": "authoritative source name", "url": "optional", "date": "YYYY-MM-DD", "licence": "one of the approved licences" },
+    "importCheck": "accepted  (output of: pnpm --filter @makarba/gis-io check <file> \"<source>\" <licence>)",
+    "decision": "approved | rejected | pending",
+    "review": { "reviewerName": "a different person", "reviewerRole": "role or authority", "method": "site_visit | authoritative_map | both", "reviewedOn": "YYYY-MM-DD", "evidence": ["photo or note references, comparison report"] }
+  },
+  "items": []
+}

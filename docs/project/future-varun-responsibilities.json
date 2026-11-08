@@ -1,0 +1,448 @@
+{
+ "status": "PROPOSAL ONLY - no GitHub assignment or label has been changed",
+ "proposedNewAssignee": "varunkarthic",
+ "issues": [
+  {
+   "issue": 5,
+   "url": "https://github.com/satvikp-coder/makarba-360/issues/5",
+   "title": "[DEVOPS] Specify and verify geographical study extent",
+   "currentAssignees": [
+    "satvikp-coder"
+   ],
+   "kind": "human approval or evidence",
+   "claudeCompleted": "gis-io import checker + CLI (pnpm --filter @makarba/gis-io check), geo-review register and checker (scripts/check_geo_review.py), candidate rules in place-content",
+   "varunTasks": "Obtain the authoritative Makarba boundary from a trusted source; save as GeoJSON under docs/research/geo/; run the CLI; add a register item to docs/research/geo-review-register.json with source, licence, reviewer and evidence; commit via PR",
+   "authorisedActor": "Research lead (or the institution's geography authority) performs and signs the review; Varun coordinates and records it",
+   "tests": "pnpm --filter @makarba/gis-io check <file> \"<source>\" <licence>; python scripts/check_geo_review.py --require-boundary",
+   "closeWhen": "The register holds a VERIFIED boundary item and the issue comment links it",
+   "unlocks": "#28, #120, #130",
+   "transferWholeIssueAfterUserApproval": true,
+   "transferNote": ""
+  },
+  {
+   "issue": 28,
+   "url": "https://github.com/satvikp-coder/makarba-360/issues/28",
+   "title": "[GIS] Import and verify road corridors",
+   "currentAssignees": [
+    "satvikp-coder"
+   ],
+   "kind": "human approval or evidence",
+   "claudeCompleted": "same tooling as #5",
+   "varunTasks": "After #5, obtain road-corridor geometry from a verified source, run the CLI, add one register item per corridor with reviewer and method (site visit or authoritative map)",
+   "authorisedActor": "Research lead / field verifier",
+   "tests": "pnpm --filter @makarba/gis-io check ...; python scripts/check_geo_review.py",
+   "closeWhen": "All agreed corridors VERIFIED in the register",
+   "unlocks": "#120, #130",
+   "transferWholeIssueAfterUserApproval": true,
+   "transferNote": ""
+  },
+  {
+   "issue": 41,
+   "url": "https://github.com/satvikp-coder/makarba-360/issues/41",
+   "title": "[PRIVACY] Test security threat model and privacy boundaries",
+   "currentAssignees": [
+    "satvikp-coder"
+   ],
+   "kind": "backend (Developer A owned)",
+   "claudeCompleted": "Threat register (18 cases), 23 abuse-case tests, safe-errors.ts, privacy-security.md findings",
+   "varunTasks": "Mount notFound and safeErrors last in the real server; add rate limiting and login throttling; audit unauthenticated private-route attempts; after #37/#38 exist re-run the register so AC-15 and AC-17 become automated; obtain capability-matrix approval (#6)",
+   "authorisedActor": "Stakeholders approve the capability matrix (#6); Varun coordinates and records it, and must not substitute their decision",
+   "tests": "pnpm --filter @makarba/api test; update docs/architecture/threat-model.json statuses",
+   "closeWhen": "Matrix approved, live cases automated, #92 gate satisfied",
+   "unlocks": "#92, #113",
+   "transferWholeIssueAfterUserApproval": true,
+   "transferNote": ""
+  },
+  {
+   "issue": 54,
+   "url": "https://github.com/satvikp-coder/makarba-360/issues/54",
+   "title": "[OFFLINE] Validate offline approach and fallback",
+   "currentAssignees": [
+    "satvikp-coder"
+   ],
+   "kind": "real device",
+   "claudeCompleted": "tools/offline-probe + README, 5 desktop tests, scripts/check_device_reports.py with 8 tests",
+   "varunTasks": "Run the probe on one real Android phone and one real iPhone exactly as tools/offline-probe/README.md says; save both JSON reports; attach them to #54; run the checker; decide PWA vs ODK/Kobo with the research lead and record it",
+   "authorisedActor": "Research lead takes the PWA/Kobo decision",
+   "tests": "python scripts/check_device_reports.py android.json ios.json",
+   "closeWhen": "Checker prints ACCEPTED and the decision is recorded on the issue",
+   "unlocks": "#62, #117",
+   "transferWholeIssueAfterUserApproval": true,
+   "transferNote": ""
+  },
+  {
+   "issue": 62,
+   "url": "https://github.com/satvikp-coder/makarba-360/issues/62",
+   "title": "[OFFLINE] Test field network and device-loss recovery",
+   "currentAssignees": [
+    "satvikp-coder"
+   ],
+   "kind": "real device",
+   "claudeCompleted": "Nothing yet: the field network and device-loss tests need the field app and sync (Developer A, #57/#58/#59)",
+   "varunTasks": "Once the field app exists, run the documented network-fault and device-loss scenarios on real phones and attach reports",
+   "authorisedActor": "Trained researchers",
+   "tests": "to be defined with the field app",
+   "closeWhen": "Reports attached and reviewed",
+   "unlocks": "#118, #119",
+   "transferWholeIssueAfterUserApproval": true,
+   "transferNote": ""
+  },
+  {
+   "issue": 80,
+   "url": "https://github.com/satvikp-coder/makarba-360/issues/80",
+   "title": "[FRONTEND] Integrate public history and Community Voices",
+   "currentAssignees": [
+    "satvikp-coder"
+   ],
+   "kind": "backend (Developer A owned)",
+   "claudeCompleted": "Voices page, strict stories parser, proposed contract fixture, /stories route in public-api.ts, 9+ tests",
+   "varunTasks": "Adopt the Stories schema into packages/contracts; implement getStories() in the real repository from reviewed stories (packages/place-content/src/story.ts rules); review real accounts with the research lead before any is published",
+   "authorisedActor": "Research lead reviews real accounts and consent",
+   "tests": "pnpm --filter @makarba/api conformance <base>; pnpm --filter @makarba/web test",
+   "closeWhen": "Contract adopted, endpoint live, a withdrawn account disappears at next load on the real API",
+   "unlocks": "#128, #131",
+   "transferWholeIssueAfterUserApproval": true,
+   "transferNote": ""
+  },
+  {
+   "issue": 82,
+   "url": "https://github.com/satvikp-coder/makarba-360/issues/82",
+   "title": "[FRONTEND] Verify responsive public map journeys",
+   "currentAssignees": [
+    "satvikp-coder"
+   ],
+   "kind": "real device",
+   "claudeCompleted": "Responsive layout, 66 Chromium tests incl. 320px/landscape/tablet and sheet, step list in DEVELOPER_B_HUMAN_ACTION_REQUIRED.md",
+   "varunTasks": "Run the listed steps on a real Android phone and a real iPhone; record device, OS, browser and PASS/FAIL per step with screenshots on #82",
+   "authorisedActor": "None beyond the tester",
+   "tests": "E2E_TARGET=preview pnpm --filter @makarba/web test:e2e (regression); manual steps for the device",
+   "closeWhen": "Evidence attached for both devices with no open defect",
+   "unlocks": "#117, #113",
+   "transferWholeIssueAfterUserApproval": true,
+   "transferNote": ""
+  },
+  {
+   "issue": 113,
+   "url": "https://github.com/satvikp-coder/makarba-360/issues/113",
+   "title": "[DEVOPS] Test end-to-end public field and review journeys",
+   "currentAssignees": [
+    "satvikp-coder"
+   ],
+   "kind": "backend (Developer A owned)",
+   "claudeCompleted": "Dual-mode harness (packages/journeys), preflight CLI, 20 tests",
+   "varunTasks": "Implement the five private routes (reset in test envs only, submit, approve, withdraw, publication run) and the public repository; run the live journey",
+   "authorisedActor": "None",
+   "tests": "LIVE_API_BASE=<origin> pnpm --filter @makarba/journeys live, then ... test",
+   "closeWhen": "Live journey passes with the same assertions",
+   "unlocks": "#126",
+   "transferWholeIssueAfterUserApproval": true,
+   "transferNote": ""
+  },
+  {
+   "issue": 114,
+   "url": "https://github.com/satvikp-coder/makarba-360/issues/114",
+   "title": "[DEVOPS] Audit keyboard screen reader and localization access",
+   "currentAssignees": [
+    "satvikp-coder"
+   ],
+   "kind": "human approval or evidence",
+   "claudeCompleted": "33 automated accessibility tests incl. contrast, keyboard, zoom, motion, forced colours",
+   "varunTasks": "Arrange screen-reader testing (NVDA, VoiceOver, TalkBack) using the journeys in DEVELOPER_B_HUMAN_ACTION_REQUIRED.md; arrange fluent Gujarati and Hindi review before any language is enabled; record findings on #114",
+   "authorisedActor": "Screen-reader users and fluent reviewers",
+   "tests": "pnpm --filter @makarba/web exec playwright test e2e/accessibility.spec.ts (regression)",
+   "closeWhen": "Findings recorded, defects fixed or accepted",
+   "unlocks": "#129, #126",
+   "transferWholeIssueAfterUserApproval": true,
+   "transferNote": ""
+  },
+  {
+   "issue": 115,
+   "url": "https://github.com/satvikp-coder/makarba-360/issues/115",
+   "title": "[DEVOPS] Enforce performance security and CI gates",
+   "currentAssignees": [
+    "satvikp-coder"
+   ],
+   "kind": "operations / provider",
+   "claudeCompleted": "CI policy, dependency-audit and budget gates, conformance step, ruleset JSON (docs/project/branch-ruleset.json)",
+   "varunTasks": "Create the ruleset in GitHub Settings from branch-ruleset.json (checks: node (ubuntu-latest), node (windows-latest), conformance, browser, database, planning); approve or change budgets in scripts/check_budgets.py; resolve #193",
+   "authorisedActor": "Repository owner holds the admin permission; Varun coordinates",
+   "tests": "gh api repos/satvikp-coder/makarba-360/rules/branches/main",
+   "closeWhen": "Ruleset active, budgets approved in a comment, baseline empty",
+   "unlocks": "#126",
+   "transferWholeIssueAfterUserApproval": true,
+   "transferNote": ""
+  },
+  {
+   "issue": 117,
+   "url": "https://github.com/satvikp-coder/makarba-360/issues/117",
+   "title": "[DEVOPS] Validate real mobile browser compatibility",
+   "currentAssignees": [
+    "satvikp-coder"
+   ],
+   "kind": "real device",
+   "claudeCompleted": "Probe, viewport and e2e tests, device checker",
+   "varunTasks": "Run the compatibility sweep on at least two Android and two iPhone models (map, search keyboard, lightbox, panorama WebGL, offline probe); attach reports",
+   "authorisedActor": "None beyond the tester",
+   "tests": "python scripts/check_device_reports.py ...",
+   "closeWhen": "Reports accepted and defects triaged",
+   "unlocks": "#126",
+   "transferWholeIssueAfterUserApproval": true,
+   "transferNote": ""
+  },
+  {
+   "issue": 118,
+   "url": "https://github.com/satvikp-coder/makarba-360/issues/118",
+   "title": "[DEVOPS] Train researchers and rehearse field checklist",
+   "currentAssignees": [
+    "satvikp-coder"
+   ],
+   "kind": "human approval or evidence",
+   "claudeCompleted": "Field SOP, consent protocol and sampling plan documents exist (docs/research)",
+   "varunTasks": "Obtain ethics/institutional approval (#11) and run researcher training and the checklist rehearsal; record attendance and results",
+   "authorisedActor": "Ethics committee / institution; research lead",
+   "tests": "n/a",
+   "closeWhen": "Approval and training evidence recorded",
+   "unlocks": "#119",
+   "transferWholeIssueAfterUserApproval": true,
+   "transferNote": ""
+  },
+  {
+   "issue": 119,
+   "url": "https://github.com/satvikp-coder/makarba-360/issues/119",
+   "title": "[DEVOPS] Run consent-approved small field usability pilot",
+   "currentAssignees": [
+    "satvikp-coder"
+   ],
+   "kind": "human approval or evidence",
+   "claudeCompleted": "Rules model for the interview flow (packages/field-flow); no field app",
+   "varunTasks": "Run the consent-approved small pilot only after approvals, trained researchers, a working field app and prior device tests; record outcomes",
+   "authorisedActor": "Ethics committee; research lead",
+   "tests": "n/a",
+   "closeWhen": "Pilot report approved",
+   "unlocks": "#126, #125",
+   "transferWholeIssueAfterUserApproval": true,
+   "transferNote": ""
+  },
+  {
+   "issue": 120,
+   "url": "https://github.com/satvikp-coder/makarba-360/issues/120",
+   "title": "[DEVOPS] Verify candidate places and road data",
+   "currentAssignees": [
+    "satvikp-coder"
+   ],
+   "kind": "human approval or evidence",
+   "claudeCompleted": "Geography tooling as #5",
+   "varunTasks": "Verify candidate places and roads on the ground or against authoritative sources and record each in the register",
+   "authorisedActor": "Research lead / field verifier",
+   "tests": "python scripts/check_geo_review.py",
+   "closeWhen": "All candidate places VERIFIED or REJECTED with evidence",
+   "unlocks": "#126, #130",
+   "transferWholeIssueAfterUserApproval": true,
+   "transferNote": ""
+  },
+  {
+   "issue": 123,
+   "url": "https://github.com/satvikp-coder/makarba-360/issues/123",
+   "title": "[DEVOPS] Audit historical sources and media attribution",
+   "currentAssignees": [
+    "satvikp-coder"
+   ],
+   "kind": "human approval or evidence",
+   "claudeCompleted": "auditPublication tool (place-content), media rights model, story rules, 6+ tests",
+   "varunTasks": "Collect the real source/rights register for every item to be published; run auditPublication over the real records; research lead certifies rights and consent",
+   "authorisedActor": "Research lead",
+   "tests": "pnpm --filter @makarba/place-content test; run auditPublication in the release check",
+   "closeWhen": "Audit verdict PASS on real content; research lead sign-off",
+   "unlocks": "#126, #128, #131",
+   "transferWholeIssueAfterUserApproval": true,
+   "transferNote": ""
+  },
+  {
+   "issue": 124,
+   "url": "https://github.com/satvikp-coder/makarba-360/issues/124",
+   "title": "[DEVOPS] Provision staging and production deployment",
+   "currentAssignees": [
+    "satvikp-coder"
+   ],
+   "kind": "operations / provider",
+   "claudeCompleted": "Nothing built yet: provider-neutral deployment templates and environment validation are still Claude work",
+   "varunTasks": "Decide provider, region, tile provider and monthly cap; supply credentials through the secret store; approve deployment; show rollback and backup evidence",
+   "authorisedActor": "Project owner with budget authority",
+   "tests": "to be defined",
+   "closeWhen": "Staging with synthetic data verified, then production approved",
+   "unlocks": "#126",
+   "transferWholeIssueAfterUserApproval": false,
+   "transferNote": "Do not transfer yet: independent Claude work or a prerequisite is still outstanding, or the issue is stretch scope"
+  },
+  {
+   "issue": 126,
+   "url": "https://github.com/satvikp-coder/makarba-360/issues/126",
+   "title": "[DEVOPS] Verify release readiness and demonstrate end to end",
+   "currentAssignees": [
+    "satvikp-coder"
+   ],
+   "kind": "release dependency",
+   "claudeCompleted": "Gates and checklists exist; nothing to release yet",
+   "varunTasks": "Run the release check after #115, #117, #120, #123, #125 and #110 are done",
+   "authorisedActor": "Project owner / supervisor",
+   "tests": "all gates listed in INTEGRATION_READY_CHECKLIST.md",
+   "closeWhen": "All hard prerequisites closed and release check passes",
+   "unlocks": "#127-#135",
+   "transferWholeIssueAfterUserApproval": true,
+   "transferNote": ""
+  },
+  {
+   "issue": 127,
+   "url": "https://github.com/satvikp-coder/makarba-360/issues/127",
+   "title": "[DEVOPS] Complete handover and maintenance ownership",
+   "currentAssignees": [
+    "satvikp-coder"
+   ],
+   "kind": "release dependency",
+   "claudeCompleted": "None",
+   "varunTasks": "Write the maintenance handover and ownership after #126",
+   "authorisedActor": "Project owner",
+   "tests": "n/a",
+   "closeWhen": "Handover accepted",
+   "unlocks": "-",
+   "transferWholeIssueAfterUserApproval": true,
+   "transferNote": ""
+  },
+  {
+   "issue": 128,
+   "url": "https://github.com/satvikp-coder/makarba-360/issues/128",
+   "title": "[FRONTEND] Build rich guided map tours",
+   "currentAssignees": [
+    "satvikp-coder"
+   ],
+   "kind": "release dependency",
+   "claudeCompleted": "None built (guided tours are stretch)",
+   "varunTasks": "After #126 and #80: decide scope with the research lead",
+   "authorisedActor": "Research lead",
+   "tests": "n/a",
+   "closeWhen": "Feature approved and tested",
+   "unlocks": "-",
+   "transferWholeIssueAfterUserApproval": false,
+   "transferNote": "Do not transfer yet: independent Claude work or a prerequisite is still outstanding, or the issue is stretch scope"
+  },
+  {
+   "issue": 129,
+   "url": "https://github.com/satvikp-coder/makarba-360/issues/129",
+   "title": "[FRONTEND] Expand English Gujarati and Hindi localization",
+   "currentAssignees": [
+    "satvikp-coder"
+   ],
+   "kind": "human approval or evidence",
+   "claudeCompleted": "Language selector, disabled-language handling, i18n strings (English only)",
+   "varunTasks": "After #114: commission and review Gujarati and Hindi text",
+   "authorisedActor": "Fluent reviewers",
+   "tests": "pnpm --filter @makarba/web test",
+   "closeWhen": "Reviewed translations enabled",
+   "unlocks": "-",
+   "transferWholeIssueAfterUserApproval": true,
+   "transferNote": ""
+  },
+  {
+   "issue": 130,
+   "url": "https://github.com/satvikp-coder/makarba-360/issues/130",
+   "title": "[FRONTEND] Analyze surveyed walkability and accessibility",
+   "currentAssignees": [
+    "satvikp-coder"
+   ],
+   "kind": "human approval or evidence",
+   "claudeCompleted": "None built",
+   "varunTasks": "After #28 and #126: survey data collection for walkability is real fieldwork",
+   "authorisedActor": "Ethics committee; research lead",
+   "tests": "n/a",
+   "closeWhen": "Approved data analysed",
+   "unlocks": "#132",
+   "transferWholeIssueAfterUserApproval": false,
+   "transferNote": "Do not transfer yet: independent Claude work or a prerequisite is still outstanding, or the issue is stretch scope"
+  },
+  {
+   "issue": 131,
+   "url": "https://github.com/satvikp-coder/makarba-360/issues/131",
+   "title": "[FRONTEND] Create consented community audio archive",
+   "currentAssignees": [
+    "satvikp-coder"
+   ],
+   "kind": "human approval or evidence",
+   "claudeCompleted": "None built",
+   "varunTasks": "Consented audio archive needs consent (#37), stories (#71) and withdrawal (#105)",
+   "authorisedActor": "Ethics committee",
+   "tests": "n/a",
+   "closeWhen": "Approved archive published",
+   "unlocks": "-",
+   "transferWholeIssueAfterUserApproval": false,
+   "transferNote": "Do not transfer yet: independent Claude work or a prerequisite is still outstanding, or the issue is stretch scope"
+  },
+  {
+   "issue": 132,
+   "url": "https://github.com/satvikp-coder/makarba-360/issues/132",
+   "title": "[FRONTEND] Prototype clearly hypothetical future scenarios",
+   "currentAssignees": [
+    "satvikp-coder"
+   ],
+   "kind": "release dependency",
+   "claudeCompleted": "None built",
+   "varunTasks": "Hypothetical scenarios after #126 and #130; must be labelled hypothetical",
+   "authorisedActor": "Research lead",
+   "tests": "n/a",
+   "closeWhen": "Reviewed",
+   "unlocks": "-",
+   "transferWholeIssueAfterUserApproval": false,
+   "transferNote": "Do not transfer yet: independent Claude work or a prerequisite is still outstanding, or the issue is stretch scope"
+  },
+  {
+   "issue": 133,
+   "url": "https://github.com/satvikp-coder/makarba-360/issues/133",
+   "title": "[FRONTEND] Evaluate advanced 3D data and performance",
+   "currentAssignees": [
+    "satvikp-coder"
+   ],
+   "kind": "release dependency",
+   "claudeCompleted": "None built",
+   "varunTasks": "Evaluate 3D data after #126",
+   "authorisedActor": "-",
+   "tests": "n/a",
+   "closeWhen": "Evaluation recorded",
+   "unlocks": "-",
+   "transferWholeIssueAfterUserApproval": false,
+   "transferNote": "Do not transfer yet: independent Claude work or a prerequisite is still outstanding, or the issue is stretch scope"
+  },
+  {
+   "issue": 134,
+   "url": "https://github.com/satvikp-coder/makarba-360/issues/134",
+   "title": "[FRONTEND] Build privacy-safe reported-issue hotspot views",
+   "currentAssignees": [
+    "satvikp-coder"
+   ],
+   "kind": "backend (Developer A owned)",
+   "claudeCompleted": "Disclosure rules in packages/analytics",
+   "varunTasks": "Needs #90, #92 and #126",
+   "authorisedActor": "-",
+   "tests": "n/a",
+   "closeWhen": "Safe hotspots live",
+   "unlocks": "-",
+   "transferWholeIssueAfterUserApproval": false,
+   "transferNote": "Do not transfer yet: independent Claude work or a prerequisite is still outstanding, or the issue is stretch scope"
+  },
+  {
+   "issue": 135,
+   "url": "https://github.com/satvikp-coder/makarba-360/issues/135",
+   "title": "[FRONTEND] Export approved research report and charts",
+   "currentAssignees": [
+    "satvikp-coder"
+   ],
+   "kind": "release dependency",
+   "claudeCompleted": "None built",
+   "varunTasks": "Report export after #126",
+   "authorisedActor": "Research lead",
+   "tests": "n/a",
+   "closeWhen": "Approved report",
+   "unlocks": "-",
+   "transferWholeIssueAfterUserApproval": false,
+   "transferNote": "Do not transfer yet: independent Claude work or a prerequisite is still outstanding, or the issue is stretch scope"
+  }
+ ]
+}
