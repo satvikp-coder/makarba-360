@@ -7,7 +7,7 @@
    "url": "https://github.com/satvikp-coder/makarba-360/issues/5",
    "title": "[DEVOPS] Specify and verify geographical study extent",
    "currentAssignees": [
-    "satvikp-coder"
+    "varunkarthic"
    ],
    "kind": "human approval or evidence",
    "claudeCompleted": "gis-io import checker + CLI (pnpm --filter @makarba/gis-io check), geo-review register and checker (scripts/check_geo_review.py), candidate rules in place-content",
@@ -24,7 +24,7 @@
    "url": "https://github.com/satvikp-coder/makarba-360/issues/28",
    "title": "[GIS] Import and verify road corridors",
    "currentAssignees": [
-    "satvikp-coder"
+    "varunkarthic"
    ],
    "kind": "human approval or evidence",
    "claudeCompleted": "same tooling as #5",
@@ -41,7 +41,7 @@
    "url": "https://github.com/satvikp-coder/makarba-360/issues/41",
    "title": "[PRIVACY] Test security threat model and privacy boundaries",
    "currentAssignees": [
-    "satvikp-coder"
+    "varunkarthic"
    ],
    "kind": "backend (Developer A owned)",
    "claudeCompleted": "Threat register (18 cases), 23 abuse-case tests, safe-errors.ts, privacy-security.md findings",
@@ -58,7 +58,7 @@
    "url": "https://github.com/satvikp-coder/makarba-360/issues/54",
    "title": "[OFFLINE] Validate offline approach and fallback",
    "currentAssignees": [
-    "satvikp-coder"
+    "varunkarthic"
    ],
    "kind": "real device",
    "claudeCompleted": "tools/offline-probe + README, 5 desktop tests, scripts/check_device_reports.py with 8 tests",
@@ -75,13 +75,13 @@
    "url": "https://github.com/satvikp-coder/makarba-360/issues/62",
    "title": "[OFFLINE] Test field network and device-loss recovery",
    "currentAssignees": [
-    "satvikp-coder"
+    "varunkarthic"
    ],
    "kind": "real device",
-   "claudeCompleted": "Nothing yet: the field network and device-loss tests need the field app and sync (Developer A, #57/#58/#59)",
-   "varunTasks": "Once the field app exists, run the documented network-fault and device-loss scenarios on real phones and attach reports",
+   "claudeCompleted": "packages/offline-sim: SyncAdapter interface, deterministic simulator and 12 scenarios (offline save, lost response, repeat sends, timeout, rejection, session expiry, kill and restart, storage full, conflicts, withdrawal, media) with 16 tests that also prove the scenarios catch a false synced badge, dropped records and a lost queue",
+   "varunTasks": "Implement SyncAdapter in the real field app and run the offline-sim SCENARIOS against it; then run the network-fault and device-loss scenarios on real phones with tools/offline-probe and attach the reports",
    "authorisedActor": "Trained researchers",
-   "tests": "to be defined with the field app",
+   "tests": "pnpm --filter @makarba/offline-sim test (simulator); the same SCENARIOS against the real adapter; python scripts/check_device_reports.py ... for devices",
    "closeWhen": "Reports attached and reviewed",
    "unlocks": "#118, #119",
    "transferWholeIssueAfterUserApproval": true,
@@ -92,7 +92,7 @@
    "url": "https://github.com/satvikp-coder/makarba-360/issues/80",
    "title": "[FRONTEND] Integrate public history and Community Voices",
    "currentAssignees": [
-    "satvikp-coder"
+    "varunkarthic"
    ],
    "kind": "backend (Developer A owned)",
    "claudeCompleted": "Voices page, strict stories parser, proposed contract fixture, /stories route in public-api.ts, 9+ tests",
@@ -109,7 +109,7 @@
    "url": "https://github.com/satvikp-coder/makarba-360/issues/82",
    "title": "[FRONTEND] Verify responsive public map journeys",
    "currentAssignees": [
-    "satvikp-coder"
+    "varunkarthic"
    ],
    "kind": "real device",
    "claudeCompleted": "Responsive layout, 66 Chromium tests incl. 320px/landscape/tablet and sheet, step list in DEVELOPER_B_HUMAN_ACTION_REQUIRED.md",
@@ -126,7 +126,7 @@
    "url": "https://github.com/satvikp-coder/makarba-360/issues/113",
    "title": "[DEVOPS] Test end-to-end public field and review journeys",
    "currentAssignees": [
-    "satvikp-coder"
+    "varunkarthic"
    ],
    "kind": "backend (Developer A owned)",
    "claudeCompleted": "Dual-mode harness (packages/journeys), preflight CLI, 20 tests",
@@ -143,7 +143,7 @@
    "url": "https://github.com/satvikp-coder/makarba-360/issues/114",
    "title": "[DEVOPS] Audit keyboard screen reader and localization access",
    "currentAssignees": [
-    "satvikp-coder"
+    "varunkarthic"
    ],
    "kind": "human approval or evidence",
    "claudeCompleted": "33 automated accessibility tests incl. contrast, keyboard, zoom, motion, forced colours",
@@ -160,7 +160,7 @@
    "url": "https://github.com/satvikp-coder/makarba-360/issues/115",
    "title": "[DEVOPS] Enforce performance security and CI gates",
    "currentAssignees": [
-    "satvikp-coder"
+    "varunkarthic"
    ],
    "kind": "operations / provider",
    "claudeCompleted": "CI policy, dependency-audit and budget gates, conformance step, ruleset JSON (docs/project/branch-ruleset.json)",
@@ -177,7 +177,7 @@
    "url": "https://github.com/satvikp-coder/makarba-360/issues/117",
    "title": "[DEVOPS] Validate real mobile browser compatibility",
    "currentAssignees": [
-    "satvikp-coder"
+    "varunkarthic"
    ],
    "kind": "real device",
    "claudeCompleted": "Probe, viewport and e2e tests, device checker",
@@ -194,7 +194,7 @@
    "url": "https://github.com/satvikp-coder/makarba-360/issues/118",
    "title": "[DEVOPS] Train researchers and rehearse field checklist",
    "currentAssignees": [
-    "satvikp-coder"
+    "varunkarthic"
    ],
    "kind": "human approval or evidence",
    "claudeCompleted": "Field SOP, consent protocol and sampling plan documents exist (docs/research)",
@@ -211,7 +211,7 @@
    "url": "https://github.com/satvikp-coder/makarba-360/issues/119",
    "title": "[DEVOPS] Run consent-approved small field usability pilot",
    "currentAssignees": [
-    "satvikp-coder"
+    "varunkarthic"
    ],
    "kind": "human approval or evidence",
    "claudeCompleted": "Rules model for the interview flow (packages/field-flow); no field app",
@@ -228,7 +228,7 @@
    "url": "https://github.com/satvikp-coder/makarba-360/issues/120",
    "title": "[DEVOPS] Verify candidate places and road data",
    "currentAssignees": [
-    "satvikp-coder"
+    "varunkarthic"
    ],
    "kind": "human approval or evidence",
    "claudeCompleted": "Geography tooling as #5",
@@ -245,7 +245,7 @@
    "url": "https://github.com/satvikp-coder/makarba-360/issues/123",
    "title": "[DEVOPS] Audit historical sources and media attribution",
    "currentAssignees": [
-    "satvikp-coder"
+    "varunkarthic"
    ],
    "kind": "human approval or evidence",
    "claudeCompleted": "auditPublication tool (place-content), media rights model, story rules, 6+ tests",
@@ -262,24 +262,24 @@
    "url": "https://github.com/satvikp-coder/makarba-360/issues/124",
    "title": "[DEVOPS] Provision staging and production deployment",
    "currentAssignees": [
-    "satvikp-coder"
+    "varunkarthic"
    ],
    "kind": "operations / provider",
-   "claudeCompleted": "Nothing built yet: provider-neutral deployment templates and environment validation are still Claude work",
-   "varunTasks": "Decide provider, region, tile provider and monthly cap; supply credentials through the secret store; approve deployment; show rollback and backup evidence",
+   "claudeCompleted": "deploy/ (Dockerfile.web, Dockerfile.api, nginx.conf, headers.json, rollback.sh template, README runbook), scripts/deploy_smoke.py, scripts/check_deploy_config.py, apps/web/e2e/csp.spec.ts (the production build runs under the required headers in a real browser: map, worker, search, panorama; it found that tile fetches need connect-src), 15 gate tests; packages/config already refuses unsafe production settings",
+   "varunTasks": "Decide provider, region, tile provider and monthly cap; put DATABASE_URL and SESSION_SECRET in the platform secret store; fill in the platform commands in deploy/rollback.sh; build the images and run the smoke test on staging with --expect-https; rehearse and record a rollback and a restore; obtain deployment approval",
    "authorisedActor": "Project owner with budget authority",
-   "tests": "to be defined",
-   "closeWhen": "Staging with synthetic data verified, then production approved",
+   "tests": "python scripts/check_deploy_config.py; python scripts/deploy_smoke.py <url> --expect-https; pnpm --filter @makarba/web exec playwright test e2e/csp.spec.ts",
+   "closeWhen": "Staging with synthetic data verified, rollback rehearsed, production approved",
    "unlocks": "#126",
-   "transferWholeIssueAfterUserApproval": false,
-   "transferNote": "Do not transfer yet: independent Claude work or a prerequisite is still outstanding, or the issue is stretch scope"
+   "transferWholeIssueAfterUserApproval": true,
+   "transferNote": ""
   },
   {
    "issue": 126,
    "url": "https://github.com/satvikp-coder/makarba-360/issues/126",
    "title": "[DEVOPS] Verify release readiness and demonstrate end to end",
    "currentAssignees": [
-    "satvikp-coder"
+    "varunkarthic"
    ],
    "kind": "release dependency",
    "claudeCompleted": "Gates and checklists exist; nothing to release yet",
@@ -296,7 +296,7 @@
    "url": "https://github.com/satvikp-coder/makarba-360/issues/127",
    "title": "[DEVOPS] Complete handover and maintenance ownership",
    "currentAssignees": [
-    "satvikp-coder"
+    "varunkarthic"
    ],
    "kind": "release dependency",
    "claudeCompleted": "None",
@@ -313,10 +313,10 @@
    "url": "https://github.com/satvikp-coder/makarba-360/issues/128",
    "title": "[FRONTEND] Build rich guided map tours",
    "currentAssignees": [
-    "satvikp-coder"
+    "varunkarthic"
    ],
    "kind": "release dependency",
-   "claudeCompleted": "None built (guided tours are stretch)",
+   "claudeCompleted": "packages/stretch usableTour/stepTour (published-only stops, keyboard stepping) behind a flag that stays off in production before #126; the map/UI component is NOT built",
    "varunTasks": "After #126 and #80: decide scope with the research lead",
    "authorisedActor": "Research lead",
    "tests": "n/a",
@@ -330,7 +330,7 @@
    "url": "https://github.com/satvikp-coder/makarba-360/issues/129",
    "title": "[FRONTEND] Expand English Gujarati and Hindi localization",
    "currentAssignees": [
-    "satvikp-coder"
+    "varunkarthic"
    ],
    "kind": "human approval or evidence",
    "claudeCompleted": "Language selector, disabled-language handling, i18n strings (English only)",
@@ -347,10 +347,10 @@
    "url": "https://github.com/satvikp-coder/makarba-360/issues/130",
    "title": "[FRONTEND] Analyze surveyed walkability and accessibility",
    "currentAssignees": [
-    "satvikp-coder"
+    "varunkarthic"
    ],
    "kind": "human approval or evidence",
-   "claudeCompleted": "None built",
+   "claudeCompleted": "packages/stretch corridor-audit schema and accessibilityLabel (never claims without verified geometry, source, date and evidence; unknown stays Not assessed); UI NOT built",
    "varunTasks": "After #28 and #126: survey data collection for walkability is real fieldwork",
    "authorisedActor": "Ethics committee; research lead",
    "tests": "n/a",
@@ -364,10 +364,10 @@
    "url": "https://github.com/satvikp-coder/makarba-360/issues/131",
    "title": "[FRONTEND] Create consented community audio archive",
    "currentAssignees": [
-    "satvikp-coder"
+    "varunkarthic"
    ],
    "kind": "human approval or evidence",
-   "claudeCompleted": "None built",
+   "claudeCompleted": "packages/stretch audioBlockers (consent, rights, transcript, attribution, withdrawal); the player UI is NOT built",
    "varunTasks": "Consented audio archive needs consent (#37), stories (#71) and withdrawal (#105)",
    "authorisedActor": "Ethics committee",
    "tests": "n/a",
@@ -381,10 +381,10 @@
    "url": "https://github.com/satvikp-coder/makarba-360/issues/132",
    "title": "[FRONTEND] Prototype clearly hypothetical future scenarios",
    "currentAssignees": [
-    "satvikp-coder"
+    "varunkarthic"
    ],
    "kind": "release dependency",
-   "claudeCompleted": "None built",
+   "claudeCompleted": "packages/stretch scenarioProblems/scenarioHeading (hypothetical label, assumptions, no measurement wording); comparison UI NOT built",
    "varunTasks": "Hypothetical scenarios after #126 and #130; must be labelled hypothetical",
    "authorisedActor": "Research lead",
    "tests": "n/a",
@@ -398,10 +398,10 @@
    "url": "https://github.com/satvikp-coder/makarba-360/issues/133",
    "title": "[FRONTEND] Evaluate advanced 3D data and performance",
    "currentAssignees": [
-    "satvikp-coder"
+    "varunkarthic"
    ],
    "kind": "release dependency",
-   "claudeCompleted": "None built",
+   "claudeCompleted": "packages/stretch chooseRenderer (3D only on capable devices, otherwise 2D with a reason); no 3D data or dependency added; evaluation measurements NOT done",
    "varunTasks": "Evaluate 3D data after #126",
    "authorisedActor": "-",
    "tests": "n/a",
@@ -415,10 +415,10 @@
    "url": "https://github.com/satvikp-coder/makarba-360/issues/134",
    "title": "[FRONTEND] Build privacy-safe reported-issue hotspot views",
    "currentAssignees": [
-    "satvikp-coder"
+    "varunkarthic"
    ],
    "kind": "backend (Developer A owned)",
-   "claudeCompleted": "Disclosure rules in packages/analytics",
+   "claudeCompleted": "packages/stretch hotspotProblems (coarse cells only, counts at least k, no counts on hidden cells, no single hidden cell, no restricted fields) plus packages/analytics disclosure rules; rendering NOT built",
    "varunTasks": "Needs #90, #92 and #126",
    "authorisedActor": "-",
    "tests": "n/a",
@@ -432,10 +432,10 @@
    "url": "https://github.com/satvikp-coder/makarba-360/issues/135",
    "title": "[FRONTEND] Export approved research report and charts",
    "currentAssignees": [
-    "satvikp-coder"
+    "varunkarthic"
    ],
    "kind": "release dependency",
-   "claudeCompleted": "None built",
+   "claudeCompleted": "packages/stretch reportCsv (synthetic banner, hidden groups shown as hidden, formula-safe, period and caveats); report page NOT built",
    "varunTasks": "Report export after #126",
    "authorisedActor": "Research lead",
    "tests": "n/a",

@@ -1,0 +1,12 @@
+{
+  "_comment": "Single source of truth for the response headers the public web tier must send. deploy/nginx.conf must contain exactly these values (checked by scripts/check_deploy_config.py); scripts/deploy_smoke.py and apps/web/e2e/csp.spec.ts verify them against a running site. Tile hosts (connect-src and img-src): the default is OpenStreetMap's standard tiles (development/pilot only, see docs/architecture/gis-design.md); a production provider decision (#124) will change img-src.",
+  "headers": {
+    "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; connect-src 'self' https://tile.openstreetmap.org; worker-src 'self' blob:; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'",
+    "X-Content-Type-Options": "nosniff",
+    "Referrer-Policy": "no-referrer",
+    "X-Frame-Options": "DENY",
+    "Permissions-Policy": "geolocation=(), camera=(), microphone=()",
+    "Cross-Origin-Opener-Policy": "same-origin"
+  },
+  "httpsOnly": { "Strict-Transport-Security": "max-age=31536000; includeSubDomains" }
+}

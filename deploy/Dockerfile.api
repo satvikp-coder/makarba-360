@@ -1,0 +1,18 @@
+# API service. Build context: repository root. Secrets (DATABASE_URL, SESSION_SECRET) are supplied at RUN time by the platform's secret
+# store, never baked into the image. Start-up refuses placeholder or unsafe values (packages/config) and refuses production while the
+# capability matrix is unapproved (packages/authz assertPolicyUsable).
+FROM node:22.11-alpine AS build
+WORKDIR /repo
+RUN corepack enable
+COPY . .
+RUN pnpm install --frozen-lockfile && pnpm -r build
+
+FROM node:22.11-alpine
+WORKDIR /repo
+RUN corepack enable
+COPY --from=build /repo /repo
+ENV NODE_ENV=production
+USER node
+EXPOSE 4000
+HEALTHCHECK --interval=30s --timeout=3s --retries=3 CMD wget -qO- http://127.0.0.1:4000/health || exit 1
+CMD ["pnpm", "--filter", "@makarba/api", "exec", "tsx", "src/server.ts"]
