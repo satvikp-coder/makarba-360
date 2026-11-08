@@ -108,3 +108,4 @@ export function toPublicContent(c: ContentRevision, sources: SourceRef[], latest
   if (!chk.ok) return null;
   return { id: c.id, kind: c.kind, locale: c.locale, body: c.body, observedOn: c.observedOn, evidenceKind: c.evidenceKind, evidenceQuality: c.evidenceQuality, sourceIds: c.sourceIds, lastReviewedAt: c.lastReviewedAt };
 }
+export * as media from "./media.js";
