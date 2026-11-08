@@ -72,6 +72,9 @@ importers:
       '@makarba/design-tokens':
         specifier: workspace:*
         version: link:../../packages/design-tokens
+      '@makarba/geo-search':
+        specifier: workspace:*
+        version: link:../../packages/geo-search
       '@makarba/public-ia':
         specifier: workspace:*
         version: link:../../packages/public-ia

@@ -9,6 +9,7 @@ import { NotFound } from "./NotFound.js";
 import { PlaceProfile } from "./Profile.js";
 import { MapView, type MapStatus } from "./map/MapView.js";
 import { LANGUAGES, strings, type Lang } from "./i18n.js";
+import { cleanQuery, localSource, type SourceFactory } from "./searchSource.js";
 import { applyFilters, isActive, LAYERS, parseFilters, toggle, writeFilters, type Filters } from "./filters.js";
 
 const NAV_TARGET: Record<Exclude<NavGroup, "footer">, string> = {
@@ -69,7 +70,7 @@ function titleFor(path: string): string {
 }
 
 /** List alternative for the map (P02-P04): same published places, no map or WebGL needed. */
-export function PlaceList({ fetcher, withMap = false }: { fetcher?: typeof fetch; withMap?: boolean }) {
+export function PlaceList({ fetcher, withMap = false, makeSource = localSource }: { fetcher?: typeof fetch; withMap?: boolean; makeSource?: SourceFactory }) {
   const t = strings.en;
   // Selection lives in the URL (?place=<public feature id>) so it survives reload, sharing and back/forward.
   const [params, setParams] = useSearchParams();
@@ -83,7 +84,35 @@ export function PlaceList({ fetcher, withMap = false }: { fetcher?: typeof fetch
   const categories = r !== "loading" && r.status === "ok" ? [...new Set(r.places.map((p) => p.category))].sort() : [];
   const filters: Filters = withMap ? parseFilters(params, categories) : { categories: [], layers: [] };
   const setFilters = (f: Filters) => setParams(writeFilters(new URLSearchParams(sanitizeQuery("P02", params)), f));
-  const view = r !== "loading" && r.status === "ok" ? applyFilters(r.places, r.features, filters) : { places: [], features: [] };
+  // Search: the query lives in the URL (?q=). Only the answer to the LATEST query is ever applied.
+  const q = withMap ? cleanQuery(params.get("q")) : "";
+  const [typed, setTyped] = useState(q);
+  const [found, setFound] = useState<{ q: string; ids: Set<string> } | { q: string; error: true } | null>(null);
+  const latest = useRef(0);
+  const features = r !== "loading" && r.status === "ok" ? r.features : null;
+  useEffect(() => { setTyped(q); }, [q]);
+  useEffect(() => {
+    if (!q || !features) { setFound(null); return; }
+    const mine = ++latest.current;
+    const ac = new AbortController();
+    makeSource(features).search(q, ac.signal).then(
+      (ids) => { if (mine === latest.current && !ac.signal.aborted) setFound({ q, ids: new Set(ids) }); },
+      () => { if (mine === latest.current && !ac.signal.aborted) setFound({ q, error: true }); },
+    );
+    return () => ac.abort();
+  }, [q, features, makeSource]);
+  const setQuery = (next: string) => {
+    const p = new URLSearchParams(sanitizeQuery("P02", params));
+    const c = cleanQuery(next);
+    if (c) p.set("q", c); else p.delete("q");
+    setParams(p);
+  };
+  const searchReady = q !== "" && found !== null && found.q === q && !("error" in found) ? found.ids : null;
+  const searchPending = q !== "" && (found === null || found.q !== q);
+  const searchFailed = q !== "" && found !== null && found.q === q && "error" in found;
+  const base = r !== "loading" && r.status === "ok" ? applyFilters(r.places, r.features, filters) : { places: [], features: [] };
+  // ids returned by a source that are not published places are ignored, so a private candidate can never appear
+  const view = searchReady ? { places: base.places.filter((p) => searchReady.has(p.id)), features: base.features.filter((f) => searchReady.has(String(f.id))) } : searchPending || searchFailed ? { places: [], features: [] } : base;
   const [mapStatus, setMapStatus] = useState<MapStatus>("loading");
   // Sheet height on small screens: peek / half / full. Always operable by buttons; Escape returns to peek.
   const [sheet, setSheet] = useState<"peek" | "half" | "full">("peek");
@@ -107,6 +136,19 @@ export function PlaceList({ fetcher, withMap = false }: { fetcher?: typeof fetch
       </div>
       {r !== "loading" && r.status === "error" && r.retryable && <button type="button" onClick={load}>{t.retry}</button>}
       {withMap && r !== "loading" && r.status === "ok" && r.places.length > 0 && (
+        <form className="search" role="search" aria-label="Search places" onSubmit={(e) => { e.preventDefault(); setQuery(typed); }}>
+          <label htmlFor="place-search">Search places</label>
+          <input id="place-search" type="search" value={typed} maxLength={100} autoComplete="off" onChange={(e) => setTyped(e.target.value)} />
+          <button type="submit">Search</button>
+          {q && <button type="button" onClick={() => { setTyped(""); setQuery(""); }}>Clear search</button>}
+          <p role="status" aria-live="polite" className="search-status">
+            {searchPending && "Searching…"}
+            {searchFailed && "Search could not be completed. Clear the search to see all places."}
+            {searchReady && (view.places.length === 0 ? `No places match “${q}”.` : `${view.places.length} ${view.places.length === 1 ? "place matches" : "places match"} “${q}”.`)}
+          </p>
+        </form>
+      )}
+      {withMap && r !== "loading" && r.status === "ok" && r.places.length > 0 && (
         <div className="filters" role="group" aria-label="Filter places">
           <fieldset>
             <legend>Category</legend>
@@ -122,8 +164,8 @@ export function PlaceList({ fetcher, withMap = false }: { fetcher?: typeof fetch
           </fieldset>
           {isActive(filters) && <button type="button" onClick={() => setFilters({ categories: [], layers: [] })}>Reset filters</button>}
           <p role="status" aria-live="polite" className="filter-count">
-            {isActive(filters) ? `Showing ${view.places.length} of ${r.places.length} places.` : `Showing all ${r.places.length} places.`}
-            {view.places.length === 0 && " No places match these filters."}
+            {isActive(filters) || q ? `Showing ${view.places.length} of ${r.places.length} places.` : `Showing all ${r.places.length} places.`}
+            {view.places.length === 0 && !q && " No places match these filters."}
           </p>
         </div>
       )}

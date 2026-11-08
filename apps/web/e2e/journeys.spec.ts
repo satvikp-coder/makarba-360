@@ -239,7 +239,7 @@ test.describe("map filters (real MapLibre canvas, stubbed tiles)", () => {
     await page.getByRole("button", { name: "heritage" }).click();
     await expect(page).toHaveURL(/category=heritage/);
     await expect(page.getByText("Showing 1 of 3 places.")).toBeVisible();
-    await expect(page.getByRole("button", { name: "Synthetic Atlas Route" })).toHaveCount(0);
+    await expect(page.getByRole("button", { name: "Synthetic Test Route" })).toHaveCount(0);
     await page.getByRole("checkbox", { name: "Streets and routes" }).check();
     await expect(page.getByText(/No places match these filters/)).toBeVisible();
     await expect(page.getByText(/OpenStreetMap contributors/)).toBeVisible();
@@ -367,5 +367,46 @@ test.describe("owned panorama (real Pannellum viewer, real WebGL in headless Chr
     await expect(page.getByText(/could not be loaded/)).toBeVisible({ timeout: 15000 });
     await expect(page.getByAltText(/Synthetic panorama placeholder/)).toBeVisible();
     await expect(page.locator(".pnlm-container canvas")).toHaveCount(0);
+  });
+});
+
+test.describe("place search (real map)", () => {
+  test("search narrows list and map, survives reload and back/forward, selection restores; no-match keeps attribution", async ({ page }) => {
+    const { errors, apiCalls } = await prepare(page);
+    await page.setViewportSize({ width: 1280, height: 800 });
+    await page.goto("/explore");
+    await expect(page.locator("canvas.maplibregl-canvas")).toBeVisible();
+    await page.getByRole("searchbox", { name: "Search places" }).fill("ROUTE");
+    await page.getByRole("button", { name: "Search" }).click();
+    await expect(page).toHaveURL(/q=ROUTE/);
+    await expect(page.getByText(/1 place matches/)).toBeVisible();
+    await expect(page.getByRole("button", { name: "Synthetic Test Route" })).toBeVisible();
+    await expect(page.getByRole("button", { name: FIRST })).toHaveCount(0);
+    await page.getByRole("button", { name: "Synthetic Test Route" }).click();
+    await expect(page).toHaveURL(/place=/);
+    await page.reload();
+    await expect(page.getByText(/1 place matches/)).toBeVisible();
+    await expect(page.getByRole("heading", { level: 2, name: "Synthetic Test Route" })).toBeVisible();
+    await page.getByRole("searchbox", { name: "Search places" }).fill("nothing-here");
+    await page.keyboard.press("Enter");
+    await expect(page.getByText(/No places match/)).toBeVisible();
+    await expect(page.getByText(/OpenStreetMap contributors/)).toBeVisible();
+    await page.getByRole("button", { name: "Clear search" }).click();
+    await expect(page.getByText("Showing all 3 places.")).toBeVisible();
+    await page.goBack();
+    await expect(page.getByText(/No places match/)).toBeVisible();
+    expect(errors).toEqual([]);
+    // searching is local: it never adds an API request containing the query
+    for (const u of apiCalls) expect(u).not.toMatch(/ROUTE|nothing-here/i);
+  });
+
+  test("search is usable at 375px and the input is at least 44px high", async ({ page }) => {
+    await prepare(page);
+    await page.setViewportSize({ width: 375, height: 667 });
+    await page.goto("/explore?q=point");
+    await expect(page.getByText(/1 place matches/)).toBeVisible();
+    const box = await page.getByRole("searchbox", { name: "Search places" }).boundingBox();
+    expect(box!.height).toBeGreaterThanOrEqual(44);
+    expect(await noHorizontalScroll(page)).toBe(true);
   });
 });
