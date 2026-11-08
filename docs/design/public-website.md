@@ -89,7 +89,7 @@ Tests: 11 profile tests (published, missing data, unknown/withdrawn, list-remove
 
 **Real-browser tests** (`pnpm --filter @makarba/web test:e2e`, Playwright + Chromium headless, own CI job `browser`; mock API and Vite started automatically; basemap tiles are stubbed so no external network is used). The responsive-map suite checks that the real MapLibre canvas and attribution render; place selection survives URL, back/forward and reload; only the public locations endpoint is requested; WebGL failure preserves the list; keyboard selection works; and the mobile sheet supports peek/expand/collapse/Escape with 44px targets. At 320px wide (equivalent to 400% zoom of a 1280px window), 667x375 landscape and 820x1180 tablet, all five navigation links remain reachable with no horizontal scroll and the open sheet does not cover navigation. A viewport-shrink test also checks navigation visibility when a mobile browser resizes its viewport as a keyboard opens. Tiles are stubbed.
 
-The new viewport-shrink case is included but was not executable in this local run: Playwright's Chromium binary is unavailable in the environment. CI or a machine with the configured browser must run it before the issue's browser-test acceptance is considered complete.
+The new viewport-shrink case passed in the CI browser job (#212). It could not be run locally because Playwright's Chromium binary is unavailable in this environment.
 
 **A defect these tests found and fixed:** at 320px the full sheet covered the lower part of the wrapped header navigation. Fixed with the sticky header and `--header-h`.
 
