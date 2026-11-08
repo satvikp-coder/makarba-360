@@ -8,20 +8,20 @@ const prod = { NODE_ENV: "production", APP_ENV: "production", DATABASE_URL: "pos
 
 describe("API start-up (fail closed)", () => {
   it("starts locally; the public API is not mounted without READONLY_DATABASE_URL", async () => {
-    const p = prepareServer(local, () => {});
+    const p = await prepareServer(local, { log: () => {} });
     expect(p.publicPool).toBeNull();
     expect((await request(p.app).get("/api/v1/public/locations")).status).toBe(404);
     expect(p.logLine).toContain("NOT mounted");
   });
   it("mounts the public API with its own read-only connection string and never logs secrets", async () => {
     const ro = "postgres://pub:Rw94ndLq02xZ@localhost:5432/d";
-    const p = prepareServer({ ...local, READONLY_DATABASE_URL: ro }, () => {});
+    const p = await prepareServer({ ...local, READONLY_DATABASE_URL: ro }, { log: () => {} });
     expect(p.publicPool).not.toBeNull();
     expect(p.logLine).toContain("public API mounted");
     for (const secret of [local.SESSION_SECRET, local.DATABASE_URL, ro, "Rw94ndLq02xZ"]) expect(p.logLine).not.toContain(secret);
     await p.publicPool!.end();
   });
-  it("refuses to start with missing, weak, placeholder or cross-environment values, naming variables but never values", () => {
+  it("refuses to start with missing, weak, placeholder or cross-environment values, naming variables but never values", async () => {
     const cases: [Record<string, string>, RegExp][] = [
       [{}, /DATABASE_URL/],
       [{ ...local, SESSION_SECRET: "short" }, /SESSION_SECRET/],
@@ -33,16 +33,16 @@ describe("API start-up (fail closed)", () => {
     ];
     for (const [env, re] of cases) {
       let msg = "";
-      try { prepareServer(env, () => {}); } catch (e) { msg = String(e); }
+      try { await prepareServer(env, { log: () => {} }); } catch (e) { msg = String(e); }
       expect(msg, JSON.stringify(Object.keys(env))).toMatch(re);
       for (const v of Object.values(env)) if (v.length > 12) expect(msg).not.toContain(v);
     }
   });
-  it("refuses a production start while the capability matrix is not approved (issue #6)", () => {
-    expect(() => prepareServer(prod, () => {})).toThrow(/approved|PROPOSED|capability/i);
+  it("refuses a production start while the capability matrix is not approved (issue #6)", async () => {
+    await expect(prepareServer(prod, { log: () => {} })).rejects.toThrow(/approved|PROPOSED|capability/i);
   });
   it("unknown routes and thrown errors answer plain JSON without stack traces or paths", async () => {
-    const p = prepareServer(local, () => {});
+    const p = await prepareServer(local, { log: () => {} });
     const res = await request(p.app).get("/definitely/not/here");
     expect(res.status).toBe(404);
     expect(JSON.stringify(res.body)).not.toMatch(/node_modules|at \w+ \(|\.ts:/);
