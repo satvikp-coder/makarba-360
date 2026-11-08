@@ -34,3 +34,17 @@ Upgrade vitest in `apps/api` (>= 3.2.7, as `apps/web` already runs), upgrade zod
 
 ## 8. Stories contract (issue #80)
 Adopt the proposed `Stories` shape into `packages/contracts` (fixture `docs/project/contracts/proposed/stories-fixture.json`, strict parser `apps/web/src/stories.ts`); the router already serves `/stories` when `getStories` exists.
+
+## Added 2026-11-08 (second pass)
+
+### 9. Snapshot pipeline (issues #84, #92) - size **M**
+- **Prepared and tested (12 tests, synthetic adapters):** `packages/analytics/src/pipeline.ts`: `EligibleRecordSource` and `SnapshotStore` interfaces, `buildSnapshot` (manifest differencing check, per-place cohorts, contract validation), `saveCandidate`, `publishSnapshot` (refuses self-approval, stale inputs after a withdrawal, invalid payloads; a failed publish leaves the previous snapshot), `invalidateCurrent`. `InMemorySource`/`InMemoryStore` are the reference adapters.
+- **You implement:** a `SnapshotStore` over your tables (atomic `publish` that swaps the single current snapshot) and an `EligibleRecordSource` that returns only authorised, study-scoped rows in the `Interview` shape plus an `inputRevision()` that changes on any change or withdrawal. Call `invalidateCurrent` from the withdrawal job.
+- **Test:** seed a database from `docs/project/fixtures/analytics-cases.json`, run the pipeline through your adapters, expect the same outputs as `packages/analytics/src/pipeline.test.ts`.
+
+### 10. Deployment (issue #124) - size **M** (mostly decisions)
+- **Prepared:** everything in `deploy/` and `deploy/README.md`; `python scripts/check_deploy_config.py`; `python scripts/deploy_smoke.py <url> --expect-https`; `pnpm --filter @makarba/web exec playwright test e2e/csp.spec.ts` (production build under the required headers in a real browser). Container builds were not executed locally (no Docker).
+- **You do:** provider/region/tile-provider/spend decisions with the owner, secrets in the platform store, `deploy/rollback.sh` platform commands, a real staging deployment, a recorded rollback and restore rehearsal. Add graceful shutdown and the readiness (database) check to `apps/api/src/server.ts`, and mount `publicApi`, `notFound`, `safeErrors` there.
+
+### 11. Field sync scenarios (issue #62) - size **L** (the field app itself)
+- **Prepared:** `packages/offline-sim` (`SyncAdapter` interface, simulator, 12 scenarios, 16 tests). **You implement** the field app's offline store and sync behind `SyncAdapter` and run `SCENARIOS` against it, then do the real-phone runs with `tools/offline-probe` and `python scripts/check_device_reports.py`.

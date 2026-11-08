@@ -232,3 +232,4 @@ export function ratingGroupToCohort(subjectId: string, g: RatingGroup): CohortLi
   };
 }
 export * from "./cohorts.js";
+export * from "./pipeline.js";
