@@ -3,8 +3,7 @@
 
 -- Every value of a label map is a non-blank string and English is present.
 CREATE FUNCTION private.labels_valid(l jsonb) RETURNS boolean LANGUAGE sql IMMUTABLE AS $$
-  SELECT jsonb_typeof(l) = 'object'
-     AND jsonb_typeof(l -> 'en') = 'string'
+  SELECT COALESCE(jsonb_typeof(l) = 'object' AND jsonb_typeof(l -> 'en') = 'string', false)
      AND NOT EXISTS (SELECT 1 FROM jsonb_each(l) e WHERE jsonb_typeof(e.value) <> 'string' OR btrim(e.value #>> '{}') = '')
 $$;
 
