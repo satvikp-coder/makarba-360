@@ -82,7 +82,7 @@ describe.skipIf(!url)("submit and independent review in PostGIS (issue #52 serve
 
   it("review decisions: never the collector, only for a submitted interview, append-only, final once approved or rejected", async () => {
     const iv = await draft();
-    expect(await code(field.decideReview(iv, bob, "approved"))).toBe("review_refused");                 // still a draft
+    expect(await code(new PgFieldRepository(admin).decideReview(iv, bob, "approved"))).toBe("review_refused");                 // still a draft
     await field.submit(iv, ann, []);
     expect(await code(app.query("INSERT INTO private.interview_reviews (interview_id, decision, reviewer_id) VALUES ($1,'approved',$2)", [iv, bob]))).toBe("42501");   // not by the API role
     const asAdmin = new PgFieldRepository(admin);
