@@ -1,7 +1,9 @@
 import tempfile
 import unittest
 from pathlib import Path
-from scan_secrets import scan_bundle, scan_repo, scan_text
+import os
+from unittest import mock
+from scan_secrets import main, scan_bundle, scan_log, scan_repo, scan_text
 
 KEY = "-----BEGIN " + "RSA PRIVATE KEY-----"
 AWS = "AKIA" + "ABCDEFGHIJKLMNOP"
@@ -33,6 +35,30 @@ class ScanSecrets(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             (Path(d) / "app.js").write_text("console.log('hello')", encoding="utf-8")
             self.assertEqual(scan_bundle(d, ["Zx9qL2vB7kT4mN8pR1wY5cD3"]), [])
+
+    def test_log_with_secret_value_or_pattern_fails_and_clean_log_passes(self):
+        with tempfile.TemporaryDirectory() as d:
+            log = Path(d) / "ci.log"
+            log.write_text("building... connecting Zx9qL2vB7kT4mN8pR1wY5cD3", encoding="utf-8")
+            self.assertTrue(scan_log(log, ["Zx9qL2vB7kT4mN8pR1wY5cD3"]))
+            log.write_text("building... done", encoding="utf-8")
+            self.assertEqual(scan_log(log, ["Zx9qL2vB7kT4mN8pR1wY5cD3"]), [])
+            log.write_text("token " + AWS, encoding="utf-8")
+            self.assertTrue(scan_log(log))
+
+    def test_value_check_refuses_to_run_silently_when_the_canary_is_unset(self):
+        with tempfile.TemporaryDirectory() as d, mock.patch.dict(os.environ, {}, clear=False):
+            os.environ.pop("CANARY_SECRET_X", None)
+            self.assertEqual(main(["--bundle", d, "--value-env", "CANARY_SECRET_X"]), 1)
+            os.environ["CANARY_SECRET_X"] = "Zx9qL2vB7kT4mN8pR1wY5cD3"
+            self.assertEqual(main(["--bundle", d, "--value-env", "CANARY_SECRET_X"]), 0)
+            (Path(d) / "a.js").write_text("x='Zx9qL2vB7kT4mN8pR1wY5cD3'", encoding="utf-8")
+            self.assertEqual(main(["--bundle", d, "--value-env", "CANARY_SECRET_X"]), 1)
+
+    def test_new_server_only_names_are_flagged_in_bundles(self):
+        with tempfile.TemporaryDirectory() as d:
+            (Path(d) / "a.js").write_text("OIDC_CLIENT_SECRET", encoding="utf-8")
+            self.assertTrue(scan_bundle(d))
 
 
 if __name__ == "__main__":
