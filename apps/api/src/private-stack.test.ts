@@ -8,6 +8,8 @@ import request from "supertest";
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
 import { loadMigrations, migrate, MIGRATIONS_DIR } from "@makarba/db";
 import { AccountService, Authorizer, loadMatrix } from "@makarba/authz";
+import { SYNTHETIC_INSTRUMENT } from "@makarba/survey";
+import { SurveyPublisher } from "./survey-repository.js";
 import { prepareServer, type Prepared } from "./startup.js";
 
 // End to end on PostGIS (CI `database` job): fake identity provider -> real sessions, grants, invitations, audit and private routes.
@@ -24,6 +26,7 @@ describe.skipIf(!url)("private API stack on PostGIS with a fake identity provide
   let prepared: Prepared;
   const ids: Record<string, string> = {};
   let scriptId = "";
+  let surveyId = "";
 
   beforeAll(async () => {
     admin = new pg.Client({ connectionString: url }); await admin.connect();
@@ -68,6 +71,10 @@ describe.skipIf(!url)("private API stack on PostGIS with a fake identity provide
     await mk("lead", "sub-lead", "lead", AREA, root);
     await mk("otherlead", "sub-otherlead", "lead", OTHER_AREA, root);
     await mk("researcher2", "sub-researcher2", "researcher", AREA, root);
+    // Only "researcher" is trained; "researcher2" is not (collection actions must be refused for them).
+    await admin.query("INSERT INTO private.researcher_profiles (user_id, training_version, trained_at, recorded_by) VALUES ($1, 'synthetic-training', now(), $2)", [ids["researcher"], root]);
+    const pubr = new SurveyPublisher(admin);
+    surveyId = (await pubr.publish((await pubr.createDraft(SYNTHETIC_INSTRUMENT, root)).id, "SYNTHETIC TEST AUTHORITY", root)).id;
     scriptId = (await admin.query("INSERT INTO private.consent_script_versions (version, language, content_sha256, status, approved_by, approved_at) VALUES ('v1','en',$1,'approved','SYNTHETIC TEST AUTHORITY', now()) RETURNING id", ["a".repeat(64)])).rows[0].id as string;
     prepared = await prepareServer(
       { DATABASE_URL: url!, SESSION_SECRET: "abcdefghijklmnopqrstuvwxyz012345", OIDC_ISSUER: base, OIDC_CLIENT_ID: "makarba-test", OIDC_CLIENT_SECRET: "synthetic-client-secret-value", OIDC_REDIRECT_URI: "http://localhost/auth/callback" },
@@ -197,6 +204,59 @@ describe.skipIf(!url)("private API stack on PostGIS with a fake identity provide
     expect(lead.body.events.map((e: { scope: string; decision: string }) => `${e.scope}:${e.decision}`)).toContain("participation:withdrawn");
     expect((await call(r, "get", "/interviews/not-a-uuid/consent")).status).toBe(403);
     expect((await call(r, "post", `/interviews/${iv.replace(/1$/, "9")}/consent`, { ...body("participation", "granted"), studyAreaId: OTHER_AREA })).status).toBe(403);   // not assigned to that study
+  });
+
+  it("field flow over HTTP: trained researcher only, consent before interview, idempotent start, draft answers, reconcile on end, discard on withdrawal", async () => {
+    const r = await signIn("sub-researcher");
+    const iv = "00000000-0000-4000-8000-0000000f0001";
+    const consent = (interviewId: string, decision = "granted") => call(r, "post", `/interviews/${interviewId}/consent`, { studyAreaId: AREA, scope: "participation", decision, scriptVersionId: scriptId, language: "en" });
+    const startBody = (id: string) => ({ id, surveyVersionId: surveyId, startedAt: "2026-01-01T10:00:00.000Z", startedOffsetMinutes: 330 });
+
+    expect((await call(await signIn("sub-researcher2"), "post", "/visits", { studyAreaId: AREA })).status).toBe(403);   // untrained
+    expect((await call(r, "post", "/visits", { studyAreaId: OTHER_AREA })).status).toBe(403);                         // not assigned to that study
+    const visit = await call(r, "post", "/visits", { studyAreaId: AREA });
+    expect(visit.status).toBe(201);
+    const vid = visit.body.id as string;
+
+    expect((await call(r, "post", `/visits/${vid}/interviews`, startBody(iv))).body.code).toBe("consent_required");   // no consent yet
+    expect((await call(r, "post", `/visits/${vid}/interviews`, { ...startBody(iv), startedAt: "2999-01-01T00:00:00Z" })).status).toBe(422);
+    expect((await consent(iv)).status).toBe(201);
+    const first = await call(r, "post", `/visits/${vid}/interviews`, startBody(iv));
+    const again = await call(r, "post", `/visits/${vid}/interviews`, startBody(iv));
+    expect([first.status, again.status, again.body.id]).toEqual([201, 200, iv]);                                       // repeated tap, same interview
+    expect((await call(r, "post", `/visits/${vid}/interviews`, { ...startBody(iv), startedOffsetMinutes: 0 })).status).toBe(409);
+    expect((await admin.query("SELECT count(*)::int AS n FROM private.interviews")).rows[0].n).toBe(1);
+
+    const saved = await call(r, "put", `/interviews/${iv}/answers`, { answers: { C01: { value: true }, R01: { value: "official" }, R03: { value: true }, Q02: { value: 4 } } });
+    expect(saved.status).toBe(200);
+    expect(saved.body.visibleQuestions).toEqual(expect.arrayContaining(["R03", "Q02"]));
+    expect((await call(r, "put", `/interviews/${iv}/answers`, { answers: { Q02: { value: 9 } } })).status).toBe(422);
+    expect((await call(r, "put", `/interviews/${iv}/answers`, { answers: { Q99: { value: 1 } } })).status).toBe(422);
+    const hidden = await call(r, "put", `/interviews/${iv}/answers`, { answers: { R01: { value: "resident" } } });       // R03 is now hidden: kept, flagged stale, never published
+    expect(hidden.body.staleHiddenAnswers).toEqual(["R03"]);
+
+    const lead = await signIn("sub-lead", ["mfa"]);
+    expect((await call(lead, "get", `/interviews/${iv}`)).status).toBe(200);                                           // assigned lead may read
+    expect((await call(await signIn("sub-otherlead", ["mfa"]), "get", `/interviews/${iv}`)).status).toBe(403);
+    expect((await call(await signIn("sub-researcher2"), "get", `/interviews/${iv}`)).status).toBe(403);
+
+    const pending = await call(r, "post", `/visits/${vid}/end`, {});
+    expect([pending.status, pending.body.code, pending.body.draftIds]).toEqual([409, "pending_drafts", [iv]]);
+    expect((await call(r, "post", `/visits/${vid}/end`, { reconcile: { [iv]: "maybe" } })).status).toBe(422);
+    const ended = await call(r, "post", `/visits/${vid}/end`, { reconcile: { [iv]: "keep" } });
+    expect([ended.status, ended.body.status]).toEqual([200, "ended"]);
+    const hist = await call(r, "get", `/visits/${vid}`);
+    expect(hist.body.history.map((h: { status: string }) => h.status)).toEqual(["active", "ended"]);
+    const iv2 = "00000000-0000-4000-8000-0000000f0002";
+    await consent(iv2);
+    expect((await call(r, "post", `/visits/${vid}/interviews`, startBody(iv2))).body.code).toBe("not_active");
+
+    const wd = await call(r, "post", `/interviews/${iv}/consent/withdraw`, { scope: "participation", scriptVersionId: scriptId, language: "en" });
+    expect(wd.status).toBe(200);
+    const gone = await call(r, "get", `/interviews/${iv}`);
+    expect([gone.body.status, gone.body.answers]).toEqual(["withdrawn", {}]);
+    expect((await call(r, "put", `/interviews/${iv}/answers`, { answers: { Q02: { value: 1 } } })).status).toBe(409);
+    expect((await admin.query("SELECT count(*)::int AS n FROM private.interview_answers")).rows[0].n).toBe(0);
   });
 
   it("the private pool runs as the private API role: it cannot delete places or read other schemas' secrets it should not", async () => {

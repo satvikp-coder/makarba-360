@@ -7,6 +7,9 @@ import { authRouter, type InvitationRedeemer, type UserDirectory } from "./auth-
 import { PgLocationRepository } from "./location-repository.js";
 import { PgConsentRepository } from "./consent-repository.js";
 import { consentRoutes } from "./consent-routes.js";
+import { PgFieldRepository } from "./field-repository.js";
+import { fieldRoutes } from "./field-routes.js";
+import { PgSurveyRepository } from "./survey-repository.js";
 import { locationRoutes } from "./location-routes.js";
 import { privateApi } from "./private-routes.js";
 
@@ -68,6 +71,6 @@ export function mountPrivateStack(app: Express, o: PrivateStackOptions): Session
     oidc: o.oidc, sessions, secureCookies: o.secureCookies, fetchImpl: o.fetchImpl,
     users: new PgUserDirectory(o.pool), invitations: new PgInvitationRedeemer(o.pool, o.authz),
   }));
-  app.use("/api/v1/private", json, privateApi({ authz: o.authz, principals: grants, sessions, routes: [...locationRoutes(new PgLocationRepository(o.pool)), ...consentRoutes(new PgConsentRepository(o.pool))], audit }));
+  app.use("/api/v1/private", json, privateApi({ authz: o.authz, principals: grants, sessions, routes: [...locationRoutes(new PgLocationRepository(o.pool)), ...consentRoutes(new PgConsentRepository(o.pool)), ...fieldRoutes(new PgFieldRepository(o.pool), new PgSurveyRepository(o.pool))], audit }));
   return sessions;
 }

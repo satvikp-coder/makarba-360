@@ -54,7 +54,8 @@ describe.skipIf(!url)("immutable questionnaire versions in PostGIS (issues #42, 
     expect(await code(admin.query("UPDATE private.survey_versions SET approved_by = 'someone else' WHERE id = $1", [d.id]))).toBe("23001");
     expect(await code(admin.query("UPDATE private.survey_versions SET status = 'draft' WHERE id = $1", [d.id]))).toBe("23001");
     expect(await code(admin.query("DELETE FROM private.survey_versions WHERE id = $1", [d.id]))).toBe("23001");
-    expect(await code(admin.query("TRUNCATE private.survey_versions"))).toBe("23001");
+    // Once interviews reference versions, PostgreSQL itself refuses TRUNCATE (0A000); before that our trigger does (23001).
+    expect(["23001", "0A000"]).toContain(await code(admin.query("TRUNCATE private.survey_versions")));
     expect(await code(publisher.publish(d.id, "again", user))).toBe("rejected");
   });
 
