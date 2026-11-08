@@ -1,5 +1,9 @@
 import { useEffect, useRef, useState } from "react";
-import maplibregl from "maplibre-gl";
+import * as maplibregl from "maplibre-gl";
+// maplibre-gl 6 finds its worker next to its own module, which no longer exists once the app is bundled, so the worker file is
+// emitted as an asset and its URL is given explicitly (verified against the production build in the browser tests).
+import workerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?url";
+if (typeof maplibregl.setWorkerUrl === "function") maplibregl.setWorkerUrl(workerUrl);
 import type { PublicFeature } from "../api.js";
 
 /** Standard OSM raster tiles for development/pilot only (docs/architecture/gis-design.md, issue #24). Override with VITE_BASEMAP_TILE_URL. */
@@ -86,7 +90,7 @@ export function MapView({ features, sourceAttribution, selectedId, onSelect, onS
         const cid = e.features?.[0]?.properties?.["cluster_id"];
         const src = map.getSource(SRC) as maplibregl.GeoJSONSource;
         if (typeof cid !== "number" || !e.lngLat) return;
-        src.getClusterExpansionZoom(cid).then((zoom) => map.easeTo({ center: [e.lngLat!.lng, e.lngLat!.lat], zoom }));
+        src.getClusterExpansionZoom(cid).then((zoom: number) => map.easeTo({ center: [e.lngLat!.lng, e.lngLat!.lat], zoom }));
       });
       report("ready");
     });
@@ -97,7 +101,7 @@ export function MapView({ features, sourceAttribution, selectedId, onSelect, onS
     const map = mapRef.current;
     if (!map || status !== "ready") return;
     const src = map.getSource(SRC) as maplibregl.GeoJSONSource | undefined;
-    src?.setData({ type: "FeatureCollection", features: features as unknown as GeoJSON.Feature[] });
+    src?.setData({ type: "FeatureCollection", features: features as unknown as never[] });
     const box = boundsOf(features);
     if (box) map.fitBounds(box, { padding: 48, maxZoom: 15, duration: 0 });
   }, [features, status]);

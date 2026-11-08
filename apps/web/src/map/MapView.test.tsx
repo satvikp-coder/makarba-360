@@ -39,7 +39,7 @@ self = { maps: [] as FakeMap[], throwOnCreate: false, attrib: [] as unknown[], F
 return self as typeof self & { maps: FakeMap[]; attrib: unknown[]; FakeMap: typeof FakeMap };
 });
 vi.mock("maplibre-gl", () => ({
-  default: { Map: h.FakeMap, NavigationControl: class {}, AttributionControl: class { constructor(o: unknown) { h.attrib.push(o); } } },
+  setWorkerUrl: vi.fn(), Map: h.FakeMap, NavigationControl: class {}, AttributionControl: class { constructor(o: unknown) { h.attrib.push(o); } },
 }));
 import { MapView, boundsOf, buildStyle, DEFAULT_TILE_URL } from "./MapView.js";
 import type { PublicFeature } from "../api.js";
