@@ -27,8 +27,8 @@ describe("place profile", () => {
     expect(screen.getByText(/Mapped as a point/)).toBeTruthy();
     expect((await screen.findAllByText(/2021 \(year\)/)).length).toBeGreaterThan(0);           // year stays a year
     expect(screen.getByText(/Invented test citation/, { selector: "small" })).toBeTruthy();
-    expect(await screen.findByRole("img", { name: /Synthetic panorama placeholder/ })).toBeTruthy();
-    expect(screen.getByText(/synthetic-test-only/, { selector: "figcaption" })).toBeTruthy();
+    expect(await screen.findByAltText(/Synthetic panorama placeholder/)).toBeTruthy();
+    expect(screen.getAllByText(/synthetic-test-only/, { selector: "small" }).length).toBeGreaterThan(0);
     expect(screen.getByText(/Demonstration data/)).toBeTruthy();
   });
   it("missing description, findings and counts are stated plainly and never as zero", async () => {
@@ -74,7 +74,7 @@ describe("place profile", () => {
   it("requests are public endpoints only", async () => {
     const log: string[] = [];
     show("synthetic-point", mk({}, log));
-    await screen.findByRole("img", { name: /panorama/ });
+    await screen.findByAltText(/panorama/);
     for (const u of log) expect(u).toMatch(/^\/api\/v1\/public\/(locations(\?limit=\d+)?|locations\/[\w-]+\/history|media\/[\w-]+)$/);
   });
   it("shows the Then & Now comparison only when a comparison pair exists", async () => {
@@ -96,8 +96,8 @@ describe("place profile", () => {
   });
   it("passes automated accessibility checks", async () => {
     const { container } = show("synthetic-point", mk());
-    await screen.findByRole("img", { name: /panorama/ });
-    await waitFor(() => expect(container.querySelector("figure")).not.toBeNull());
+    await screen.findByAltText(/panorama/);
+    await waitFor(() => expect(container.querySelector(".gallery")).not.toBeNull());
     const r = await axe.run(container, { rules: { "color-contrast": { enabled: false }, region: { enabled: false } } });
     expect(r.violations.map((v) => v.id)).toEqual([]);
   });
