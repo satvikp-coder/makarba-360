@@ -1,0 +1,728 @@
+{
+ "main_sha": "9fdf6fb",
+ "open_developer_a": 54,
+ "issues": [
+  {
+   "issue": 3,
+   "title": "[DEVOPS] Approve product vision and boundaries",
+   "assignee": "-",
+   "open_hard_prerequisites": [],
+   "claude_completed": "Nothing decided on anyone's behalf; draft vision/boundary text exists in docs.",
+   "prs": "-",
+   "remaining": "Product vision and boundaries must be approved by the project owner/supervisor.",
+   "tests": "python scripts/check_traceability.py",
+   "approvals": "Project owner / supervisor"
+  },
+  {
+   "issue": 4,
+   "title": "[DEVOPS] Validate research questions and methodology",
+   "assignee": "-",
+   "open_hard_prerequisites": [
+    3
+   ],
+   "claude_completed": "Methodology drafts in docs/research.",
+   "prs": "-",
+   "remaining": "The research lead must confirm questions and methodology (blocks #42, #11).",
+   "tests": "-",
+   "approvals": "Research lead / supervisor"
+  },
+  {
+   "issue": 6,
+   "title": "[DEVOPS] Approve stakeholder capability matrix",
+   "assignee": "-",
+   "open_hard_prerequisites": [],
+   "claude_completed": "Capability matrix PROPOSED and enforced in code (production start-up refuses an unapproved matrix).",
+   "prs": "#153 and earlier",
+   "remaining": "Stakeholders approve the matrix; then update docs/project/contracts/capability-matrix.json by PR.",
+   "tests": "pnpm --filter @makarba/authz test",
+   "approvals": "Stakeholders who own the matrix"
+  },
+  {
+   "issue": 7,
+   "title": "[DEVOPS] Baseline functional requirements catalogue",
+   "assignee": "-",
+   "open_hard_prerequisites": [
+    6
+   ],
+   "claude_completed": "-",
+   "prs": "-",
+   "remaining": "Baseline functional requirements need #6.",
+   "tests": "-",
+   "approvals": "Project owner"
+  },
+  {
+   "issue": 8,
+   "title": "[DEVOPS] Baseline non-functional requirements",
+   "assignee": "-",
+   "open_hard_prerequisites": [
+    7
+   ],
+   "claude_completed": "-",
+   "prs": "-",
+   "remaining": "Non-functional baseline needs #7.",
+   "tests": "-",
+   "approvals": "Project owner"
+  },
+  {
+   "issue": 11,
+   "title": "[DEVOPS] Obtain institutional ethics and legal verification",
+   "assignee": "-",
+   "open_hard_prerequisites": [
+    4,
+    6
+   ],
+   "claude_completed": "Consent and protocol drafts only.",
+   "prs": "-",
+   "remaining": "Institutional ethics/legal approval is an institutional act; nothing may be collected before it.",
+   "tests": "-",
+   "approvals": "Ethics committee / institution"
+  },
+  {
+   "issue": 23,
+   "title": "[GIS] Store and validate versioned study boundary",
+   "assignee": "-",
+   "open_hard_prerequisites": [
+    5
+   ],
+   "claude_completed": "Versioned study_areas table exists (migration 0001).",
+   "prs": "earlier",
+   "remaining": "Boundary validation/versioning workflow and the verified boundary itself (needs #5 verified geography, a human task).",
+   "tests": "pnpm --filter @makarba/db test (CI)",
+   "approvals": "Geography verifier / research lead"
+  },
+  {
+   "issue": 30,
+   "title": "[GIS] Implement geographic candidate editing",
+   "assignee": "-",
+   "open_hard_prerequisites": [
+    35
+   ],
+   "claude_completed": "Candidate geometry propose/review exists (#27).",
+   "prs": "#212",
+   "remaining": "Editing workflow beyond propose/review; needs #35.",
+   "tests": "pnpm --filter @makarba/api test",
+   "approvals": "-"
+  },
+  {
+   "issue": 32,
+   "title": "[PRIVACY] Integrate identity provider and secure sessions",
+   "assignee": "-",
+   "open_hard_prerequisites": [],
+   "claude_completed": "Sessions, OIDC login, MFA-by-role, wired to PostgreSQL with a fake IdP.",
+   "prs": "#147, #215",
+   "remaining": "Real identity provider; closure rule: cannot close before #6.",
+   "tests": "pnpm --filter @makarba/api test (CI database job)",
+   "approvals": "Institution (IdP); stakeholders (#6)"
+  },
+  {
+   "issue": 33,
+   "title": "[PRIVACY] Implement researcher invitation and deactivation",
+   "assignee": "-",
+   "open_hard_prerequisites": [
+    32
+   ],
+   "claude_completed": "Invitation redemption, deactivation, training prerequisite, tested end to end.",
+   "prs": "#152, #215",
+   "remaining": "Closure waits for #32/#6; admin screens (#95).",
+   "tests": "same",
+   "approvals": "-"
+  },
+  {
+   "issue": 34,
+   "title": "[PRIVACY] Implement role and study authorization",
+   "assignee": "-",
+   "open_hard_prerequisites": [
+    32
+   ],
+   "claude_completed": "Role/study authorization with deny-by-default, fake-IdP end-to-end.",
+   "prs": "#153, #215",
+   "remaining": "Closure waits for #32/#6.",
+   "tests": "same",
+   "approvals": "Stakeholders (#6)"
+  },
+  {
+   "issue": 35,
+   "title": "[PRIVACY] Enforce capability matrix across API and UI",
+   "assignee": "-",
+   "open_hard_prerequisites": [
+    34
+   ],
+   "claude_completed": "Capability checks on every private route (typo fails closed); audit of every decision.",
+   "prs": "#154, #215",
+   "remaining": "Closure waits for #34/#6; UI enforcement is front-end.",
+   "tests": "same",
+   "approvals": "Stakeholders (#6)"
+  },
+  {
+   "issue": 37,
+   "title": "[PRIVACY] Implement scoped versioned consent records",
+   "assignee": "-",
+   "open_hard_prerequisites": [
+    35
+   ],
+   "claude_completed": "Scoped, versioned, append-only consent with terminal refusal/withdrawal.",
+   "prs": "#216",
+   "remaining": "Real script texts (#11); interview tables now exist.",
+   "tests": "pnpm --filter @makarba/api test; PostGIS consent tests in CI",
+   "approvals": "Ethics committee (#11)"
+  },
+  {
+   "issue": 38,
+   "title": "[PRIVACY] Protect raw interview and GPS endpoints",
+   "assignee": "-",
+   "open_hard_prerequisites": [
+    35
+   ],
+   "claude_completed": "Positions/answers are private (owner or assigned lead only), no public path, discard on withdrawal.",
+   "prs": "#218, #219",
+   "remaining": "Needs #35 closure; a formal exposure test suite (#110).",
+   "tests": "pnpm --filter @makarba/api test",
+   "approvals": "-"
+  },
+  {
+   "issue": 42,
+   "title": "[SURVEY] Implement survey question and answer schema",
+   "assignee": "-",
+   "open_hard_prerequisites": [
+    4
+   ],
+   "claude_completed": "Instrument/answer rules package with synthetic instrument.",
+   "prs": "#217",
+   "remaining": "Real questionnaire and #4 approval.",
+   "tests": "pnpm --filter @makarba/survey test",
+   "approvals": "Research lead (#4)"
+  },
+  {
+   "issue": 43,
+   "title": "[SURVEY] Implement immutable questionnaire versions",
+   "assignee": "-",
+   "open_hard_prerequisites": [
+    42
+   ],
+   "claude_completed": "Immutable published versions with hash and named authority.",
+   "prs": "#217",
+   "remaining": "Needs #42.",
+   "tests": "CI database job",
+   "approvals": "Research lead names the approving authority"
+  },
+  {
+   "issue": 44,
+   "title": "[SURVEY] Implement field visit sessions",
+   "assignee": "-",
+   "open_hard_prerequisites": [
+    23,
+    35
+   ],
+   "claude_completed": "Visits with status history and keep/abandon reconciliation.",
+   "prs": "#218",
+   "remaining": "Needs #23/#35; field app screens.",
+   "tests": "CI database job",
+   "approvals": "-"
+  },
+  {
+   "issue": 45,
+   "title": "[SURVEY] Implement interview start workflow",
+   "assignee": "-",
+   "open_hard_prerequisites": [
+    43,
+    44
+   ],
+   "claude_completed": "Idempotent interview start gated on consent and published version.",
+   "prs": "#218",
+   "remaining": "Needs #20/#43/#44 closure; field app.",
+   "tests": "CI database job",
+   "approvals": "-"
+  },
+  {
+   "issue": 46,
+   "title": "[SURVEY] Capture participant categories and official claims",
+   "assignee": "-",
+   "open_hard_prerequisites": [
+    42,
+    45
+   ],
+   "claude_completed": "Official claims always pending; independent decision; attributable-only view.",
+   "prs": "#219",
+   "remaining": "Verification route needs a matrix action (#6); participant-category screens.",
+   "tests": "CI database job",
+   "approvals": "Stakeholders (#6)"
+  },
+  {
+   "issue": 47,
+   "title": "[SURVEY] Record consent and interview metadata",
+   "assignee": "-",
+   "open_hard_prerequisites": [
+    37,
+    45
+   ],
+   "claude_completed": "Consent + interview metadata retained independently.",
+   "prs": "#216, #218",
+   "remaining": "Needs #37/#45 closure.",
+   "tests": "CI database job",
+   "approvals": "Ethics (#11)"
+  },
+  {
+   "issue": 48,
+   "title": "[SURVEY] Capture mobile geolocation and permission state",
+   "assignee": "-",
+   "open_hard_prerequisites": [
+    47
+   ],
+   "claude_completed": "Permission state capture on the server (granted/denied/unsupported...).",
+   "prs": "#219",
+   "remaining": "Mobile permission UI and real-device behaviour (#121).",
+   "tests": "CI database job",
+   "approvals": "-"
+  },
+  {
+   "issue": 49,
+   "title": "[SURVEY] Display GPS quality recapture and corrections",
+   "assignee": "-",
+   "open_hard_prerequisites": [
+    48
+   ],
+   "claude_completed": "Quality bands, recapture as new revision, raw preserved.",
+   "prs": "#219",
+   "remaining": "Recapture UI; real-device testing.",
+   "tests": "pnpm --filter @makarba/survey test",
+   "approvals": "-"
+  },
+  {
+   "issue": 50,
+   "title": "[SURVEY] Store independent interview and subject geography",
+   "assignee": "-",
+   "open_hard_prerequisites": [
+    42
+   ],
+   "claude_completed": "Independent interview and subject geography.",
+   "prs": "#219",
+   "remaining": "Needs #27 closure confirmation and UI.",
+   "tests": "CI database job",
+   "approvals": "-"
+  },
+  {
+   "issue": 51,
+   "title": "[SURVEY] Render and validate versioned questions",
+   "assignee": "-",
+   "open_hard_prerequisites": [
+    43,
+    46,
+    50
+   ],
+   "claude_completed": "Answer validation/branching rules (survey package).",
+   "prs": "#217",
+   "remaining": "Rendering in the field app and topic-group answers.",
+   "tests": "pnpm --filter @makarba/survey test",
+   "approvals": "-"
+  },
+  {
+   "issue": 52,
+   "title": "[SURVEY] Implement interview review and durable save",
+   "assignee": "-",
+   "open_hard_prerequisites": [
+    47,
+    51,
+    55
+   ],
+   "claude_completed": "Server-side submit + review decisions + history.",
+   "prs": "#220",
+   "remaining": "On-device durable save (#55), field app.",
+   "tests": "CI database job",
+   "approvals": "-"
+  },
+  {
+   "issue": 53,
+   "title": "[SURVEY] Implement own submission history and corrections",
+   "assignee": "-",
+   "open_hard_prerequisites": [
+    52,
+    57
+   ],
+   "claude_completed": "Own submission history list.",
+   "prs": "#220",
+   "remaining": "Corrections and resubmission workflow (needs #52/#57).",
+   "tests": "-",
+   "approvals": "-"
+  },
+  {
+   "issue": 55,
+   "title": "[OFFLINE] Persist protected recoverable local drafts",
+   "assignee": "-",
+   "open_hard_prerequisites": [
+    42,
+    54
+   ],
+   "claude_completed": "No engineering done in this pass.",
+   "prs": "-",
+   "remaining": "Not started; see the issue's acceptance criteria and open prerequisites.",
+   "tests": "see issue",
+   "approvals": "see issue"
+  },
+  {
+   "issue": 56,
+   "title": "[OFFLINE] Implement offline session and device lock policy",
+   "assignee": "-",
+   "open_hard_prerequisites": [
+    32,
+    54
+   ],
+   "claude_completed": "No engineering done in this pass.",
+   "prs": "-",
+   "remaining": "Not started; see the issue's acceptance criteria and open prerequisites.",
+   "tests": "see issue",
+   "approvals": "see issue"
+  },
+  {
+   "issue": 57,
+   "title": "[OFFLINE] Implement idempotent transactional sync",
+   "assignee": "-",
+   "open_hard_prerequisites": [
+    38,
+    43,
+    50,
+    56
+   ],
+   "claude_completed": "No engineering done in this pass.",
+   "prs": "-",
+   "remaining": "Not started; see the issue's acceptance criteria and open prerequisites.",
+   "tests": "see issue",
+   "approvals": "see issue"
+  },
+  {
+   "issue": 58,
+   "title": "[OFFLINE] Handle sync retries conflicts and rejections",
+   "assignee": "-",
+   "open_hard_prerequisites": [
+    55,
+    57
+   ],
+   "claude_completed": "No engineering done in this pass.",
+   "prs": "-",
+   "remaining": "Not started; see the issue's acceptance criteria and open prerequisites.",
+   "tests": "see issue",
+   "approvals": "see issue"
+  },
+  {
+   "issue": 59,
+   "title": "[OFFLINE] Prevent duplicates without deleting genuine interviews",
+   "assignee": "-",
+   "open_hard_prerequisites": [
+    57
+   ],
+   "claude_completed": "No engineering done in this pass.",
+   "prs": "-",
+   "remaining": "Not started; see the issue's acceptance criteria and open prerequisites.",
+   "tests": "see issue",
+   "approvals": "see issue"
+  },
+  {
+   "issue": 60,
+   "title": "[OFFLINE] Implement quarantined resumable media uploads",
+   "assignee": "-",
+   "open_hard_prerequisites": [
+    38
+   ],
+   "claude_completed": "No engineering done in this pass.",
+   "prs": "-",
+   "remaining": "Not started; see the issue's acceptance criteria and open prerequisites.",
+   "tests": "see issue",
+   "approvals": "see issue"
+  },
+  {
+   "issue": 81,
+   "title": "[FRONTEND] Implement read-only public projection API",
+   "assignee": "-",
+   "open_hard_prerequisites": [
+    38
+   ],
+   "claude_completed": "Public API router, PgPublicRepository, projection tables, server wiring.",
+   "prs": "#204, #210",
+   "remaining": "Publication worker that writes published.*; browser journeys against this server.",
+   "tests": "pnpm --filter @makarba/api conformance <base>/api/v1/public",
+   "approvals": "-"
+  },
+  {
+   "issue": 84,
+   "title": "[ANALYTICS] Implement reproducible valid-answer aggregation",
+   "assignee": "-",
+   "open_hard_prerequisites": [
+    43,
+    37
+   ],
+   "claude_completed": "Pipeline boundary + frozen fixtures (packages/analytics).",
+   "prs": "earlier",
+   "remaining": "PG record source over approved interviews (needs a topic-group answer model and a real questionnaire mapping) and snapshot store.",
+   "tests": "pnpm --filter @makarba/analytics test",
+   "approvals": "Research lead confirms k=5 policy"
+  },
+  {
+   "issue": 90,
+   "title": "[ANALYTICS] Build safe survey coverage snapshots",
+   "assignee": "-",
+   "open_hard_prerequisites": [
+    23,
+    84,
+    92
+   ],
+   "claude_completed": "No engineering done in this pass.",
+   "prs": "-",
+   "remaining": "Not started; see the issue's acceptance criteria and open prerequisites.",
+   "tests": "see issue",
+   "approvals": "see issue"
+  },
+  {
+   "issue": 92,
+   "title": "[ANALYTICS] Enforce disclosure and small-sample controls",
+   "assignee": "-",
+   "open_hard_prerequisites": [
+    41,
+    84
+   ],
+   "claude_completed": "No engineering done in this pass.",
+   "prs": "-",
+   "remaining": "Not started; see the issue's acceptance criteria and open prerequisites.",
+   "tests": "see issue",
+   "approvals": "see issue"
+  },
+  {
+   "issue": 95,
+   "title": "[ADMIN] Build account and training administration",
+   "assignee": "-",
+   "open_hard_prerequisites": [
+    33
+   ],
+   "claude_completed": "No engineering done in this pass.",
+   "prs": "-",
+   "remaining": "Not started; see the issue's acceptance criteria and open prerequisites.",
+   "tests": "see issue",
+   "approvals": "see issue"
+  },
+  {
+   "issue": 96,
+   "title": "[SURVEY] Capture structured field observations separately from interviews",
+   "assignee": "-",
+   "open_hard_prerequisites": [
+    35,
+    44
+   ],
+   "claude_completed": "No engineering done in this pass.",
+   "prs": "-",
+   "remaining": "Not started; see the issue's acceptance criteria and open prerequisites.",
+   "tests": "see issue",
+   "approvals": "see issue"
+  },
+  {
+   "issue": 97,
+   "title": "[OFFLINE] Implement conditional approved external collection importer",
+   "assignee": "-",
+   "open_hard_prerequisites": [
+    43,
+    54,
+    57
+   ],
+   "claude_completed": "No engineering done in this pass.",
+   "prs": "-",
+   "remaining": "Not started; see the issue's acceptance criteria and open prerequisites.",
+   "tests": "see issue",
+   "approvals": "see issue"
+  },
+  {
+   "issue": 98,
+   "title": "[ADMIN] Monitor visits and research progress",
+   "assignee": "-",
+   "open_hard_prerequisites": [
+    44
+   ],
+   "claude_completed": "No engineering done in this pass.",
+   "prs": "-",
+   "remaining": "Not started; see the issue's acceptance criteria and open prerequisites.",
+   "tests": "see issue",
+   "approvals": "see issue"
+  },
+  {
+   "issue": 99,
+   "title": "[ADMIN] Build survey moderation and validation queue",
+   "assignee": "-",
+   "open_hard_prerequisites": [
+    51
+   ],
+   "claude_completed": "No engineering done in this pass.",
+   "prs": "-",
+   "remaining": "Not started; see the issue's acceptance criteria and open prerequisites.",
+   "tests": "see issue",
+   "approvals": "see issue"
+  },
+  {
+   "issue": 100,
+   "title": "[ADMIN] Review private GPS quality and outliers",
+   "assignee": "-",
+   "open_hard_prerequisites": [
+    23,
+    49,
+    99
+   ],
+   "claude_completed": "No engineering done in this pass.",
+   "prs": "-",
+   "remaining": "Not started; see the issue's acceptance criteria and open prerequisites.",
+   "tests": "see issue",
+   "approvals": "see issue"
+  },
+  {
+   "issue": 103,
+   "title": "[ADMIN] Implement publication preview approval and revoke",
+   "assignee": "-",
+   "open_hard_prerequisites": [
+    99
+   ],
+   "claude_completed": "No engineering done in this pass.",
+   "prs": "-",
+   "remaining": "Not started; see the issue's acceptance criteria and open prerequisites.",
+   "tests": "see issue",
+   "approvals": "see issue"
+  },
+  {
+   "issue": 105,
+   "title": "[ADMIN] Implement correction withdrawal and retention workflows",
+   "assignee": "-",
+   "open_hard_prerequisites": [
+    37,
+    103
+   ],
+   "claude_completed": "No engineering done in this pass.",
+   "prs": "-",
+   "remaining": "Not started; see the issue's acceptance criteria and open prerequisites.",
+   "tests": "see issue",
+   "approvals": "see issue"
+  },
+  {
+   "issue": 107,
+   "title": "[DEVOPS] Test API integration and validation",
+   "assignee": "-",
+   "open_hard_prerequisites": [],
+   "claude_completed": "No engineering done in this pass.",
+   "prs": "-",
+   "remaining": "Not started; see the issue's acceptance criteria and open prerequisites.",
+   "tests": "see issue",
+   "approvals": "see issue"
+  },
+  {
+   "issue": 109,
+   "title": "[DEVOPS] Test authorization abuse paths",
+   "assignee": "-",
+   "open_hard_prerequisites": [
+    32
+   ],
+   "claude_completed": "No engineering done in this pass.",
+   "prs": "-",
+   "remaining": "Not started; see the issue's acceptance criteria and open prerequisites.",
+   "tests": "see issue",
+   "approvals": "see issue"
+  },
+  {
+   "issue": 110,
+   "title": "[DEVOPS] Test private-to-public exposure boundary",
+   "assignee": "-",
+   "open_hard_prerequisites": [],
+   "claude_completed": "No engineering done in this pass.",
+   "prs": "-",
+   "remaining": "Not started; see the issue's acceptance criteria and open prerequisites.",
+   "tests": "see issue",
+   "approvals": "see issue"
+  },
+  {
+   "issue": 111,
+   "title": "[DEVOPS] Test GPS permission quality and correction edges",
+   "assignee": "-",
+   "open_hard_prerequisites": [],
+   "claude_completed": "No engineering done in this pass.",
+   "prs": "-",
+   "remaining": "Not started; see the issue's acceptance criteria and open prerequisites.",
+   "tests": "see issue",
+   "approvals": "see issue"
+  },
+  {
+   "issue": 112,
+   "title": "[DEVOPS] Test offline to online sync reliability",
+   "assignee": "-",
+   "open_hard_prerequisites": [
+    54
+   ],
+   "claude_completed": "No engineering done in this pass.",
+   "prs": "-",
+   "remaining": "Not started; see the issue's acceptance criteria and open prerequisites.",
+   "tests": "see issue",
+   "approvals": "see issue"
+  },
+  {
+   "issue": 116,
+   "title": "[DEVOPS] Rehearse encrypted backup and restore",
+   "assignee": "-",
+   "open_hard_prerequisites": [
+    105,
+    124
+   ],
+   "claude_completed": "No engineering done in this pass.",
+   "prs": "-",
+   "remaining": "Not started; see the issue's acceptance criteria and open prerequisites.",
+   "tests": "see issue",
+   "approvals": "see issue"
+  },
+  {
+   "issue": 121,
+   "title": "[DEVOPS] Run real GPS and offline pilot",
+   "assignee": "-",
+   "open_hard_prerequisites": [
+    112,
+    119
+   ],
+   "claude_completed": "No engineering done in this pass.",
+   "prs": "-",
+   "remaining": "Not started; see the issue's acceptance criteria and open prerequisites.",
+   "tests": "see issue",
+   "approvals": "see issue"
+  },
+  {
+   "issue": 122,
+   "title": "[DEVOPS] Audit survey consent and data quality",
+   "assignee": "-",
+   "open_hard_prerequisites": [
+    99,
+    100,
+    121
+   ],
+   "claude_completed": "No engineering done in this pass.",
+   "prs": "-",
+   "remaining": "Not started; see the issue's acceptance criteria and open prerequisites.",
+   "tests": "see issue",
+   "approvals": "see issue"
+  },
+  {
+   "issue": 125,
+   "title": "[DEVOPS] Validate final research dataset and snapshots",
+   "assignee": "-",
+   "open_hard_prerequisites": [
+    122,
+    123
+   ],
+   "claude_completed": "No engineering done in this pass.",
+   "prs": "-",
+   "remaining": "Not started; see the issue's acceptance criteria and open prerequisites.",
+   "tests": "see issue",
+   "approvals": "see issue"
+  },
+  {
+   "issue": 136,
+   "title": "[FRONTEND] Evaluate human-reviewed qualitative AI assistance",
+   "assignee": "-",
+   "open_hard_prerequisites": [
+    105,
+    126
+   ],
+   "claude_completed": "No engineering done in this pass.",
+   "prs": "-",
+   "remaining": "Not started; see the issue's acceptance criteria and open prerequisites.",
+   "tests": "see issue",
+   "approvals": "see issue"
+  }
+ ]
+}
