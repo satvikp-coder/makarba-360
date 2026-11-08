@@ -83,7 +83,7 @@ describe.skipIf(!url)("spatial invariants and migration paths (database)", () =>
     it("a candidate or approved location cannot be in a published state without a review date", async () => {
       await c.query("SET ROLE makarba_migrator");
       await c.query("INSERT INTO private.study_areas (id, version, name, geometry) VALUES ('00000000-0000-4000-8000-0000000000a1', 1, 'a', ST_GeomFromText('MULTIPOLYGON(((10 10,11 10,11 11,10 11,10 10)))',4326))");
-      await c.query("INSERT INTO private.location_categories (id, labels, icon) VALUES ('heritage','{\"en\":\"H\"}','i')");
+      await c.query("INSERT INTO private.location_categories (id, labels, icon) VALUES ('heritage','{\"en\":\"H\"}','landmark')");
       await c.query("RESET ROLE");
       const ins = (state: string) => `INSERT INTO private.locations (id, study_area_id, study_area_version, category_id, name, geometry, state) VALUES (gen_random_uuid(), '00000000-0000-4000-8000-0000000000a1', 1, 'heritage', '{"en":"x"}', ST_GeomFromText('POINT(10.5 10.5)',4326), '${state}')`;
       expect(await attempt(ins("published"))).toBe("23514");

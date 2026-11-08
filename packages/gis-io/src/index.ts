@@ -168,3 +168,4 @@ export function exportFeatures(features: ExportFeature[], req: ExportRequest): E
   const lines = [req.fields.map(csvCell).join(","), ...features.map((f) => req.fields.map((k) => csvCell(val(f, k))).join(","))];
   return { ok: true, body: lines.join("\r\n") + "\r\n", audit };
 }
+export * from "./categories.js";
