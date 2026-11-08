@@ -1,7 +1,7 @@
 import type { Answer, Answers, PositionInput } from "@makarba/survey";
 import type { Queryable } from "./pg-public-repository.js";
 
-export type FieldErrorCode = "not_found" | "revision_race" | "pending_drafts" | "conflict" | "rejected_value" | "consent_required" | "not_active" | "not_draft";
+export type FieldErrorCode = "not_found" | "revision_race" | "cannot_submit" | "review_refused" | "pending_drafts" | "conflict" | "rejected_value" | "consent_required" | "not_active" | "not_draft";
 export class FieldRepoError extends Error {
   constructor(public code: FieldErrorCode, public ids: string[] = []) { super(code); }
 }
@@ -33,6 +33,8 @@ export class PgFieldRepository {
       const err = e as { code?: string; message?: string };
       if (err.code === "23001") {
         const m = err.message ?? "";
+        if (/submits|only a draft can be submitted|position .*before submitting|consent is not in force/.test(m)) throw new FieldRepoError("cannot_submit");
+        if (/review/.test(m) && !/consent/.test(m)) throw new FieldRepoError("review_refused");
         if (/consent/.test(m)) throw new FieldRepoError("consent_required");
         if (/not active|frozen/.test(m)) throw new FieldRepoError("not_active");
         if (/only change while/.test(m)) throw new FieldRepoError("not_draft");
@@ -183,6 +185,26 @@ export class PgFieldRepository {
     if (!UUID.test(interviewId)) return null;
     const r = await this.db.query("SELECT status, claimed_role, claimed_at FROM private.official_claims WHERE interview_id = $1", [interviewId]);
     return r.rows[0] ? { status: r.rows[0]["status"] as string, claimedRole: r.rows[0]["claimed_role"] as string, claimedAt: iso(r.rows[0]["claimed_at"]) } : null;
+  }
+
+  /** The only way a draft becomes submitted (database function). Idempotent. `prune` = answered questions hidden by the final answers. */
+  async submit(interviewId: string, actorId: string, prune: string[]): Promise<"submitted" | "already_submitted"> {
+    const r = await this.run("SELECT private.submit_interview($1::uuid, $2::uuid, $3::text[]) AS outcome", [interviewId, actorId, prune]);
+    return r.rows[0]!["outcome"] as "submitted" | "already_submitted";
+  }
+
+  /** The collector's own submission history, newest first. */
+  async submissions(collectorId: string, studyAreaId: string, limit = 50) {
+    const r = await this.db.query(
+      `SELECT i.id, i.status, i.started_at, i.submitted_at, coalesce(s.review_status, CASE WHEN i.status = 'submitted' THEN 'pending' END) AS review_status
+         FROM private.interviews i LEFT JOIN private.interview_review_status s ON s.interview_id = i.id
+        WHERE i.collector_id = $1 AND i.study_area_id = $2 ORDER BY coalesce(i.submitted_at, i.started_at) DESC, i.id LIMIT $3`, [collectorId, studyAreaId, limit]);
+    return r.rows.map((x) => ({ id: x["id"] as string, status: x["status"] as string, startedAt: iso(x["started_at"]), submittedAt: x["submitted_at"] ? iso(x["submitted_at"]) : null, reviewStatus: (x["review_status"] as string | null) ?? null }));
+  }
+
+  /** Independent review decision (verification path; there is no HTTP route until the capability matrix has an action for it, issue #6). */
+  async decideReview(interviewId: string, reviewerId: string, decision: "approved" | "changes_requested" | "rejected", note?: string): Promise<void> {
+    await this.run("INSERT INTO private.interview_reviews (interview_id, decision, reviewer_id, note) VALUES ($1, $2, $3, $4)", [interviewId, decision, reviewerId, note ?? null]);
   }
 
   async saveAnswers(interviewId: string, answers: Record<string, Answer>): Promise<void> {

@@ -287,6 +287,36 @@ describe.skipIf(!url)("private API stack on PostGIS with a fake identity provide
     expect((await admin.query("SELECT count(*)::int AS n FROM private.interview_answers")).rows[0].n).toBe(0);
   });
 
+  it("submit over HTTP: validated against the pinned version, needs an explicit position state, drops hidden answers, idempotent, own history", async () => {
+    const r = await signIn("sub-researcher");
+    const vid = (await call(r, "post", "/visits", { studyAreaId: AREA })).body.id as string;
+    const iv = "00000000-0000-4000-8000-0000000f1001";
+    await call(r, "post", `/interviews/${iv}/consent`, { studyAreaId: AREA, scope: "participation", decision: "granted", scriptVersionId: scriptId, language: "en" });
+    await call(r, "post", `/visits/${vid}/interviews`, { id: iv, surveyVersionId: surveyId, startedAt: "2026-01-01T10:00:00.000Z", startedOffsetMinutes: 330 });
+    await call(r, "put", `/interviews/${iv}/answers`, { answers: { C01: { value: true }, R01: { value: "official" }, R03: { value: true } } });
+
+    const early = await call(r, "post", `/interviews/${iv}/submit`, {});
+    expect([early.status, Object.keys(early.body.fieldErrors)]).toEqual([422, ["Q02"]]);                                // required Q02 missing
+    await call(r, "put", `/interviews/${iv}/answers`, { answers: { Q02: { missing: "unsure" }, R01: { value: "resident" } } });   // R03 now hidden
+    const noPos = await call(r, "post", `/interviews/${iv}/submit`, {});
+    expect([noPos.status, noPos.body.code]).toEqual([409, "cannot_submit"]);                                           // no position state yet
+    await call(r, "post", `/interviews/${iv}/position`, { state: "unavailable", permissionState: "unsupported", reason: "no GPS on this device" });
+
+    const done = await call(r, "post", `/interviews/${iv}/submit`, {});
+    expect(done.status).toBe(201);
+    expect(done.body).toMatchObject({ outcome: "submitted", status: "submitted", saveState: "saved on the server", consent: { consentResearch: true }, interviewPosition: { state: "unavailable", revisions: 1 }, droppedHiddenAnswers: ["R03"] });
+    const again = await call(r, "post", `/interviews/${iv}/submit`, {});
+    expect([again.status, again.body.outcome]).toEqual([200, "already_submitted"]);
+    expect((await call(r, "put", `/interviews/${iv}/answers`, { answers: { Q02: { value: 1 } } })).status).toBe(409);
+    expect(Object.keys((await call(r, "get", `/interviews/${iv}`)).body.answers).sort()).toEqual(["C01", "Q02", "R01"]);
+
+    const mine = await call(r, "get", `/submissions?studyAreaId=${AREA}`);
+    expect(mine.body.items.map((x: { id: string; status: string; reviewStatus: string }) => [x.id, x.status, x.reviewStatus])).toContainEqual([iv, "submitted", "pending"]);
+    expect((await call(await signIn("sub-researcher2"), "get", `/submissions?studyAreaId=${AREA}`)).body.items ?? []).toEqual([]);
+    expect((await call(r, "get", `/submissions?studyAreaId=${OTHER_AREA}`)).status).toBe(403);
+    expect((await call(await signIn("sub-researcher2"), "post", `/interviews/${iv}/submit`, {})).status).toBe(403);
+  });
+
   it("the private pool runs as the private API role: it cannot delete places or read other schemas' secrets it should not", async () => {
     await expect(prepared.privatePool!.query("DELETE FROM private.locations")).rejects.toMatchObject({ code: "42501" });
     await expect(prepared.privatePool!.query("UPDATE audit.security_events SET outcome = 'allow'")).rejects.toMatchObject({ code: "42501" });
