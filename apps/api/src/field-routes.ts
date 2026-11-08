@@ -1,5 +1,6 @@
 import type { Request, Response } from "express";
-import { validateAnswer, visibleQuestions, type Answer } from "@makarba/survey";
+import { validateLocationGeometry } from "@makarba/gis-io";
+import { validateAnswer, validatePosition, visibleQuestions, type Answer } from "@makarba/survey";
 import type { PrivateRoute } from "./private-routes.js";
 import { FieldRepoError, type PgFieldRepository } from "./field-repository.js";
 import { SurveyError, type PgSurveyRepository } from "./survey-repository.js";
@@ -16,7 +17,7 @@ const problem = (res: Response, status: number, code: string, message: string, e
 const TEXT: Record<string, string> = {
   not_found: "Not found.", conflict: "This id is already used for a different interview.", rejected_value: "The value was rejected.",
   consent_required: "Participation consent must be granted before the interview starts.", not_active: "This visit is not active.",
-  not_draft: "Answers can only change while the interview is a draft.", pending_drafts: "Some interviews are still drafts. Choose to keep each for later sync or mark it abandoned.",
+  not_draft: "This can only change while the interview is a draft.", revision_race: "Another position was saved at the same time. Try again.", pending_drafts: "Some interviews are still drafts. Choose to keep each for later sync or mark it abandoned.",
 };
 
 export function fieldRoutes(field: PgFieldRepository, surveys: PgSurveyRepository): PrivateRoute[] {
@@ -89,6 +90,48 @@ export function fieldRoutes(field: PgFieldRepository, surveys: PgSurveyRepositor
         return res.json({ ...i, visibleQuestions: visible, staleHiddenAnswers: Object.keys(i.answers).filter((c) => !visible.includes(c)) });
       }),
     },
+    {
+      method: "post", path: "/interviews/:id/position", action: "gps.capture", resolve: interviewScope,
+      handler: wrap(async (req, res) => {
+        const check = validatePosition(req.body);
+        if (!check.ok) return problem(res, 422, "validation_failed", "Check the highlighted fields.", {}, check.errors);
+        await field.recordPosition(id(req), user(req), check.value);
+        const all = await field.positions(id(req));
+        return res.status(201).json({ positions: all, current: all[all.length - 1] ?? null, quality: check.quality });
+      }),
+    },
+    { method: "get", path: "/interviews/:id/positions", action: "interview.view_private", resolve: interviewScope, handler: wrap(async (req, res) => res.json({ positions: await field.positions(id(req)) })) },
+    {
+      method: "put", path: "/interviews/:id/subjects/:group", action: "subject_location.link", resolve: interviewScope,
+      handler: wrap(async (req, res) => {
+        const group = Number(req.params["group"]);
+        if (!Number.isInteger(group) || group < 1 || group > 20) return problem(res, 422, "validation_failed", "Topic group must be 1 to 20.", {}, { group: "1..20" });
+        const b = asObj(req.body);
+        if (b["sameSpotConfirmed"] !== undefined && typeof b["sameSpotConfirmed"] !== "boolean") return problem(res, 422, "validation_failed", "sameSpotConfirmed must be true or false.", {}, { sameSpotConfirmed: "boolean" });
+        const sameSpot = b["sameSpotConfirmed"] === true;
+        const note = typeof b["note"] === "string" && b["note"].trim() ? b["note"].trim().slice(0, 300) : undefined;
+        if (b["locationId"] !== undefined) {
+          if (typeof b["locationId"] !== "string" || !UUID.test(b["locationId"]) || b["geometry"] !== undefined) return problem(res, 422, "validation_failed", "Choose an existing place OR give a candidate geometry.", {}, { locationId: "a place id, without a geometry" });
+          await field.setSubject(id(req), group, { locationId: b["locationId"], sameSpotConfirmed: sameSpot });
+        } else {
+          const g = validateLocationGeometry({ crs: b["crs"], geometry: b["geometry"], provenance: { source: "interview subject place", method: "reported" } });
+          if (!g.ok) return problem(res, 422, "validation_failed", "Check the geometry.", {}, { geometry: g.reasons.join("; ") });
+          await field.setSubject(id(req), group, { candidateGeometry: g.geometry, note, sameSpotConfirmed: sameSpot });
+        }
+        return res.json({ subjects: await field.subjects(id(req)) });
+      }),
+    },
+    { method: "get", path: "/interviews/:id/subjects", action: "interview.view_private", resolve: interviewScope, handler: wrap(async (req, res) => res.json({ subjects: await field.subjects(id(req)) })) },
+    {
+      method: "post", path: "/interviews/:id/official-claim", action: "interview.edit_draft", resolve: interviewScope,
+      handler: wrap(async (req, res) => {
+        const role = asObj(req.body)["claimedRole"];
+        if (typeof role !== "string" || !role.trim() || role.trim().length > 120) return problem(res, 422, "validation_failed", "Say which official role the participant claims.", {}, { claimedRole: "1 to 120 characters" });
+        const out = await field.recordClaim(id(req), user(req), role.trim());
+        return res.status(out.created ? 201 : 200).json({ status: out.status, claimedRole: out.claimedRole, verified: false });   // the collector's claim is never "verified"
+      }),
+    },
+    { method: "get", path: "/interviews/:id/official-claim", action: "interview.view_private", resolve: interviewScope, handler: wrap(async (req, res) => { const c = await field.getClaim(id(req)); return c ? res.json(c) : problem(res, 404, "not_found", TEXT["not_found"]!); }) },
     {
       method: "put", path: "/interviews/:id/answers", action: "interview.edit_draft", resolve: interviewScope,
       handler: wrap(async (req, res) => {

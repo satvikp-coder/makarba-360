@@ -240,6 +240,34 @@ describe.skipIf(!url)("private API stack on PostGIS with a fake identity provide
     expect((await call(await signIn("sub-otherlead", ["mfa"]), "get", `/interviews/${iv}`)).status).toBe(403);
     expect((await call(await signIn("sub-researcher2"), "get", `/interviews/${iv}`)).status).toBe(403);
 
+    // Interview position (GPS): denial is recorded without coordinates, a poor fix is flagged but saved, a manual pin keeps the raw reading.
+    const denied = await call(r, "post", `/interviews/${iv}/position`, { state: "denied", permissionState: "denied", reason: "participant declined" });
+    expect([denied.status, denied.body.current.effective]).toEqual([201, null]);
+    const poor = await call(r, "post", `/interviews/${iv}/position`, { state: "device_fix", permissionState: "granted", lat: 10.5, lon: 10.5, accuracyM: 80, capturedAt: new Date().toISOString() });
+    expect([poor.status, poor.body.quality]).toEqual([201, "low"]);
+    const pin = await call(r, "post", `/interviews/${iv}/position`, { state: "manual_pin", permissionState: "granted", lat: 10.5003, lon: 10.5001, reason: "moved off the road" });
+    expect(pin.body.positions.map((p: { state: string }) => p.state)).toEqual(["denied", "device_fix", "manual_pin"]);
+    expect(pin.body.current).toMatchObject({ raw: { lat: 10.5, lon: 10.5 }, effective: { lat: 10.5003, lon: 10.5001 }, accuracyM: null });
+    expect((await call(r, "post", `/interviews/${iv}/position`, { state: "manual_pin", permissionState: "granted", lat: 10.5, lon: 10.5, accuracyM: 5, reason: "x" })).status).toBe(422);
+    expect((await call(r, "post", `/interviews/${iv}/position`, { state: "device_fix", permissionState: "granted", lat: 95, lon: 10, accuracyM: 5, capturedAt: new Date().toISOString() })).status).toBe(422);
+    // Exact positions are private: only the owner and the assigned lead can read them.
+    expect((await call(lead, "get", `/interviews/${iv}/positions`)).status).toBe(200);
+    expect((await call(await signIn("sub-otherlead", ["mfa"]), "get", `/interviews/${iv}/positions`)).status).toBe(403);
+    const r2 = await signIn("sub-researcher2");
+    expect((await call(r2, "get", `/interviews/${iv}/positions`)).status).toBe(403);
+    expect((await call(r2, "post", `/interviews/${iv}/position`, { state: "denied", permissionState: "denied", reason: "x" })).status).toBe(403);
+    expect((await request(prepared.app).get(`/api/v1/private/interviews/${iv}/positions`)).status).toBe(401);
+    // Subject place is independent of the interview position.
+    const same = await call(r, "put", `/interviews/${iv}/subjects/1`, { crs: "EPSG:4326", geometry: { type: "Point", coordinates: [10.5001, 10.5003] } });
+    expect(same.status).toBe(422);                                                                                       // identical to the effective interview position, not confirmed
+    const other = await call(r, "put", `/interviews/${iv}/subjects/1`, { crs: "EPSG:4326", geometry: { type: "Point", coordinates: [10.52, 10.5] }, note: "corner shop" });
+    expect([other.status, other.body.subjects[0].sameSpotConfirmed]).toEqual([200, false]);
+    expect((await call(r, "put", `/interviews/${iv}/subjects/1`, { crs: "EPSG:3857", geometry: { type: "Point", coordinates: [10.5, 10.5] } })).status).toBe(422);
+    // Official claim: recorded as pending, never verified by the collector.
+    const claim = await call(r, "post", `/interviews/${iv}/official-claim`, { claimedRole: "Ward officer" });
+    expect([claim.status, claim.body.status, claim.body.verified]).toEqual([201, "pending", false]);
+    expect((await call(r, "post", `/interviews/${iv}/official-claim`, { claimedRole: "Ward officer", status: "verified" })).body.status).toBe("pending");
+
     const pending = await call(r, "post", `/visits/${vid}/end`, {});
     expect([pending.status, pending.body.code, pending.body.draftIds]).toEqual([409, "pending_drafts", [iv]]);
     expect((await call(r, "post", `/visits/${vid}/end`, { reconcile: { [iv]: "maybe" } })).status).toBe(422);

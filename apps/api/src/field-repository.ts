@@ -1,7 +1,7 @@
-import type { Answer, Answers } from "@makarba/survey";
+import type { Answer, Answers, PositionInput } from "@makarba/survey";
 import type { Queryable } from "./pg-public-repository.js";
 
-export type FieldErrorCode = "not_found" | "pending_drafts" | "conflict" | "rejected_value" | "consent_required" | "not_active" | "not_draft";
+export type FieldErrorCode = "not_found" | "revision_race" | "pending_drafts" | "conflict" | "rejected_value" | "consent_required" | "not_active" | "not_draft";
 export class FieldRepoError extends Error {
   constructor(public code: FieldErrorCode, public ids: string[] = []) { super(code); }
 }
@@ -36,6 +36,7 @@ export class PgFieldRepository {
         if (/consent/.test(m)) throw new FieldRepoError("consent_required");
         if (/not active|frozen/.test(m)) throw new FieldRepoError("not_active");
         if (/only change while/.test(m)) throw new FieldRepoError("not_draft");
+        if (/revision must be the next/.test(m)) throw new FieldRepoError("revision_race");
         throw new FieldRepoError("rejected_value");
       }
       if (err.code && ["23503", "23514", "22P02", "22007", "22008"].includes(err.code)) throw new FieldRepoError("rejected_value");
@@ -116,6 +117,72 @@ export class PgFieldRepository {
       }
       throw e;
     }
+  }
+
+  /** Appends the next position revision. Raw device readings are never overwritten: a manual pin keeps the last device reading as `raw`. */
+  async recordPosition(interviewId: string, actorId: string, v: PositionInput): Promise<void> {
+    for (let attempt = 0; attempt < 3; attempt++) {
+      const last = await this.db.query("SELECT revision, ST_X(raw_geometry) AS rx, ST_Y(raw_geometry) AS ry FROM private.interview_positions WHERE interview_id = $1 ORDER BY revision DESC LIMIT 1", [interviewId]);
+      const next = last.rows[0] ? (last.rows[0]["revision"] as number) + 1 : 1;
+      const hasPoint = v.lat !== undefined && v.lon !== undefined;
+      const prevRaw = last.rows[0]?.["rx"] != null ? [last.rows[0]["rx"] as number, last.rows[0]["ry"] as number] : null;
+      const raw = v.state === "device_fix" ? [v.lon!, v.lat!] : v.state === "manual_pin" ? prevRaw : null;
+      try {
+        await this.run(
+          `INSERT INTO private.interview_positions (interview_id, revision, state, permission_state, raw_geometry, geometry, accuracy_m, captured_at, reason, recorded_by)
+           VALUES ($1, $2, $3, $4, CASE WHEN $5::float8 IS NULL THEN NULL ELSE ST_SetSRID(ST_MakePoint($5::float8, $6::float8), 4326) END,
+                   CASE WHEN $7::boolean THEN ST_SetSRID(ST_MakePoint($8::float8, $9::float8), 4326) ELSE NULL END, $10, $11, $12, $13)`,
+          [interviewId, next, v.state, v.permissionState, raw ? raw[0] : null, raw ? raw[1] : null, hasPoint, v.lon ?? null, v.lat ?? null, v.accuracyM ?? null, v.capturedAt ?? null, v.reason ?? null, actorId],
+        );
+        return;
+      } catch (e) {
+        if (e instanceof FieldRepoError && e.code === "revision_race" && attempt < 2) continue;
+        if ((e as { code?: string }).code === "23505" && attempt < 2) continue;
+        throw e;
+      }
+    }
+  }
+
+  async positions(interviewId: string) {
+    if (!UUID.test(interviewId)) return [];
+    const r = await this.db.query(
+      `SELECT revision, state, permission_state, ST_X(geometry) AS x, ST_Y(geometry) AS y, ST_X(raw_geometry) AS rx, ST_Y(raw_geometry) AS ry, accuracy_m, captured_at, reason, recorded_at
+         FROM private.interview_positions WHERE interview_id = $1 ORDER BY revision`, [interviewId]);
+    return r.rows.map((x) => ({
+      revision: x["revision"] as number, state: x["state"] as string, permissionState: x["permission_state"] as string,
+      effective: x["x"] == null ? null : { lon: x["x"] as number, lat: x["y"] as number }, raw: x["rx"] == null ? null : { lon: x["rx"] as number, lat: x["ry"] as number },
+      accuracyM: x["accuracy_m"] == null ? null : Number(x["accuracy_m"]), capturedAt: x["captured_at"] ? iso(x["captured_at"]) : null, reason: (x["reason"] as string | null) ?? null, recordedAt: iso(x["recorded_at"]),
+    }));
+  }
+
+  /** One subject place per topic group. Either an existing place, or a candidate geometry of its own (never copied from the interview position). */
+  async setSubject(interviewId: string, topicGroup: number, s: { locationId?: string; candidateGeometry?: unknown; note?: string; sameSpotConfirmed: boolean }): Promise<void> {
+    await this.run(
+      `INSERT INTO private.subject_places (interview_id, topic_group, location_id, candidate_geometry, candidate_note, same_spot_confirmed)
+       VALUES ($1, $2, $3, CASE WHEN $4::text IS NULL THEN NULL ELSE ST_SetSRID(ST_GeomFromGeoJSON($4::text), 4326) END, $5, $6)
+       ON CONFLICT (interview_id, topic_group) DO UPDATE SET location_id = EXCLUDED.location_id, candidate_geometry = EXCLUDED.candidate_geometry,
+         candidate_note = EXCLUDED.candidate_note, same_spot_confirmed = EXCLUDED.same_spot_confirmed`,
+      [interviewId, topicGroup, s.locationId ?? null, s.candidateGeometry ? JSON.stringify(s.candidateGeometry) : null, s.note ?? null, s.sameSpotConfirmed],
+    );
+  }
+
+  async subjects(interviewId: string) {
+    if (!UUID.test(interviewId)) return [];
+    const r = await this.db.query("SELECT topic_group, location_id, ST_AsGeoJSON(candidate_geometry)::json AS candidate, candidate_note, same_spot_confirmed FROM private.subject_places WHERE interview_id = $1 ORDER BY topic_group", [interviewId]);
+    return r.rows.map((x) => ({ topicGroup: x["topic_group"] as number, locationId: (x["location_id"] as string | null) ?? null, candidateGeometry: x["candidate"] ?? null, note: (x["candidate_note"] as string | null) ?? null, sameSpotConfirmed: x["same_spot_confirmed"] as boolean }));
+  }
+
+  /** Always recorded as PENDING; verification is a separate act by a different person. */
+  async recordClaim(interviewId: string, claimedBy: string, role: string): Promise<{ status: string; claimedRole: string; created: boolean }> {
+    const r = await this.run("INSERT INTO private.official_claims (interview_id, claimed_role, claimed_by) VALUES ($1, $2, $3) ON CONFLICT (interview_id) DO NOTHING RETURNING status", [interviewId, role, claimedBy]);
+    const cur = await this.db.query("SELECT status, claimed_role FROM private.official_claims WHERE interview_id = $1", [interviewId]);
+    return { status: cur.rows[0]!["status"] as string, claimedRole: cur.rows[0]!["claimed_role"] as string, created: r.rows.length > 0 };
+  }
+
+  async getClaim(interviewId: string) {
+    if (!UUID.test(interviewId)) return null;
+    const r = await this.db.query("SELECT status, claimed_role, claimed_at FROM private.official_claims WHERE interview_id = $1", [interviewId]);
+    return r.rows[0] ? { status: r.rows[0]["status"] as string, claimedRole: r.rows[0]["claimed_role"] as string, claimedAt: iso(r.rows[0]["claimed_at"]) } : null;
   }
 
   async saveAnswers(interviewId: string, answers: Record<string, Answer>): Promise<void> {
