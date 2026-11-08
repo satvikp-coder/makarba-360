@@ -79,9 +79,9 @@ describe("place list alternative", () => {
     expect(await screen.findByText("Places could not be loaded.")).toBeTruthy();
     expect(screen.queryAllByRole("listitem")).toHaveLength(0);
   });
-  it("network failure shows a retry that recovers", async () => {
+  it("persistent network failure (after the automatic retry) shows a retry that recovers", async () => {
     let n = 0;
-    const f = (() => (n++ === 0 ? Promise.reject(new Error("net")) : json(bundle.locations))) as unknown as typeof fetch;
+    const f = (() => (n++ < 2 ? Promise.reject(new Error("net")) : json(bundle.locations))) as unknown as typeof fetch;
     wrap(<PlaceList fetcher={f} />);
     await userEvent.click(await screen.findByRole("button", { name: "Try again" }));
     await waitFor(() => expect(screen.getAllByRole("listitem").length).toBeGreaterThan(0));
@@ -143,5 +143,15 @@ describe("map explorer URL state and network privacy", () => {
     explore(`/explore?place=${first.id}`);
     await userEvent.click(await screen.findByRole("button", { name: "Clear selection" }));
     expect(screen.queryByRole("complementary", { name: "Selected place" })).toBeNull();
+  });
+});
+
+describe("automatic retry", () => {
+  it("a single network failure is retried silently and the list appears without user action", async () => {
+    let n = 0;
+    const f = (() => (n++ === 0 ? Promise.reject(new Error("net")) : json(bundle.locations))) as unknown as typeof fetch;
+    wrap(<PlaceList fetcher={f} />);
+    await waitFor(() => expect(screen.getAllByRole("listitem").length).toBeGreaterThan(0));
+    expect(screen.queryByRole("button", { name: "Try again" })).toBeNull();
   });
 });
