@@ -17,3 +17,19 @@ Edits use new operation IDs and baseRevision; submitted records require correcti
 Service worker caches only shell, permitted reference map data and immutable forms, never private API responses/original uploads. Do not bulk-download standard OSM tiles. Background Sync is an enhancement; foreground queue resume and explicit retry are required. Fallback importer preserves source instance UUID, form version, exact interview/subject distinction, consent and audit; malformed submissions are quarantined, never silently coerced.
 
 Replay retention: keep minimal operation ID/hash/receipt for the accepted interview lifetime and an institution-approved replay window after purge. Retain non-content withdrawn/deleted entity tombstones so a late device or fallback reimport cannot recreate a withdrawn interview. Never retain raw payload solely for idempotency. Vault passphrase derivation parameters, random salt and authenticated-encryption format are versioned; WebCrypto PBKDF2 tuning and key-loss behavior require the real-device feasibility review before this proposed vault can be selected.
+
+## Photo metadata, credit and permissions model (#61)
+
+Implemented as `packages/place-content/src/media.ts` (domain level, synthetic fixtures; no upload pipeline, storage or API exists, so this is mock/model-level only. Live prerequisites #60 upload quarantine and #37 consent are not claimed).
+
+**Asset tree.** Every asset is a private original (`derivedFrom = null`) or a derivative of another asset, with the list of transforms applied (resize, crop, strip_exif, redact_faces, redact_plates). `lineage()` walks to the original and reports a missing parent or a cycle as an error, never as a pass.
+
+**Recorded per asset:** creator, capture date with precision (or both null: unknown, never guessed), camera bearing 0 to <360 only if known, original-source reference, rights/licence, participant consent state, whether identifiable people appear, publication permission, withdrawn flag, EXIF-stripped flag, redaction-review state, alt text, credit, public URL.
+
+**Rule: rights, consent and withdrawal of the original (and every link in the chain) govern every copy.** A public copy is refused when: it is itself an original; any link is withdrawn or has withdrawn consent; the original's rights are unknown or all-rights-reserved; consent is research-only or never requested; identifiable people appear without granted consent or without a completed face/plate redaction review; creator or capture date is unknown; EXIF is not stripped; alt text or credit is missing; or the public URL is not https or points at original storage. Reasons are returned as plain sentences for the editor.
+
+**Withdrawal** cascades to the asset and all descendants (copies lose their permission and URL). The function is pure; the caller must also purge CDN/cache and rebuild the publication snapshot (Developer A's publication job, not covered here).
+
+**Public projection** exposes only id, location, URL, alt, credit, licence and capture date. Creator identity, source reference, bearing and consent details stay private.
+
+**Limitations.** Whether a licence value was truthfully recorded cannot be checked by software: rights approval is a human step (see human-action list). The model does not detect faces or plates; it only records that a review happened. Mapping to the `Media` contract fields not shown here (content type, dimensions, format, fallback) is added when the pipeline produces derivatives.
