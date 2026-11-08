@@ -61,3 +61,13 @@ html{overflow-wrap:anywhere}
 .tn-handle:focus-visible { outline: 3px solid #1a4fd6; outline-offset: -3px; }
 .tn-side { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; }
 @media (max-width: 480px) { .tn-side { grid-template-columns: 1fr; } }
+
+/* Map filters (#75) */
+.filters { display: flex; flex-wrap: wrap; gap: .5rem 1.25rem; align-items: center; margin: .5rem 0; }
+.filters fieldset { border: 0; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: .4rem; align-items: center; }
+.filters legend { font-weight: 600; float: left; margin-right: .5rem; padding: 0; }
+.filters button, .chip-check { min-height: 44px; min-width: 44px; }
+.chip { border: 1px solid #555; border-radius: 22px; padding: 0 1rem; background: #fff; color: #111; cursor: pointer; }
+.chip[aria-pressed="true"] { background: #14315c; color: #fff; border-color: #14315c; }
+.chip-check { display: inline-flex; align-items: center; gap: .4rem; }
+.filter-count { flex-basis: 100%; margin: 0; }

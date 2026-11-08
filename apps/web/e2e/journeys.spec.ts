@@ -225,3 +225,44 @@ test.describe("Then & Now (synthetic images, technical verification only)", () =
     await expect(page.getByRole("heading", { name: "Then & Now" })).toHaveCount(0);
   });
 });
+
+test.describe("map filters (real MapLibre canvas, stubbed tiles)", () => {
+  test("category chip and layer toggle narrow list and URL; empty result keeps reset and attribution; back/forward restore", async ({ page }) => {
+    const { errors } = await prepare(page);
+    await page.setViewportSize({ width: 1280, height: 800 });
+    await page.goto("/explore");
+    await expect(page.locator("canvas.maplibregl-canvas")).toBeVisible();
+    await expect(page.getByText("Showing all 3 places.")).toBeVisible();
+    await page.getByRole("button", { name: "heritage" }).click();
+    await expect(page).toHaveURL(/category=heritage/);
+    await expect(page.getByText("Showing 1 of 3 places.")).toBeVisible();
+    await expect(page.getByRole("button", { name: "Synthetic Atlas Route" })).toHaveCount(0);
+    await page.getByRole("checkbox", { name: "Streets and routes" }).check();
+    await expect(page.getByText(/No places match these filters/)).toBeVisible();
+    await expect(page.getByText(/OpenStreetMap contributors/)).toBeVisible();
+    await expect(page.locator("canvas.maplibregl-canvas")).toBeVisible();
+    await page.goBack();
+    await expect(page.getByText("Showing 1 of 3 places.")).toBeVisible();
+    await page.goBack();
+    await expect(page.getByText("Showing all 3 places.")).toBeVisible();
+    await page.goForward();
+    await page.goForward();
+    await page.getByRole("button", { name: "Reset filters" }).click();
+    await expect(page).not.toHaveURL(/category=/);
+    await expect(page.getByText("Showing all 3 places.")).toBeVisible();
+    expect(errors).toEqual([]);
+  });
+
+  test("filters are reachable and operable by keyboard at 375px", async ({ page }) => {
+    await prepare(page);
+    await page.setViewportSize({ width: 375, height: 667 });
+    await page.goto("/explore?category=transport");
+    await expect(page.getByRole("button", { name: "transport" })).toHaveAttribute("aria-pressed", "true");
+    const chip = page.getByRole("button", { name: "heritage" });
+    await chip.focus();
+    await page.keyboard.press("Space");
+    await expect(page).toHaveURL(/category=transport%2Cheritage/);
+    expect((await chip.boundingBox())!.height).toBeGreaterThanOrEqual(44);
+    expect(await noHorizontalScroll(page)).toBe(true);
+  });
+});

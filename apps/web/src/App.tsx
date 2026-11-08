@@ -9,6 +9,7 @@ import { NotFound } from "./NotFound.js";
 import { PlaceProfile } from "./Profile.js";
 import { MapView, type MapStatus } from "./map/MapView.js";
 import { LANGUAGES, strings, type Lang } from "./i18n.js";
+import { applyFilters, isActive, LAYERS, parseFilters, toggle, writeFilters, type Filters } from "./filters.js";
 
 const NAV_TARGET: Record<Exclude<NavGroup, "footer">, string> = {
   Explore: "/explore", "Then & Now": "/stories/index", "Community Voices": "/voices", "Urban Insights": "/insights", Research: "/research/methodology",
@@ -78,12 +79,16 @@ export function PlaceList({ fetcher, withMap = false }: { fetcher?: typeof fetch
     if (id) next.set("place", id); else next.delete("place");
     setParams(next);
   };
+  const [r, setR] = useState<PlacesResult | "loading">("loading");
+  const categories = r !== "loading" && r.status === "ok" ? [...new Set(r.places.map((p) => p.category))].sort() : [];
+  const filters: Filters = withMap ? parseFilters(params, categories) : { categories: [], layers: [] };
+  const setFilters = (f: Filters) => setParams(writeFilters(new URLSearchParams(sanitizeQuery("P02", params)), f));
+  const view = r !== "loading" && r.status === "ok" ? applyFilters(r.places, r.features, filters) : { places: [], features: [] };
   const [mapStatus, setMapStatus] = useState<MapStatus>("loading");
   // Sheet height on small screens: peek / half / full. Always operable by buttons; Escape returns to peek.
   const [sheet, setSheet] = useState<"peek" | "half" | "full">("peek");
   const sheetRef = useRef<HTMLDivElement>(null);
   useEffect(() => { if (selected) setSheet((x) => (x === "peek" ? "half" : x)); }, [selected]);
-  const [r, setR] = useState<PlacesResult | "loading">("loading");
   const load = useCallback(() => {
     const ac = new AbortController();
     setR("loading");
@@ -101,11 +106,32 @@ export function PlaceList({ fetcher, withMap = false }: { fetcher?: typeof fetch
         {r !== "loading" && r.status === "ok" && r.places.length === 0 && <span>{t.emptyPlaces}</span>}
       </div>
       {r !== "loading" && r.status === "error" && r.retryable && <button type="button" onClick={load}>{t.retry}</button>}
+      {withMap && r !== "loading" && r.status === "ok" && r.places.length > 0 && (
+        <div className="filters" role="group" aria-label="Filter places">
+          <fieldset>
+            <legend>Category</legend>
+            {categories.map((c) => (
+              <button key={c} type="button" className="chip" aria-pressed={filters.categories.includes(c)} onClick={() => setFilters({ ...filters, categories: toggle(filters.categories, c) })}>{c}</button>
+            ))}
+          </fieldset>
+          <fieldset>
+            <legend>Map layers <small>(none selected shows all)</small></legend>
+            {LAYERS.map((l) => (
+              <label key={l.id} className="chip-check"><input type="checkbox" checked={filters.layers.includes(l.id)} onChange={() => setFilters({ ...filters, layers: toggle(filters.layers, l.id) })} /> {l.label}</label>
+            ))}
+          </fieldset>
+          {isActive(filters) && <button type="button" onClick={() => setFilters({ categories: [], layers: [] })}>Reset filters</button>}
+          <p role="status" aria-live="polite" className="filter-count">
+            {isActive(filters) ? `Showing ${view.places.length} of ${r.places.length} places.` : `Showing all ${r.places.length} places.`}
+            {view.places.length === 0 && " No places match these filters."}
+          </p>
+        </div>
+      )}
       {withMap ? (
         <div className="explore">
           <div className="explore-map">
       {withMap && r !== "loading" && r.status === "ok" && r.places.length > 0 && (
-        <MapView features={r.features} sourceAttribution={r.synthetic ? "Demonstration place data (synthetic)" : "Place data: Makarba 360 published snapshot"} selectedId={selected} onSelect={setSelected} onStatus={setMapStatus} />
+        <MapView features={view.features} sourceAttribution={r.synthetic ? "Demonstration place data (synthetic)" : "Place data: Makarba 360 published snapshot"} selectedId={selected} onSelect={setSelected} onStatus={setMapStatus} />
       )}
           </div>
           <div className="sheet" data-state={sheet} ref={sheetRef}
@@ -130,7 +156,7 @@ export function PlaceList({ fetcher, withMap = false }: { fetcher?: typeof fetch
       {r !== "loading" && r.status === "ok" && r.places.length > 0 && (
         <>
           {r.synthetic && <p><strong>{t.synthetic}</strong></p>}
-          <ul>{r.places.map((p) => (
+          <ul>{view.places.map((p) => (
             <li key={p.id}>
               {withMap ? <button type="button" aria-pressed={selected === p.id} onClick={() => setSelected(selected === p.id ? null : p.id)}>{p.name}</button> : p.name}{" "}
               <small>({p.category})</small>

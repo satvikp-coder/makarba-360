@@ -100,7 +100,7 @@ describe("explore page with map", () => {
   it("keeps the full list when the map is present and lets the list select a place", async () => {
     wrap(<PlaceList fetcher={okFetch} withMap />);
     expect(await screen.findByTestId("map")).toBeTruthy();
-    const btn = (await screen.findAllByRole("button", { pressed: false }))[0]!;
+    const btn = await screen.findByRole("button", { name: "Synthetic Atlas Point" });
     await userEvent.click(btn);
     expect(btn.getAttribute("aria-pressed")).toBe("true");
     expect(screen.getAllByRole("listitem").length).toBe(bundle.locations.features.length);
