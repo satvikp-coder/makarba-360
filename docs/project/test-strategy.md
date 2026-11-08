@@ -40,3 +40,15 @@ Each test report records issue/commit, fixture, environment/device/version, comm
 **Mutation guard** (`scripts/mutation_check.py`): deliberately edits a rule in `packages/contracts/src/index.ts` (k 5→4, denominator slack, allowing leaked suppressed counts, tolerating null counts), runs the tests, restores the file, and fails if any mutation leaves tests green. Repro for the "tests fail on changed rule" criterion: `python scripts/mutation_check.py` prints `killed` for each mutation. Last local run: 4 of 4 killed.
 
 **Limitations:** The mutation list is hand-written and covers the cohort rules only; add an entry when a new privacy or missingness rule is added. Fixtures are synthetic; a passing run proves the rules enforce what the contract states, not that the k=5 threshold is the right policy (that is a research-lead decision).
+
+## Spatial invariants and migration paths (#108)
+
+Tests: `packages/db/src/spatial.test.ts`, run by the CI `database` job against a PostGIS container (they are skipped locally when `TEST_DATABASE_URL` is not set, and were not run on the author's machine; the CI result on the pull request is the evidence). Synthetic geometry around [10,10].
+
+**Migration paths.** (1) Applying versions 0001 to latest one at a time produces exactly the same tables and columns as applying them all at once, and a further run applies nothing. (2) Starting from every intermediate version, upgrading reaches the latest and the ledger has one row per migration. (Existing tests already cover the empty database, tampered checksums and rollback of a failing migration.)
+
+**What cannot reach the published projection.** Valid point, route and area in EPSG:4326 are accepted. Rejected: a missing geometry (NOT NULL), geometry in another coordinate system (3857, 32643, unknown SRID 0), a self-crossing polygon, an empty geometry, a plain (non-multi) polygon, a geometry collection, longitude 181 and latitude -91 (check constraints), and 3D geometry. A location in state `published` or `approved` without a review date is refused, a candidate is accepted.
+
+**Edge membership rule.** A point exactly on the study-area edge or corner counts as inside (`ST_Covers`), a point 0.000001 degrees outside is outside, a route that leaves the area is not covered while one running along the edge is, and `ST_Contains` would wrongly exclude the edge. This is the same rule as the application's point-in-ring check (`packages/place-content`, candidate boundary check), so the two cannot disagree on boundary points.
+
+**Limits.** Real Makarba boundary and road data do not exist (#5, #28), so the area is a synthetic square; sub-metre edge behaviour in a projected CRS is not tested. Live import tooling (#31) is covered separately in `packages/gis-io` and is not connected to the database.
