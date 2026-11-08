@@ -1,8 +1,11 @@
+import { readFileSync } from "node:fs";
 import { expect, test, type Page } from "@playwright/test";
 
 // 1x1 transparent PNG so no request ever leaves the machine for map tiles.
 const PNG = Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==", "base64");
 const FIRST = "Synthetic Atlas Point";
+// Synthetic 2:1 test image (gradient, no real place) for the equirectangular viewer.
+const PANO = readFileSync(new URL("./fixtures/synthetic-pano-64x32.png", import.meta.url));
 
 async function prepare(page: Page) {
   const apiCalls: string[] = [];
@@ -270,6 +273,7 @@ test.describe("map filters (real MapLibre canvas, stubbed tiles)", () => {
 test.describe("photo gallery and lightbox (real dialog element, synthetic image)", () => {
   test("opens, keeps page content inert, closes with Escape and returns focus; failing image shows note", async ({ page }) => {
     await prepare(page);
+    await flatMedia(page);
     await page.route(/example\.invalid/, (route) => route.fulfill({ status: 200, contentType: "image/png", body: PNG }));
     await page.goto("/places/synthetic-point");
     const thumb = page.getByRole("button", { name: /Open photograph: Synthetic panorama placeholder/ });
@@ -292,11 +296,76 @@ test.describe("photo gallery and lightbox (real dialog element, synthetic image)
 
   test("a photograph that fails to load is replaced by a note; layout stays within 320px", async ({ page }) => {
     await prepare(page);
+    await flatMedia(page);
     await page.route(/example\.invalid/, (route) => route.abort());
     await page.setViewportSize({ width: 320, height: 568 });
     await page.goto("/places/synthetic-point");
     await expect(page.getByText("A photograph is unavailable.")).toBeVisible();
     await expect(page.getByRole("button", { name: /Open photograph/ })).toHaveCount(0);
     expect(await noHorizontalScroll(page)).toBe(true);
+  });
+});
+
+async function flatMedia(page: Page) {
+  // The mock serves an equirectangular record; the gallery tests need an ordinary photograph record.
+  await page.route(/\/api\/v1\/public\/media\/synthetic-media-1$/, async (route) => {
+    const r = await route.fetch();
+    const b = await r.json();
+    await route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ ...b, format: "image", width: 40, height: 30 }) });
+  });
+}
+
+test.describe("owned panorama (real Pannellum viewer, real WebGL in headless Chromium, synthetic 64x32 image)", () => {
+  test.use({ viewport: { width: 1280, height: 800 } });
+  const cors = { "access-control-allow-origin": "*" };
+  async function serve(page: Page, opts: { panoOk?: boolean } = {}) {
+    await prepare(page);
+    await page.route(/example\.invalid\/public\/synthetic-static\.webp/, (r) => r.fulfill({ status: 200, contentType: "image/png", body: PNG, headers: cors }));
+    await page.route(/example\.invalid\/public\/synthetic-panorama\.webp/, (r) => (opts.panoOk === false ? r.fulfill({ status: 404, body: "" }) : r.fulfill({ status: 200, contentType: "image/png", body: PANO, headers: cors })));
+  }
+
+  test("place page shows the still photo first; the viewer starts on request, takes arrow keys, closes cleanly", async ({ page }) => {
+    const { errors } = await prepare(page);
+    await serve(page);
+    await page.goto("/places/synthetic-point");
+    await expect(page.getByRole("heading", { level: 1, name: FIRST })).toBeVisible();
+    await expect(page.locator(".pnlm-container")).toHaveCount(0);       // not loaded until asked
+    await expect(page.getByAltText(/Synthetic panorama placeholder/)).toBeVisible();
+    await expect(page.getByText(/2026-01-01 \(exact day\)/).first()).toBeVisible();
+    await page.getByRole("button", { name: "Explore in 360°" }).scrollIntoViewIfNeeded();
+    await page.getByRole("button", { name: "Explore in 360°" }).click();
+    await expect(page.locator(".pnlm-container canvas")).toBeVisible({ timeout: 15000 });
+    await expect(page.getByRole("button", { name: "Close 360° view" })).toBeVisible();
+    await page.locator(".pnlm-container").focus();
+    await page.keyboard.press("ArrowLeft");
+    await page.getByRole("button", { name: "Close 360° view" }).click();
+    await expect(page.locator(".pnlm-container canvas")).toHaveCount(0);
+    await expect(page.getByAltText(/Synthetic panorama placeholder/)).toBeVisible();
+    expect(errors).toEqual([]);
+  });
+
+  test("WebGL unavailable: the page still works and says why", async ({ page }) => {
+    await serve(page);
+    await page.addInitScript(() => {
+      const orig = HTMLCanvasElement.prototype.getContext;
+      HTMLCanvasElement.prototype.getContext = function (this: HTMLCanvasElement, type: string, ...a: unknown[]) {
+        if (/webgl/i.test(type)) return null;
+        return (orig as (...x: unknown[]) => unknown).call(this, type, ...a) as RenderingContext | null;
+      } as typeof HTMLCanvasElement.prototype.getContext;
+    });
+    await page.goto("/places/synthetic-point");
+    await page.getByRole("button", { name: "Explore in 360°" }).click();
+    await expect(page.getByText(/needs WebGL/)).toBeVisible();
+    await expect(page.getByAltText(/Synthetic panorama placeholder/)).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Sources" })).toBeVisible();
+  });
+
+  test("panorama image missing: falls back to the still photo with a message", async ({ page }) => {
+    await serve(page, { panoOk: false });
+    await page.goto("/places/synthetic-point");
+    await page.getByRole("button", { name: "Explore in 360°" }).click();
+    await expect(page.getByText(/could not be loaded/)).toBeVisible({ timeout: 15000 });
+    await expect(page.getByAltText(/Synthetic panorama placeholder/)).toBeVisible();
+    await expect(page.locator(".pnlm-container canvas")).toHaveCount(0);
   });
 });

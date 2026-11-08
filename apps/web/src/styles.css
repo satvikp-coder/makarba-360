@@ -84,3 +84,10 @@ html{overflow-wrap:anywhere}
 .lightbox figure { margin: 0; }
 .lb-actions { display: flex; gap: .5rem; justify-content: center; margin-top: .5rem; }
 .lb-actions button { min-height: 44px; min-width: 44px; padding: 0 1rem; }
+
+/* Panorama (#69) */
+.panorama { margin: 1rem 0; }
+.panorama img { display: block; max-width: 100%; height: auto; max-height: 60vh; object-fit: contain; }
+.pano-host { width: 100%; height: min(60vh, 28rem); min-height: 16rem; }
+.pano-host[hidden] { display: none; }
+.panorama button { min-height: 44px; padding: 0 1rem; }

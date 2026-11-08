@@ -4,6 +4,7 @@ import { fetchHistory, fetchMedia, fetchPlaces, formatDated, type HistoryResult,
 import { NotFound } from "./NotFound.js";
 import { ThenNowSection } from "./ThenNowView.js";
 import { Gallery } from "./Gallery.js";
+import { Panorama } from "./Panorama.js";
 import { strings } from "./i18n.js";
 
 type PlaceState = { slug: string; status: "loading" } | { slug: string; status: "missing" } | { slug: string; status: "error" } | { slug: string; status: "ok"; place: PlaceSummary; synthetic: boolean };
@@ -51,6 +52,9 @@ export function PlaceProfile({ fetcher }: { fetcher?: typeof fetch }) {
   const p = place.place;
   const h = hist?.slug === slug ? hist.r : null;
   const items = media?.slug === slug ? media.items : null;
+  const isPano = (m: MediaData | "unavailable"): m is MediaData => m !== "unavailable" && m.format === "equirectangular";
+  const panos = (items ?? []).filter(isPano);
+  const flat = (items ?? []).filter((m) => !isPano(m));
 
   return (
     <article aria-labelledby="place-h">
@@ -74,7 +78,13 @@ export function PlaceProfile({ fetcher }: { fetcher?: typeof fetch }) {
 
       <Section id="media-h" title="Photographs">
         {!items && <p role="status">{strings.en.loading}</p>}
-        {items && <Gallery items={items} />}
+        {items && (flat.length > 0 || panos.length === 0) && <Gallery items={flat} />}
+        {panos.length > 0 && (
+          <>
+            <h3>360° view</h3>
+            {panos.map((m) => <Panorama key={m.id} media={m} />)}
+          </>
+        )}
       </Section>
 
       {h?.status === "ok" && h.data.comparisonPairs.length > 0 && (

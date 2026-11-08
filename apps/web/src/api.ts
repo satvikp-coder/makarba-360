@@ -64,7 +64,7 @@ export async function fetchHistory(slug: string, signal?: AbortSignal, fetcher?:
   return { status: "ok", data: { sources: b.sources, events: b.events, comparisonPairs: b.comparisonPairs, synthetic: b.meta?.datasetKind === "synthetic" } };
 }
 
-export interface MediaData { id: string; url: string; alt: string; credit: string; licence: string; capturedDate: Dated; format: string; width: number; height: number }
+export interface MediaData { id: string; url: string; alt: string; credit: string; licence: string; capturedDate: Dated; format: string; width: number; height: number; staticFallbackUrl?: string }
 export type MediaResult = { status: "ok"; data: MediaData } | { status: "missing" } | { status: "error"; retryable: boolean };
 export async function fetchMedia(id: string, signal?: AbortSignal, fetcher?: typeof fetch): Promise<MediaResult> {
   const r = await getValidated("media", `/media/${encodeURIComponent(id)}`, signal, fetcher);
