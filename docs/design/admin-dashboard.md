@@ -32,3 +32,19 @@ Rules model in `packages/place-content/src/candidate.ts` (48 package tests inclu
 **Reviewer view.** `geometryDiff` summarises changes between revisions (type changed, vertex delta, moved) for the A06 comparison panel; nothing is overwritten by viewing it.
 
 **Limits.** Source, name and access checks are human judgements recorded as evidence; software cannot verify them. Polygon holes and ring validity are not checked here (see `packages/gis-io`; PostGIS is the authority at write time).
+
+## Purpose-limited anonymised exports (issue #104, screen A09)
+
+Job model in `packages/exports` (21 tests, real `Authorizer` and the proposed capability matrix, synthetic people and aggregate rows). Clock and token source are injected. There is no storage, route, worker or screen yet; Developer A's grants, disclosure service and export worker (#99, #92, #81) and the import/export tooling (#31, `packages/gis-io`) are prerequisites for a live export and are not claimed.
+
+**What can be exported.** Only rows of the approved aggregate projection with the fields `group`, `period`, `n`, `valid_n`. There is no field for names, answers, researcher ids or any position; a request naming one (for example `interviewLatitude`, `gpsAccuracyM`, `researcherId`, `answers`, `phone`) is rejected, as is any other unknown field.
+
+**Lifecycle.** requested, approved, ready, revoked (or rejected/failed). The requester needs the `export.restricted` grant for that study; a different person with the same grant must approve the stated purpose (at least 10 characters) and field list; the requester cannot approve their own job, and technical administrators, researchers, leads of other studies and inactive users cannot request or approve. Revoking needs a reason and deletes the file and token hash.
+
+**Low-n.** Rows where `n` or `valid_n` is under 5 are removed and only counted ("suppressed rows"), never shown as zero. If exactly one row is hidden the smallest published row is hidden too, so it cannot be recovered by subtraction from a total. If nothing safe remains, or `valid_n` exceeds `n`, the job fails closed with a plain message.
+
+**Spreadsheet injection.** CSV cells that start with `=`, `+`, `-`, `@`, tab or carriage return are prefixed with an apostrophe; commas, quotes and newlines are quoted (shared with the GIS export, tested again here with hyperlink and command payloads).
+
+**Download.** Private and expiring: only the requester, with the correct token, before expiry (default 24 hours, at most 72), at most 3 times. The token is stored only as a SHA-256 hash. Anonymous callers, other users (including the approver and technical admins) and wrong tokens are refused. If the requester's grant is withdrawn or expires after the file was made, download is refused. Every request, approval, run, download and denial is appended to the job's audit trail with actor, time and outcome; audit rows contain row counts and reasons, never file contents.
+
+**Limits.** k = 5 is a provisional policy. Aggregate rows are supplied by the caller; the real source must be the reviewed snapshot (#84, #92). Downloads here are modelled, not transmitted; real signed URLs, malware-safe storage and deletion of expired files need the storage layer. Not tested with real spreadsheet software.
