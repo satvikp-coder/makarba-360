@@ -23,6 +23,7 @@ describe.skipIf(!url)("private API stack on PostGIS with a fake identity provide
   let nonce = "";
   let prepared: Prepared;
   const ids: Record<string, string> = {};
+  let scriptId = "";
 
   beforeAll(async () => {
     admin = new pg.Client({ connectionString: url }); await admin.connect();
@@ -66,6 +67,8 @@ describe.skipIf(!url)("private API stack on PostGIS with a fake identity provide
     await mk("researcher", "sub-researcher", "researcher", AREA, root);
     await mk("lead", "sub-lead", "lead", AREA, root);
     await mk("otherlead", "sub-otherlead", "lead", OTHER_AREA, root);
+    await mk("researcher2", "sub-researcher2", "researcher", AREA, root);
+    scriptId = (await admin.query("INSERT INTO private.consent_script_versions (version, language, content_sha256, status, approved_by, approved_at) VALUES ('v1','en',$1,'approved','SYNTHETIC TEST AUTHORITY', now()) RETURNING id", ["a".repeat(64)])).rows[0].id as string;
     prepared = await prepareServer(
       { DATABASE_URL: url!, SESSION_SECRET: "abcdefghijklmnopqrstuvwxyz012345", OIDC_ISSUER: base, OIDC_CLIENT_ID: "makarba-test", OIDC_CLIENT_SECRET: "synthetic-client-secret-value", OIDC_REDIRECT_URI: "http://localhost/auth/callback" },
       { log: () => {}, allowInsecureOidc: true, poolFactory: (cs) => new pg.Pool({ connectionString: cs, options: "-c role=makarba_private_api", max: 5 }) },
@@ -166,6 +169,34 @@ describe.skipIf(!url)("private API stack on PostGIS with a fake identity provide
     expect((await call(first, "post", "/locations", newPlace)).status).toBe(201);
     expect((await call(first, "post", "/locations", { ...newPlace, studyAreaId: OTHER_AREA })).status).toBe(403);   // only the invited study
     expect((await signIn("sub-second-person", ["pwd"], inv.token)).body.code).toBe("NOT_PROVISIONED");             // single use
+  });
+
+  it("consent over HTTP: independent scopes, no overwrite after refusal/withdrawal, owner-only writes, study-scoped reads", async () => {
+    const iv = "00000000-0000-4000-8000-0000000c0001";
+    const r = await signIn("sub-researcher");
+    const body = (scope: string, decision: string) => ({ studyAreaId: AREA, scope, decision, scriptVersionId: scriptId, language: "en" });
+    expect((await call(r, "post", `/interviews/${iv}/consent`, body("recording", "granted"))).body.code).toBe("participation_required");
+    expect((await call(r, "post", `/interviews/${iv}/consent`, body("participation", "granted"))).status).toBe(201);
+    expect((await call(r, "post", `/interviews/${iv}/consent`, body("aggregate_use", "refused"))).status).toBe(201);
+    const recording = await call(r, "post", `/interviews/${iv}/consent`, body("recording", "granted"));
+    expect(recording.body.flags).toMatchObject({ consentResearch: true, consentRecording: true, consentAggregate: false });
+    const blocked = await call(r, "post", `/interviews/${iv}/consent`, body("aggregate_use", "granted"));       // the "checkbox" overwrite
+    expect([blocked.status, blocked.body.code]).toEqual([409, "overwrite_blocked"]);
+    expect((await call(r, "post", `/interviews/${iv}/consent`, { ...body("recording", "withdrawn") })).status).toBe(422);   // withdrawals have their own route
+    const wd = await call(r, "post", `/interviews/${iv}/consent/withdraw`, { scope: "participation", scriptVersionId: scriptId, language: "en" });
+    expect(wd.body).toMatchObject({ state: { participation: "withdrawn", recording: "withdrawn", aggregate_use: "refused" }, flags: { consentResearch: false, withdrawn: true } });
+    expect((await call(r, "post", `/interviews/${iv}/consent`, body("participation", "granted"))).body.code).toBe("overwrite_blocked");
+
+    const r2 = await signIn("sub-researcher2");                                                                       // another researcher, same study
+    expect((await call(r2, "get", `/interviews/${iv}/consent`)).status).toBe(403);
+    expect((await call(r2, "post", `/interviews/${iv}/consent`, body("recording", "granted"))).status).toBe(403);
+    expect((await call(r2, "post", `/interviews/${iv}/consent/withdraw`, { scope: "participation", scriptVersionId: scriptId, language: "en" })).status).toBe(403);
+    expect((await call(await signIn("sub-otherlead", ["mfa"]), "get", `/interviews/${iv}/consent`)).status).toBe(403);   // lead of another study
+    const lead = await call(await signIn("sub-lead", ["mfa"]), "get", `/interviews/${iv}/consent`);                       // lead of this study
+    expect(lead.status).toBe(200);
+    expect(lead.body.events.map((e: { scope: string; decision: string }) => `${e.scope}:${e.decision}`)).toContain("participation:withdrawn");
+    expect((await call(r, "get", "/interviews/not-a-uuid/consent")).status).toBe(403);
+    expect((await call(r, "post", `/interviews/${iv.replace(/1$/, "9")}/consent`, { ...body("participation", "granted"), studyAreaId: OTHER_AREA })).status).toBe(403);   // not assigned to that study
   });
 
   it("the private pool runs as the private API role: it cannot delete places or read other schemas' secrets it should not", async () => {
