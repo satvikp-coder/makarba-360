@@ -1,0 +1,1102 @@
+{
+ "_comment": "FROZEN synthetic analytics cases (#93). All people, places and answers are invented. Expected values below were computed BY HAND from the rows (see method notes) and must not be regenerated from code. Changing a row or an expectation is a reviewed change.",
+ "period": {
+  "from": "2026-01",
+  "through": "2026-03"
+ },
+ "records": [
+  {
+   "id": "R01",
+   "status": "approved",
+   "currentRevision": true,
+   "consentResearch": true,
+   "consentAggregate": true,
+   "withdrawn": false,
+   "month": "2026-02",
+   "questionVersion": "v1",
+   "stakeholder": "resident",
+   "association": "1to5",
+   "interviewLocationId": "street-A",
+   "topics": [
+    {
+     "subjectId": "lake-B",
+     "rating": 5,
+     "ratingReason": "answered",
+     "change": null,
+     "issuesSelected": [
+      "litter",
+      "noise"
+     ],
+     "issuesCoded": [
+      {
+       "theme": "waste_management",
+       "coder": "coder-1",
+       "codebookVersion": "cb-1"
+      }
+     ]
+    },
+    {
+     "subjectId": "road-C",
+     "rating": 3,
+     "ratingReason": "answered",
+     "change": null,
+     "issuesSelected": [
+      "traffic"
+     ],
+     "issuesCoded": []
+    }
+   ]
+  },
+  {
+   "id": "R02",
+   "status": "approved",
+   "currentRevision": true,
+   "consentResearch": true,
+   "consentAggregate": true,
+   "withdrawn": false,
+   "month": "2026-02",
+   "questionVersion": "v1",
+   "stakeholder": "resident",
+   "association": "1to5",
+   "interviewLocationId": "street-A",
+   "topics": [
+    {
+     "subjectId": "lake-B",
+     "rating": 5,
+     "ratingReason": "answered",
+     "change": null,
+     "issuesSelected": [
+      "litter",
+      "noise"
+     ],
+     "issuesCoded": [
+      {
+       "theme": "waste_management",
+       "coder": "coder-1",
+       "codebookVersion": "cb-1"
+      }
+     ]
+    },
+    {
+     "subjectId": "road-C",
+     "rating": 3,
+     "ratingReason": "answered",
+     "change": null,
+     "issuesSelected": [
+      "traffic"
+     ],
+     "issuesCoded": []
+    }
+   ]
+  },
+  {
+   "id": "R03",
+   "status": "approved",
+   "currentRevision": true,
+   "consentResearch": true,
+   "consentAggregate": true,
+   "withdrawn": false,
+   "month": "2026-02",
+   "questionVersion": "v1",
+   "stakeholder": "resident",
+   "association": "1to5",
+   "interviewLocationId": "street-A",
+   "topics": [
+    {
+     "subjectId": "lake-B",
+     "rating": 5,
+     "ratingReason": "answered",
+     "change": null,
+     "issuesSelected": [
+      "litter",
+      "noise"
+     ],
+     "issuesCoded": [
+      {
+       "theme": "waste_management",
+       "coder": "coder-1",
+       "codebookVersion": "cb-1"
+      }
+     ]
+    },
+    {
+     "subjectId": "road-C",
+     "rating": 3,
+     "ratingReason": "answered",
+     "change": null,
+     "issuesSelected": [
+      "traffic"
+     ],
+     "issuesCoded": []
+    }
+   ]
+  },
+  {
+   "id": "R04",
+   "status": "approved",
+   "currentRevision": true,
+   "consentResearch": true,
+   "consentAggregate": true,
+   "withdrawn": false,
+   "month": "2026-02",
+   "questionVersion": "v1",
+   "stakeholder": "resident",
+   "association": "1to5",
+   "interviewLocationId": "street-A",
+   "topics": [
+    {
+     "subjectId": "lake-B",
+     "rating": 5,
+     "ratingReason": "answered",
+     "change": null,
+     "issuesSelected": [
+      "litter"
+     ],
+     "issuesCoded": [
+      {
+       "theme": "waste_management",
+       "coder": "coder-1",
+       "codebookVersion": "cb-1"
+      }
+     ]
+    },
+    {
+     "subjectId": "road-C",
+     "rating": 3,
+     "ratingReason": "answered",
+     "change": null,
+     "issuesSelected": [
+      "traffic"
+     ],
+     "issuesCoded": []
+    }
+   ]
+  },
+  {
+   "id": "R05",
+   "status": "approved",
+   "currentRevision": true,
+   "consentResearch": true,
+   "consentAggregate": true,
+   "withdrawn": false,
+   "month": "2026-02",
+   "questionVersion": "v1",
+   "stakeholder": "resident",
+   "association": "1to5",
+   "interviewLocationId": "street-A",
+   "topics": [
+    {
+     "subjectId": "lake-B",
+     "rating": 5,
+     "ratingReason": "answered",
+     "change": null,
+     "issuesSelected": [
+      "litter"
+     ],
+     "issuesCoded": [
+      {
+       "theme": "waste_management",
+       "coder": "coder-1",
+       "codebookVersion": "cb-1"
+      }
+     ]
+    },
+    {
+     "subjectId": "road-C",
+     "rating": 3,
+     "ratingReason": "answered",
+     "change": null,
+     "issuesSelected": [
+      "traffic"
+     ],
+     "issuesCoded": []
+    }
+   ]
+  },
+  {
+   "id": "R06",
+   "status": "approved",
+   "currentRevision": true,
+   "consentResearch": true,
+   "consentAggregate": true,
+   "withdrawn": false,
+   "month": "2026-02",
+   "questionVersion": "v1",
+   "stakeholder": "resident",
+   "association": "1to5",
+   "interviewLocationId": "street-A",
+   "topics": [
+    {
+     "subjectId": "lake-B",
+     "rating": 5,
+     "ratingReason": "answered",
+     "change": null,
+     "issuesSelected": [
+      "litter"
+     ],
+     "issuesCoded": [
+      {
+       "theme": "waste_management",
+       "coder": "coder-1",
+       "codebookVersion": "cb-1"
+      }
+     ]
+    },
+    {
+     "subjectId": "road-C",
+     "rating": 3,
+     "ratingReason": "answered",
+     "change": null,
+     "issuesSelected": [
+      "traffic"
+     ],
+     "issuesCoded": []
+    }
+   ]
+  },
+  {
+   "id": "R07",
+   "status": "approved",
+   "currentRevision": true,
+   "consentResearch": true,
+   "consentAggregate": true,
+   "withdrawn": false,
+   "month": "2026-02",
+   "questionVersion": "v1",
+   "stakeholder": "resident",
+   "association": "1to5",
+   "interviewLocationId": "street-A",
+   "topics": [
+    {
+     "subjectId": "lake-B",
+     "rating": 4,
+     "ratingReason": "answered",
+     "change": null,
+     "issuesSelected": [
+      "litter"
+     ],
+     "issuesCoded": [
+      {
+       "theme": "waste_management",
+       "coder": "coder-1",
+       "codebookVersion": "cb-1"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "R08",
+   "status": "approved",
+   "currentRevision": true,
+   "consentResearch": true,
+   "consentAggregate": true,
+   "withdrawn": false,
+   "month": "2026-02",
+   "questionVersion": "v1",
+   "stakeholder": "resident",
+   "association": "1to5",
+   "interviewLocationId": "street-A",
+   "topics": [
+    {
+     "subjectId": "lake-B",
+     "rating": 4,
+     "ratingReason": "answered",
+     "change": null,
+     "issuesSelected": [
+      "litter"
+     ],
+     "issuesCoded": [
+      {
+       "theme": "waste_management",
+       "coder": "coder-1",
+       "codebookVersion": "cb-1"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "R09",
+   "status": "approved",
+   "currentRevision": true,
+   "consentResearch": true,
+   "consentAggregate": true,
+   "withdrawn": false,
+   "month": "2026-02",
+   "questionVersion": "v1",
+   "stakeholder": "resident",
+   "association": "1to5",
+   "interviewLocationId": "street-A",
+   "topics": [
+    {
+     "subjectId": "lake-B",
+     "rating": 4,
+     "ratingReason": "answered",
+     "change": null,
+     "issuesSelected": [
+      "lighting"
+     ],
+     "issuesCoded": []
+    }
+   ]
+  },
+  {
+   "id": "R10",
+   "status": "approved",
+   "currentRevision": true,
+   "consentResearch": true,
+   "consentAggregate": true,
+   "withdrawn": false,
+   "month": "2026-02",
+   "questionVersion": "v1",
+   "stakeholder": "resident",
+   "association": "1to5",
+   "interviewLocationId": "street-A",
+   "topics": [
+    {
+     "subjectId": "lake-B",
+     "rating": null,
+     "ratingReason": "unsure",
+     "change": null,
+     "issuesSelected": [
+      "lighting"
+     ],
+     "issuesCoded": []
+    }
+   ]
+  },
+  {
+   "id": "R11",
+   "status": "approved",
+   "currentRevision": true,
+   "consentResearch": true,
+   "consentAggregate": true,
+   "withdrawn": false,
+   "month": "2026-02",
+   "questionVersion": "v1",
+   "stakeholder": "resident",
+   "association": "1to5",
+   "interviewLocationId": "street-A",
+   "topics": [
+    {
+     "subjectId": "lake-B",
+     "rating": null,
+     "ratingReason": "refused",
+     "change": null,
+     "issuesSelected": [
+      "lighting"
+     ],
+     "issuesCoded": []
+    }
+   ]
+  },
+  {
+   "id": "R12",
+   "status": "approved",
+   "currentRevision": true,
+   "consentResearch": true,
+   "consentAggregate": true,
+   "withdrawn": false,
+   "month": "2026-02",
+   "questionVersion": "v1",
+   "stakeholder": "resident",
+   "association": "1to5",
+   "interviewLocationId": "street-A",
+   "topics": [
+    {
+     "subjectId": "lake-B",
+     "rating": null,
+     "ratingReason": "not_asked",
+     "change": null,
+     "issuesSelected": [
+      "lighting"
+     ],
+     "issuesCoded": []
+    }
+   ]
+  },
+  {
+   "id": "W01",
+   "status": "approved",
+   "currentRevision": true,
+   "consentResearch": true,
+   "consentAggregate": true,
+   "withdrawn": false,
+   "month": "2026-02",
+   "questionVersion": "v1",
+   "stakeholder": "worker",
+   "association": "over5",
+   "interviewLocationId": "street-A",
+   "topics": [
+    {
+     "subjectId": "road-C",
+     "rating": 4,
+     "ratingReason": "answered",
+     "change": null,
+     "issuesSelected": [
+      "traffic"
+     ],
+     "issuesCoded": [
+      {
+       "theme": "pedestrian_safety",
+       "coder": "coder-2",
+       "codebookVersion": "cb-1"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "W02",
+   "status": "approved",
+   "currentRevision": true,
+   "consentResearch": true,
+   "consentAggregate": true,
+   "withdrawn": false,
+   "month": "2026-02",
+   "questionVersion": "v1",
+   "stakeholder": "worker",
+   "association": "over5",
+   "interviewLocationId": "street-A",
+   "topics": [
+    {
+     "subjectId": "road-C",
+     "rating": 4,
+     "ratingReason": "answered",
+     "change": null,
+     "issuesSelected": [
+      "traffic"
+     ],
+     "issuesCoded": [
+      {
+       "theme": "pedestrian_safety",
+       "coder": "coder-2",
+       "codebookVersion": "cb-1"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "W03",
+   "status": "approved",
+   "currentRevision": true,
+   "consentResearch": true,
+   "consentAggregate": true,
+   "withdrawn": false,
+   "month": "2026-02",
+   "questionVersion": "v1",
+   "stakeholder": "worker",
+   "association": "over5",
+   "interviewLocationId": "street-A",
+   "topics": [
+    {
+     "subjectId": "road-C",
+     "rating": 4,
+     "ratingReason": "answered",
+     "change": null,
+     "issuesSelected": [
+      "traffic"
+     ],
+     "issuesCoded": [
+      {
+       "theme": "pedestrian_safety",
+       "coder": "coder-2",
+       "codebookVersion": "cb-1"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "W04",
+   "status": "approved",
+   "currentRevision": true,
+   "consentResearch": true,
+   "consentAggregate": true,
+   "withdrawn": false,
+   "month": "2026-02",
+   "questionVersion": "v1",
+   "stakeholder": "worker",
+   "association": "over5",
+   "interviewLocationId": "street-A",
+   "topics": [
+    {
+     "subjectId": "road-C",
+     "rating": 4,
+     "ratingReason": "answered",
+     "change": null,
+     "issuesSelected": [
+      "traffic"
+     ],
+     "issuesCoded": [
+      {
+       "theme": "pedestrian_safety",
+       "coder": "coder-2",
+       "codebookVersion": "cb-1"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "W05",
+   "status": "approved",
+   "currentRevision": true,
+   "consentResearch": true,
+   "consentAggregate": true,
+   "withdrawn": false,
+   "month": "2026-02",
+   "questionVersion": "v1",
+   "stakeholder": "worker",
+   "association": "over5",
+   "interviewLocationId": "street-A",
+   "topics": [
+    {
+     "subjectId": "road-C",
+     "rating": 4,
+     "ratingReason": "answered",
+     "change": null,
+     "issuesSelected": [
+      "traffic"
+     ],
+     "issuesCoded": [
+      {
+       "theme": "pedestrian_safety",
+       "coder": "coder-2",
+       "codebookVersion": "cb-1"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "W06",
+   "status": "approved",
+   "currentRevision": true,
+   "consentResearch": true,
+   "consentAggregate": true,
+   "withdrawn": false,
+   "month": "2026-02",
+   "questionVersion": "v1",
+   "stakeholder": "worker",
+   "association": "over5",
+   "interviewLocationId": "street-A",
+   "topics": [
+    {
+     "subjectId": "road-C",
+     "rating": 4,
+     "ratingReason": "answered",
+     "change": null,
+     "issuesSelected": [
+      "traffic"
+     ],
+     "issuesCoded": []
+    }
+   ]
+  },
+  {
+   "id": "W07",
+   "status": "approved",
+   "currentRevision": true,
+   "consentResearch": true,
+   "consentAggregate": true,
+   "withdrawn": false,
+   "month": "2026-02",
+   "questionVersion": "v1",
+   "stakeholder": "worker",
+   "association": "over5",
+   "interviewLocationId": "street-A",
+   "topics": [
+    {
+     "subjectId": "road-C",
+     "rating": 4,
+     "ratingReason": "answered",
+     "change": null,
+     "issuesSelected": [
+      "traffic"
+     ],
+     "issuesCoded": []
+    }
+   ]
+  },
+  {
+   "id": "W08",
+   "status": "approved",
+   "currentRevision": true,
+   "consentResearch": true,
+   "consentAggregate": true,
+   "withdrawn": false,
+   "month": "2026-02",
+   "questionVersion": "v1",
+   "stakeholder": "worker",
+   "association": "over5",
+   "interviewLocationId": "street-A",
+   "topics": [
+    {
+     "subjectId": "road-C",
+     "rating": 4,
+     "ratingReason": "answered",
+     "change": null,
+     "issuesSelected": [
+      "traffic"
+     ],
+     "issuesCoded": []
+    }
+   ]
+  },
+  {
+   "id": "S01",
+   "status": "approved",
+   "currentRevision": true,
+   "consentResearch": true,
+   "consentAggregate": true,
+   "withdrawn": false,
+   "month": "2026-02",
+   "questionVersion": "v1",
+   "stakeholder": "shopkeeper",
+   "association": "over5",
+   "interviewLocationId": "street-A",
+   "topics": [
+    {
+     "subjectId": "lake-B",
+     "rating": 4,
+     "ratingReason": "answered",
+     "change": null,
+     "issuesSelected": [
+      "litter"
+     ],
+     "issuesCoded": []
+    }
+   ]
+  },
+  {
+   "id": "S02",
+   "status": "approved",
+   "currentRevision": true,
+   "consentResearch": true,
+   "consentAggregate": true,
+   "withdrawn": false,
+   "month": "2026-02",
+   "questionVersion": "v1",
+   "stakeholder": "shopkeeper",
+   "association": "over5",
+   "interviewLocationId": "street-A",
+   "topics": [
+    {
+     "subjectId": "lake-B",
+     "rating": 4,
+     "ratingReason": "answered",
+     "change": null,
+     "issuesSelected": [
+      "litter"
+     ],
+     "issuesCoded": []
+    }
+   ]
+  },
+  {
+   "id": "S03",
+   "status": "approved",
+   "currentRevision": true,
+   "consentResearch": true,
+   "consentAggregate": true,
+   "withdrawn": false,
+   "month": "2026-02",
+   "questionVersion": "v1",
+   "stakeholder": "shopkeeper",
+   "association": "over5",
+   "interviewLocationId": "street-A",
+   "topics": [
+    {
+     "subjectId": "lake-B",
+     "rating": 4,
+     "ratingReason": "answered",
+     "change": null,
+     "issuesSelected": [
+      "litter"
+     ],
+     "issuesCoded": []
+    }
+   ]
+  },
+  {
+   "id": "S04",
+   "status": "approved",
+   "currentRevision": true,
+   "consentResearch": true,
+   "consentAggregate": true,
+   "withdrawn": false,
+   "month": "2026-02",
+   "questionVersion": "v1",
+   "stakeholder": "shopkeeper",
+   "association": "over5",
+   "interviewLocationId": "street-A",
+   "topics": [
+    {
+     "subjectId": "lake-B",
+     "rating": 4,
+     "ratingReason": "answered",
+     "change": null,
+     "issuesSelected": [
+      "litter"
+     ],
+     "issuesCoded": []
+    }
+   ]
+  },
+  {
+   "id": "U01",
+   "status": "approved",
+   "currentRevision": true,
+   "consentResearch": true,
+   "consentAggregate": true,
+   "withdrawn": false,
+   "month": "2026-02",
+   "questionVersion": "v1",
+   "stakeholder": null,
+   "association": null,
+   "interviewLocationId": "street-A",
+   "topics": [
+    {
+     "subjectId": "lake-B",
+     "rating": 3,
+     "ratingReason": "answered",
+     "change": null,
+     "issuesSelected": [
+      "lighting"
+     ],
+     "issuesCoded": []
+    }
+   ]
+  },
+  {
+   "id": "U02",
+   "status": "approved",
+   "currentRevision": true,
+   "consentResearch": true,
+   "consentAggregate": true,
+   "withdrawn": false,
+   "month": "2026-02",
+   "questionVersion": "v1",
+   "stakeholder": null,
+   "association": null,
+   "interviewLocationId": "street-A",
+   "topics": [
+    {
+     "subjectId": "lake-B",
+     "rating": 3,
+     "ratingReason": "answered",
+     "change": null,
+     "issuesSelected": [
+      "lighting"
+     ],
+     "issuesCoded": []
+    }
+   ]
+  },
+  {
+   "id": "X01",
+   "status": "rejected",
+   "currentRevision": true,
+   "consentResearch": true,
+   "consentAggregate": true,
+   "withdrawn": false,
+   "month": "2026-02",
+   "questionVersion": "v1",
+   "stakeholder": "resident",
+   "association": "1to5",
+   "interviewLocationId": "street-A",
+   "topics": [
+    {
+     "subjectId": "lake-B",
+     "rating": 1,
+     "ratingReason": "answered",
+     "change": null,
+     "issuesSelected": null,
+     "issuesCoded": []
+    }
+   ]
+  },
+  {
+   "id": "X02",
+   "status": "draft",
+   "currentRevision": true,
+   "consentResearch": true,
+   "consentAggregate": true,
+   "withdrawn": false,
+   "month": "2026-02",
+   "questionVersion": "v1",
+   "stakeholder": "resident",
+   "association": "1to5",
+   "interviewLocationId": "street-A",
+   "topics": [
+    {
+     "subjectId": "lake-B",
+     "rating": 1,
+     "ratingReason": "answered",
+     "change": null,
+     "issuesSelected": null,
+     "issuesCoded": []
+    }
+   ]
+  },
+  {
+   "id": "X03",
+   "status": "approved",
+   "currentRevision": false,
+   "consentResearch": true,
+   "consentAggregate": true,
+   "withdrawn": false,
+   "month": "2026-02",
+   "questionVersion": "v1",
+   "stakeholder": "resident",
+   "association": "1to5",
+   "interviewLocationId": "street-A",
+   "topics": [
+    {
+     "subjectId": "lake-B",
+     "rating": 1,
+     "ratingReason": "answered",
+     "change": null,
+     "issuesSelected": null,
+     "issuesCoded": []
+    }
+   ]
+  },
+  {
+   "id": "X04",
+   "status": "approved",
+   "currentRevision": true,
+   "consentResearch": false,
+   "consentAggregate": true,
+   "withdrawn": false,
+   "month": "2026-02",
+   "questionVersion": "v1",
+   "stakeholder": "resident",
+   "association": "1to5",
+   "interviewLocationId": "street-A",
+   "topics": [
+    {
+     "subjectId": "lake-B",
+     "rating": 1,
+     "ratingReason": "answered",
+     "change": null,
+     "issuesSelected": null,
+     "issuesCoded": []
+    }
+   ]
+  },
+  {
+   "id": "X05",
+   "status": "approved",
+   "currentRevision": true,
+   "consentResearch": true,
+   "consentAggregate": false,
+   "withdrawn": false,
+   "month": "2026-02",
+   "questionVersion": "v1",
+   "stakeholder": "resident",
+   "association": "1to5",
+   "interviewLocationId": "street-A",
+   "topics": [
+    {
+     "subjectId": "lake-B",
+     "rating": 1,
+     "ratingReason": "answered",
+     "change": null,
+     "issuesSelected": null,
+     "issuesCoded": []
+    }
+   ]
+  },
+  {
+   "id": "X06",
+   "status": "approved",
+   "currentRevision": true,
+   "consentResearch": true,
+   "consentAggregate": true,
+   "withdrawn": true,
+   "month": "2026-02",
+   "questionVersion": "v1",
+   "stakeholder": "resident",
+   "association": "1to5",
+   "interviewLocationId": "street-A",
+   "topics": [
+    {
+     "subjectId": "lake-B",
+     "rating": 1,
+     "ratingReason": "answered",
+     "change": null,
+     "issuesSelected": null,
+     "issuesCoded": []
+    }
+   ]
+  },
+  {
+   "id": "X07",
+   "status": "approved",
+   "currentRevision": true,
+   "consentResearch": true,
+   "consentAggregate": true,
+   "withdrawn": false,
+   "month": "2025-11",
+   "questionVersion": "v1",
+   "stakeholder": "resident",
+   "association": "1to5",
+   "interviewLocationId": "street-A",
+   "topics": [
+    {
+     "subjectId": "lake-B",
+     "rating": 1,
+     "ratingReason": "answered",
+     "change": null,
+     "issuesSelected": null,
+     "issuesCoded": []
+    }
+   ]
+  },
+  {
+   "id": "R01",
+   "status": "approved",
+   "currentRevision": true,
+   "consentResearch": true,
+   "consentAggregate": true,
+   "withdrawn": false,
+   "month": "2026-02",
+   "questionVersion": "v1",
+   "stakeholder": "resident",
+   "association": "1to5",
+   "interviewLocationId": "street-A",
+   "topics": [
+    {
+     "subjectId": "lake-B",
+     "rating": 5,
+     "ratingReason": "answered",
+     "change": null,
+     "issuesSelected": [
+      "litter",
+      "noise"
+     ],
+     "issuesCoded": [
+      {
+       "theme": "waste_management",
+       "coder": "coder-1",
+       "codebookVersion": "cb-1"
+      }
+     ]
+    },
+    {
+     "subjectId": "road-C",
+     "rating": 3,
+     "ratingReason": "answered",
+     "change": null,
+     "issuesSelected": [
+      "traffic"
+     ],
+     "issuesCoded": []
+    }
+   ]
+  }
+ ],
+ "methodNotes": [
+  "Eligible: approved, current revision, research and aggregate consent, not withdrawn, month inside 2026-01..2026-03, first occurrence of each id. 12 residents + 8 workers + 4 shopkeepers + 2 unknown = 26.",
+  "Excluded: X01 rejected and X02 draft (not_approved 2), X03 superseded revision, X04 no research consent, X05 no aggregate consent, X06 withdrawn, X07 outside period, duplicate row of R01. Collected distinct ids = 26 + 7 = 33.",
+  "Stakeholders: resident 12, worker 8, shopkeeper 4, unknown 2. Shopkeeper 4 < 5 is hidden; exactly one hidden cell, so the smallest remaining (worker 8) is hidden too. Unknown 2 < 5 is null, not 0.",
+  "lake-B topics: R01-R12 (12), S01-S04 (4), U01-U02 (2) = 18 interviews. Ratings: R01-R06 = 5 (6), R07-R09 = 4 (3), S01-S04 = 4 (4), U01-U02 = 3 (2); so 5:6, 4:7, 3:2, valid 15; unsure 1 (R10), refused 1 (R11), not asked 1 (R12). 3:2 is hidden, so the smallest remaining (5:6) is hidden too; shown: 4:7.",
+  "road-C topics: R01-R06 and W01-W08 = 14 interviews. R01-R06 also discussed lake-B, so lake-B and road-C counts overlap (6 shared) and must not be added.",
+  "Issues (distinct interviews, selected): litter 12 (R01-R08, S01-S04), noise 3 (R01-R03), lighting 6 (R09-R12, U01-U02), traffic 14 (W01-W08, R01-R06). Responding interviews = 26. noise < 5 hidden, so lighting (smallest remaining) hidden too; shown litter 12 (46.2%), traffic 14 (53.8%).",
+  "Coded themes: waste_management 8 (R01-R08, coder-1), pedestrian_safety 5 (W01-W05, coder-2); both shown; 30.8% and 19.2% of 26. One codebook (cb-1), two coders.",
+  "Location summaries: lake-B 18 interviews, 6 of them also discussed another place and the other 12 did not (both >= 5, so 6 is shown); road-C 14 interviews, 6 also discussed another place, 8 did not (shown)."
+ ],
+ "expected": {
+  "eligibility": {
+   "collected": 33,
+   "analysed": 26,
+   "excluded": {
+    "not_approved": 2,
+    "superseded_revision": 1,
+    "no_research_consent": 1,
+    "no_aggregate_consent": 1,
+    "withdrawn": 1,
+    "outside_period": 1,
+    "duplicate_record": 1
+   }
+  },
+  "stakeholders": {
+   "released": true,
+   "shown": [
+    {
+     "code": "resident",
+     "count": 12
+    }
+   ],
+   "suppressedCount": 2,
+   "complementary": true,
+   "unknownOrRefused": null
+  },
+  "ratingsLakeB": {
+   "respondents": 18,
+   "validN": 15,
+   "unsureN": 1,
+   "refusedN": 1,
+   "notAskedN": 1,
+   "invalidN": 0,
+   "shown": [
+    {
+     "code": "4",
+     "count": 7
+    }
+   ],
+   "suppressedCount": 2,
+   "complementary": true
+  },
+  "issues": {
+   "respondingInterviews": 26,
+   "notAnswered": 0,
+   "selectedShown": [
+    {
+     "code": "litter",
+     "count": 12
+    },
+    {
+     "code": "traffic",
+     "count": 14
+    }
+   ],
+   "codedShown": [
+    {
+     "code": "pedestrian_safety",
+     "count": 5
+    },
+    {
+     "code": "waste_management",
+     "count": 8
+    }
+   ],
+   "percentSelected": {
+    "litter": 46.2,
+    "traffic": 53.8
+   },
+   "percentCoded": {
+    "pedestrian_safety": 19.2,
+    "waste_management": 30.8
+   },
+   "coders": 2,
+   "codebookVersions": [
+    "cb-1"
+   ]
+  },
+  "locations": {
+   "lakeB": {
+    "interviews": 18,
+    "alsoDiscussedOtherPlaces": 6
+   },
+   "roadC": {
+    "interviews": 14,
+    "alsoDiscussedOtherPlaces": 6
+   }
+  }
+ }
+}

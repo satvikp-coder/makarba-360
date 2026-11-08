@@ -75,6 +75,9 @@ importers:
       '@makarba/geo-search':
         specifier: workspace:*
         version: link:../../packages/geo-search
+      '@makarba/insights-view':
+        specifier: workspace:*
+        version: link:../../packages/insights-view
       '@makarba/public-ia':
         specifier: workspace:*
         version: link:../../packages/public-ia

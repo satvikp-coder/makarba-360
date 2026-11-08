@@ -15,6 +15,7 @@
     "@makarba/contracts": "workspace:*",
     "@makarba/design-tokens": "workspace:*",
     "@makarba/geo-search": "workspace:*",
+    "@makarba/insights-view": "workspace:*",
     "@makarba/public-ia": "workspace:*",
     "maplibre-gl": "^4.7.1",
     "pannellum": "2.5.7",
