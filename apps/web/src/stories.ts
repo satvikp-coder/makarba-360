@@ -1,5 +1,6 @@
 import { findForbiddenField } from "@makarba/contracts";
 import { API_BASE } from "./api.js";
+import { apiFetch } from "./http.js";
 
 /**
  * PROPOSED public contract for approved stories (issue #80). It mirrors `toPublicStory` in packages/place-content: three block kinds with
@@ -48,7 +49,7 @@ export function parseStories(raw: unknown): StoriesData | null {
 export async function fetchStories(signal?: AbortSignal, fetcher: typeof fetch = fetch): Promise<StoriesResult> {
   try {
     // no-store: a withdrawn quote must disappear on the next load, not stay in a browser cache
-    const res = await fetcher(`${API_BASE}/stories`, { signal, credentials: "omit", cache: "no-store", headers: { Accept: "application/json" } });
+    const res = await apiFetch(fetcher, `${API_BASE}/stories`, { signal, credentials: "omit", cache: "no-store", headers: { Accept: "application/json" } });
     if (res.status === 404) return { status: "missing" };
     if (!res.ok) return { status: "error", retryable: res.status >= 500 };
     const data = parseStories(await res.json());

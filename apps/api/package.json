@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "tsx src/server.ts",
-    "dev:mock": "tsx src/mock-server.ts",
+    "dev:mock": "tsx src/mock-server.ts", "conformance": "tsx src/conformance-cli.ts",
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "vitest run"

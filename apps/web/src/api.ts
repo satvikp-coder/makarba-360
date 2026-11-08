@@ -1,4 +1,5 @@
 import { validatePublic } from "@makarba/contracts";
+import { apiFetch } from "./http.js";
 
 export const API_BASE: string = import.meta.env.VITE_API_BASE ?? "/api/v1/public";
 
@@ -11,7 +12,7 @@ export type PlacesResult =
 /** Fetches published places and validates the payload against the public contract before use. Anything invalid is an error, never shown. */
 export async function fetchPlaces(signal?: AbortSignal, fetcher: typeof fetch = fetch): Promise<PlacesResult> {
   try {
-    const res = await fetcher(`${API_BASE}/locations?limit=200`, { signal, credentials: "omit", headers: { Accept: "application/json" } });
+    const res = await apiFetch(fetcher, `${API_BASE}/locations?limit=200`, { signal, credentials: "omit", headers: { Accept: "application/json" } });
     if (!res.ok) return { status: "error", retryable: res.status >= 500 };
     const body: unknown = await res.json();
     const v = validatePublic("locations", body);
@@ -46,7 +47,7 @@ export type HistoryResult = { status: "ok"; data: HistoryData } | { status: "mis
 async function getValidated(kind: "history" | "media" | "insights", path: string, signal?: AbortSignal, fetcher: typeof fetch = fetch): Promise<{ status: "ok"; body: unknown } | { status: "missing" } | { status: "error"; retryable: boolean }> {
   try {
     // no-store: a withdrawn place must not be served from a stale browser cache
-    const res = await fetcher(`${API_BASE}${path}`, { signal, credentials: "omit", cache: "no-store", headers: { Accept: "application/json" } });
+    const res = await apiFetch(fetcher, `${API_BASE}${path}`, { signal, credentials: "omit", cache: "no-store", headers: { Accept: "application/json" } });
     if (res.status === 404) return { status: "missing" };
     if (!res.ok) return { status: "error", retryable: res.status >= 500 };
     const body: unknown = await res.json();
