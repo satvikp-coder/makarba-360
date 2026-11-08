@@ -51,3 +51,19 @@ Source of terms: OpenStreetMap Foundation Tile Usage Policy (https://operations.
 | Not done | Clustering, layer toggles, search (#74-#76), verified Makarba boundary/roads (#5, #28, #120), bulk offline tiles. |
 
 Verification: 5 MapView tests with a mocked MapLibre (attribution, layers/data, click selection, WebGL failure, context loss, cleanup) and an Explore integration test. **Not yet verified in a real browser or on real devices** (WebGL rendering, tile loading): to be covered by #82/#117; the PR notes this limitation.
+
+## Reusable spatial search and clustering (#29)
+
+Implemented as `packages/geo-search` (pure TypeScript over published public features; contract v1 geometries Point, MultiLineString, MultiPolygon). It is the adapter and rule set only: no database query, API route or index exists yet. Developer A owns the spatial schema, indexes and grants, so live search stays a later integration (live prerequisite #27) and is not claimed.
+
+**Bounding box.** `bbox=west,south,east,north` in WGS 84 degrees. Rejected, never repaired: wrong count, non-decimal tokens (including `1e3`, `NaN`, `Infinity`, empty), out-of-range values, zero or negative width/height, a box with west greater than east (it crosses the antimeridian: the error tells the caller to send two boxes), and any side wider than 2 degrees (default, configurable) so a whole-world or accidental huge box cannot trigger a full scan. Errors carry `code`, a plain message, `fieldErrors`, `retryable: false`, matching the shared error shape.
+
+**Search.** Filters combine with AND: bbox intersection (lines and areas match when their extent overlaps), category list, and `q` matched case-, accent- and whitespace-insensitively against every language name, aliases and slug. Results are sorted by feature id, so ids and pages are stable regardless of input order; paging uses an `after` feature-id cursor with no overlap or gaps. `limit` is 1 to 200 (default 50); `q` at most 100 characters. Zero matches is a successful empty result with `total: 0`.
+
+**Clustering.** Deterministic grid clustering of Point features only, by zoom (0 to 22). Lines and areas are returned untouched in `others`, never merged into point clusters. A lone point is returned as a single. Cluster ids are a hash of the sorted member ids, stable under input order and panning; every point appears exactly once across clusters and singles.
+
+**Privacy.** Any input feature containing a restricted field name (for example interview latitude) or non-finite coordinates is dropped and counted in `dropped`; it is never returned. Output holds only fields already in the public contract plus cluster centres computed from public points.
+
+**Tests.** 35 unit tests: 17 bbox cases (including span limit boundary, antimeridian and whole world), search (ordering, alias/accent, AND filters, paging, limit/cursor/query limits, leaky and broken input), clustering (zoom behaviour, no loss or double count at five zoom levels, stable ids, empty input, invalid zoom).
+
+**Limits.** Grid clustering is an approximation for API-side grouping; the web map still uses MapLibre's own clustering for display. Antimeridian support is by rejection, which is sufficient for a single neighbourhood study area. Performance on a real indexed database is untested.
