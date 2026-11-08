@@ -159,3 +159,69 @@ test.describe("narrow, zoomed and rotated viewports keep navigation reachable", 
     });
   }
 });
+
+test.describe("Then & Now (synthetic images, technical verification only)", () => {
+  test.use({ viewport: { width: 1280, height: 800 } });
+  const media = (id: string) => ({
+    id, locationId: "00000000-0000-4000-8000-000000000001", url: `https://img.invalid/${id}.png`, contentType: "image/png", width: 40, height: 30, format: "image",
+    alt: `Synthetic ${id} image`, credit: "Synthetic", licence: "synthetic-test-only", capturedDate: { value: "2021", precision: "year" }, publicationState: "published",
+    staticFallbackUrl: "https://img.invalid/fallback.png", meta: { contractVersion: "1.0.0", datasetKind: "synthetic", snapshotId: id, methodologyUrl: "/research" },
+  });
+  async function stub(page: Page, failImages = false) {
+    await prepare(page);
+    for (const id of ["synthetic-before", "synthetic-after"]) {
+      await page.route(new RegExp(`/api/v1/public/media/${id}$`), (route) => route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify(media(id)) }));
+    }
+    await page.route(/img\.invalid/, (route) => (failImages ? route.abort() : route.fulfill({ status: 200, contentType: "image/png", body: PNG })));
+  }
+
+  test("slider works by keyboard, side by side and text views work, dates and sources shown", async ({ page }) => {
+    await stub(page);
+    await page.goto("/places/synthetic-point");
+    const slider = page.getByRole("slider", { name: "Compare before and after" });
+    await expect(slider).toBeVisible();
+    await slider.focus();
+    await page.keyboard.press("ArrowRight");
+    await expect(slider).toHaveAttribute("aria-valuenow", "55");
+    await page.keyboard.press("End");
+    await expect(slider).toHaveAttribute("aria-valuenow", "100");
+    await expect(page.getByText(/2021 \(year\)/).first()).toBeVisible();
+    await expect(page.getByText(/Invented test citation/).first()).toBeVisible();
+    await page.getByLabel("Side by side").check();
+    await expect(slider).toHaveCount(0);
+    await expect(page.getByText(/^Before: 2021/).first()).toBeVisible();
+    await page.getByLabel("Text description").check();
+    await expect(page.locator(".then-now img")).toHaveCount(0);
+    await expect(page.getByText(/Evidence quality: synthetic/)).toBeVisible();
+  });
+
+  test("slider handle drags with the mouse", async ({ page }) => {
+    await stub(page);
+    await page.goto("/places/synthetic-point");
+    const area = page.locator(".tn-slider");
+    await expect(area).toBeVisible();
+    await area.scrollIntoViewIfNeeded();
+    const box = (await area.boundingBox())!;
+    await page.mouse.move(box.x + box.width * 0.5, box.y + box.height / 2);
+    await page.mouse.down();
+    await page.mouse.move(box.x + box.width * 0.2, box.y + box.height / 2, { steps: 4 });
+    await page.mouse.up();
+    const now = Number(await page.getByRole("slider").getAttribute("aria-valuenow"));
+    expect(now).toBeGreaterThan(10); expect(now).toBeLessThan(30);
+  });
+
+  test("image failure keeps the narrative; unsupported pair is hidden; no horizontal scroll at 320px", async ({ page }) => {
+    await stub(page, true);
+    await page.goto("/places/synthetic-point");
+    await expect(page.getByText(/An image is unavailable/)).toBeVisible();
+    await expect(page.getByText(/Evidence quality: synthetic/)).toBeVisible();
+    await page.setViewportSize({ width: 320, height: 568 });
+    expect(await noHorizontalScroll(page)).toBe(true);
+    await page.unrouteAll();
+    await prepare(page); // after-image endpoint missing: the pair cannot be shown
+    await page.goto("/places/synthetic-point");
+    await expect(page.getByRole("heading", { name: "Sources" })).toBeVisible();
+    await expect(page.getByRole("slider")).toHaveCount(0);
+    await expect(page.getByRole("heading", { name: "Then & Now" })).toHaveCount(0);
+  });
+});

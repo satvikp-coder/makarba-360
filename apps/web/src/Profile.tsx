@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { fetchHistory, fetchMedia, fetchPlaces, formatDated, type HistoryResult, type MediaData, type PlaceSummary } from "./api.js";
 import { NotFound } from "./NotFound.js";
+import { ThenNowSection } from "./ThenNowView.js";
 import { strings } from "./i18n.js";
 
 type PlaceState = { slug: string; status: "loading" } | { slug: string; status: "missing" } | { slug: string; status: "error" } | { slug: string; status: "ok"; place: PlaceSummary; synthetic: boolean };
@@ -84,10 +85,7 @@ export function PlaceProfile({ fetcher }: { fetcher?: typeof fetch }) {
       </Section>
 
       {h?.status === "ok" && h.data.comparisonPairs.length > 0 && (
-        <Section id="then-h" title="Then & Now">
-          <ul>{h.data.comparisonPairs.map((c) => <li key={c.id}>{formatDated(c.beforeDate)} → {formatDated(c.afterDate)}; evidence quality: {c.evidenceQuality}. {c.matchingViewpointNotes}</li>)}</ul>
-          <p><Link to={`/places/${p.slug}/then-and-now`}>Compare then and now</Link></p>
-        </Section>
+        <ThenNowSection pairs={h.data.comparisonPairs} sources={h.data.sources} fetcher={fetcher} />
       )}
 
       <Section id="findings-h" title="Community findings">

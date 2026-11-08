@@ -77,13 +77,22 @@ describe("place profile", () => {
     await screen.findByRole("img", { name: /panorama/ });
     for (const u of log) expect(u).toMatch(/^\/api\/v1\/public\/(locations(\?limit=\d+)?|locations\/[\w-]+\/history|media\/[\w-]+)$/);
   });
-  it("shows Then & Now only when a comparison pair exists and links to it", async () => {
+  it("shows the Then & Now comparison only when a comparison pair exists", async () => {
     show("synthetic-point", mk());
-    expect(await screen.findByRole("link", { name: "Compare then and now" })).toBeTruthy();
+    expect(await screen.findByRole("slider", { name: "Compare before and after" })).toBeTruthy();
+    expect(screen.getByRole("heading", { name: "Then & Now" })).toBeTruthy();
     cleanup();
     show("synthetic-point", mk({ history: { ...bundle.history, comparisonPairs: [] } }));
     await screen.findByText(/Invented test citation/, { selector: "small" });
-    expect(screen.queryByRole("link", { name: "Compare then and now" })).toBeNull();
+    expect(screen.queryByRole("slider")).toBeNull();
+    expect(screen.queryByRole("heading", { name: "Then & Now" })).toBeNull();
+  });
+  it("hides the comparison when one of its images is unavailable", async () => {
+    const f = ((url: string) => (/media\/synthetic-after/.test(url) ? res({}, 404) : mk()(url))) as unknown as typeof fetch;
+    show("synthetic-point", f);
+    await screen.findByText(/Invented test citation/, { selector: "small" });
+    await waitFor(() => expect(screen.queryByText("Loading comparison…")).toBeNull());
+    expect(screen.queryByRole("slider")).toBeNull();
   });
   it("passes automated accessibility checks", async () => {
     const { container } = show("synthetic-point", mk());

@@ -23,3 +23,17 @@ Implemented as `packages/place-content` (TypeScript + zod, synthetic tests). Moc
 **Proposed storage (not applied).** `private.place_content_revisions(location_id, locale, kind, revision, state, body, observed_value, observed_precision, evidence_kind, evidence_quality, source_ids, contains_quote, quote_consent, rights_cleared, author_id, reviewed_by, reviewed_at, supersedes)` with a unique (location_id, locale, kind, revision) and a published-immutability trigger, separate from `audit.location_geometry_revisions`. No migration is added here because `packages/db` is Developer A's and its tests pin the migration list; propose through the handoff process.
 
 **Limitations.** Reviewer-differs-from-author is the only separation-of-duties rule encoded. Translations are separate locale rows and must each be reviewed. No real content exists; fixtures are synthetic.
+
+## Then & Now component (#68)
+
+`apps/web/src/ThenNowView.tsx` (profile section, fed by `comparisonPairs` from the history endpoint plus the two media records).
+
+**Eligibility (from `viewPair`, #18).** Shown only with two known dates, at least one source and both images (https, loadable record). Otherwise the section is omitted entirely; no broken slider and no placeholder claim. While the images are being looked up it shows "Loading comparison…".
+
+**Views.** Slider (role `slider`, focusable; arrows 5, PageUp/Down 25, Home/End; pointer drag with pointer capture; `aria-valuetext` in plain words), Side by side, and Text description. All three show dates exactly as recorded ("2021 (year)", never promoted to a day), sources, evidence quality and the viewpoint statement. "Matched viewpoint" appears only when the record has a matching note; otherwise "Not a like-for-like view."
+
+**Failure.** If an image errors after display, images are removed and the narrative (dates, sources, quality, viewpoint, alt text) remains with "An image is unavailable."
+
+**Tests.** `ThenNowView.test.tsx` (11 component tests incl. axe, keyboard, hidden unsupported pairs, image failure) and 3 real-Chromium tests (keyboard, mouse drag, three views, failure, 320px, hidden pair when an image endpoint is missing). Images in the browser tests are 1x1 synthetic PNGs served by route stubs: they verify behaviour only, not any historical content. A drag test found that very tall images pushed the slider out of reach, so the slider has a fixed aspect ratio and a height cap.
+
+**Limits.** No real historical pairs exist; the mock API does not serve the pair images, so against the mock the pair is correctly hidden (the browser tests stub those endpoints). Screen-reader behaviour and touch dragging on a real device are not verified (#114, #117). Live evidence data comes with #67.
