@@ -85,3 +85,29 @@ describe("loadMockEnv", () => {
     expect(() => loadMockEnv({ NODE_ENV: "production" })).toThrow(/never run/);
   });
 });
+
+describe("read-only public database and identity provider settings (issue #40)", () => {
+  const ro = "postgres://pub:Rw94ndLq02xZ@db.internal.example.org:5432/app?sslmode=require";
+  const oidc = { OIDC_ISSUER: "https://idp.example.org", OIDC_CLIENT_ID: "makarba", OIDC_CLIENT_SECRET: "Vq81mZc20xYpLd93", OIDC_REDIRECT_URI: "https://app.example.org/auth/callback" };
+  it("accepts a separate read-only role and a complete provider", () => {
+    expect(loadServerEnv({ ...prod, READONLY_DATABASE_URL: ro, ...oidc }).READONLY_DATABASE_URL).toBe(ro);
+  });
+  it("refuses the private API's credentials for the public role, a non-TLS or placeholder one, and mixed environments", () => {
+    fails({ ...prod, READONLY_DATABASE_URL: prod.DATABASE_URL }, /READONLY_DATABASE_URL: must use different credentials/);
+    fails({ ...prod, READONLY_DATABASE_URL: ro.replace("?sslmode=require", "") }, /READONLY_DATABASE_URL: production requires sslmode/);
+    fails({ ...prod, READONLY_DATABASE_URL: "postgres://makarba_dev:pw@db.internal.example.org/app?sslmode=require" }, /READONLY_DATABASE_URL: placeholder/);
+    fails({ ...local, READONLY_DATABASE_URL: ro }, /same environment/);
+    fails({ ...prod, READONLY_DATABASE_URL: "http://nope" }, /READONLY_DATABASE_URL: must be a valid postgres/);
+  });
+  it("requires the identity provider settings together, over https, with a real secret", () => {
+    fails({ ...prod, OIDC_ISSUER: "https://idp.example.org" }, /must be set together/);
+    fails({ ...prod, ...oidc, OIDC_ISSUER: "http://idp.example.org" }, /OIDC_ISSUER: must be https/);
+    fails({ ...prod, ...oidc, OIDC_CLIENT_SECRET: "replace-with-real-secret-value" }, /OIDC_CLIENT_SECRET: placeholder/);
+  });
+  it("never reveals the new secrets in errors or logs, and treats them as server-only", () => {
+    try { loadServerEnv({ ...prod, ...oidc, OIDC_ISSUER: "http://x" }); } catch (e) { expect(String(e)).not.toContain(oidc.OIDC_CLIENT_SECRET); }
+    const red = JSON.stringify(redactEnv({ ...prod, READONLY_DATABASE_URL: ro, ...oidc }));
+    for (const v of [ro, oidc.OIDC_CLIENT_SECRET, strongSecret]) expect(red).not.toContain(v);
+    expect(sharedSecretNames({ ...prod, READONLY_DATABASE_URL: ro }, { ...prod, SESSION_SECRET: "other-" + strongSecret, DATABASE_URL: prod.DATABASE_URL + "x", READONLY_DATABASE_URL: ro })).toEqual(["READONLY_DATABASE_URL"]);
+  });
+});

@@ -9,7 +9,7 @@ export const APP_ENVS = ["local", "staging", "production"] as const;
 export type AppEnv = (typeof APP_ENVS)[number];
 
 /** Variables that must never reach a browser bundle, logs or CI output. */
-export const SERVER_ONLY_VARS = ["DATABASE_URL", "SESSION_SECRET"] as const;
+export const SERVER_ONLY_VARS = ["DATABASE_URL", "READONLY_DATABASE_URL", "SESSION_SECRET", "OIDC_CLIENT_SECRET"] as const;
 
 const PLACEHOLDER = /replace-with|changeme|change-me|makarba_dev|example|password|secret123|test-secret/i;
 const LOCAL_HOSTS = new Set(["localhost", "127.0.0.1", "::1", "[::1]", "db"]);
@@ -20,6 +20,13 @@ const schema = z.object({
   API_PORT: z.coerce.number().int().min(1).max(65535).default(4000),
   DATABASE_URL: z.string().min(1, "DATABASE_URL is required"),
   SESSION_SECRET: z.string().min(32, "SESSION_SECRET must be at least 32 characters"),
+  /** Connection string for the read-only public API role (makarba_public_api). Optional: without it the public API is not mounted. */
+  READONLY_DATABASE_URL: z.string().min(1).optional(),
+  /** Identity provider (issue #32). All four or none. */
+  OIDC_ISSUER: z.string().min(1).optional(),
+  OIDC_CLIENT_ID: z.string().min(1).optional(),
+  OIDC_CLIENT_SECRET: z.string().min(1).optional(),
+  OIDC_REDIRECT_URI: z.string().min(1).optional(),
 });
 
 export type ServerEnv = Omit<z.infer<typeof schema>, "APP_ENV"> & { APP_ENV: AppEnv };
@@ -49,6 +56,15 @@ function isolationProblems(e: z.infer<typeof schema>, appEnv: AppEnv): string[] 
   const db = dbHost(e.DATABASE_URL);
   if (!db) return ["DATABASE_URL: must be a valid postgres:// URL"];
   const isLocalHost = LOCAL_HOSTS.has(db.host);
+  const oidc = [e.OIDC_ISSUER, e.OIDC_CLIENT_ID, e.OIDC_CLIENT_SECRET, e.OIDC_REDIRECT_URI];
+  if (oidc.some(Boolean) && !oidc.every(Boolean)) out.push("OIDC_*: OIDC_ISSUER, OIDC_CLIENT_ID, OIDC_CLIENT_SECRET and OIDC_REDIRECT_URI must be set together");
+  const ro = e.READONLY_DATABASE_URL ? dbHost(e.READONLY_DATABASE_URL) : null;
+  if (e.READONLY_DATABASE_URL) {
+    if (!ro) out.push("READONLY_DATABASE_URL: must be a valid postgres:// URL");
+    // The public API must use its own role, never the private API's credentials.
+    else if (credentialsOf(e.READONLY_DATABASE_URL) === credentialsOf(e.DATABASE_URL)) out.push("READONLY_DATABASE_URL: must use different credentials (the read-only public role) than DATABASE_URL");
+    else if (LOCAL_HOSTS.has(ro.host) !== isLocalHost) out.push("READONLY_DATABASE_URL: must point at the same environment as DATABASE_URL");
+  }
   if (appEnv === "local") {
     if (e.NODE_ENV === "production") out.push("APP_ENV=local is not allowed with NODE_ENV=production");
     // Prevent a developer machine from silently holding a staging/production database.
@@ -59,6 +75,14 @@ function isolationProblems(e: z.infer<typeof schema>, appEnv: AppEnv): string[] 
   if (PLACEHOLDER.test(credentialsOf(e.DATABASE_URL))) out.push(`DATABASE_URL: placeholder or development credentials not allowed in ${appEnv}`);
   if (isLocalHost) out.push(`DATABASE_URL: ${appEnv} must not use a local database host`);
   if (!db.tls) out.push(`DATABASE_URL: ${appEnv} requires sslmode=require, verify-ca or verify-full`);
+  if (e.READONLY_DATABASE_URL && ro) {
+    if (!ro.tls) out.push(`READONLY_DATABASE_URL: ${appEnv} requires sslmode=require, verify-ca or verify-full`);
+    if (PLACEHOLDER.test(credentialsOf(e.READONLY_DATABASE_URL))) out.push(`READONLY_DATABASE_URL: placeholder or development credentials not allowed in ${appEnv}`);
+  }
+  if (oidc.some(Boolean)) {
+    for (const [name, v] of [["OIDC_ISSUER", e.OIDC_ISSUER], ["OIDC_REDIRECT_URI", e.OIDC_REDIRECT_URI]] as const) if (v && !/^https:\/\//.test(v)) out.push(`${name}: must be https in ${appEnv}`);
+    if (e.OIDC_CLIENT_SECRET && PLACEHOLDER.test(e.OIDC_CLIENT_SECRET)) out.push(`OIDC_CLIENT_SECRET: placeholder value not allowed in ${appEnv}`);
+  }
   if (appEnv === "production" && e.SESSION_SECRET.length < 48) out.push("SESSION_SECRET: production requires at least 48 characters");
   if (new Set(e.SESSION_SECRET).size < 12) out.push("SESSION_SECRET: too little variety to be a random secret");
   return out;
