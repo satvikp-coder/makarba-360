@@ -1,6 +1,6 @@
 # Developer B progress ledger (Claude, for satvikp-coder)
 
-GitHub is authoritative; this is a regenerable checkpoint (`python docs/project/make_b_ledger.py`). Main SHA at generation: `f73df42f130180cd735238f4da500ff976834436`.
+GitHub is authoritative; this is a regenerable checkpoint (`python docs/project/make_b_ledger.py`). Main SHA at generation: `4ea9a07f9af6bb70dd251f90f7b5a42e31603f7f`.
 
 Total Developer B issues: 73. Closed: 47. Ready now: .
 
