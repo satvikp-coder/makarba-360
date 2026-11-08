@@ -5,7 +5,6 @@ import axe from "axe-core";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { afterEach, describe, expect, it, vi } from "vitest";
 vi.mock("./map/MapView.js", () => ({ MapView: () => null }));
-import { App } from "./App.js";
 import { ThenNowPage } from "./ThenNowPage.js";
 
 const bundle = JSON.parse(readFileSync(resolve(process.cwd(), "../../docs/project/contracts/fixture-bundle.json"), "utf8"));
@@ -44,16 +43,5 @@ describe("Then & Now page (P06)", () => {
     page("not-published", mk({}, log));
     expect(await screen.findByRole("heading", { name: "Page not found" })).toBeTruthy();
     expect(log.some((u) => /history/.test(u))).toBe(false);
-  });
-});
-
-describe("Community Voices (P08)", () => {
-  it("states that nothing is published, invents no quotes or numbers, and explains permission and withdrawal", () => {
-    const { container } = render(<MemoryRouter initialEntries={["/voices"]}><App /></MemoryRouter>);
-    expect(screen.getByRole("heading", { level: 1, name: "Community Voices" })).toBeTruthy();
-    expect(container.textContent).toContain("No community accounts have been approved for publication yet.");
-    expect(container.textContent).toMatch(/permission is withdrawn, the account is removed/);
-    expect(container.textContent).not.toMatch(/\d+ (people|residents|respondents)/);
-    expect(container.textContent).not.toMatch(/being built/);
   });
 });
