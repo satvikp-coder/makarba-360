@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { fetchHistory, fetchMedia, fetchPlaces, formatDated, type HistoryResult, type MediaData, type PlaceSummary } from "./api.js";
 import { NotFound } from "./NotFound.js";
 import { ThenNowSection } from "./ThenNowView.js";
+import { Gallery } from "./Gallery.js";
 import { strings } from "./i18n.js";
 
 type PlaceState = { slug: string; status: "loading" } | { slug: string; status: "missing" } | { slug: string; status: "error" } | { slug: string; status: "ok"; place: PlaceSummary; synthetic: boolean };
@@ -73,15 +74,7 @@ export function PlaceProfile({ fetcher }: { fetcher?: typeof fetch }) {
 
       <Section id="media-h" title="Photographs">
         {!items && <p role="status">{strings.en.loading}</p>}
-        {items && items.length === 0 && <p>No approved photographs yet.</p>}
-        {items && items.map((m, i) => m === "unavailable" || !SAFE_URL.test(m.url) ? (
-          <p key={i}>A photograph is unavailable.</p>
-        ) : (
-          <figure key={m.id}>
-            <img src={m.url} alt={m.alt} width={m.width} height={m.height} loading="lazy" referrerPolicy="no-referrer" />
-            <figcaption>{formatDated(m.capturedDate)} · {m.credit} · {m.licence}</figcaption>
-          </figure>
-        ))}
+        {items && <Gallery items={items} />}
       </Section>
 
       {h?.status === "ok" && h.data.comparisonPairs.length > 0 && (

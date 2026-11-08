@@ -121,3 +121,17 @@ Implemented in `apps/web/src/filters.ts` and the explorer (`App.tsx`).
 **Tests.** 9 component tests (logic, URL round trip, stale link, keyboard, empty result, axe) and 2 real-Chromium tests (real canvas, URL, back/forward, attribution on empty result, 375px keyboard and 44px targets). Tiles are stubbed.
 
 **Limits.** Layers are geometry groups, not separate data themes; additional themed layers need taxonomy from the shared contract (#26 live). Free-text search is not part of this issue. Real-device touch behaviour is unverified (#82, #117).
+
+## Approved photo gallery (#78)
+
+`apps/web/src/Gallery.tsx`, used by the profile "Photographs" section.
+
+**What is shown.** A responsive grid (one column at 320px) of the public derivative images with alt text, capture date exactly as recorded (unknown stays "Date unknown"), credit and licence under each. Each thumbnail is a real button ("Open photograph: <alt>") that opens a lightbox built on a native modal `<dialog>`: the page behind is inert, Escape closes, focus returns to the thumbnail, Previous/Next buttons and Left/Right arrows move through the set (wrapping), and the caption repeats alt, date, credit and licence.
+
+**Never exposed.** The component renders only `https` URLs not containing `/original/` or `/originals/` (defence in depth on top of the contract rule); the images send no referrer, are not draggable, and nothing in the page fetches an original object. EXIF removal is a server-side derivative step (#61 model: `exifStripped` must be true before a copy can be public); the browser cannot strip metadata from a file it is served, so this issue relies on the derivative pipeline for that and does not claim to verify it.
+
+**Missing assets.** An item that is unavailable, unsafe or fails to load is dropped from the grid and counted in a status note ("A photograph is unavailable." / "N photographs are unavailable."); if it fails inside the open lightbox the lightbox closes. No broken-image icons or empty tiles.
+
+**Tests.** 11 component tests (URL safety, captions, unknown date, counting, failure, referrer, keyboard navigation, focus return, axe) and 2 real-Chromium tests (real dialog: Escape and focus return, page inert; failing image at 320px). Images are 1x1 synthetic PNGs.
+
+**Limits.** Touch gestures (swipe, pinch zoom) are not implemented; navigation is by buttons and keys. No real photographs exist; screen-reader behaviour of the dialog and real-device checks are pending (#114, #117). Live media rights/consent integration (#61 pipeline) is not claimed.

@@ -266,3 +266,37 @@ test.describe("map filters (real MapLibre canvas, stubbed tiles)", () => {
     expect(await noHorizontalScroll(page)).toBe(true);
   });
 });
+
+test.describe("photo gallery and lightbox (real dialog element, synthetic image)", () => {
+  test("opens, keeps page content inert, closes with Escape and returns focus; failing image shows note", async ({ page }) => {
+    await prepare(page);
+    await page.route(/example\.invalid/, (route) => route.fulfill({ status: 200, contentType: "image/png", body: PNG }));
+    await page.goto("/places/synthetic-point");
+    const thumb = page.getByRole("button", { name: /Open photograph: Synthetic panorama placeholder/ });
+    await thumb.scrollIntoViewIfNeeded();
+    await thumb.focus();
+    await page.keyboard.press("Enter");
+    const dlg = page.getByRole("dialog");
+    await expect(dlg).toBeVisible();
+    await expect(dlg).toContainText("synthetic-test-only");
+    await expect(dlg).toContainText("2026-01-01 (exact day)");
+    for (let i = 0; i < 6; i++) {
+      await page.keyboard.press("Tab");
+      // native modal dialog makes the page inert: focus may leave to browser UI but never lands on page content
+      expect(await page.evaluate(() => { const a = document.activeElement; return !a || a.tagName === "BODY" || !!a.closest("dialog"); })).toBe(true);
+    }
+    await page.keyboard.press("Escape");
+    await expect(dlg).toBeHidden();
+    await expect(thumb).toBeFocused();
+  });
+
+  test("a photograph that fails to load is replaced by a note; layout stays within 320px", async ({ page }) => {
+    await prepare(page);
+    await page.route(/example\.invalid/, (route) => route.abort());
+    await page.setViewportSize({ width: 320, height: 568 });
+    await page.goto("/places/synthetic-point");
+    await expect(page.getByText("A photograph is unavailable.")).toBeVisible();
+    await expect(page.getByRole("button", { name: /Open photograph/ })).toHaveCount(0);
+    expect(await noHorizontalScroll(page)).toBe(true);
+  });
+});
