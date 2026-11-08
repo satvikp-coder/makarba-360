@@ -5,6 +5,8 @@ import { AccountService, PgGrantStore, type Authorizer } from "@makarba/authz";
 import { failSafe, PgAuditSink } from "@makarba/audit";
 import { authRouter, type InvitationRedeemer, type UserDirectory } from "./auth-routes.js";
 import { PgLocationRepository } from "./location-repository.js";
+import { PgConsentRepository } from "./consent-repository.js";
+import { consentRoutes } from "./consent-routes.js";
 import { locationRoutes } from "./location-routes.js";
 import { privateApi } from "./private-routes.js";
 
@@ -66,6 +68,6 @@ export function mountPrivateStack(app: Express, o: PrivateStackOptions): Session
     oidc: o.oidc, sessions, secureCookies: o.secureCookies, fetchImpl: o.fetchImpl,
     users: new PgUserDirectory(o.pool), invitations: new PgInvitationRedeemer(o.pool, o.authz),
   }));
-  app.use("/api/v1/private", json, privateApi({ authz: o.authz, principals: grants, sessions, routes: locationRoutes(new PgLocationRepository(o.pool)), audit }));
+  app.use("/api/v1/private", json, privateApi({ authz: o.authz, principals: grants, sessions, routes: [...locationRoutes(new PgLocationRepository(o.pool)), ...consentRoutes(new PgConsentRepository(o.pool))], audit }));
   return sessions;
 }
