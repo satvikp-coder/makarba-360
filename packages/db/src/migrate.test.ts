@@ -16,7 +16,7 @@ describe("migration files", () => {
   };
   it("loads the shipped migrations contiguously with checksums", () => {
     const m = loadMigrations(MIGRATIONS_DIR);
-    expect(m.map((x) => x.version)).toEqual(["0001", "0002", "0003", "0004", "0005", "0006"]);
+    expect(m.map((x) => x.version)).toEqual(["0001", "0002", "0003", "0004", "0005", "0006", "0007"]);
     expect(m.every((x) => /^[0-9a-f]{64}$/.test(x.checksum))).toBe(true);
   });
   it("normalises CRLF so Windows and Linux checksums agree", () => {
@@ -70,10 +70,10 @@ describe.skipIf(!url)("PostGIS migrations (database)", () => {
     `INSERT INTO private.locations (id, study_area_id, study_area_version, category_id, name, geometry${extra ? ", " + extra.split("|")[0] : ""}) VALUES ('${id}', ${AREA}, 1, 'heritage', '{"en":"x"}', ST_GeomFromText('${wkt}', 4326)${extra ? ", " + extra.split("|")[1] : ""})`;
 
   it("migrates an empty database and is idempotent", async () => {
-    expect(await run()).toEqual(["0001", "0002", "0003", "0004", "0005", "0006"]);
+    expect(await run()).toEqual(["0001", "0002", "0003", "0004", "0005", "0006", "0007"]);
     expect(await run()).toEqual([]);
     const r = await c.query("SELECT version FROM migrations.applied ORDER BY version");
-    expect(r.rows.map((x) => x.version)).toEqual(["0001", "0002", "0003", "0004", "0005", "0006"]);
+    expect(r.rows.map((x) => x.version)).toEqual(["0001", "0002", "0003", "0004", "0005", "0006", "0007"]);
   });
 
   it("upgrades a prior-version database without losing data", async () => {
@@ -82,7 +82,7 @@ describe.skipIf(!url)("PostGIS migrations (database)", () => {
     await c.query(seedArea); await c.query(seedCat);
     await c.query(loc("00000000-0000-4000-8000-0000000000b1", "POINT(10.5 10.5)"));
     await c.query("RESET ROLE");
-    expect(await run()).toEqual(["0002", "0003", "0004", "0005", "0006"]);
+    expect(await run()).toEqual(["0002", "0003", "0004", "0005", "0006", "0007"]);
     const r = await c.query("SELECT count(*)::int AS n FROM private.locations");
     expect(r.rows[0].n).toBe(1);
   });
@@ -94,12 +94,12 @@ describe.skipIf(!url)("PostGIS migrations (database)", () => {
   });
 
   it("rolls back a failing migration completely", async () => {
-    const bad = [...migrations, { version: "0007", name: "bad", sql: "CREATE TABLE private.half_done (id int); SELECT 1/0;", checksum: checksum("bad") }];
+    const bad = [...migrations, { version: "0008", name: "bad", sql: "CREATE TABLE private.half_done (id int); SELECT 1/0;", checksum: checksum("bad") }];
     await expect(migrate(c, bad, { asRole: "makarba_migrator" })).rejects.toThrow(/rolled back/);
     const t = await c.query("SELECT to_regclass('private.half_done') AS t");
     expect(t.rows[0].t).toBeNull();
     const v = await c.query("SELECT version FROM migrations.applied ORDER BY version");
-    expect(v.rows.map((x) => x.version)).toEqual(["0001", "0002", "0003", "0004", "0005", "0006"]);
+    expect(v.rows.map((x) => x.version)).toEqual(["0001", "0002", "0003", "0004", "0005", "0006", "0007"]);
   });
 
   describe("geometry integrity", () => {
