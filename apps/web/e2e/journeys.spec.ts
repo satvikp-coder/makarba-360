@@ -133,6 +133,33 @@ test.describe("mobile 375x667 bottom sheet", () => {
     const box = await page.getByRole("button", { name: "Expand" }).boundingBox();
     expect(box!.height).toBeGreaterThanOrEqual(44);
   });
+
+  test("navigation stays reachable when the mobile viewport shrinks for the keyboard", async ({ page }) => {
+    await prepare(page);
+    await page.goto("/explore");
+    await page.getByRole("searchbox", { name: "Search places" }).focus();
+
+    // Chromium cannot display a mobile OS keyboard. Shrinking the viewport models
+    // browsers that resize their visual/layout viewport while the keyboard opens.
+    await page.setViewportSize({ width: 375, height: 360 });
+    await page.getByRole("button", { name: "Expand" }).click();
+
+    const header = await page.locator("header").boundingBox();
+    const sheet = await page.locator(".sheet").boundingBox();
+    expect(header).not.toBeNull();
+    expect(sheet).not.toBeNull();
+    expect(header!.y).toBeGreaterThanOrEqual(0);
+    expect(header!.y + header!.height).toBeLessThanOrEqual(sheet!.y + 1);
+
+    for (const name of ["Explore", "Then & Now", "Community Voices", "Urban Insights", "Research"]) {
+      const link = page.getByRole("navigation", { name: "Main navigation" }).getByRole("link", { name });
+      const box = await link.boundingBox();
+      expect(box).not.toBeNull();
+      expect(box!.y).toBeGreaterThanOrEqual(0);
+      expect(box!.y + box!.height).toBeLessThanOrEqual(360);
+      await expect(link).toBeVisible();
+    }
+  });
 });
 
 test.describe("narrow, zoomed and rotated viewports keep navigation reachable", () => {
