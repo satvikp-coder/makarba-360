@@ -198,3 +198,33 @@ Status: design specification plus an executable rules model (`packages/field-flo
 **Verification.** `pnpm --filter @makarba/field-flow test`: 22 passed, covering refusal discarding data, no capture before consent, interview position versus subject separation, GPS denied/unavailable/poor/manual/invalid, missing answers kept as missing, failed writes, offline save versus synced receipt, and saved records being immutable.
 
 **Limits and handoff.** Not tested on a phone, with a screen reader or with researchers; time-to-complete is unmeasured (pilot, #62/#118). Developer A must make the real app pass equivalent tests (handoff note: treat `packages/field-flow` as the rules oracle). Role behaviour (#6) is unverified against the real permission system.
+
+## Responsive research-management screens A01–A12 (issue #21)
+
+Status: design specification plus an executable rules model (`packages/admin-screens`, 15 tests). Written by Claude; not reviewed by the research lead or a real administrator. The admin app itself is not built. Wireframes and behaviours are in `docs/design/admin-dashboard.md`; the screen list is in `docs/product/screen-inventory.md`.
+
+**Role-limited navigation.** `navigationFor` asks Developer A's real `Authorizer` and the capability matrix (`docs/project/contracts/capability-matrix.json`, status PROPOSED, not stakeholder-approved) which screens a person may open for a study. Screens the person cannot open are removed, not greyed out, so the menu does not reveal what exists. A test fails if a screen depends on an action that is not in the matrix.
+
+| Screen | Needs (any of) | Notes |
+|---|---|---|
+| A01 Overview, A03 Visits | `analytics.view_aggregate` | counts and progress only; targets are not findings |
+| A02 Accounts | `user.manage` | administrator, system-wide grant |
+| A04 Survey moderation | `interview.review_correction`, `consent.verify` | raw data screen |
+| A05 GPS review | `interview.view_private` | raw data screen; only the assigned lead |
+| A06 Location review | `location.review_geometry` | |
+| A07 History/media, A08 Publication preview | `content.publish` | independent reviewer rule applies per record |
+| A09 Exports | `export.restricted` or `export.operate_job` | job operators see job status only (mode `operational-only`); restricted data needs the lead grant and an approved purpose at job creation |
+| A10 Audit | `audit.view` | never shows payloads |
+| A11 Questionnaires, A12 Operations | `config.manage`, `export.operate_job` | |
+
+**Unscoped administrator.** A technical administrator without a lead grant cannot open A04 or A05 for any study (verified for two studies), cannot open A06 to A08, and sees A01, A02, A09 (jobs only), A10, A11, A12. Leads see review screens only for their assigned study; expired, inactive and anonymous principals see nothing.
+
+**Mobile and desktop.** Desktop uses filterable tables (study, visit, collector, form version, consent, record state, quality). Mobile uses review cards and stepped detail screens, not squeezed tables; the same navigation rules apply. Every table has a text alternative of row counts and an empty state that explains the cause ("No records need review" versus "You do not have access to this study").
+
+**Review decisions, public preview, withdrawal.** Each review shows private source and revisions on one side and checks plus the decision on the other; decisions are "Approve current revision" (only if the revision reviewed is the current one) or "Request changes" with a reason (`requireReason`: at least 5 characters). A08 shows exactly what visitors would see before release; release needs an independent approver and is blocked if consent or inputs changed. Withdrawal (A10) lists every affected publication, media item and snapshot with its invalidation status and purge deadline.
+
+**Bulk actions.** `bulkApprovePreview` runs before any bulk approval and changes nothing: it shows selected, eligible and excluded counts, with a reason per excluded record (consent not verified, evidence incomplete, changed since reviewed, self-approval, duplicate, no permission). Confirming sends exactly the eligible ids; zero eligible or more than 50 records means no confirm button. There is no bulk path around consent or evidence checks.
+
+**Verification.** `pnpm --filter @makarba/admin-screens test`: 15 passed against the real authorizer. Testing it found two design errors that were corrected: opening a review screen must not be treated as approving someone's work (independence is checked per record), and opening Exports must be possible to state a purpose (the purpose gate belongs to job creation).
+
+**Gaps and limits.** The matrix has no action for questionnaire authoring, so A11 currently falls under `config.manage` (administrator); the research lead may want a lead-level action. The matrix is PROPOSED, so any approval change alters this table. No real device, screen-reader or user testing has happened.
