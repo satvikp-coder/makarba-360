@@ -32,6 +32,10 @@ Normative source: user prompt plus supplied 23-page blueprint. Requirements belo
 | R24 | Field pilot, verified dataset, public demo, final report and handover | M11 | 11.02 11.03 11.04 11.08 11.09 11.10 | all |
 | R25 | Guided tours, walkability, audio archive, hypothetical scenarios, hotspots, report export, human-reviewed AI | M12 | 12.01 12.03 12.04 12.05 12.07 12.08 12.09 | P10/P09 |
 
+### R02 geographical extent review baseline (issue #5)
+
+The study boundary is **unverified and must not be published or represented by a fabricated polygon**. Municipal town-planning scheme extents, wards, village/admin limits, neighbourhood usage and a researcher-defined study extent are different geographies; none can be substituted for another without an explicit study decision. The desk-review evidence and the remaining authority, basemap and field checks are recorded in [`docs/research/geographical-extent-review.md`](../research/geographical-extent-review.md). This is a source-review procedure, not approval of an extent or evidence that the field checks have happened. Keep `docs/research/geo-review-register.json` empty until an authorized reviewer actually verifies a candidate geometry.
+
 Non-functional register (provisional engineering targets, not achieved results):
 
 | ID | Target | Test setup / release evidence |
