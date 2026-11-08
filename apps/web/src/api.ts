@@ -43,7 +43,7 @@ export interface HistoryData {
 }
 export type HistoryResult = { status: "ok"; data: HistoryData } | { status: "missing" } | { status: "error"; retryable: boolean };
 
-async function getValidated(kind: "history" | "media", path: string, signal?: AbortSignal, fetcher: typeof fetch = fetch): Promise<{ status: "ok"; body: unknown } | { status: "missing" } | { status: "error"; retryable: boolean }> {
+async function getValidated(kind: "history" | "media" | "insights", path: string, signal?: AbortSignal, fetcher: typeof fetch = fetch): Promise<{ status: "ok"; body: unknown } | { status: "missing" } | { status: "error"; retryable: boolean }> {
   try {
     // no-store: a withdrawn place must not be served from a stale browser cache
     const res = await fetcher(`${API_BASE}${path}`, { signal, credentials: "omit", cache: "no-store", headers: { Accept: "application/json" } });
@@ -70,4 +70,14 @@ export async function fetchMedia(id: string, signal?: AbortSignal, fetcher?: typ
   const r = await getValidated("media", `/media/${encodeURIComponent(id)}`, signal, fetcher);
   if (r.status !== "ok") return r;
   return { status: "ok", data: r.body as MediaData };
+}
+
+export interface InsightsSnapshot { raw: unknown; synthetic: boolean; questionVersion: string; policyVersion: string; snapshotId: string }
+export type InsightsResult = { status: "ok"; data: InsightsSnapshot } | { status: "missing" } | { status: "error"; retryable: boolean };
+/** Fetches the approved, contract-validated insights snapshot. No filter is sent to the server: groups are chosen from what the snapshot contains. */
+export async function fetchInsights(signal?: AbortSignal, fetcher?: typeof fetch): Promise<InsightsResult> {
+  const r = await getValidated("insights", "/insights", signal, fetcher);
+  if (r.status !== "ok") return r;
+  const b = r.body as { questionVersion?: string; policyVersion?: string; meta?: { datasetKind?: string; snapshotId?: string } };
+  return { status: "ok", data: { raw: r.body, synthetic: b.meta?.datasetKind === "synthetic", questionVersion: b.questionVersion ?? "", policyVersion: b.policyVersion ?? "", snapshotId: b.meta?.snapshotId ?? "" } };
 }

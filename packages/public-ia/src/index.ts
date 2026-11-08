@@ -28,7 +28,7 @@ export const publicRoutes: readonly PublicRoute[] = [
   { id: "P06", path: "/places/:slug/then-and-now", title: "Then & Now", nav: "Then & Now", alternative: "side-by-side images with text descriptions", states: S, query: [] },
   { id: "P07", path: "/places/:slug/panorama", title: "Panorama", nav: "Then & Now", alternative: "dated static photograph", states: S, query: [] },
   { id: "P08", path: "/voices", title: "Community Voices", nav: "Community Voices", alternative: "list of approved stories", states: S, query: ["theme", "place"] },
-  { id: "P09", path: "/insights", title: "Urban Insights", nav: "Urban Insights", alternative: "accessible data tables", states: S, query: ["stakeholder", "place", "period"] },
+  { id: "P09", path: "/insights", title: "Urban Insights", nav: "Urban Insights", alternative: "accessible data tables", states: S, query: ["cohort", "stakeholder", "place", "period"] },
   { id: "P10", path: "/stories/:id", title: "Guided location story", nav: "Then & Now", alternative: "ordered stop list", states: S, query: [] },
   { id: "P11", path: "/research/methodology", title: "Research methodology", nav: "Research", alternative: "plain text page", states: S, query: [] },
   { id: "P12", path: "/research/sources", title: "Sources and credits", nav: "footer", alternative: "plain text page", states: S, query: [] },

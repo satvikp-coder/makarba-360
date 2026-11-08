@@ -434,3 +434,33 @@ test.describe("panorama unavailable states", () => {
     await expect(page.getByRole("heading", { name: "No 360° view for this place" })).toBeVisible();
   });
 });
+
+test.describe("Urban Insights tables (synthetic mock snapshot)", () => {
+  test("approved group tables, hidden group, selector with URL state, no total, only the public insights request", async ({ page }) => {
+    const { apiCalls, errors } = await prepare(page);
+    await page.goto("/insights");
+    await expect(page.getByRole("heading", { level: 2, name: "synthetic-safe" })).toBeVisible();
+    await expect(page.getByRole("table", { name: /Ratings/ })).toBeVisible();
+    const hidden = page.getByRole("heading", { level: 2, name: "synthetic-small-independent" }).locator("xpath=..");
+    await expect(hidden).toContainText("Hidden to protect privacy");
+    await expect(hidden.getByRole("table")).toHaveCount(0);
+    await expect(page.getByText(/no overall total is shown/)).toBeVisible();
+    await page.getByRole("combobox", { name: /Group/ }).selectOption("synthetic-small-independent");
+    await expect(page).toHaveURL(/cohort=synthetic-small-independent/);
+    await expect(page.getByRole("heading", { level: 2, name: "synthetic-safe" })).toHaveCount(0);
+    await page.reload();
+    await expect(page.getByText(/Showing synthetic-small-independent/)).toBeVisible();
+    await page.goBack();
+    await expect(page.getByRole("heading", { level: 2, name: "synthetic-safe" })).toBeVisible();
+    expect(await noHorizontalScroll(page)).toBe(true);
+    expect(errors).toEqual([]);
+    for (const u of apiCalls) expect(u).toBe("/api/v1/public/insights");
+  });
+  test("tables stay readable at 320px without sideways page scroll", async ({ page }) => {
+    await prepare(page);
+    await page.setViewportSize({ width: 320, height: 568 });
+    await page.goto("/insights");
+    await expect(page.getByRole("heading", { level: 2, name: "synthetic-safe" })).toBeVisible();
+    expect(await noHorizontalScroll(page)).toBe(true);
+  });
+});

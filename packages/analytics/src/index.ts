@@ -231,3 +231,4 @@ export function ratingGroupToCohort(subjectId: string, g: RatingGroup): CohortLi
     countingRule: "Distinct interview base; cohorts for different places overlap",
   };
 }
+export * from "./cohorts.js";
