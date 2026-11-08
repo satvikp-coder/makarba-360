@@ -131,7 +131,7 @@ CREATE VIEW private.attributable_official_claims AS
    WHERE c.status = 'verified' AND i.status <> 'withdrawn';
 
 -- Withdrawal also discards positions, subject places and claims.
-CREATE OR REPLACE FUNCTION private.discard_on_consent_loss() RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER SET search_path = private, pg_temp AS $$
+CREATE OR REPLACE FUNCTION private.discard_on_consent_loss() RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER SET search_path = private, public, pg_temp AS $$
 BEGIN
   IF NEW.scope = 'participation' AND NEW.decision IN ('refused','withdrawn') THEN
     PERFORM set_config('makarba.discarding', 'on', true);
