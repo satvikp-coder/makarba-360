@@ -27,6 +27,7 @@ export function PanoramaPage({ fetcher }: { fetcher?: typeof fetch }) {
     return () => ac.abort();
   }, [slug, fetcher]);
 
+  useEffect(() => { document.title = s.slug === slug && s.status === "ok" ? `360° view: ${s.place.name} – ${strings.en.siteName}` : `${strings.en.siteName}`; }, [s, slug]);
   if (s.slug !== slug || s.status === "loading") return <p role="status">{strings.en.loading}</p>;
   if (s.status === "missing") return <NotFound />;
   if (s.status === "error") return <section><h1>{strings.en.errorPlaces}</h1><p>Please try again later.</p></section>;
