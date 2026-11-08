@@ -1,0 +1,17 @@
+{
+  "_comment": "PROPOSED public contract for approved stories (issue #80). SYNTHETIC test data only: invented people, invented words, not about Makarba. Not part of contract v1.0.0 until Developer A and Developer B adopt it through docs/project/developer-handoffs.md.",
+  "stories": [
+    {
+      "id": "synthetic-story-1",
+      "locationId": "00000000-0000-4000-8000-000000000001",
+      "slug": "synthetic-point",
+      "title": "Synthetic test story",
+      "blocks": [
+        { "label": "Verified fact", "text": "Invented checked statement for testing." },
+        { "label": "What a person remembers", "quote": "Invented remembered words for testing.", "period": "around the nineties, as they said", "attribution": "a long-time shopkeeper" },
+        { "label": "Official statement", "text": "Invented official wording for testing.", "body": "Synthetic Ward Office", "statementDate": "2026-03-01", "scope": "statement about the lake works" }
+      ]
+    }
+  ],
+  "meta": { "contractVersion": "1.0.0", "datasetKind": "synthetic", "snapshotId": "synthetic-stories-1", "methodologyUrl": "/research" }
+}
