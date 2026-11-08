@@ -180,3 +180,4 @@ export function canonicalJson(v: unknown): string {
   return JSON.stringify(v);
 }
 export { SYNTHETIC_INSTRUMENT } from "./synthetic.js";
+export * from "./position.js";
