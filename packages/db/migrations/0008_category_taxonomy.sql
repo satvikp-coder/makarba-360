@@ -1,6 +1,13 @@
 -- 0008 (additive): location category taxonomy (issue #26).
 -- Stable codes, localizable labels, distinct icons among active categories, archive-not-delete, and a public read model.
 
+-- Every value of a label map is a non-blank string and English is present.
+CREATE FUNCTION private.labels_valid(l jsonb) RETURNS boolean LANGUAGE sql IMMUTABLE AS $$
+  SELECT jsonb_typeof(l) = 'object'
+     AND jsonb_typeof(l -> 'en') = 'string'
+     AND NOT EXISTS (SELECT 1 FROM jsonb_each(l) e WHERE jsonb_typeof(e.value) <> 'string' OR btrim(e.value #>> '{}') = '')
+$$;
+
 ALTER TABLE private.location_categories
   ADD COLUMN sort_order  integer     NOT NULL DEFAULT 0,
   ADD COLUMN description jsonb       NOT NULL DEFAULT '{}'::jsonb CHECK (jsonb_typeof(description) = 'object'),
@@ -11,9 +18,7 @@ ALTER TABLE private.location_categories
 ALTER TABLE private.location_categories
   ADD CONSTRAINT category_icon_format CHECK (icon ~ '^[a-z][a-z0-9-]{1,40}$'),
   -- English is the required fallback locale; every label must be a non-empty string.
-  ADD CONSTRAINT category_labels_valid CHECK (
-    jsonb_typeof(labels -> 'en') = 'string' AND length(btrim(labels ->> 'en')) > 0
-    AND NOT jsonb_path_exists(labels, '$.* ? (@.type() != "string" || @ like_regex "^\s*$")')),
+  ADD CONSTRAINT category_labels_valid CHECK (private.labels_valid(labels)),
   ADD CONSTRAINT category_archive_consistent CHECK ((archived AND archived_at IS NOT NULL) OR (NOT archived AND archived_at IS NULL)),
   ADD CONSTRAINT category_not_self_replacement CHECK (replaced_by IS DISTINCT FROM id);
 
