@@ -103,3 +103,21 @@ Implemented in `apps/web/src/ResearchPages.tsx` at `/research/methodology` (P11)
 - **No invented content:** tests assert no email address, phone number, team names or titles, response counts or percentages-of-respondents, and no "fully accessible"/"WCAG conformant" wording.
 - **Tests (6 new, 53 total):** limits stated, no invented content, OSM credit, language claims match the app, no conformance claim, routes render with one h1 and pass axe.
 - **Limitations:** the wording has not been reviewed by the research lead (see human-action list) and the methodology page must be updated when the approved plan changes; Gujarati/Hindi versions await reviewed translations (#129).
+
+## Map layers and category controls (#75)
+
+Implemented in `apps/web/src/filters.ts` and the explorer (`App.tsx`).
+
+**Controls.** Category chips (toggle buttons, `aria-pressed`, 44px tall) built from the categories actually present in the published data; layer checkboxes for Points, Streets and routes, Areas (geometry kinds). Nothing selected means no restriction. Category and layer filters combine with AND. All controls are native buttons/checkboxes, so Tab, Enter and Space work.
+
+**State.** Filters live in the URL (`?category=heritage,transport&layers=points`) alongside `?place=`, so they survive reload, sharing and back/forward. Values not present in the data (stale or hand-edited links) are ignored rather than emptying the map. Selecting a place keeps the filters.
+
+**One filter, two views.** The same filtered set feeds the map source and the text list, so they cannot disagree. A live status line says "Showing 1 of 3 places." or "Showing all 3 places."
+
+**Empty result.** "No places match these filters." The map stays mounted with its attribution, the Reset filters button remains, and the list area stays. Reset clears both keys from the URL.
+
+**Failure/absence.** If the data cannot load, no controls are shown (the existing error state and retry apply). A place hidden by a filter can still be opened from `?place=` and its profile link.
+
+**Tests.** 9 component tests (logic, URL round trip, stale link, keyboard, empty result, axe) and 2 real-Chromium tests (real canvas, URL, back/forward, attribution on empty result, 375px keyboard and 44px targets). Tiles are stubbed.
+
+**Limits.** Layers are geometry groups, not separate data themes; additional themed layers need taxonomy from the shared contract (#26 live). Free-text search is not part of this issue. Real-device touch behaviour is unverified (#82, #117).
