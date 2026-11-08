@@ -7,6 +7,9 @@ import { Home } from "./Home.js";
 import { AccessibilityHelp, Methodology, Sources } from "./ResearchPages.js";
 import { NotFound } from "./NotFound.js";
 import { PlaceProfile } from "./Profile.js";
+import { PanoramaPage } from "./PanoramaPage.js";
+import { ThenNowPage } from "./ThenNowPage.js";
+import { Voices } from "./Voices.js";
 import { MapView, type MapStatus } from "./map/MapView.js";
 import { LANGUAGES, strings, type Lang } from "./i18n.js";
 import { cleanQuery, localSource, type SourceFactory } from "./searchSource.js";
@@ -249,7 +252,7 @@ function Pending({ title }: { title: string }) {
 }
 
 const seen = new Set<string>();
-const pageRoutes = publicRoutes.filter((r) => r.path !== "/" && r.path !== "/explore" && r.path !== "/places/:slug" && !["/research/methodology", "/research/sources", "/accessibility"].includes(r.path) && !seen.has(r.path) && !!seen.add(r.path));
+const pageRoutes = publicRoutes.filter((r) => r.path !== "/" && r.path !== "/explore" && r.path !== "/places/:slug" && r.path !== "/places/:slug/panorama" && r.path !== "/places/:slug/then-and-now" && r.path !== "/voices" && !["/research/methodology", "/research/sources", "/accessibility"].includes(r.path) && !seen.has(r.path) && !!seen.add(r.path));
 
 export function App() {
   return (
@@ -258,6 +261,9 @@ export function App() {
         <Route index element={<Home />} />
         <Route path="/explore" element={<PlaceList withMap />} />
         <Route path="/places/:slug" element={<PlaceProfile />} />
+        <Route path="/places/:slug/panorama" element={<PanoramaPage />} />
+        <Route path="/places/:slug/then-and-now" element={<ThenNowPage />} />
+        <Route path="/voices" element={<Voices />} />
         <Route path="/research/methodology" element={<Methodology />} />
         <Route path="/research/sources" element={<Sources />} />
         <Route path="/accessibility" element={<AccessibilityHelp />} />

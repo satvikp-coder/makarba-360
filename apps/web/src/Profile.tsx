@@ -79,12 +79,13 @@ export function PlaceProfile({ fetcher }: { fetcher?: typeof fetch }) {
       <Section id="media-h" title="Photographs">
         {!items && <p role="status">{strings.en.loading}</p>}
         {items && (flat.length > 0 || panos.length === 0) && <Gallery items={flat} />}
-        {panos.length > 0 && (
+        {panos.length > 0 ? (
           <>
             <h3>360° view</h3>
             {panos.map((m) => <Panorama key={m.id} media={m} />)}
+            <p><Link to={`/places/${p.slug}/panorama`}>Open the 360° view on its own page</Link></p>
           </>
-        )}
+        ) : items && <p>No 360° view has been published for this place.</p>}
       </Section>
 
       {h?.status === "ok" && h.data.comparisonPairs.length > 0 && (
