@@ -74,7 +74,7 @@ export function validateImport(text: string, meta: ImportMeta): ImportReport {
   return { verdict: nAcc === features.length ? "accepted" : "rejected", fileReasons: [], features, accepted: nAcc === features.length ? accepted : [], counts: { total: features.length, accepted: nAcc, rejected: features.length - nAcc, outsideBounds: outside } };
 }
 
-function checkGeometry(g: Geom, reasons: string[]): number {
+export function checkGeometry(g: Geom, reasons: string[]): number {
   if (!GEOM_TYPES.includes(g.type)) { reasons.push(`unsupported geometry type ${String(g.type)}`); return 0; }
   const parts: { kind: "point" | "line" | "ring"; pts: unknown }[] = [];
   const c = g.coordinates;
@@ -169,3 +169,4 @@ export function exportFeatures(features: ExportFeature[], req: ExportRequest): E
   return { ok: true, body: lines.join("\r\n") + "\r\n", audit };
 }
 export * from "./categories.js";
+export * from "./location-geometry.js";

@@ -18,7 +18,8 @@
     "@makarba/auth": "workspace:*",
     "@makarba/authz": "workspace:*",
     "@makarba/audit": "workspace:*",
-    "pg": "^8.13.0"
+    "pg": "^8.13.0",
+    "@makarba/gis-io": "workspace:*"
   },
   "devDependencies": {
     "@types/express": "^4.17.21",
