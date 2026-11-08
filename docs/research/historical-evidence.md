@@ -93,3 +93,15 @@ Rules in `packages/place-content/src/history.ts` (72 package tests; synthetic cl
 **Permissions and states.** Who may enter, verify and publish follows the capability matrix (still PROPOSED); the reviewer-differs rules here are enforced by the functions. Failure states are lists of plain reasons for the editor.
 
 **Limits.** The condition-phrase list is English only and incomplete. Rights and verification are recorded judgements; software cannot confirm a source is genuine. No real sources exist yet (#123, #102).
+
+## Verified location stories and accounts (issue #71)
+
+Rules in `packages/place-content/src/story.ts` (26 tests, 98 in the package; invented blocks only). Domain level: no editor, table or route exists, and the consent system (#37) is a live prerequisite that is not claimed. No real account or quote has been collected or approved.
+
+**Three kinds of block, never merged.** Every story block is a *fact* (a statement a reviewer checked against a verified source, and the reviewer is not the person who entered it), a *memory* (what a person said, with the period as they said it) or an *official statement* (a named body, written verification evidence, its scope and a date). In the public form each block carries its label, "Verified fact", "What a person remembers" or "Official statement", so a reader can always tell which is which. Memories are never shown as proof, and an official statement never appears without its body, date and scope.
+
+**Attribution only as permitted.** Per quote: none (nothing shown even if a role or name is on file), anonymous role (only the role label), or named (only if a name is recorded and the permission says so). A memory needs granted publication permission, recorded quote consent, and, if it contains identifying details, a finished review of those details.
+
+**Unverified or revoked content stays unpublished.** An official claim without evidence and scope, a missing body or date, a fact without a verified source, a quote whose permission is not granted or has been withdrawn: each blocks the block and therefore the whole story; the failure names the block and the reason. Revoking a quote in a published story withdraws the story immediately; removing the block creates a new draft revision, which needs a new independent review before it can be published again. A stale revision, an unreviewed story and a story reviewed by its own author are refused. The public form has no author, reviewer, consent or evidence-reference data.
+
+**Limits.** Whether a source, letter or consent is genuine is a human judgement the software cannot check. The public wording of the labels still needs review by the research lead and a fluent speaker for Gujarati. Cross-checking that a quote really is what the person said is a field-protocol matter, not covered here.

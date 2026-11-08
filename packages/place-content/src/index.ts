@@ -112,3 +112,4 @@ export * as media from "./media.js";
 export * as candidate from "./candidate.js";
 export * as history from "./history.js";
 export * as review from "./review.js";
+export * as story from "./story.js";
