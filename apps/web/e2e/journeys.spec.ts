@@ -410,3 +410,27 @@ test.describe("place search (real map)", () => {
     expect(await noHorizontalScroll(page)).toBe(true);
   });
 });
+
+test.describe("panorama unavailable states", () => {
+  test("blocked viewer script (third-party load denied): place page stays usable with a message", async ({ page }) => {
+    await prepare(page);
+    await page.route(/example\.invalid/, (r) => r.fulfill({ status: 200, contentType: "image/png", body: PNG, headers: { "access-control-allow-origin": "*" } }));
+    await page.route(/pannellum/i, (r) => r.abort());   // dev server path of the lazy viewer chunk (no API call contains this word)
+    await page.goto("/places/synthetic-point/panorama");
+    await expect(page.getByRole("heading", { level: 1, name: /360° view: Synthetic Atlas Point/ })).toBeVisible();
+    await page.getByRole("button", { name: "Explore in 360°" }).click();
+    await expect(page.getByText(/viewer could not be loaded/)).toBeVisible({ timeout: 15000 });
+    await expect(page.getByAltText(/Synthetic panorama placeholder/)).toBeVisible();
+    await page.getByRole("link", { name: /← Synthetic Atlas Point/ }).click();
+    await expect(page.getByRole("heading", { level: 1, name: FIRST })).toBeVisible();
+  });
+  test("a place with no panorama: profile and panorama page both say so", async ({ page }) => {
+    await prepare(page);
+    await flatMedia(page);
+    await page.route(/example\.invalid/, (r) => r.fulfill({ status: 200, contentType: "image/png", body: PNG }));
+    await page.goto("/places/synthetic-point");
+    await expect(page.getByText("No 360° view has been published for this place.")).toBeVisible();
+    await page.goto("/places/synthetic-point/panorama");
+    await expect(page.getByRole("heading", { name: "No 360° view for this place" })).toBeVisible();
+  });
+});
