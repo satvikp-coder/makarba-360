@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Makarba 360 offline probe (synthetic data only)</title>
+  <style>
+    body { font: 16px/1.5 system-ui, sans-serif; margin: 1rem; max-width: 46rem; }
+    button { min-height: 44px; padding: 0 1rem; margin: .25rem .25rem .25rem 0; }
+    .r { border: 1px solid #888; border-left-width: 8px; padding: .5rem .75rem; margin: .5rem 0; }
+    .pass { border-left-color: #1b6e2d; } .fail { border-left-color: #b00020; } .manual { border-left-color: #8a5a00; } .info { border-left-color: #1a4fd6; } .unsupported { border-left-color: #555; }
+    textarea { width: 100%; min-height: 6rem; font: inherit; }
+    code { word-break: break-all; }
+  </style>
+</head>
+<body>
+  <h1>Offline probe</h1>
+  <p><strong>Synthetic data only.</strong> This page checks how this browser stores data, keeps an encryption key, and recovers after the app is closed or the network is off. It never asks for your location and sends nothing anywhere.</p>
+  <p id="ctx"></p>
+  <p>
+    <button id="run" type="button">Run all checks</button>
+    <button id="dl" type="button">Download report (JSON)</button>
+    <button id="clear" type="button">Clear probe data</button>
+  </p>
+  <label for="notes">Notes (device model, OS and browser version, what you did for the manual steps, what you saw):</label>
+  <textarea id="notes"></textarea>
+  <p id="sw-line" role="status"></p>
+  <div id="out" aria-live="polite"></div>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
