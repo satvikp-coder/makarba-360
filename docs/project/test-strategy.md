@@ -30,3 +30,13 @@ This is a future executable test specification; product tests have not run in pl
 Additional gates: empty/upgrade migration, same operation key changed payload 409, revoked account sync, unknown questionnaire branch, storage quota/eviction/key loss, CSV formula injection, image polyglot/malware, EXIF metadata stripping, stale publication revision, failed backup and unsupported translation. Run negative tests before exposure; do not rely only on snapshots mirroring implementation.
 
 Each test report records issue/commit, fixture, environment/device/version, command or manual steps, expected/actual result, artifact and limitation. CI gates selected domain tests, integration/privacy regressions, type/lint, secret/dependency scans and browser checks when available; required checks are configured only after real workflows exist. Performance uses N05/N06 fixtures, does not mix provider tile latency with API latency. Field/device/security/restore gates need evidence beyond passing compilation. Code changes trigger relevant checks; do not repeatedly run unrelated suites without new risk.
+
+## Unit-test harness and mutation guard (#106)
+
+**Run:** `pnpm test` (all packages, Vitest) and `python scripts/mutation_check.py`. CI runs both (`node` and `conformance` jobs).
+
+**Boundary tests** (`packages/contracts/src/boundaries.test.ts`, synthetic fixtures only, coordinates outside Makarba) sit exactly on each rule edge: cohort n=4 rejected / n=5 accepted (provisional k=5), valid+missing+unsure equal to n accepted / n+1 rejected, ratings must sum to the valid-answer count, null counts are rejected rather than read as 0, suppressed cohorts must carry null counts, a reason and no detail, and restricted-field names are matched regardless of case or punctuation.
+
+**Mutation guard** (`scripts/mutation_check.py`): deliberately edits a rule in `packages/contracts/src/index.ts` (k 5→4, denominator slack, allowing leaked suppressed counts, tolerating null counts), runs the tests, restores the file, and fails if any mutation leaves tests green. Repro for the "tests fail on changed rule" criterion: `python scripts/mutation_check.py` prints `killed` for each mutation. Last local run: 4 of 4 killed.
+
+**Limitations:** The mutation list is hand-written and covers the cohort rules only; add an entry when a new privacy or missingness rule is added. Fixtures are synthetic; a passing run proves the rules enforce what the contract states, not that the k=5 threshold is the right policy (that is a research-lead decision).
