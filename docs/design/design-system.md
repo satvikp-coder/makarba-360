@@ -165,3 +165,36 @@ Logic is implemented and tested in `apps/web/src/thenNow.ts` (`viewPair`, `slide
 Keyboard alternative: the slider handle is focusable; arrows move 5, PageUp/PageDown 25, Home/End jump to the ends; the Side-by-side and Text description views need no pointer or dragging at all and are one control away. The text description is always generated ("Before: …. After: …. Evidence quality: …. Viewpoint …"). Reduced motion: no animated reveal. Loading shows a fixed-aspect skeleton; one image failing hides the pair and shows the text description with "An image is unavailable".
 
 Tests: 6 unit tests (eligible pair, three unknown-date forms, missing source/media, no false same-angle claim, text alternative, keyboard model). Limitations: design plus tested logic only; the visual component is #68 and screen-reader behaviour needs human review (#114).
+
+## Accessible field interview screens F01–F14 (issue #20)
+
+Status: design specification plus an executable rules model (`packages/field-flow`, 22 tests). The field app itself is Developer A's. Written by Claude; no fluent-speaker, researcher or usability review has happened (see human actions). Wireframes for the main flow are in `docs/design/fieldwork-app.md`; the screen list is `docs/product/screen-inventory.md`.
+
+**Global rules for every field screen.** One primary action per step, 44px minimum targets (56px for the main action), single column from 320px, readable in sunlight (AA tokens from #12 plus a high-contrast mode), no hover-only controls, visible focus, labels above inputs, error text beside the field and in a summary linked to the field, no timeouts that discard answers. A persistent header shows visit, connectivity (Online/Offline) and the save line from `statusLine`: "Not saved yet." / "Saved on this device. Not yet received by the server." / "Saved on this device. Offline: will send when connected." / "Saved on this device and received by the server." Language switch (English now; Gujarati only after fluent review) keeps all entered answers.
+
+**Flow and states (what the model enforces).**
+
+| Screen | Required states | Rule (tested in `field-flow`) |
+|---|---|---|
+| F01 Sign-in | signed out, wrong credentials, expired session, offline | no public registration; expired session keeps local drafts, asks to re-authenticate |
+| F02 Dashboard | no visit, resume, offline-not-ready | shows last durable save time and queued count |
+| F03 Visit | active, ending with unsynced records | cannot end with unexplained unsynced records |
+| F04 Consent | unanswered, granted (with scopes), refused | no default selection; refusal ends the interview, discards participant content and GPS, and offers only "Start new interview"; scripts are versioned and the version is stored |
+| F05 Participant | group chosen / missing | continue disabled with an explained reason until chosen; official-role claims stay "unverified" |
+| F06 Interview position | not asked, captured (accuracy shown), denied, unavailable, manual | denied/unavailable are explicit outcomes and do not block the flow; accuracy above 50 m is flagged for recapture or review; manual pin requires a reason, keeps the raw fix and shows no accuracy; nothing is guessed |
+| F07 Subject places | none, one, several | at least one place is required; each place is a separate topic; the interview position is never offered as a default subject; candidate places stay private until lead approval |
+| F08 Questions | answered, unsure, refused, not asked | missing answers keep their reason and are never 0 or empty text; one answer per question per place; removing a place removes its answers |
+| F09 Media | none, permission denied, partial upload | never blocks or destroys the interview; consent scope shown per item |
+| F10 Review | clean, validation errors, write failed, saved offline, saved and synced | review shows "Where this interview was held (private)" and "Discussed: <place>" as two separate blocks; "saved" appears only after the device acknowledges a durable write; a failed write stays on review with data intact and the message "Not saved: <reason>. Your answers are still on screen; do not close the app." |
+| F11 Queue | saved, sending, rejected, conflict, quota/lock | explicit retry; rejected items stay visible with the reason |
+| F12 My submissions | by visit and status | an edit creates a new revision; no self-approval |
+| F13 Candidate place | draft, submitted | private and unverified |
+| F14 Site observation | draft, submitted | uses a dated rubric; never invents a respondent or consent record |
+
+**Accessibility behaviour.** Step indicator is text ("Step 4 of 7: Subject place") plus a progress element; focus moves to the step heading on navigation; errors move focus to the summary; GPS capture announces "Position captured, accuracy 12 metres" via a polite live region; no colour-only status (icon plus words); support 200% text and portrait/landscape; reduced motion honoured.
+
+**Consent wording.** Final consent scripts, scope names and the Gujarati text belong to the research lead and ethics approval. This design deliberately contains no consent text; the model only requires a script version and language to be recorded.
+
+**Verification.** `pnpm --filter @makarba/field-flow test`: 22 passed, covering refusal discarding data, no capture before consent, interview position versus subject separation, GPS denied/unavailable/poor/manual/invalid, missing answers kept as missing, failed writes, offline save versus synced receipt, and saved records being immutable.
+
+**Limits and handoff.** Not tested on a phone, with a screen reader or with researchers; time-to-complete is unmeasured (pilot, #62/#118). Developer A must make the real app pass equivalent tests (handoff note: treat `packages/field-flow` as the rules oracle). Role behaviour (#6) is unverified against the real permission system.
