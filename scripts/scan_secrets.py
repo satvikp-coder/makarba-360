@@ -12,7 +12,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-SERVER_ONLY_NAMES = ("DATABASE_URL", "SESSION_SECRET", "POSTGRES_PASSWORD")
+SERVER_ONLY_NAMES = ("DATABASE_URL", "READONLY_DATABASE_URL", "SESSION_SECRET", "OIDC_CLIENT_SECRET", "POSTGRES_PASSWORD")
 PLACEHOLDER = re.compile(r"replace-with|changeme|change-me|example|placeholder|makarba_dev|your[-_]|<[^>]+>|\$\{?\w+", re.I)
 PATTERNS = {
     "private key block": re.compile(r"-----BEGIN (?:RSA |EC |OPENSSH |DSA |)PRIVATE KEY-----"),
@@ -73,16 +73,34 @@ def scan_bundle(directory, secret_values=()):
     return out
 
 
+def scan_log(path, secret_values=()):
+    """CI/build output: no secret values and no secret-looking patterns (never prints a matched value)."""
+    text = Path(path).read_text(encoding="utf-8", errors="ignore")
+    out = [f"{path}: a server secret value is present in the output" for v in secret_values if v and len(v) >= 8 and v in text]
+    return out + scan_text(str(path), text)
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--bundle")
+    ap.add_argument("--log", help="scan a captured CI/build output file for secret values and patterns")
     ap.add_argument("--value-env", nargs="*", default=[])
     a = ap.parse_args(argv)
-    if a.bundle:
+    values = [os.environ.get(n, "") for n in a.value_env]
+    missing = [n for n, v in zip(a.value_env, values) if len(v) < 8]
+    if missing:
+        print("value check cannot run: set " + ", ".join(missing) + " (>= 8 chars) so the scan can look for it")
+        return 1
+    if a.log:
+        if not Path(a.log).exists():
+            print(f"no log at {a.log}")
+            return 1
+        findings = scan_log(a.log, values)
+    elif a.bundle:
         if not Path(a.bundle).exists():
             print(f"no bundle at {a.bundle}; nothing to scan")
             return 0
-        findings = scan_bundle(a.bundle, [os.environ.get(n, "") for n in a.value_env])
+        findings = scan_bundle(a.bundle, values)
     else:
         findings = scan_repo()
     print("\n".join(findings) or "secret scan passed")

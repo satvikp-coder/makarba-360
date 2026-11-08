@@ -48,8 +48,23 @@ jobs:
       - name: Mutation guard (tests must fail when a privacy/missingness rule is changed)
         run: python scripts/mutation_check.py
       - run: python scripts/scan_secrets.py
-      - name: Scan browser bundles (none exist yet)
-        run: python scripts/scan_secrets.py --bundle apps/web/dist --value-env SESSION_SECRET DATABASE_URL
+      - name: Rebuild with canary server secrets in the environment, capturing the output
+        # Synthetic canary values (not real secrets). If any server secret could be inlined into the Vite bundle or printed by a build, the scans below find it.
+        env:
+          SESSION_SECRET: placeholder-canary-session-Zx9qL2vB7kT4mN8pR1wY5cD3hG6
+          DATABASE_URL: postgres://canary_user:placeholderCanaryPwZx9qL2vB7kT4mN8@db.canary.invalid:5432/canary
+          READONLY_DATABASE_URL: postgres://canary_ro:placeholderCanaryRoZx9qL2vB7kT4mN8@db.canary.invalid:5432/canary
+          OIDC_CLIENT_SECRET: placeholder-canary-oidc-Zx9qL2vB7kT4mN8pR1wY5cD3
+        run: pnpm --filter @makarba/web build > build-output.log 2>&1
+      - name: Scan the browser bundle and the build output for the canary values
+        env:
+          SESSION_SECRET: placeholder-canary-session-Zx9qL2vB7kT4mN8pR1wY5cD3hG6
+          DATABASE_URL: postgres://canary_user:placeholderCanaryPwZx9qL2vB7kT4mN8@db.canary.invalid:5432/canary
+          READONLY_DATABASE_URL: postgres://canary_ro:placeholderCanaryRoZx9qL2vB7kT4mN8@db.canary.invalid:5432/canary
+          OIDC_CLIENT_SECRET: placeholder-canary-oidc-Zx9qL2vB7kT4mN8pR1wY5cD3
+        run: |
+          python scripts/scan_secrets.py --bundle apps/web/dist --value-env SESSION_SECRET DATABASE_URL READONLY_DATABASE_URL OIDC_CLIENT_SECRET
+          python scripts/scan_secrets.py --log build-output.log --value-env SESSION_SECRET DATABASE_URL READONLY_DATABASE_URL OIDC_CLIENT_SECRET
   browser:
     runs-on: ubuntu-latest
     steps:
