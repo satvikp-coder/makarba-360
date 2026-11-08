@@ -48,3 +48,21 @@ Job model in `packages/exports` (21 tests, real `Authorizer` and the proposed ca
 **Download.** Private and expiring: only the requester, with the correct token, before expiry (default 24 hours, at most 72), at most 3 times. The token is stored only as a SHA-256 hash. Anonymous callers, other users (including the approver and technical admins) and wrong tokens are refused. If the requester's grant is withdrawn or expires after the file was made, download is refused. Every request, approval, run, download and denial is appended to the job's audit trail with actor, time and outcome; audit rows contain row counts and reasons, never file contents.
 
 **Limits.** k = 5 is a provisional policy. Aggregate rows are supplied by the caller; the real source must be the reviewed snapshot (#84, #92). Downloads here are modelled, not transmitted; real signed URLs, malware-safe storage and deletion of expired files need the storage layer. Not tested with real spreadsheet software.
+
+## Evidence and media rights review (issue #102, screen A07)
+
+Rules in `packages/place-content/src/review.ts` (12 tests; 84 package tests). It builds the checklist the lead sees for a claim, a media item or a comparison pair, and the conditions for editorial approval. No screen, table or route exists; live prerequisites (#94 dashboard, #61 upload pipeline) are not claimed.
+
+**Six checks, each pass, fail or not applicable, with reasons.** Date (known; for pairs both dates verified, by someone other than the uploader); Source (citation or original source reference and creator; relevance to the place; a remembered account needs corroboration); Viewpoint (pairs only: both images from the pair's place, a matched claim has a note, a viewpoint statement exists, a verified source); Permission (rights not unknown or all-rights-reserved, publication permitted, consent not withdrawn/research-only/not requested, identifiable people only with granted consent, nothing withdrawn anywhere in the derivative chain); Redaction (face/plate review finished where people appear, EXIF stripped); Attribution (an official attribution needs both written verification evidence and its scope).
+
+**Approval.** Possible only when no check fails and the approver is not the person who submitted the item. For pairs it also repeats the stricter publication rules (#67) so approval can never be easier than publication. Unknown rights, unverified official attribution and a missing date each block, with the reason shown. Lineage errors (missing parent, cycle) fail the check rather than pass.
+
+**Limits.** The software cannot tell whether a recorded licence, verification letter or consent is genuine; the lead's judgement and the evidence they record are the approval.
+
+## Role-limited research dashboard (issue #94, screen A01)
+
+`dashboardFor` in `packages/admin-screens` (21 package tests, real `Authorizer`, proposed capability matrix, synthetic queue). No screen, route or live query exists; live prerequisite #35 (authentication) is not claimed.
+
+**What a person gets.** Navigation (same rules as #21), queue totals per type, an oldest-item age, and the record list. Totals count a queue type only if the person may open that type's record screen in full for that study (leads and reviewers for their assigned study) or administers the system (`config.manage`, operational totals across studies). Records are listed only where the screen opens in full. A technical administrator therefore sees "how many items are waiting" but never an item id, and the page says so ("You can see how many items are waiting, but not the records themselves."). Researchers see no review totals (the matrix gives them aggregate analytics only, which is not the review queue), anonymous, inactive and expired principals see nothing and are told no totals are available, and items from studies not listed in the request are ignored rather than counted.
+
+**Limits.** Counts and ages are inputs from the caller; the real queue must come from Developer A's endpoints with the same scoping enforced server-side (this model is the oracle, not the enforcement). The matrix is still PROPOSED.
