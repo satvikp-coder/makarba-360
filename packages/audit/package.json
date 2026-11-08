@@ -2,5 +2,5 @@
   "name": "@makarba/audit", "version": "0.0.0", "private": true, "type": "module",
   "main": "dist/index.js", "types": "dist/index.d.ts",
   "scripts": { "build": "tsc -p tsconfig.json", "typecheck": "tsc -p tsconfig.json --noEmit", "test": "vitest run" },
-  "devDependencies": { "@makarba/db": "workspace:*", "@types/node": "^22.0.0", "@types/pg": "^8.11.0", "pg": "^8.13.0", "typescript": "^5.6.0", "vitest": "^2.1.0" }
+  "devDependencies": { "@makarba/db": "workspace:*", "@types/node": "^22.0.0", "@types/pg": "^8.11.0", "pg": "^8.13.0", "typescript": "^5.6.0", "vitest": "^4.1.12" }
 }

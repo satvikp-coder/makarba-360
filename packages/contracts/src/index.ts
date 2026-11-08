@@ -60,7 +60,7 @@ export const LocationFeature = z.object({
   properties: z.object({
     locationId: z.string().uuid(),
     slug: z.string().min(1),
-    name: z.record(z.string()).or(z.string()),
+    name: z.record(z.string(), z.string()).or(z.string()),
     category: z.string().min(1),
     publicationState: z.literal("published"),
     lastReviewedDate: z.string().min(1),
@@ -117,7 +117,7 @@ export const Insights = z.object({
 }).strict();
 
 export const ApiError = z.object({
-  code: z.string(), message: z.string(), fieldErrors: z.record(z.string()),
+  code: z.string(), message: z.string(), fieldErrors: z.record(z.string(), z.string()),
   requestId: z.string(), retryable: z.boolean(),
 }).strict();
 

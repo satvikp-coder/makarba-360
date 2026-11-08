@@ -3,5 +3,5 @@
   "main": "dist/index.js", "types": "dist/index.d.ts",
   "scripts": { "build": "tsc -p tsconfig.json", "typecheck": "tsc -p tsconfig.json --noEmit", "test": "vitest run" },
   "dependencies": { "jose": "^5.9.0" },
-  "devDependencies": { "@types/node": "^22.0.0", "@types/pg": "^8.11.0", "pg": "^8.13.0", "typescript": "^5.6.0", "vitest": "^2.1.0", "@makarba/db": "workspace:*" }
+  "devDependencies": { "@types/node": "^22.0.0", "@types/pg": "^8.11.0", "pg": "^8.13.0", "typescript": "^5.6.0", "vitest": "^4.1.12", "@makarba/db": "workspace:*" }
 }
