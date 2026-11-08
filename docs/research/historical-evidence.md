@@ -51,3 +51,29 @@ Implemented as `packages/place-content` (TypeScript + zod, synthetic tests). Moc
 **Tests.** 14 component tests (blocker rules incl. exact texture limit, lazy start, safe viewer config, cleanup on close and unmount, WebGL/size/script/image failure, unsafe fallback, axe) and 3 real-Chromium tests that run the real Pannellum viewer on real WebGL with a synthetic 64x32 gradient image: starts on request and takes arrow keys then closes cleanly, WebGL forced off, panorama file missing. Console error check included.
 
 **Limits.** Tested in headless Chromium (software WebGL) only: no real phone GPU, large-texture behaviour on real devices, Safari or Firefox, and no screen-reader check of the viewer (Pannellum's own accessibility is limited to keyboard controls). Touch gestures are Pannellum's defaults and unverified on a device (#82, #117). Multi-resolution tiling for very large panoramas is not implemented; large files fall back to the still photograph.
+
+## Third-party street imagery evaluation (#70)
+
+Evaluated 2026-11-08 from the providers' own pages, fetched that day (summaries by an automated fetch, not legal advice; quotes are as returned). Nothing was activated, no account or key was created, no imagery was fetched or scraped.
+
+| Question | Google Street View (Static API / dynamic panoramas) | Mapillary |
+|---|---|---|
+| API and access | Street View Static API embeds a non-interactive panorama by URL; "All Street View Static API requests require an API key." Imagery is Google plus user-contributed, with no way to choose one source. | Client access token from the developer dashboard, or OAuth; each app is registered for a `client_id`. Entity, search and tile APIs. |
+| Coverage for Makarba | **Not verified.** Coverage is place-specific and was not checked; the pages fetched do not describe a coverage check. | **Not verified.** Search is by bounding box under 0.01 degrees or 50 m radius; not run. |
+| Embedding and display | Attribution rules apply: "Never remove, hide, obscure, or modify it"; logo not modified, height 16 to 19 dp; no extra attribution when shown on a Google map. | Show the Mapillary logo with a link back when serving images or API data (terms s. 11). |
+| Storage and reuse | "Cache or store Google Maps Content only as expressly permitted"; bulk download of Street View images, scraping or exporting for use outside the services, and building content such as "a location index from Street View imagery" are prohibited. Panorama IDs are exempt from the caching restriction. | Other users' content is CC BY-SA "unless we indicate otherwise", some datasets CC BY-NC-SA (s. 3.2); commercial use limited to listed purposes with anti-re-identification safeguards (s. 12); unapproved scraping prohibited (s. 5.1). |
+| Cost | Billed per request. Page figures at fetch time: Static Street View 10,000 free events per month then USD 7.00 per 1,000; Dynamic Street View 5,000 free events per month then USD 14.00 per 1,000. Requires a billing account. Page undated; confirm before any approval. | Not stated on the pages fetched; cost, tier and any quota beyond the rate limits (Entity 60,000/min, Search 10,000/min, tiles 50,000/day) are unverified. |
+| Privacy | Imagery contains passers-by and plates blurred by the provider; the project cannot control that or the collection date. Third-party requests leak visitor IP to the provider. | Same concerns; contributor imagery varies in age and blurring. |
+| Not-covered location behaviour | Must show the owned panorama or still photograph; never imply continuous coverage. | Same. |
+
+**Decision (explicit).**
+- **Owned Pannellum panoramas with still-photo fallback: ENABLED** (ADR 005; implemented in #69).
+- **Google Street View: DEFERRED.** Enabling needs a Google Maps Platform billing account and key (spend; owner approval), a coverage check for Makarba, a decision on attribution layout, and confirmation that embed-only use meets the storage rules. No production use before that.
+- **Mapillary: DEFERRED.** Enabling needs a registered app, a coverage check, and a licence review of CC BY-SA share-alike effects on anything derived from its imagery.
+- **No continuous-coverage promise.** Public copy may describe only places for which an approved owned panorama or a verified provider embed exists.
+
+**Guard (negative evidence).** `python scripts/check_no_street_imagery.py` fails CI if code or config references Google Maps or Mapillary imagery endpoints, or key variables for them. Run in the `conformance` job.
+
+**What a human must do before any provider is enabled** (see `DEVELOPER_B_HUMAN_ACTION_REQUIRED.md`, H-IMG): check Makarba coverage by viewing the providers' public maps in a browser; approve spend and a monthly cap; confirm terms with the institution.
+
+**Limitations.** Google's Service Specific Terms page returned truncated content and Mapillary's help-centre licensing page returned HTTP 403, so the table relies on the Google Street View policies page, pricing page and Mapillary terms page. Google's metadata/coverage endpoint and its pricing are not confirmed here. Terms change; re-check on the day of any approval.
