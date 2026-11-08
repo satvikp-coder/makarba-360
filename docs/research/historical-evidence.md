@@ -37,3 +37,17 @@ Implemented as `packages/place-content` (TypeScript + zod, synthetic tests). Moc
 **Tests.** `ThenNowView.test.tsx` (11 component tests incl. axe, keyboard, hidden unsupported pairs, image failure) and 3 real-Chromium tests (keyboard, mouse drag, three views, failure, 320px, hidden pair when an image endpoint is missing). Images in the browser tests are 1x1 synthetic PNGs served by route stubs: they verify behaviour only, not any historical content. A drag test found that very tall images pushed the slider out of reach, so the slider has a fixed aspect ratio and a height cap.
 
 **Limits.** No real historical pairs exist; the mock API does not serve the pair images, so against the mock the pair is correctly hidden (the browser tests stub those endpoints). Screen-reader behaviour and touch dragging on a real device are not verified (#114, #117). Live evidence data comes with #67.
+
+## Owned panorama viewer (#69)
+
+`apps/web/src/Panorama.tsx`, using Pannellum 2.5.7 (MIT; ADR 005 choice), shown in the profile when a media record has `format: "equirectangular"`. Ordinary photographs go to the gallery; panoramas never appear distorted in the grid.
+
+**Flow.** The place page first shows the approved still photograph (`staticFallbackUrl`) with date, credit and licence. "Explore in 360°" lazily imports Pannellum (separate chunk, not in the initial bundle), checks WebGL and the GPU's maximum texture size, then starts the viewer. "Close 360° view" or leaving the page destroys the viewer. Settings: mouse-wheel zoom off (does not hijack page scrolling), keyboard look/zoom on, fullscreen control, cross-origin anonymous image load.
+
+**Failure handling (all leave the page and the still photo intact).** No WebGL; panorama wider than the GPU's maximum texture; non-https or original-storage URL; viewer script fails to load; viewer reports an image error. Each shows a one-sentence reason. If there is no safe still photograph, the page says so rather than showing a broken image.
+
+**Claims.** Nothing implies every place has a panorama: a place without an equirectangular record shows none, and the section only appears when one exists. A panorama still needs the rights, consent and metadata approval of #61 before it can be public.
+
+**Tests.** 14 component tests (blocker rules incl. exact texture limit, lazy start, safe viewer config, cleanup on close and unmount, WebGL/size/script/image failure, unsafe fallback, axe) and 3 real-Chromium tests that run the real Pannellum viewer on real WebGL with a synthetic 64x32 gradient image: starts on request and takes arrow keys then closes cleanly, WebGL forced off, panorama file missing. Console error check included.
+
+**Limits.** Tested in headless Chromium (software WebGL) only: no real phone GPU, large-texture behaviour on real devices, Safari or Firefox, and no screen-reader check of the viewer (Pannellum's own accessibility is limited to keyboard controls). Touch gestures are Pannellum's defaults and unverified on a device (#82, #117). Multi-resolution tiling for very large panoramas is not implemented; large files fall back to the still photograph.

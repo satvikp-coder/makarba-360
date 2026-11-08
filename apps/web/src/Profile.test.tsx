@@ -97,7 +97,7 @@ describe("place profile", () => {
   it("passes automated accessibility checks", async () => {
     const { container } = show("synthetic-point", mk());
     await screen.findByAltText(/panorama/);
-    await waitFor(() => expect(container.querySelector(".gallery")).not.toBeNull());
+    await waitFor(() => expect(container.querySelector(".panorama")).not.toBeNull());
     const r = await axe.run(container, { rules: { "color-contrast": { enabled: false }, region: { enabled: false } } });
     expect(r.violations.map((v) => v.id)).toEqual([]);
   });
