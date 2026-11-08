@@ -19,5 +19,7 @@ jobs:
       - run: python -m unittest discover -s scripts -p 'test_*.py'
       - run: python scripts/check_capability_matrix.py
       - run: python scripts/check_architecture_review.py
+      - name: Geography review register (#5, #28, #120)
+        run: python scripts/check_geo_review.py
       - name: Source blueprint page traceability (#2)
         run: python scripts/check_traceability.py
