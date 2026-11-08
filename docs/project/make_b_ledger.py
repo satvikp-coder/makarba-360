@@ -2,7 +2,7 @@
 import json, subprocess
 R = "satvikp-coder/makarba-360"
 gh = lambda *a: json.loads(subprocess.check_output(["gh", *a], text=True))
-issues = {i["number"]: i for i in gh("issue", "list", "-R", R, "--label", "owner:developer-b", "--state", "all", "--limit", "200", "--json", "number,title,state")}
+issues = {i["number"]: i for i in gh("issue", "list", "-R", R, "--label", "owner:developer-b", "--state", "all", "--limit", "200", "--json", "number,title,state,assignees")}
 alloc = {r["number"]: r for r in json.load(open("docs/project/developer-issue-allocation.json", encoding="utf-8"))["issues"] if r["owner"] == "B"}
 a_issues = {i["number"]: i["state"] for i in gh("issue", "list", "-R", R, "--label", "owner:developer-a", "--state", "all", "--limit", "200", "--json", "number,state")}
 merged = {12: ("#156", "b6f17fb"), 13: ("#157", "fb2f741"), 14: ("#158", "ffed2ff"), 15: ("#158", "ffed2ff"), 24: ("#158", "ffed2ff"), 16: ("#160", "8899300"), 17: ("#160", "8899300"), 19: ("#160", "8899300"), 72: ("#161", "46dfb49"), 25: ("#162", "3a6a8f1"), 74: ("#164", "d0772cc"), 73: ("#165", "2d7d586"), 77: ("#166", "e7debaa"), 18: ("#168", "c2a98df"), 83: ("#169", "bf2221f"),
@@ -27,10 +27,10 @@ for n in sorted(issues):
         st = "WAITING_FOR_OWN_PREREQUISITE" if own else "WAITING_FOR_DEVELOPER_A"
         note = "open hard prerequisites: " + ", ".join("#%d" % h for h in hard)
     else: st, note = "READY_NOW", "hard prerequisites closed; integration deps use mocks"
-    rows.append({"issue": n, "title": i["title"], "state": i["state"], "status": st, "pr": merged.get(n, ("", ""))[0], "merge_sha": merged.get(n, ("", ""))[1], "note": note})
+    rows.append({"issue": n, "title": i["title"], "state": i["state"], "status": st, "pr": merged.get(n, ("", ""))[0], "merge_sha": merged.get(n, ("", ""))[1], "assignee": ", ".join(a["login"] for a in i.get("assignees", [])) or "-", "note": note})
 json.dump({"main_sha": sha, "total": len(rows), "closed": sum(r["state"] == "CLOSED" for r in rows), "issues": rows}, open("docs/project/claude-developer-b-progress.json", "w"), indent=1)
 ready = [r["issue"] for r in rows if r["status"] == "READY_NOW"]
-tbl = "\n".join("| #%d | %s | %s | %s | %s | %s |" % (r["issue"], r["title"], r["status"], r["pr"], r["merge_sha"], r["note"]) for r in rows)
+tbl = "\n".join("| #%d | %s | %s | %s | %s | %s | %s |" % (r["issue"], r["title"], r["status"], r["assignee"], r["pr"], r["merge_sha"], r["note"]) for r in rows)
 open("docs/project/CLAUDE_DEVELOPER_B_PROGRESS.md", "w", encoding="utf-8").write(
-    "# Developer B progress ledger (Claude, for satvikp-coder)\n\nGitHub is authoritative; this is a regenerable checkpoint (`python docs/project/make_b_ledger.py`). Main SHA at generation: `%s`.\n\nTotal Developer B issues: %d. Closed: %d. Ready now: %s.\n\nThe earlier Developer A history is in CLAUDE_DEVELOPER_A_PROGRESS.md and is unchanged.\n\n| Issue | Title | Status | PR | Merge SHA | Note |\n|---|---|---|---|---|---|\n%s\n" % (sha, len(rows), sum(r["state"] == "CLOSED" for r in rows), ", ".join("#%d" % n for n in ready), tbl))
+    "# Developer B progress ledger (Claude, for satvikp-coder)\n\nGitHub is authoritative; this is a regenerable checkpoint (`python docs/project/make_b_ledger.py`). Main SHA at generation: `%s`.\n\nTotal Developer B issues: %d. Closed: %d. Ready now: %s.\n\nAll 26 open issues are assigned to varunkarthic on GitHub (verified 2026-11-08); the `owner:developer-b` label and closed history are unchanged. Stretch issues #128 and #130-#135 are UNFINISHED: only disabled rule modules exist, no UI, not released.\n\nThe earlier Developer A history is in CLAUDE_DEVELOPER_A_PROGRESS.md and is unchanged.\n\n| Issue | Title | Status | Assignee | PR | Merge SHA | Note |\n|---|---|---|---|---|---|---|\n%s\n" % (sha, len(rows), sum(r["state"] == "CLOSED" for r in rows), ", ".join("#%d" % n for n in ready), tbl))
 print(len(rows), ready)

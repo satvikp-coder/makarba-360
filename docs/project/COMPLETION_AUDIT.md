@@ -1,5 +1,7 @@
 # Developer B completion audit (2026-11-08)
 
+> **Assignment status (verified against GitHub, 2026-11-08):** all 26 open Developer B issues are assigned to `varunkarthic`; the `owner:developer-b` label, closed history and acceptance criteria are unchanged. Issues #128 and #130-#135 are **unfinished stretch work**: only disabled rule modules exist in `packages/stretch` (no UI, no data, not released) and they hard-depend on #126. Varun has an open PR #207 (`dev-b/issue-82-responsive-map`) that these documents do not touch. Per-issue detail: `FUTURE_VARUN_RESPONSIBILITIES.md`.
+
 Basis: GitHub state at `main` `4ea9a07`; 47 of 73 Developer B issues closed, 26 open. For each closed issue the closing comment, PR and tests were checked against the issue's own acceptance criteria. "Live integration" means a real API, database or field app, none of which exists yet; every closed issue below was accepted on the synthetic mock, in-memory models or real-browser tests, as the allocation rule allows ("mock-backed local components may be accepted; live integrations must pass their gates before production claims").
 
 ## A. Fully verified (no live dependency left for the stated criteria)

@@ -1,5 +1,7 @@
 # Dependency preparation progress (open Developer B issues)
 
+> **Assignment status (verified against GitHub, 2026-11-08):** all 26 open Developer B issues are assigned to `varunkarthic`; the `owner:developer-b` label, closed history and acceptance criteria are unchanged. Issues #128 and #130-#135 are **unfinished stretch work**: only disabled rule modules exist in `packages/stretch` (no UI, no data, not released) and they hard-depend on #126. Varun has an open PR #207 (`dev-b/issue-82-responsive-map`) that these documents do not touch. Per-issue detail: `FUTURE_VARUN_RESPONSIBILITIES.md`.
+
 Checklist per issue: **Impl** = code that does not need the live dependency exists; **Tests** = automated tests exist and pass; **Adapter** = reusable connection point with an injected dependency; **Live** = verified against a real service; **Human** = real-world evidence or approval. Values: yes / partial / no / n/a. No percentages are given because the missing parts (live services, people, devices) are not measurable as a share of code. Generated status of record: `CLAUDE_DEVELOPER_B_PROGRESS.md`.
 
 | Issue | Impl | Tests | Adapter | Live | Human | Status |

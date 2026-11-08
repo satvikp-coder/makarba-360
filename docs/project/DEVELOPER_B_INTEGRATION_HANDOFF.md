@@ -1,5 +1,7 @@
 # Developer B to Developer A integration handoff
 
+> **Assignment status (verified against GitHub, 2026-11-08):** all 26 open Developer B issues are assigned to `varunkarthic`; the `owner:developer-b` label, closed history and acceptance criteria are unchanged. Issues #128 and #130-#135 are **unfinished stretch work**: only disabled rule modules exist in `packages/stretch` (no UI, no data, not released) and they hard-depend on #126. Varun has an open PR #207 (`dev-b/issue-82-responsive-map`) that these documents do not touch. Per-issue detail: `FUTURE_VARUN_RESPONSIBILITIES.md`.
+
 Written 2026-11-08 for Varun (`varunkarthic`). Nothing here changes issue ownership. Each row says what the public-experience side already has, what is missing on the platform side, and how to check it. Everything on the Developer B side runs against the synthetic mock (`pnpm dev:mock`, `/api/v1/public`) and the shared contract v1.0.0 in `packages/contracts`; **no live integration has been verified**.
 
 How to check any integration: point the web app at the real API (`VITE_API_BASE`), run `python scripts/check_public_contracts.py --base-url <api>`, then `E2E_TARGET=preview pnpm --filter @makarba/web test:e2e` with the API stubs removed for the relevant journey, and the abuse-case register tests (`apps/api/src/threat-model.test.ts`) against the live router.

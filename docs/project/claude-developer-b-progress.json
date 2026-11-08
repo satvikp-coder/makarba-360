@@ -1,5 +1,5 @@
 {
- "main_sha": "4ea9a07f9af6bb70dd251f90f7b5a42e31603f7f",
+ "main_sha": "be4b039e83e2910dbee4ac63c3c69a425f86f129",
  "total": 73,
  "closed": 47,
  "issues": [
@@ -10,6 +10,7 @@
    "status": "VERIFIED_COMPLETE",
    "pr": "#195",
    "merge_sha": "a710d42",
+   "assignee": "satvikp-coder",
    "note": ""
   },
   {
@@ -19,6 +20,7 @@
    "status": "WAITING_FOR_HUMAN_REVIEW",
    "pr": "",
    "merge_sha": "",
+   "assignee": "varunkarthic",
    "note": "see DEVELOPER_B_HUMAN_ACTION_REQUIRED.md H9 (verified geography)"
   },
   {
@@ -28,6 +30,7 @@
    "status": "VERIFIED_COMPLETE",
    "pr": "#156",
    "merge_sha": "b6f17fb",
+   "assignee": "satvikp-coder",
    "note": ""
   },
   {
@@ -37,6 +40,7 @@
    "status": "VERIFIED_COMPLETE",
    "pr": "#157",
    "merge_sha": "fb2f741",
+   "assignee": "satvikp-coder",
    "note": ""
   },
   {
@@ -46,6 +50,7 @@
    "status": "VERIFIED_COMPLETE",
    "pr": "#158",
    "merge_sha": "ffed2ff",
+   "assignee": "satvikp-coder",
    "note": ""
   },
   {
@@ -55,6 +60,7 @@
    "status": "VERIFIED_COMPLETE",
    "pr": "#158",
    "merge_sha": "ffed2ff",
+   "assignee": "satvikp-coder",
    "note": ""
   },
   {
@@ -64,6 +70,7 @@
    "status": "VERIFIED_COMPLETE",
    "pr": "#160",
    "merge_sha": "8899300",
+   "assignee": "satvikp-coder",
    "note": ""
   },
   {
@@ -73,6 +80,7 @@
    "status": "VERIFIED_COMPLETE",
    "pr": "#160",
    "merge_sha": "8899300",
+   "assignee": "satvikp-coder",
    "note": ""
   },
   {
@@ -82,6 +90,7 @@
    "status": "VERIFIED_COMPLETE",
    "pr": "#168",
    "merge_sha": "c2a98df",
+   "assignee": "satvikp-coder",
    "note": ""
   },
   {
@@ -91,6 +100,7 @@
    "status": "VERIFIED_COMPLETE",
    "pr": "#160",
    "merge_sha": "8899300",
+   "assignee": "satvikp-coder",
    "note": ""
   },
   {
@@ -100,6 +110,7 @@
    "status": "VERIFIED_COMPLETE",
    "pr": "#180",
    "merge_sha": "d4b1020",
+   "assignee": "satvikp-coder",
    "note": ""
   },
   {
@@ -109,6 +120,7 @@
    "status": "VERIFIED_COMPLETE",
    "pr": "#181",
    "merge_sha": "d74e209",
+   "assignee": "satvikp-coder",
    "note": ""
   },
   {
@@ -118,6 +130,7 @@
    "status": "VERIFIED_COMPLETE",
    "pr": "#158",
    "merge_sha": "ffed2ff",
+   "assignee": "satvikp-coder",
    "note": ""
   },
   {
@@ -127,6 +140,7 @@
    "status": "VERIFIED_COMPLETE",
    "pr": "#162",
    "merge_sha": "3a6a8f1",
+   "assignee": "satvikp-coder",
    "note": ""
   },
   {
@@ -136,6 +150,7 @@
    "status": "WAITING_FOR_OWN_PREREQUISITE",
    "pr": "",
    "merge_sha": "",
+   "assignee": "varunkarthic",
    "note": "open hard prerequisites: #5"
   },
   {
@@ -145,6 +160,7 @@
    "status": "VERIFIED_COMPLETE",
    "pr": "#178",
    "merge_sha": "cdd2e05",
+   "assignee": "satvikp-coder",
    "note": ""
   },
   {
@@ -154,6 +170,7 @@
    "status": "VERIFIED_COMPLETE",
    "pr": "#182",
    "merge_sha": "3c5f6d4",
+   "assignee": "satvikp-coder",
    "note": ""
   },
   {
@@ -163,6 +180,7 @@
    "status": "WAITING_FOR_DEVELOPER_A",
    "pr": "",
    "merge_sha": "",
+   "assignee": "varunkarthic",
    "note": "open hard prerequisites: #6"
   },
   {
@@ -172,6 +190,7 @@
    "status": "WAITING_FOR_HUMAN_REVIEW",
    "pr": "#199",
    "merge_sha": "f73df42",
+   "assignee": "varunkarthic",
    "note": "see DEVELOPER_B_HUMAN_ACTION_REQUIRED.md H-OFFLINE real Android + iPhone runs of tools/offline-probe (tool merged in #199)"
   },
   {
@@ -181,6 +200,7 @@
    "status": "VERIFIED_COMPLETE",
    "pr": "#173",
    "merge_sha": "96478a5",
+   "assignee": "satvikp-coder",
    "note": ""
   },
   {
@@ -190,6 +210,7 @@
    "status": "WAITING_FOR_HUMAN_REVIEW",
    "pr": "",
    "merge_sha": "",
+   "assignee": "varunkarthic",
    "note": "see DEVELOPER_B_HUMAN_ACTION_REQUIRED.md H6"
   },
   {
@@ -199,6 +220,7 @@
    "status": "VERIFIED_COMPLETE",
    "pr": "#172",
    "merge_sha": "6362696",
+   "assignee": "satvikp-coder",
    "note": ""
   },
   {
@@ -208,6 +230,7 @@
    "status": "VERIFIED_COMPLETE",
    "pr": "#186",
    "merge_sha": "956dc77",
+   "assignee": "satvikp-coder",
    "note": ""
   },
   {
@@ -217,6 +240,7 @@
    "status": "VERIFIED_COMPLETE",
    "pr": "#186",
    "merge_sha": "956dc77",
+   "assignee": "satvikp-coder",
    "note": ""
   },
   {
@@ -226,6 +250,7 @@
    "status": "VERIFIED_COMPLETE",
    "pr": "#186",
    "merge_sha": "956dc77",
+   "assignee": "satvikp-coder",
    "note": ""
   },
   {
@@ -235,6 +260,7 @@
    "status": "VERIFIED_COMPLETE",
    "pr": "#186",
    "merge_sha": "956dc77",
+   "assignee": "satvikp-coder",
    "note": ""
   },
   {
@@ -244,6 +270,7 @@
    "status": "VERIFIED_COMPLETE",
    "pr": "#174",
    "merge_sha": "da4972a",
+   "assignee": "satvikp-coder",
    "note": ""
   },
   {
@@ -253,6 +280,7 @@
    "status": "VERIFIED_COMPLETE",
    "pr": "#177",
    "merge_sha": "ea4b64a",
+   "assignee": "satvikp-coder",
    "note": ""
   },
   {
@@ -262,6 +290,7 @@
    "status": "VERIFIED_COMPLETE",
    "pr": "#179",
    "merge_sha": "6b13da6",
+   "assignee": "satvikp-coder",
    "note": ""
   },
   {
@@ -271,6 +300,7 @@
    "status": "VERIFIED_COMPLETE",
    "pr": "#196",
    "merge_sha": "aed672f",
+   "assignee": "satvikp-coder",
    "note": ""
   },
   {
@@ -280,6 +310,7 @@
    "status": "VERIFIED_COMPLETE",
    "pr": "#161",
    "merge_sha": "46dfb49",
+   "assignee": "satvikp-coder",
    "note": ""
   },
   {
@@ -289,6 +320,7 @@
    "status": "VERIFIED_COMPLETE",
    "pr": "#165",
    "merge_sha": "2d7d586",
+   "assignee": "satvikp-coder",
    "note": ""
   },
   {
@@ -298,6 +330,7 @@
    "status": "VERIFIED_COMPLETE",
    "pr": "#164",
    "merge_sha": "d0772cc",
+   "assignee": "satvikp-coder",
    "note": ""
   },
   {
@@ -307,6 +340,7 @@
    "status": "VERIFIED_COMPLETE",
    "pr": "#175",
    "merge_sha": "c6151b3",
+   "assignee": "satvikp-coder",
    "note": ""
   },
   {
@@ -316,6 +350,7 @@
    "status": "VERIFIED_COMPLETE",
    "pr": "#187",
    "merge_sha": "414c318",
+   "assignee": "satvikp-coder",
    "note": ""
   },
   {
@@ -325,6 +360,7 @@
    "status": "VERIFIED_COMPLETE",
    "pr": "#166",
    "merge_sha": "e7debaa",
+   "assignee": "satvikp-coder",
    "note": ""
   },
   {
@@ -334,6 +370,7 @@
    "status": "VERIFIED_COMPLETE",
    "pr": "#176",
    "merge_sha": "a6a98a4",
+   "assignee": "satvikp-coder",
    "note": ""
   },
   {
@@ -343,6 +380,7 @@
    "status": "VERIFIED_COMPLETE",
    "pr": "#188",
    "merge_sha": "f9acc79",
+   "assignee": "satvikp-coder",
    "note": ""
   },
   {
@@ -352,6 +390,7 @@
    "status": "WAITING_FOR_DEVELOPER_A",
    "pr": "#188",
    "merge_sha": "f9acc79",
+   "assignee": "varunkarthic",
    "note": "needs a public contract for approved accounts and live data (partial merged in #188)"
   },
   {
@@ -361,6 +400,7 @@
    "status": "WAITING_FOR_HUMAN_REVIEW",
    "pr": "#167",
    "merge_sha": "9dfabbf",
+   "assignee": "varunkarthic",
    "note": "see DEVELOPER_B_HUMAN_ACTION_REQUIRED.md H6 real-device soft-keyboard check (code merged in #167/9dfabbf)"
   },
   {
@@ -370,6 +410,7 @@
    "status": "VERIFIED_COMPLETE",
    "pr": "#169",
    "merge_sha": "bf2221f",
+   "assignee": "satvikp-coder",
    "note": ""
   },
   {
@@ -379,6 +420,7 @@
    "status": "VERIFIED_COMPLETE",
    "pr": "#183",
    "merge_sha": "8925556",
+   "assignee": "satvikp-coder",
    "note": ""
   },
   {
@@ -388,6 +430,7 @@
    "status": "VERIFIED_COMPLETE",
    "pr": "#183",
    "merge_sha": "8925556",
+   "assignee": "satvikp-coder",
    "note": ""
   },
   {
@@ -397,6 +440,7 @@
    "status": "VERIFIED_COMPLETE",
    "pr": "#183",
    "merge_sha": "8925556",
+   "assignee": "satvikp-coder",
    "note": ""
   },
   {
@@ -406,6 +450,7 @@
    "status": "VERIFIED_COMPLETE",
    "pr": "#189",
    "merge_sha": "164cf81",
+   "assignee": "satvikp-coder",
    "note": ""
   },
   {
@@ -415,6 +460,7 @@
    "status": "VERIFIED_COMPLETE",
    "pr": "#183",
    "merge_sha": "8925556",
+   "assignee": "satvikp-coder",
    "note": ""
   },
   {
@@ -424,6 +470,7 @@
    "status": "VERIFIED_COMPLETE",
    "pr": "#189",
    "merge_sha": "164cf81",
+   "assignee": "satvikp-coder",
    "note": ""
   },
   {
@@ -433,6 +480,7 @@
    "status": "VERIFIED_COMPLETE",
    "pr": "#189",
    "merge_sha": "164cf81",
+   "assignee": "satvikp-coder",
    "note": ""
   },
   {
@@ -442,6 +490,7 @@
    "status": "VERIFIED_COMPLETE",
    "pr": "#190",
    "merge_sha": "8da0ba9",
+   "assignee": "satvikp-coder",
    "note": ""
   },
   {
@@ -451,6 +500,7 @@
    "status": "VERIFIED_COMPLETE",
    "pr": "#184",
    "merge_sha": "dba8878",
+   "assignee": "satvikp-coder",
    "note": ""
   },
   {
@@ -460,6 +510,7 @@
    "status": "VERIFIED_COMPLETE",
    "pr": "#190",
    "merge_sha": "8da0ba9",
+   "assignee": "satvikp-coder",
    "note": ""
   },
   {
@@ -469,6 +520,7 @@
    "status": "VERIFIED_COMPLETE",
    "pr": "#185",
    "merge_sha": "2092428",
+   "assignee": "satvikp-coder",
    "note": ""
   },
   {
@@ -478,6 +530,7 @@
    "status": "VERIFIED_COMPLETE",
    "pr": "#171",
    "merge_sha": "0edaf0e",
+   "assignee": "satvikp-coder",
    "note": ""
   },
   {
@@ -487,6 +540,7 @@
    "status": "VERIFIED_COMPLETE",
    "pr": "#191",
    "merge_sha": "8eb0920",
+   "assignee": "satvikp-coder",
    "note": ""
   },
   {
@@ -496,6 +550,7 @@
    "status": "WAITING_FOR_DEVELOPER_A",
    "pr": "#194",
    "merge_sha": "664f0ba",
+   "assignee": "varunkarthic",
    "note": "needs the live field app, API and database; model-level journey merged in #194"
   },
   {
@@ -505,6 +560,7 @@
    "status": "WAITING_FOR_HUMAN_REVIEW",
    "pr": "#198",
    "merge_sha": "cb37972",
+   "assignee": "varunkarthic",
    "note": "see DEVELOPER_B_HUMAN_ACTION_REQUIRED.md H-A11Y screen reader / device / language review (automated part merged in #198)"
   },
   {
@@ -514,6 +570,7 @@
    "status": "WAITING_FOR_HUMAN_REVIEW",
    "pr": "#192",
    "merge_sha": "7a1298b",
+   "assignee": "varunkarthic",
    "note": "see DEVELOPER_B_HUMAN_ACTION_REQUIRED.md H-CI branch protection and agreed budgets (gates merged in #192)"
   },
   {
@@ -523,6 +580,7 @@
    "status": "WAITING_FOR_HUMAN_REVIEW",
    "pr": "",
    "merge_sha": "",
+   "assignee": "varunkarthic",
    "note": "see DEVELOPER_B_HUMAN_ACTION_REQUIRED.md H6"
   },
   {
@@ -532,6 +590,7 @@
    "status": "WAITING_FOR_HUMAN_REVIEW",
    "pr": "",
    "merge_sha": "",
+   "assignee": "varunkarthic",
    "note": "see DEVELOPER_B_HUMAN_ACTION_REQUIRED.md H6"
   },
   {
@@ -541,6 +600,7 @@
    "status": "WAITING_FOR_HUMAN_REVIEW",
    "pr": "",
    "merge_sha": "",
+   "assignee": "varunkarthic",
    "note": "see DEVELOPER_B_HUMAN_ACTION_REQUIRED.md H6"
   },
   {
@@ -550,6 +610,7 @@
    "status": "WAITING_FOR_HUMAN_REVIEW",
    "pr": "",
    "merge_sha": "",
+   "assignee": "varunkarthic",
    "note": "see DEVELOPER_B_HUMAN_ACTION_REQUIRED.md H9"
   },
   {
@@ -559,6 +620,7 @@
    "status": "WAITING_FOR_HUMAN_REVIEW",
    "pr": "#197",
    "merge_sha": "39844ba",
+   "assignee": "varunkarthic",
    "note": "see DEVELOPER_B_HUMAN_ACTION_REQUIRED.md H9 (tool merged in #197; real content not yet audited)"
   },
   {
@@ -568,6 +630,7 @@
    "status": "WAITING_FOR_HUMAN_REVIEW",
    "pr": "",
    "merge_sha": "",
+   "assignee": "varunkarthic",
    "note": "see DEVELOPER_B_HUMAN_ACTION_REQUIRED.md H7"
   },
   {
@@ -577,6 +640,7 @@
    "status": "WAITING_FOR_OWN_PREREQUISITE",
    "pr": "",
    "merge_sha": "",
+   "assignee": "varunkarthic",
    "note": "open hard prerequisites: #125, #115, #116, #120, #117, #110, #123"
   },
   {
@@ -586,6 +650,7 @@
    "status": "WAITING_FOR_OWN_PREREQUISITE",
    "pr": "",
    "merge_sha": "",
+   "assignee": "varunkarthic",
    "note": "open hard prerequisites: #126"
   },
   {
@@ -595,6 +660,7 @@
    "status": "WAITING_FOR_OWN_PREREQUISITE",
    "pr": "",
    "merge_sha": "",
+   "assignee": "varunkarthic",
    "note": "open hard prerequisites: #80, #126"
   },
   {
@@ -604,6 +670,7 @@
    "status": "WAITING_FOR_OWN_PREREQUISITE",
    "pr": "",
    "merge_sha": "",
+   "assignee": "varunkarthic",
    "note": "open hard prerequisites: #114, #126"
   },
   {
@@ -613,6 +680,7 @@
    "status": "WAITING_FOR_OWN_PREREQUISITE",
    "pr": "",
    "merge_sha": "",
+   "assignee": "varunkarthic",
    "note": "open hard prerequisites: #28, #126"
   },
   {
@@ -622,6 +690,7 @@
    "status": "WAITING_FOR_OWN_PREREQUISITE",
    "pr": "",
    "merge_sha": "",
+   "assignee": "varunkarthic",
    "note": "open hard prerequisites: #105, #126"
   },
   {
@@ -631,6 +700,7 @@
    "status": "WAITING_FOR_OWN_PREREQUISITE",
    "pr": "",
    "merge_sha": "",
+   "assignee": "varunkarthic",
    "note": "open hard prerequisites: #126, #130"
   },
   {
@@ -640,6 +710,7 @@
    "status": "WAITING_FOR_OWN_PREREQUISITE",
    "pr": "",
    "merge_sha": "",
+   "assignee": "varunkarthic",
    "note": "open hard prerequisites: #126"
   },
   {
@@ -649,6 +720,7 @@
    "status": "WAITING_FOR_OWN_PREREQUISITE",
    "pr": "",
    "merge_sha": "",
+   "assignee": "varunkarthic",
    "note": "open hard prerequisites: #90, #92, #126"
   },
   {
@@ -658,6 +730,7 @@
    "status": "WAITING_FOR_OWN_PREREQUISITE",
    "pr": "",
    "merge_sha": "",
+   "assignee": "varunkarthic",
    "note": "open hard prerequisites: #126"
   }
  ]
