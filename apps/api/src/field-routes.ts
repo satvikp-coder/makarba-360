@@ -1,9 +1,10 @@
 import type { Request, Response } from "express";
 import { validateLocationGeometry } from "@makarba/gis-io";
-import { validateAnswer, validatePosition, visibleQuestions, type Answer } from "@makarba/survey";
+import { validateAnswer, validateAnswers, validatePosition, visibleQuestions, type Answer } from "@makarba/survey";
 import type { PrivateRoute } from "./private-routes.js";
 import { FieldRepoError, type PgFieldRepository } from "./field-repository.js";
 import { SurveyError, type PgSurveyRepository } from "./survey-repository.js";
+import type { PgConsentRepository } from "./consent-repository.js";
 
 /**
  * Private field routes (issues #44, #45): visits, idempotent interview start and draft answers, on existing capabilities
@@ -17,10 +18,11 @@ const problem = (res: Response, status: number, code: string, message: string, e
 const TEXT: Record<string, string> = {
   not_found: "Not found.", conflict: "This id is already used for a different interview.", rejected_value: "The value was rejected.",
   consent_required: "Participation consent must be granted before the interview starts.", not_active: "This visit is not active.",
+  cannot_submit: "This interview cannot be submitted: consent must be in force and the interview position (or why there is none) recorded.", review_refused: "This review decision is not allowed.",
   not_draft: "This can only change while the interview is a draft.", revision_race: "Another position was saved at the same time. Try again.", pending_drafts: "Some interviews are still drafts. Choose to keep each for later sync or mark it abandoned.",
 };
 
-export function fieldRoutes(field: PgFieldRepository, surveys: PgSurveyRepository): PrivateRoute[] {
+export function fieldRoutes(field: PgFieldRepository, surveys: PgSurveyRepository, consents?: PgConsentRepository): PrivateRoute[] {
   const id = (req: Request) => String(req.params["id"] ?? "");
   const user = (req: Request) => req.session!.userId;
   const visitScope = async (req: Request) => {
@@ -132,6 +134,39 @@ export function fieldRoutes(field: PgFieldRepository, surveys: PgSurveyRepositor
       }),
     },
     { method: "get", path: "/interviews/:id/official-claim", action: "interview.view_private", resolve: interviewScope, handler: wrap(async (req, res) => { const c = await field.getClaim(id(req)); return c ? res.json(c) : problem(res, 404, "not_found", TEXT["not_found"]!); }) },
+    {
+      method: "post", path: "/interviews/:id/submit", action: "interview.edit_draft", resolve: interviewScope,
+      handler: wrap(async (req, res) => {
+        const i = await field.getInterview(id(req));
+        if (!i) return problem(res, 404, "not_found", TEXT["not_found"]!);
+        const v = await surveys.get(i.surveyVersionId);
+        if (!v) return problem(res, 404, "not_found", TEXT["not_found"]!);
+        const visible = new Set(visibleQuestions(v.instrument, i.answers).map((q) => q.code));
+        const kept = Object.fromEntries(Object.entries(i.answers).filter(([c]) => visible.has(c)));
+        const dropped = Object.keys(i.answers).filter((c) => !visible.has(c));
+        if (i.status === "draft") {
+          const check = validateAnswers(v.instrument, kept);
+          if (!check.ok) return problem(res, 422, "validation_failed", "Some answers are missing or invalid.", {}, Object.fromEntries(check.errors.map((e) => [e.split(":")[0]!, e])));
+        }
+        const outcome = await field.submit(i.id, user(req), dropped);
+        const done = (await field.getInterview(i.id))!;
+        const positions = await field.positions(i.id);
+        const cv = consents ? await consents.view(i.id) : null;
+        return res.status(outcome === "submitted" ? 201 : 200).json({
+          outcome, status: done.status,
+          saveState: "saved on the server",                        // the server confirmed the write; a client that did not get this response must treat it as unsaved and retry (the call is idempotent)
+          consent: cv ? cv.flags : null,
+          interviewPosition: positions.length ? { state: positions[positions.length - 1]!.state, revisions: positions.length } : null,
+          subjectPlaces: (await field.subjects(i.id)).length,
+          answers: Object.keys(done.answers).length, droppedHiddenAnswers: outcome === "submitted" ? dropped : [],
+        });
+      }),
+    },
+    {
+      method: "get", path: "/submissions", action: "interview.view_private",
+      resolve: (req) => { const s = req.query["studyAreaId"]; return typeof s === "string" && UUID.test(s) ? { studyAreaId: s, ownerId: user(req) } : {}; },
+      handler: wrap(async (req, res) => res.json({ items: await field.submissions(user(req), String(req.query["studyAreaId"])) })),
+    },
     {
       method: "put", path: "/interviews/:id/answers", action: "interview.edit_draft", resolve: interviewScope,
       handler: wrap(async (req, res) => {

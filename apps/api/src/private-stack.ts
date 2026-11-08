@@ -71,6 +71,6 @@ export function mountPrivateStack(app: Express, o: PrivateStackOptions): Session
     oidc: o.oidc, sessions, secureCookies: o.secureCookies, fetchImpl: o.fetchImpl,
     users: new PgUserDirectory(o.pool), invitations: new PgInvitationRedeemer(o.pool, o.authz),
   }));
-  app.use("/api/v1/private", json, privateApi({ authz: o.authz, principals: grants, sessions, routes: [...locationRoutes(new PgLocationRepository(o.pool)), ...consentRoutes(new PgConsentRepository(o.pool)), ...fieldRoutes(new PgFieldRepository(o.pool), new PgSurveyRepository(o.pool))], audit }));
+  app.use("/api/v1/private", json, privateApi({ authz: o.authz, principals: grants, sessions, routes: [...locationRoutes(new PgLocationRepository(o.pool)), ...consentRoutes(new PgConsentRepository(o.pool)), ...fieldRoutes(new PgFieldRepository(o.pool), new PgSurveyRepository(o.pool), new PgConsentRepository(o.pool))], audit }));
   return sessions;
 }
