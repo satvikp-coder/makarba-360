@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { Suspense, lazy, useCallback, useEffect, useRef, useState } from "react";
 import { Link, NavLink, Outlet, Route, Routes, useLocation, useSearchParams } from "react-router-dom";
 import { sanitizeQuery } from "@makarba/public-ia";
 import { mainNavigation, publicRoutes, type NavGroup } from "@makarba/public-ia";
@@ -11,7 +11,9 @@ import { PanoramaPage } from "./PanoramaPage.js";
 import { ThenNowPage } from "./ThenNowPage.js";
 import { Voices } from "./Voices.js";
 import { Insights } from "./Insights.js";
-import { MapView, type MapStatus } from "./map/MapView.js";
+import type { MapStatus } from "./map/MapView.js";
+// The map library is large and only the explorer needs it, so it is loaded when that page is opened.
+const MapView = lazy(() => import("./map/MapView.js").then((m) => ({ default: m.MapView })));
 import { LANGUAGES, strings, type Lang } from "./i18n.js";
 import { cleanQuery, localSource, type SourceFactory } from "./searchSource.js";
 import { applyFilters, isActive, LAYERS, parseFilters, toggle, writeFilters, type Filters } from "./filters.js";
@@ -177,7 +179,7 @@ export function PlaceList({ fetcher, withMap = false, makeSource = localSource }
         <div className="explore">
           <div className="explore-map">
       {withMap && r !== "loading" && r.status === "ok" && r.places.length > 0 && (
-        <MapView features={view.features} sourceAttribution={r.synthetic ? "Demonstration place data (synthetic)" : "Place data: Makarba 360 published snapshot"} selectedId={selected} onSelect={setSelected} onStatus={setMapStatus} />
+        <Suspense fallback={<p role="status">Loading map…</p>}><MapView features={view.features} sourceAttribution={r.synthetic ? "Demonstration place data (synthetic)" : "Place data: Makarba 360 published snapshot"} selectedId={selected} onSelect={setSelected} onStatus={setMapStatus} /></Suspense>
       )}
           </div>
           <div className="sheet" data-state={sheet} ref={sheetRef}

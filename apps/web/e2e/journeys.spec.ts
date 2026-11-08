@@ -240,7 +240,9 @@ test.describe("map filters (real MapLibre canvas, stubbed tiles)", () => {
     await expect(page).toHaveURL(/category=heritage/);
     await expect(page.getByText("Showing 1 of 3 places.")).toBeVisible();
     await expect(page.getByRole("button", { name: "Synthetic Test Route" })).toHaveCount(0);
-    await page.getByRole("checkbox", { name: "Streets and routes" }).check();
+    // React Router 7 applies URL changes in a transition, so assert the new state with a retrying expect instead of .check()
+    await page.getByRole("checkbox", { name: "Streets and routes" }).click();
+    await expect(page.getByRole("checkbox", { name: "Streets and routes" })).toBeChecked();
     await expect(page.getByText(/No places match these filters/)).toBeVisible();
     await expect(page.getByText(/OpenStreetMap contributors/)).toBeVisible();
     await expect(page.locator("canvas.maplibregl-canvas")).toBeVisible();
