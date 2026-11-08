@@ -1,5 +1,7 @@
 # Developer B: actions only a person can do
 
+> **Assignment status (verified against GitHub, 2026-11-08):** all 26 open Developer B issues are assigned to `varunkarthic`; the `owner:developer-b` label, closed history and acceptance criteria are unchanged. Issues #128 and #130-#135 are **unfinished stretch work**: only disabled rule modules exist in `packages/stretch` (no UI, no data, not released) and they hard-depend on #126. Varun has an open PR #207 (`dev-b/issue-82-responsive-map`) that these documents do not touch. Per-issue detail: `FUTURE_VARUN_RESPONSIBILITIES.md`.
+
 Nothing here is approved or done. Claude cannot invent approvals, photos, permissions or field results.
 
 | ID | Issues | What is needed | Who | Where | Evidence to record | What it unblocks |

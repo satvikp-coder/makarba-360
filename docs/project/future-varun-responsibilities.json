@@ -1,6 +1,6 @@
 {
- "status": "PROPOSAL ONLY - no GitHub assignment or label has been changed",
- "proposedNewAssignee": "varunkarthic",
+ "status": "TRANSFER COMPLETED on GitHub (all 26 open issues assigned to varunkarthic, 2026-11-08). owner:developer-b labels and closed history unchanged.",
+ "assignee": "varunkarthic",
  "issues": [
   {
    "issue": 5,
@@ -16,8 +16,18 @@
    "tests": "pnpm --filter @makarba/gis-io check <file> \"<source>\" <licence>; python scripts/check_geo_review.py --require-boundary",
    "closeWhen": "The register holds a VERIFIED boundary item and the issue comment links it",
    "unlocks": "#28, #120, #130",
-   "transferWholeIssueAfterUserApproval": true,
-   "transferNote": ""
+   "acceptanceCriteria": [
+    "Boundary authority/source and research extent review procedure are recorded.",
+    "No invented official polygon or broad Ahmedabad assumption.",
+    "The PR includes a reproducible demonstration or independently reviewable artifact proving the stated contract, with no real participant data.",
+    "Associated permissions, lifecycle/error states and source limitations are documented in `docs/product/requirements.md`."
+   ],
+   "labels": [
+    "owner:developer-b"
+   ],
+   "stretchUnfinished": false,
+   "stretchNote": "",
+   "assignmentNote": "transferred to varunkarthic on 2026-11-08"
   },
   {
    "issue": 28,
@@ -33,8 +43,18 @@
    "tests": "pnpm --filter @makarba/gis-io check ...; python scripts/check_geo_review.py",
    "closeWhen": "All agreed corridors VERIFIED in the register",
    "unlocks": "#120, #130",
-   "transferWholeIssueAfterUserApproval": true,
-   "transferNote": ""
+   "acceptanceCriteria": [
+    "Source-dated licensed street geometries pass field/reviewer checks.",
+    "Restricted imagery tracing or unverified road names blocked.",
+    "The PR includes a reproducible demonstration or independently reviewable artifact proving the stated contract, with no real participant data.",
+    "Associated permissions, lifecycle/error states and source limitations are documented in `docs/architecture/gis-design.md`."
+   ],
+   "labels": [
+    "owner:developer-b"
+   ],
+   "stretchUnfinished": false,
+   "stretchNote": "",
+   "assignmentNote": "transferred to varunkarthic on 2026-11-08"
   },
   {
    "issue": 41,
@@ -50,8 +70,18 @@
    "tests": "pnpm --filter @makarba/api test; update docs/architecture/threat-model.json statuses",
    "closeWhen": "Matrix approved, live cases automated, #92 gate satisfied",
    "unlocks": "#92, #113",
-   "transferWholeIssueAfterUserApproval": true,
-   "transferNote": ""
+   "acceptanceCriteria": [
+    "Reviewed abuse cases map to automated negative tests and residual risks.",
+    "Valid authentication cannot bypass consent or publication review.",
+    "The PR includes a reproducible demonstration or independently reviewable artifact proving the stated contract, with no real participant data.",
+    "Associated permissions, lifecycle/error states and source limitations are documented in `docs/architecture/privacy-security.md`."
+   ],
+   "labels": [
+    "owner:developer-b"
+   ],
+   "stretchUnfinished": false,
+   "stretchNote": "",
+   "assignmentNote": "transferred to varunkarthic on 2026-11-08"
   },
   {
    "issue": 54,
@@ -67,8 +97,18 @@
    "tests": "python scripts/check_device_reports.py android.json ios.json",
    "closeWhen": "Checker prints ACCEPTED and the decision is recorded on the issue",
    "unlocks": "#62, #117",
-   "transferWholeIssueAfterUserApproval": true,
-   "transferNote": ""
+   "acceptanceCriteria": [
+    "Real-device storage/key/recovery test evidence selects PWA or approved ODK/Kobo path.",
+    "Unencrypted browser storage never claimed inherently safe.",
+    "The PR includes a reproducible demonstration or independently reviewable artifact proving the stated contract, with no real participant data.",
+    "Associated permissions, lifecycle/error states and source limitations are documented in `docs/architecture/offline-sync.md`."
+   ],
+   "labels": [
+    "owner:developer-b"
+   ],
+   "stretchUnfinished": false,
+   "stretchNote": "",
+   "assignmentNote": "transferred to varunkarthic on 2026-11-08"
   },
   {
    "issue": 62,
@@ -84,8 +124,18 @@
    "tests": "pnpm --filter @makarba/offline-sim test (simulator); the same SCENARIOS against the real adapter; python scripts/check_device_reports.py ... for devices",
    "closeWhen": "Reports attached and reviewed",
    "unlocks": "#118, #119",
-   "transferWholeIssueAfterUserApproval": true,
-   "transferNote": ""
+   "acceptanceCriteria": [
+    "Approved devices recover acknowledged drafts or document unrecoverable cases.",
+    "Never clear local source before verified server receipt and attachment reconciliation.",
+    "The PR includes a reproducible demonstration or independently reviewable artifact proving the stated contract, with no real participant data.",
+    "Associated permissions, lifecycle/error states and source limitations are documented in `docs/architecture/offline-sync.md`."
+   ],
+   "labels": [
+    "owner:developer-b"
+   ],
+   "stretchUnfinished": false,
+   "stretchNote": "",
+   "assignmentNote": "transferred to varunkarthic on 2026-11-08"
   },
   {
    "issue": 80,
@@ -101,8 +151,18 @@
    "tests": "pnpm --filter @makarba/api conformance <base>; pnpm --filter @makarba/web test",
    "closeWhen": "Contract adopted, endpoint live, a withdrawn account disappears at next load on the real API",
    "unlocks": "#128, #131",
-   "transferWholeIssueAfterUserApproval": true,
-   "transferNote": ""
+   "acceptanceCriteria": [
+    "Profiles/history/voices routes show reviewed dates, sources and permitted accounts.",
+    "Withdrawal invalidation removes stale attributed content.",
+    "The PR includes a reproducible demonstration or independently reviewable artifact proving the stated contract, with no real participant data.",
+    "Associated permissions, lifecycle/error states and source limitations are documented in `docs/design/public-website.md`."
+   ],
+   "labels": [
+    "owner:developer-b"
+   ],
+   "stretchUnfinished": false,
+   "stretchNote": "",
+   "assignmentNote": "transferred to varunkarthic on 2026-11-08"
   },
   {
    "issue": 82,
@@ -118,8 +178,18 @@
    "tests": "E2E_TARGET=preview pnpm --filter @makarba/web test:e2e (regression); manual steps for the device",
    "closeWhen": "Evidence attached for both devices with no open defect",
    "unlocks": "#117, #113",
-   "transferWholeIssueAfterUserApproval": true,
-   "transferNote": ""
+   "acceptanceCriteria": [
+    "Desktop drawers and mobile bottom sheet preserve all essential controls.",
+    "320px/zoom/orientation/soft keyboard do not hide navigation.",
+    "The PR includes a reproducible demonstration or independently reviewable artifact proving the stated contract, with no real participant data.",
+    "Associated permissions, lifecycle/error states and source limitations are documented in `docs/design/public-website.md`."
+   ],
+   "labels": [
+    "owner:developer-b"
+   ],
+   "stretchUnfinished": false,
+   "stretchNote": "",
+   "assignmentNote": "transferred to varunkarthic on 2026-11-08"
   },
   {
    "issue": 113,
@@ -135,8 +205,18 @@
    "tests": "LIVE_API_BASE=<origin> pnpm --filter @makarba/journeys live, then ... test",
    "closeWhen": "Live journey passes with the same assertions",
    "unlocks": "#126",
-   "transferWholeIssueAfterUserApproval": true,
-   "transferNote": ""
+   "acceptanceCriteria": [
+    "Synthetic capture A/discuss B → review → safe public snapshot is reproducible.",
+    "No consent/withdrawal/unauthorized request blocks intended exposure.",
+    "The PR includes a reproducible demonstration or independently reviewable artifact proving the stated contract, with no real participant data.",
+    "Associated permissions, lifecycle/error states and source limitations are documented in `docs/project/test-strategy.md`."
+   ],
+   "labels": [
+    "owner:developer-b"
+   ],
+   "stretchUnfinished": false,
+   "stretchNote": "",
+   "assignmentNote": "transferred to varunkarthic on 2026-11-08"
   },
   {
    "issue": 114,
@@ -152,8 +232,18 @@
    "tests": "pnpm --filter @makarba/web exec playwright test e2e/accessibility.spec.ts (regression)",
    "closeWhen": "Findings recorded, defects fixed or accepted",
    "unlocks": "#129, #126",
-   "transferWholeIssueAfterUserApproval": true,
-   "transferNote": ""
+   "acceptanceCriteria": [
+    "Core public/field/admin journeys meet AA target with recorded manual evidence.",
+    "Canvas-only navigation, focus trap loss and untranslated consent flagged.",
+    "The PR includes a reproducible demonstration or independently reviewable artifact proving the stated contract, with no real participant data.",
+    "Associated permissions, lifecycle/error states and source limitations are documented in `docs/project/test-strategy.md`."
+   ],
+   "labels": [
+    "owner:developer-b"
+   ],
+   "stretchUnfinished": false,
+   "stretchNote": "",
+   "assignmentNote": "transferred to varunkarthic on 2026-11-08"
   },
   {
    "issue": 115,
@@ -169,8 +259,18 @@
    "tests": "gh api repos/satvikp-coder/makarba-360/rules/branches/main",
    "closeWhen": "Ruleset active, budgets approved in a comment, baseline empty",
    "unlocks": "#126",
-   "transferWholeIssueAfterUserApproval": true,
-   "transferNote": ""
+   "acceptanceCriteria": [
+    "Agreed fixture/load budgets, dependency/secret scans and required check policy exist.",
+    "Failing required checks prevent merge; no blanket allow-failure.",
+    "The PR includes a reproducible demonstration or independently reviewable artifact proving the stated contract, with no real participant data.",
+    "Associated permissions, lifecycle/error states and source limitations are documented in `docs/project/test-strategy.md`."
+   ],
+   "labels": [
+    "owner:developer-b"
+   ],
+   "stretchUnfinished": false,
+   "stretchNote": "",
+   "assignmentNote": "transferred to varunkarthic on 2026-11-08"
   },
   {
    "issue": 117,
@@ -186,8 +286,18 @@
    "tests": "python scripts/check_device_reports.py ...",
    "closeWhen": "Reports accepted and defects triaged",
    "unlocks": "#126",
-   "transferWholeIssueAfterUserApproval": true,
-   "transferNote": ""
+   "acceptanceCriteria": [
+    "Supported Android/iOS devices complete GPS/vault/map/upload paths.",
+    "Storage eviction, background suspension and WebGL loss documented.",
+    "The PR includes a reproducible demonstration or independently reviewable artifact proving the stated contract, with no real participant data.",
+    "Associated permissions, lifecycle/error states and source limitations are documented in `docs/project/test-strategy.md`."
+   ],
+   "labels": [
+    "owner:developer-b"
+   ],
+   "stretchUnfinished": false,
+   "stretchNote": "",
+   "assignmentNote": "transferred to varunkarthic on 2026-11-08"
   },
   {
    "issue": 118,
@@ -203,8 +313,18 @@
    "tests": "n/a",
    "closeWhen": "Approval and training evidence recorded",
    "unlocks": "#119",
-   "transferWholeIssueAfterUserApproval": true,
-   "transferNote": ""
+   "acceptanceCriteria": [
+    "Collectors demonstrate consent, A/B geography, save/retry and incident process.",
+    "Researcher unable to recover/identify unsynced draft not cleared for field.",
+    "The PR includes a reproducible demonstration or independently reviewable artifact proving the stated contract, with no real participant data.",
+    "Associated permissions, lifecycle/error states and source limitations are documented in `docs/operations/field-deployment.md`."
+   ],
+   "labels": [
+    "owner:developer-b"
+   ],
+   "stretchUnfinished": false,
+   "stretchNote": "",
+   "assignmentNote": "transferred to varunkarthic on 2026-11-08"
   },
   {
    "issue": 119,
@@ -220,8 +340,18 @@
    "tests": "n/a",
    "closeWhen": "Pilot report approved",
    "unlocks": "#126, #125",
-   "transferWholeIssueAfterUserApproval": true,
-   "transferNote": ""
+   "acceptanceCriteria": [
+    "Observed interview timing/error findings drive reviewed corrections before expansion.",
+    "No real participant pilot before ethics/offline/security gates.",
+    "The PR includes a reproducible demonstration or independently reviewable artifact proving the stated contract, with no real participant data.",
+    "Associated permissions, lifecycle/error states and source limitations are documented in `docs/operations/field-deployment.md`."
+   ],
+   "labels": [
+    "owner:developer-b"
+   ],
+   "stretchUnfinished": false,
+   "stretchNote": "",
+   "assignmentNote": "transferred to varunkarthic on 2026-11-08"
   },
   {
    "issue": 120,
@@ -237,8 +367,18 @@
    "tests": "python scripts/check_geo_review.py",
    "closeWhen": "All candidate places VERIFIED or REJECTED with evidence",
    "unlocks": "#126, #130",
-   "transferWholeIssueAfterUserApproval": true,
-   "transferNote": ""
+   "acceptanceCriteria": [
+    "20–30 target places and 4–6 target corridors have evidence or explicit gaps.",
+    "Unverified target omitted rather than fabricated to hit quota.",
+    "The PR includes a reproducible demonstration or independently reviewable artifact proving the stated contract, with no real participant data.",
+    "Associated permissions, lifecycle/error states and source limitations are documented in `docs/operations/field-deployment.md`."
+   ],
+   "labels": [
+    "owner:developer-b"
+   ],
+   "stretchUnfinished": false,
+   "stretchNote": "",
+   "assignmentNote": "transferred to varunkarthic on 2026-11-08"
   },
   {
    "issue": 123,
@@ -254,8 +394,18 @@
    "tests": "pnpm --filter @makarba/place-content test; run auditPublication in the release check",
    "closeWhen": "Audit verdict PASS on real content; research lead sign-off",
    "unlocks": "#126, #128, #131",
-   "transferWholeIssueAfterUserApproval": true,
-   "transferNote": ""
+   "acceptanceCriteria": [
+    "Published comparisons/panoramas/quotes have source/date/rights and permission.",
+    "Absent historical image/date yields unavailable feature, not fake content.",
+    "The PR includes a reproducible demonstration or independently reviewable artifact proving the stated contract, with no real participant data.",
+    "Associated permissions, lifecycle/error states and source limitations are documented in `docs/operations/field-deployment.md`."
+   ],
+   "labels": [
+    "owner:developer-b"
+   ],
+   "stretchUnfinished": false,
+   "stretchNote": "",
+   "assignmentNote": "transferred to varunkarthic on 2026-11-08"
   },
   {
    "issue": 124,
@@ -271,8 +421,18 @@
    "tests": "python scripts/check_deploy_config.py; python scripts/deploy_smoke.py <url> --expect-https; pnpm --filter @makarba/web exec playwright test e2e/csp.spec.ts",
    "closeWhen": "Staging with synthetic data verified, rollback rehearsed, production approved",
    "unlocks": "#126",
-   "transferWholeIssueAfterUserApproval": true,
-   "transferNote": ""
+   "acceptanceCriteria": [
+    "Approved host/region/budget, secrets, HTTPS and release rollback are documented and tested.",
+    "No paid activation without approval; staging contains synthetic data only.",
+    "The PR includes a reproducible demonstration or independently reviewable artifact proving the stated contract, with no real participant data.",
+    "Associated permissions, lifecycle/error states and source limitations are documented in `docs/operations/field-deployment.md`."
+   ],
+   "labels": [
+    "owner:developer-b"
+   ],
+   "stretchUnfinished": false,
+   "stretchNote": "",
+   "assignmentNote": "transferred to varunkarthic on 2026-11-08"
   },
   {
    "issue": 126,
@@ -288,8 +448,18 @@
    "tests": "all gates listed in INTEGRATION_READY_CHECKLIST.md",
    "closeWhen": "All hard prerequisites closed and release check passes",
    "unlocks": "#127-#135",
-   "transferWholeIssueAfterUserApproval": true,
-   "transferNote": ""
+   "acceptanceCriteria": [
+    "Public demonstration passes privacy, sources, accessibility, restore and performance gates.",
+    "Missing mandatory gate blocks release; no unlicensed media or invented results.",
+    "The PR includes a reproducible demonstration or independently reviewable artifact proving the stated contract, with no real participant data.",
+    "Associated permissions, lifecycle/error states and source limitations are documented in `docs/operations/field-deployment.md`."
+   ],
+   "labels": [
+    "owner:developer-b"
+   ],
+   "stretchUnfinished": false,
+   "stretchNote": "",
+   "assignmentNote": "transferred to varunkarthic on 2026-11-08"
   },
   {
    "issue": 127,
@@ -305,8 +475,18 @@
    "tests": "n/a",
    "closeWhen": "Handover accepted",
    "unlocks": "-",
-   "transferWholeIssueAfterUserApproval": true,
-   "transferNote": ""
+   "acceptanceCriteria": [
+    "Actual maintainers receive runbooks, costs, rights, recovery evidence and known limits.",
+    "No imaginary support owner or untested restore claim.",
+    "The PR includes a reproducible demonstration or independently reviewable artifact proving the stated contract, with no real participant data.",
+    "Associated permissions, lifecycle/error states and source limitations are documented in `docs/operations/field-deployment.md`."
+   ],
+   "labels": [
+    "owner:developer-b"
+   ],
+   "stretchUnfinished": false,
+   "stretchNote": "",
+   "assignmentNote": "transferred to varunkarthic on 2026-11-08"
   },
   {
    "issue": 128,
@@ -322,8 +502,18 @@
    "tests": "n/a",
    "closeWhen": "Feature approved and tested",
    "unlocks": "-",
-   "transferWholeIssueAfterUserApproval": false,
-   "transferNote": "Do not transfer yet: independent Claude work or a prerequisite is still outstanding, or the issue is stretch scope"
+   "acceptanceCriteria": [
+    "Approved ordered stops support accessible narrative and verified optional routes.",
+    "Unpublished stop skipped without exposing private content.",
+    "The PR includes a reproducible demonstration or independently reviewable artifact proving the stated contract, with no real participant data.",
+    "Associated permissions, lifecycle/error states and source limitations are documented in `docs/project/release-plan.md`."
+   ],
+   "labels": [
+    "owner:developer-b"
+   ],
+   "stretchUnfinished": true,
+   "stretchNote": "UNFINISHED STRETCH WORK. Only disabled rule modules exist in packages/stretch (no UI, no data, not released). Hard-depends on #126; do not describe as a completed feature.",
+   "assignmentNote": "transferred to varunkarthic on 2026-11-08; Claude had recommended keeping this issue with Developer B while independent UI work remained"
   },
   {
    "issue": 129,
@@ -339,8 +529,18 @@
    "tests": "pnpm --filter @makarba/web test",
    "closeWhen": "Reviewed translations enabled",
    "unlocks": "-",
-   "transferWholeIssueAfterUserApproval": true,
-   "transferNote": ""
+   "acceptanceCriteria": [
+    "Fluent-reviewed UI/content/consent expansion preserves source language provenance.",
+    "Missing translation has labeled fallback; machine-only consent rejected.",
+    "The PR includes a reproducible demonstration or independently reviewable artifact proving the stated contract, with no real participant data.",
+    "Associated permissions, lifecycle/error states and source limitations are documented in `docs/project/release-plan.md`."
+   ],
+   "labels": [
+    "owner:developer-b"
+   ],
+   "stretchUnfinished": false,
+   "stretchNote": "",
+   "assignmentNote": "transferred to varunkarthic on 2026-11-08"
   },
   {
    "issue": 130,
@@ -356,8 +556,18 @@
    "tests": "n/a",
    "closeWhen": "Approved data analysed",
    "unlocks": "#132",
-   "transferWholeIssueAfterUserApproval": false,
-   "transferNote": "Do not transfer yet: independent Claude work or a prerequisite is still outstanding, or the issue is stretch scope"
+   "acceptanceCriteria": [
+    "Dated corridor audits expose rubric, coverage and access limitations.",
+    "No automated accessibility promise from incomplete map data.",
+    "The PR includes a reproducible demonstration or independently reviewable artifact proving the stated contract, with no real participant data.",
+    "Associated permissions, lifecycle/error states and source limitations are documented in `docs/project/release-plan.md`."
+   ],
+   "labels": [
+    "owner:developer-b"
+   ],
+   "stretchUnfinished": true,
+   "stretchNote": "UNFINISHED STRETCH WORK. Only disabled rule modules exist in packages/stretch (no UI, no data, not released). Hard-depends on #126; do not describe as a completed feature.",
+   "assignmentNote": "transferred to varunkarthic on 2026-11-08; Claude had recommended keeping this issue with Developer B while independent UI work remained"
   },
   {
    "issue": 131,
@@ -373,8 +583,18 @@
    "tests": "n/a",
    "closeWhen": "Approved archive published",
    "unlocks": "-",
-   "transferWholeIssueAfterUserApproval": false,
-   "transferNote": "Do not transfer yet: independent Claude work or a prerequisite is still outstanding, or the issue is stretch scope"
+   "acceptanceCriteria": [
+    "Approved recordings have transcripts, scope, credit and withdrawal lineage.",
+    "Revoked voice consent removes public audio and related transcript scope.",
+    "The PR includes a reproducible demonstration or independently reviewable artifact proving the stated contract, with no real participant data.",
+    "Associated permissions, lifecycle/error states and source limitations are documented in `docs/project/release-plan.md`."
+   ],
+   "labels": [
+    "owner:developer-b"
+   ],
+   "stretchUnfinished": true,
+   "stretchNote": "UNFINISHED STRETCH WORK. Only disabled rule modules exist in packages/stretch (no UI, no data, not released). Hard-depends on #126; do not describe as a completed feature.",
+   "assignmentNote": "transferred to varunkarthic on 2026-11-08; Claude had recommended keeping this issue with Developer B while independent UI work remained"
   },
   {
    "issue": 132,
@@ -390,8 +610,18 @@
    "tests": "n/a",
    "closeWhen": "Reviewed",
    "unlocks": "-",
-   "transferWholeIssueAfterUserApproval": false,
-   "transferNote": "Do not transfer yet: independent Claude work or a prerequisite is still outstanding, or the issue is stretch scope"
+   "acceptanceCriteria": [
+    "Viewer labels proposals as illustrative ideas with assumptions and uncertainty.",
+    "Scenario never rendered as official prediction or current fact.",
+    "The PR includes a reproducible demonstration or independently reviewable artifact proving the stated contract, with no real participant data.",
+    "Associated permissions, lifecycle/error states and source limitations are documented in `docs/project/release-plan.md`."
+   ],
+   "labels": [
+    "owner:developer-b"
+   ],
+   "stretchUnfinished": true,
+   "stretchNote": "UNFINISHED STRETCH WORK. Only disabled rule modules exist in packages/stretch (no UI, no data, not released). Hard-depends on #126; do not describe as a completed feature.",
+   "assignmentNote": "transferred to varunkarthic on 2026-11-08; Claude had recommended keeping this issue with Developer B while independent UI work remained"
   },
   {
    "issue": 133,
@@ -407,8 +637,18 @@
    "tests": "n/a",
    "closeWhen": "Evaluation recorded",
    "unlocks": "-",
-   "transferWholeIssueAfterUserApproval": false,
-   "transferNote": "Do not transfer yet: independent Claude work or a prerequisite is still outstanding, or the issue is stretch scope"
+   "acceptanceCriteria": [
+    "Evidence-backed feasibility decision covers licensed buildings/terrain and devices.",
+    "No claim 3D geometry provides panoramic street coverage.",
+    "The PR includes a reproducible demonstration or independently reviewable artifact proving the stated contract, with no real participant data.",
+    "Associated permissions, lifecycle/error states and source limitations are documented in `docs/project/release-plan.md`."
+   ],
+   "labels": [
+    "owner:developer-b"
+   ],
+   "stretchUnfinished": true,
+   "stretchNote": "UNFINISHED STRETCH WORK. Only disabled rule modules exist in packages/stretch (no UI, no data, not released). Hard-depends on #126; do not describe as a completed feature.",
+   "assignmentNote": "transferred to varunkarthic on 2026-11-08; Claude had recommended keeping this issue with Developer B while independent UI work remained"
   },
   {
    "issue": 134,
@@ -424,8 +664,18 @@
    "tests": "n/a",
    "closeWhen": "Safe hotspots live",
    "unlocks": "-",
-   "transferWholeIssueAfterUserApproval": false,
-   "transferNote": "Do not transfer yet: independent Claude work or a prerequisite is still outstanding, or the issue is stretch scope"
+   "acceptanceCriteria": [
+    "Hotspots reflect sampled reports and pass additional disclosure review.",
+    "Low-n and filter differencing cannot expose interview points.",
+    "The PR includes a reproducible demonstration or independently reviewable artifact proving the stated contract, with no real participant data.",
+    "Associated permissions, lifecycle/error states and source limitations are documented in `docs/project/release-plan.md`."
+   ],
+   "labels": [
+    "owner:developer-b"
+   ],
+   "stretchUnfinished": true,
+   "stretchNote": "UNFINISHED STRETCH WORK. Only disabled rule modules exist in packages/stretch (no UI, no data, not released). Hard-depends on #126; do not describe as a completed feature.",
+   "assignmentNote": "transferred to varunkarthic on 2026-11-08; Claude had recommended keeping this issue with Developer B while independent UI work remained"
   },
   {
    "issue": 135,
@@ -441,8 +691,18 @@
    "tests": "n/a",
    "closeWhen": "Approved report",
    "unlocks": "-",
-   "transferWholeIssueAfterUserApproval": false,
-   "transferNote": "Do not transfer yet: independent Claude work or a prerequisite is still outstanding, or the issue is stretch scope"
+   "acceptanceCriteria": [
+    "Report contains cited snapshots, dates, denominators and sample caveats.",
+    "Suppressed cells remain suppressed; map attribution retained.",
+    "The PR includes a reproducible demonstration or independently reviewable artifact proving the stated contract, with no real participant data.",
+    "Associated permissions, lifecycle/error states and source limitations are documented in `docs/project/release-plan.md`."
+   ],
+   "labels": [
+    "owner:developer-b"
+   ],
+   "stretchUnfinished": true,
+   "stretchNote": "UNFINISHED STRETCH WORK. Only disabled rule modules exist in packages/stretch (no UI, no data, not released). Hard-depends on #126; do not describe as a completed feature.",
+   "assignmentNote": "transferred to varunkarthic on 2026-11-08; Claude had recommended keeping this issue with Developer B while independent UI work remained"
   }
  ]
 }

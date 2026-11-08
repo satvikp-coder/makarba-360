@@ -1,5 +1,7 @@
 # Developer A: the smallest connection tasks
 
+> **Assignment status (verified against GitHub, 2026-11-08):** all 26 open Developer B issues are assigned to `varunkarthic`; the `owner:developer-b` label, closed history and acceptance criteria are unchanged. Issues #128 and #130-#135 are **unfinished stretch work**: only disabled rule modules exist in `packages/stretch` (no UI, no data, not released) and they hard-depend on #126. Varun has an open PR #207 (`dev-b/issue-82-responsive-map`) that these documents do not touch. Per-issue detail: `FUTURE_VARUN_RESPONSIBILITIES.md`.
+
 Honest sizing: **S** = a connection of prepared code (hours), **M** = real backend work against a prepared interface and prepared tests (days), **L** = substantial backend implementation that nothing in Developer B's code can replace. Nothing below is marked S unless the code on the other side exists and was run.
 
 ## 1. Public API (issue #81) - size **M** (the HTTP layer is done; the data access is not)
