@@ -9,6 +9,7 @@ Nothing here is approved or done. Claude cannot invent approvals, photos, permis
 | H6 | #62, #117, #118, #119 | Real-device and field tests, researcher training, consented pilot. | research lead, trained researchers | physical devices; Makarba | test sheets, training log | pilot and mobile-compatibility acceptance |
 | H-A11Y | #114 | Human keyboard and screen-reader review (NVDA/VoiceOver) and Gujarati/Hindi language review. | an assistive-technology user or reviewer, a fluent reviewer | real browsers/devices | written findings | #114, #129 |
 | H-DEV-A | many | Varun delivers the Developer A items listed in the progress ledger (for example the real public API behind the contract). | Developer A | GitHub issues | merged PRs, conformance passing | live integration acceptance |
+| H-IMG | #70, #124 | Before any Google Street View or Mapillary embed is enabled: look at Makarba on each provider's public map in a normal browser to see whether coverage exists; approve any spend and monthly cap; confirm terms with the institution. Both are DEFERRED (see `docs/research/historical-evidence.md`). | project owner + research lead | provider public maps in a browser | note per provider: coverage yes/no with date, approved cap or decision not to use | any provider embed; #124 |
 
 When done, paste the evidence links on the matching issue and tell Claude to resume (see the resume prompt in the final report).
 
