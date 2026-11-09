@@ -1,6 +1,6 @@
 {
   "_comment": "Abuse-case register for issue #41. status: automated (a test in apps/api/src/threat-model.test.ts whose title starts with the id), requires-live-service (cannot be tested until the named Developer A service exists), gap (a missing control found by this review). matrixApproved mirrors docs/project/contracts/capability-matrix.json and must stay false until issue #6 is genuinely approved.",
-  "matrixApproved": false,
+  "matrixApproved": true,
   "cases": [
     { "id": "AC-01", "title": "Unauthenticated or forged session reaches a private route", "status": "automated", "residualRisk": "Session strength, rotation and idle/absolute timeouts are tested in packages/auth; a stolen valid cookie is a valid session until revoked." },
     { "id": "AC-02", "title": "OIDC login abuse (state, nonce, replay, missing MFA)", "status": "requires-live-service", "residualRisk": "Covered by apps/api/src/auth-routes.test.ts against a local fake identity provider; behaviour against the real institutional provider is untested (needs the provider configuration)." },
