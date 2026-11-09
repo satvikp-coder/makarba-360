@@ -1,8 +1,8 @@
 {
-  "status": "APPROVED",
+  "status": "PROPOSED \u2014 AWAITING STAKEHOLDER APPROVAL",
   "issue": 6,
-  "approved_by": "Varun Karthic, Core Platform Lead / Developer A",
-  "approved_on": "2026-11-09",
+  "approved_by": null,
+  "approved_on": null,
   "principles": [
     "Roles are additive explicit grants scoped to study and record ownership.",
     "Administrator is not a universal data reader.",
