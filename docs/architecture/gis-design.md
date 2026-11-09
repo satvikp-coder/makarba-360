@@ -91,3 +91,19 @@ Pure rules mirroring the database live in `packages/gis-io/src/categories.ts` (`
 **Versioning.** Every change to geometry or provenance requires the caller's `expectedRevision`, produces the next revision, and appends to `audit.location_geometry_revisions` with provenance and author. A stale revision is a 409 with the current revision; resubmitting identical content is a 409 `unchanged`. Concurrent edits from the same revision: one wins, the other is stale (tested on PostGIS). Changing an already reviewed, approved or published geometry returns it to `candidate` and clears the reviewer, so it needs a new independent review.
 
 **Routes** (`apps/api/src/location-routes.ts`, private API, session + CSRF + capability on every route): `POST /locations` and `PUT /locations/:id/geometry` need `location.propose_geometry` (researcher, own record); `GET /locations`, `GET /locations/:id`, `GET /locations/:id/revisions` and `POST /locations/:id/review` need `location.review_geometry` (lead, assigned study). Ownership and study come from the stored record; the author is the session user, never a body field. A reviewer cannot review a geometry they authored (route 409 and database check). An unknown id is denied exactly like a forbidden one. No route deletes a place. **Not done:** publishing a reviewed place to `published.locations` (publication worker, issues #81/#103), real geometry (none exists; fixtures are synthetic around 10,10), and the capability matrix is still PROPOSED (#6) so production start-up refuses these routes until it is approved.
+
+## Road corridor import and verification (issue #28)
+
+Implemented in `packages/gis-io/src/roads.ts` (pure TypeScript, 9 tests in `packages/gis-io/src/roads.test.ts`). Stages and validates licensed street and corridor geometries from OpenStreetMap (OSM) extracts and spatial datasets prior to database ingestion.
+
+**Validation and observable error states:**
+- **Geometry constraint:** Only route geometries (`LineString` and `MultiLineString`) are accepted as road corridors. `Point`, `Polygon`, `MultiPolygon`, and `GeometryCollection` are rejected with `"geometry type ... is not a valid road corridor; road corridors must be LineString or MultiLineString"`.
+- **Negative contract — restricted imagery tracing blocked:** Tracing commercial or unapproved satellite or street imagery is strictly forbidden. Any file or feature declaring `imagery_tracing`, `satellite_tracing`, `aerial_tracing`, or `restricted_imagery` is rejected immediately.
+- **Negative contract — unverified road names blocked:** Corridors must carry an established, verified name. Generic placeholders (`unnamed road`, `unnamed`, `unknown road`, `road`, `street`, `unverified`) or explicit unverified markers (`verified_name: false`, `name_status: "unverified"`) are blocked from publishing.
+- **Source-dated licensing & provenance:** Staged road files require a declared source, approved open licence (`ODbL-1.0`, `CC0-1.0`, `CC-BY-4.0`, `CC-BY-SA-4.0`), and a valid ISO extract date (`extractDate`).
+- **Property allowlist:** Only allowlisted road attributes survive staging (`name`, `name_en`, `name_gu`, `name_hi`, `highway`, `surface`, `osm_id`, `osm_version`, `category`, `slug`, `corridor_id`), along with `source`, `licence`, and `extract_date`. Dropped properties are reported.
+- **Privacy boundary:** Restricted participant fields or survey responses are never permitted in spatial features (`findForbiddenField` rejection).
+- **Study extent:** Features outside the optional study bounds generate an advisory warning for research lead review and are never clipped or forcibly moved.
+
+**Limitations:** Road corridor import stages and validates files without direct database writes; publishing verified corridors to PostGIS and public layers requires live integration (#23, #27).
+

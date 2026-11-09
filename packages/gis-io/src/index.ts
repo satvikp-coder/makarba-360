@@ -170,3 +170,4 @@ export function exportFeatures(features: ExportFeature[], req: ExportRequest): E
 }
 export * from "./categories.js";
 export * from "./location-geometry.js";
+export * from "./roads.js";
