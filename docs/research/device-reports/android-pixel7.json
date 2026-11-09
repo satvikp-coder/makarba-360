@@ -1,0 +1,30 @@
+{
+  "probe": "makarba-offline-probe",
+  "version": 1,
+  "syntheticDataOnly": true,
+  "isSecureContext": true,
+  "userAgent": "Mozilla/5.0 (Linux; Android 14; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Mobile Safari/537.36",
+  "notes": "Pixel 7, Android 14, Chrome 130. Killed the app by swiping it away, reopened and re-ran. Airplane mode reload showed the page from cache successfully.",
+  "results": [
+    {
+      "id": "features",
+      "status": "pass"
+    },
+    {
+      "id": "idb",
+      "status": "pass"
+    },
+    {
+      "id": "vault",
+      "status": "pass"
+    },
+    {
+      "id": "keystore",
+      "status": "pass"
+    },
+    {
+      "id": "recovery",
+      "status": "pass"
+    }
+  ]
+}

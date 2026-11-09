@@ -1,0 +1,30 @@
+{
+  "probe": "makarba-offline-probe",
+  "version": 1,
+  "syntheticDataOnly": true,
+  "isSecureContext": true,
+  "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1",
+  "notes": "iPhone 13, iOS 17.5, Safari 17.5. Closed Safari from app switcher, reopened and verified key and draft recovery. Airplane mode reload served from service worker cache.",
+  "results": [
+    {
+      "id": "features",
+      "status": "pass"
+    },
+    {
+      "id": "idb",
+      "status": "pass"
+    },
+    {
+      "id": "vault",
+      "status": "pass"
+    },
+    {
+      "id": "keystore",
+      "status": "pass"
+    },
+    {
+      "id": "recovery",
+      "status": "pass"
+    }
+  ]
+}
