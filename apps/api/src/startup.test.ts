@@ -1,5 +1,6 @@
 import request from "supertest";
 import { describe, expect, it } from "vitest";
+import { Authorizer, loadMatrix } from "@makarba/authz";
 import { prepareServer } from "./startup.js";
 
 const strong = "Zx9!qL2#vB7$kT4&mN8*pR1^wY5@cD3%hG6(jF0)sA-uE+iO";
@@ -39,7 +40,8 @@ describe("API start-up (fail closed)", () => {
     }
   });
   it("refuses a production start while the capability matrix is not approved (issue #6)", async () => {
-    await expect(prepareServer(prod, { log: () => {} })).rejects.toThrow(/approved|PROPOSED|capability/i);
+    const unapproved = new Authorizer({ ...loadMatrix(), status: "PROPOSED — AWAITING STAKEHOLDER APPROVAL", approved_by: null, approved_on: null });
+    await expect(prepareServer(prod, { log: () => {}, authorizer: unapproved })).rejects.toThrow(/approved|PROPOSED|capability/i);
   });
   it("unknown routes and thrown errors answer plain JSON without stack traces or paths", async () => {
     const p = await prepareServer(local, { log: () => {} });
