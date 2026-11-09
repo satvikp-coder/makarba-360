@@ -17,13 +17,13 @@ export interface Prepared { app: Express; env: ServerEnv; publicPool: pg.Pool | 
  * variables, never values. The read-only public API gets its OWN connection string (READONLY_DATABASE_URL, role makarba_public_api);
  * without it the public API is not mounted.
  */
-export interface PrepareOptions { log?: (line: string) => void; fetchImpl?: typeof fetch; allowInsecureOidc?: boolean; poolFactory?: (connectionString: string) => pg.Pool; authorizer?: Authorizer }
+export interface PrepareOptions { log?: (line: string) => void; fetchImpl?: typeof fetch; allowInsecureOidc?: boolean; poolFactory?: (connectionString: string) => pg.Pool }
 
 export async function prepareServer(raw: Record<string, string | undefined>, opts: PrepareOptions = {}): Promise<Prepared> {
   const log = opts.log ?? console.log;
   const makePool = opts.poolFactory ?? ((cs: string) => new pg.Pool({ connectionString: cs, max: 10, idleTimeoutMillis: 30_000, statement_timeout: 10_000 }));
   const env = loadServerEnv(raw);
-  assertPolicyUsable(opts.authorizer ?? new Authorizer(loadMatrix()), env.APP_ENV);
+  assertPolicyUsable(new Authorizer(loadMatrix()), env.APP_ENV);
   const app = createApp();
   app.use(safeRequestLogger(log));
   let publicPool: pg.Pool | null = null;

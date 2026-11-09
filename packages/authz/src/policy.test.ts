@@ -120,14 +120,13 @@ describe("training prerequisite (issue #33)", () => {
 
 describe("production guard", () => {
   it("refuses production while the matrix is only PROPOSED, allows local and staging", () => {
-    const unapproved = new Authorizer({ ...matrix, status: "PROPOSED — AWAITING STAKEHOLDER APPROVAL", approved_by: null, approved_on: null });
-    expect(unapproved.approved).toBe(false);
-    expect(() => assertPolicyUsable(unapproved, "production")).toThrow(/not approved/);
-    expect(() => assertPolicyUsable(unapproved, "staging")).not.toThrow();
-    expect(() => assertPolicyUsable(unapproved, "local")).not.toThrow();
+    expect(authz.approved).toBe(false);
+    expect(() => assertPolicyUsable(authz, "production")).toThrow(/not approved/);
+    expect(() => assertPolicyUsable(authz, "staging")).not.toThrow();
+    expect(() => assertPolicyUsable(authz, "local")).not.toThrow();
   });
   it("accepts production once genuinely approved", () => {
-    expect(authz.approved).toBe(true);
-    expect(() => assertPolicyUsable(authz, "production")).not.toThrow();
+    const approved = new Authorizer({ ...matrix, status: "APPROVED", approved_by: "synthetic-test-approver", approved_on: "2000-01-01" });
+    expect(() => assertPolicyUsable(approved, "production")).not.toThrow();
   });
 });
