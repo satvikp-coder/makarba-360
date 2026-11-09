@@ -1,6 +1,6 @@
 # Remaining Developer A issues (checkpoint)
 
-GitHub is authoritative; regenerate with `python docs/project/make_remaining_a.py` (read-only). Main at generation: `05480de`. Open Developer A issues: 10. This file changes no assignee, label or state; reassignment is the owner's decision.
+GitHub is authoritative; regenerate with `python docs/project/make_remaining_a.py` (read-only). Main at generation: `41cf9af`. Open Developer A issues: 10. This file changes no assignee, label or state; reassignment is the owner's decision.
 
 Result categories: engineering preparation merged = code + tests on main; **not** an acceptance claim. An issue is closed only when its own acceptance criteria and hard prerequisites are met.
 
