@@ -118,4 +118,29 @@ describe.skipIf(!url)("spatial invariants and migration paths (database)", () =>
       expect(r.rows[0].c).toBe(false);
     });
   });
+
+  describe("study area review evidence", () => {
+    beforeEach(async () => { await run(); });
+    const id = "00000000-0000-4000-8000-0000000000a1";
+    const reviewer = "00000000-0000-4000-8000-0000000000b1";
+    const insert = (version: number, state: string, source: string, verified: string) =>
+      `INSERT INTO private.study_areas (id, version, name, geometry, state, source_ref, verified_by) VALUES ('${id}', ${version}, 'synthetic', ST_GeomFromText('MULTIPOLYGON(((10 10,11 10,11 11,10 11,10 10)))',4326), '${state}', ${source}, ${verified})`;
+    it("requires a nonblank source and reviewer for reviewed or approved versions", async () => {
+      expect(await attempt(insert(1, "candidate", "NULL", "NULL"))).toBe("ok");
+      expect(await attempt(insert(1, "reviewed", "NULL", `'${reviewer}'`))).toBe("23514");
+      expect(await attempt(insert(1, "approved", "'  '", `'${reviewer}'`))).toBe("23514");
+      expect(await attempt(insert(1, "reviewed", "'synthetic source'", "NULL"))).toBe("23514");
+      expect(await attempt(insert(1, "approved", "'synthetic source'", `'${reviewer}'`))).toBe("ok");
+    });
+    it("prevents evidence changes to a reviewed version but allows a new candidate version", async () => {
+      await c.query("SET ROLE makarba_migrator");
+      await c.query(insert(1, "reviewed", "'synthetic source'", `'${reviewer}'`));
+      await c.query("RESET ROLE");
+      expect(await attempt(`UPDATE private.study_areas SET source_ref = 'other' WHERE id = '${id}'`)).toBe("23514");
+      expect(await attempt(`UPDATE private.study_areas SET geometry = ST_Translate(geometry, 1, 0) WHERE id = '${id}'`)).toBe("23514");
+      expect(await attempt(`UPDATE private.study_areas SET state = 'candidate' WHERE id = '${id}'`)).toBe("23514");
+      expect(await attempt(`UPDATE private.study_areas SET state = 'approved' WHERE id = '${id}'`)).toBe("ok");
+      expect(await attempt(insert(2, "candidate", "NULL", "NULL"))).toBe("ok");
+    });
+  });
 });
