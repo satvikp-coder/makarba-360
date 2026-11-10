@@ -42,7 +42,7 @@ describe("synthetic mock public API (illustrative Makarba demo data)", () => {
     expect((await get("/locations/synthetic-point/history")).status).toBe(404);
     expect((await get("/locations?limit=999")).status).toBe(422);
     expect((await get("/insights?cohort=bogus")).status).toBe(422);
-    expect((await get("/insights?cohort=demo-weekend-visitors")).status).toBe(200);
+    expect((await get("/insights?cohort=weekend-visitors")).status).toBe(200);
     expect((await get("/locations?scenario=bogus")).status).toBe(422);
   });
   it("never exposes restricted fields in any response", async () => {
@@ -70,20 +70,20 @@ describe("illustrative Makarba demo dataset", () => {
     expect(JSON.stringify(body)).not.toContain("[10,10]");
     expect(new Set(body.features.map((f: { geometry: { type: string } }) => f.geometry.type))).toEqual(new Set(["Point", "MultiLineString", "MultiPolygon"]));
   });
-  it("every place has a contract-valid history whose every event is labelled illustrative", async () => {
+  it("every place has a contract-valid history whose every event is labelled as an example", async () => {
     expect(demoSlugs.length).toBeGreaterThanOrEqual(10);
     for (const slug of demoSlugs) {
       const r = await get(`/locations/${slug}/history`);
       expect(r.status, slug).toBe(200);
       expect(validatePublic("history", r.body), slug).toEqual({ ok: true });
       expect(r.body.events.length, slug).toBeGreaterThan(0);
-      for (const e of r.body.events) expect(e.text, slug).toMatch(/^Illustrative/);
-      for (const s of r.body.sources) expect(s.citation).toMatch(/Illustrative demo note: fictional/);
+      for (const e of r.body.events) expect(e.text, slug).toMatch(/^Example/);
+      for (const s of r.body.sources) expect(s.citation).toMatch(/^Example note: composite, fictional/);
     }
   });
   it("insights: ready groups meet k5 and denominators; the hidden group carries no counts (never zero)", async () => {
     const { body } = await get("/insights");
-    expect(body.sampleNote).toMatch(/ILLUSTRATIVE DEMO/);
+    expect(body.sampleNote).toMatch(/Example figures for this prototype.*not findings/);
     const hidden = body.cohorts.filter((c: { suppressed: boolean }) => c.suppressed);
     expect(hidden.length).toBe(1);
     expect(hidden[0]).toMatchObject({ n: null, validAnswerN: null, missingN: null, unsureN: null, ratings: [], issues: [] });
@@ -94,8 +94,8 @@ describe("illustrative Makarba demo dataset", () => {
     expect(r.status).toBe(200);
     expect(r.body.meta.datasetKind).toBe("synthetic");
     for (const s of r.body.stories) {
-      expect(s.title).toMatch(/^Illustrative/);
-      for (const b of s.blocks) expect(b.attribution).toMatch(/fictional composite/);
+      expect(s.title).toMatch(/^Example/);
+      for (const b of s.blocks) expect(b.attribution).toMatch(/composite example voice \(fictional\)/);
     }
     expect((await get("/stories?scenario=empty")).body.stories).toEqual([]);
   });

@@ -38,91 +38,91 @@ const PLACES: DemoPlace[] = [
     n: 1, slug: "junction-fruit-carts", name: "Junction fruit and sugarcane carts", category: "market",
     geometry: { type: "Point", coordinates: [72.5062, 22.9936] }, media: ["synthetic-media-1"],
     timeline: [
-      ["2021", "Illustrative: a single fruit cart starts trading at the busy junction beside the shrine approach."],
-      ["2022", "Illustrative: a sugarcane-juice cart joins; vendors describe asking the shrine trust before setting up."],
-      ["2023", "Illustrative: Thursday-to-Sunday visitor crowds make the corner the busiest trading spot of the week."],
-      ["2025", "Illustrative: carts shift a few metres back from the carriageway after traffic complaints."],
+      ["2021", "Example: a single fruit cart starts trading at the busy junction beside the shrine approach."],
+      ["2022", "Example: a sugarcane-juice cart joins; vendors describe asking the shrine trust before setting up."],
+      ["2023", "Example: Thursday-to-Sunday visitor crowds make the corner the busiest trading spot of the week."],
+      ["2025", "Example: carts shift a few metres back from the carriageway after traffic complaints."],
     ],
   },
   {
     n: 2, slug: "mosque-lane-tea-corner", name: "Mosque-lane tea corner", category: "community",
     geometry: { type: "Point", coordinates: [72.5088, 22.9944] },
     timeline: [
-      ["2022", "Illustrative: a tea stall becomes the regular meeting point after evening prayers."],
-      ["2024", "Illustrative: benches are added by neighbours; the lane stays closed to cars on festival evenings."],
+      ["2022", "Example: a tea stall becomes the regular meeting point after evening prayers."],
+      ["2024", "Example: benches are added by neighbours; the lane stays closed to cars on festival evenings."],
     ],
   },
   {
     n: 3, slug: "village-bus-stand", name: "Village bus stand", category: "transport",
     geometry: { type: "Point", coordinates: [72.5117, 22.9937] },
     timeline: [
-      ["2021", "Illustrative: city buses stop beside the highway service lane; visitors walk in to the shrine."],
-      ["2024", "Illustrative: a shaded waiting area is added; weekend queues are longest on Fridays."],
+      ["2021", "Example: city buses stop beside the highway service lane; visitors walk in to the shrine."],
+      ["2024", "Example: a shaded waiting area is added; weekend queues are longest on Fridays."],
     ],
   },
   {
     n: 4, slug: "highway-auto-stand", name: "Highway auto-rickshaw stand", category: "transport",
     geometry: { type: "Point", coordinates: [72.5126, 22.9905] },
     timeline: [
-      ["2022", "Illustrative: shared autos gather where the arterial road meets the highway."],
-      ["2025", "Illustrative: drivers report visitors arriving from across the city and from other cities such as Surat."],
+      ["2022", "Example: shared autos gather where the arterial road meets the highway."],
+      ["2025", "Example: drivers report visitors arriving from across the city and from other cities such as Surat."],
     ],
   },
   {
     n: 5, slug: "canal-bank-walk", name: "Canal bank walk", category: "open_space",
     geometry: { type: "MultiLineString", coordinates: [[[72.4975, 23.0013], [72.5031, 22.9989], [72.5090, 22.9976], [72.5136, 22.9963]]] },
     timeline: [
-      ["2021", "Illustrative: an unpaved path along the canal bank is used as a shortcut to the bus stand."],
-      ["2023", "Illustrative: evening walkers and snack carts appear along the bank on weekends."],
+      ["2021", "Example: an unpaved path along the canal bank is used as a shortcut to the bus stand."],
+      ["2023", "Example: evening walkers and snack carts appear along the bank on weekends."],
     ],
   },
   {
     n: 6, slug: "old-cotton-mill-site", name: "Old cotton-mill site", category: "industry",
     geometry: { type: "MultiPolygon", coordinates: rect(72.515, 22.9905, 72.5185, 22.9935) },
     timeline: [
-      ["2021", "Illustrative: the long sheds of a former mill compound stand mostly unused."],
-      ["2024", "Illustrative: part of the compound is used as a weekend parking overflow."],
+      ["2021", "Example: the long sheds of a former mill compound stand mostly unused."],
+      ["2024", "Example: part of the compound is used as a weekend parking overflow."],
     ],
   },
   {
     n: 7, slug: "factory-road-vending-stretch", name: "Factory road vending stretch", category: "market",
     geometry: { type: "MultiLineString", coordinates: [[[72.5137, 22.9966], [72.5168, 22.9981], [72.5198, 22.9996]]] },
     timeline: [
-      ["2021", "Illustrative: a handful of carts serve mill-shift workers at lunchtime."],
-      ["2023", "Illustrative: vending spreads along the road; space on the footpath becomes contested."],
-      ["2025", "Illustrative: a small stall opens with money pooled by friends and neighbours."],
+      ["2021", "Example: a handful of carts serve mill-shift workers at lunchtime."],
+      ["2023", "Example: vending spreads along the road; space on the footpath becomes contested."],
+      ["2025", "Example: a small stall opens with money pooled by friends and neighbours."],
     ],
   },
   {
     n: 8, slug: "weekend-mela-ground", name: "Weekend and mela ground", category: "community",
     geometry: { type: "MultiPolygon", coordinates: rect(72.506, 22.99, 72.5078, 22.9912) },
     timeline: [
-      ["2022", "Illustrative: an open plot fills with temporary stalls for the yearly fair (mela)."],
-      ["2024", "Illustrative: the same plot hosts weekend food stalls from Thursday to Sunday."],
+      ["2022", "Example: an open plot fills with temporary stalls for the yearly fair (mela)."],
+      ["2024", "Example: the same plot hosts weekend food stalls from Thursday to Sunday."],
     ],
   },
   {
     n: 9, slug: "lake-edge-steps", name: "Lake-edge viewing steps", category: "open_space",
     geometry: { type: "Point", coordinates: [72.5036, 22.9908] },
-    timeline: [["2023", "Illustrative: visitors stop on the steps at sunset; a photo spot during the fair."]],
+    timeline: [["2023", "Example: visitors stop on the steps at sunset; a photo spot during the fair."]],
   },
   {
     n: 10, slug: "sarkhej-roza-area", name: "Sarkhej Roza (landmark area)", category: "heritage",
     geometry: { type: "MultiPolygon", coordinates: rect(72.5032, 22.9912, 72.5058, 22.9934) },
-    timeline: [["2026", "Illustrative placeholder: sourced landmark notes are shown separately on the site; no demo history is claimed here."]],
+    timeline: [["2026", "Example placeholder: the sourced landmark notes for Sarkhej Roza are shown separately; no history is claimed here."]],
   },
   {
     n: 11, slug: "crowdfunded-snack-stall", name: "Crowd-funded snack stall", category: "market",
     geometry: { type: "Point", coordinates: [72.51, 22.9922] },
     timeline: [
-      ["2024", "Illustrative: a first-time vendor starts with savings pooled by a small circle of friends."],
-      ["2025", "Illustrative: the stall moves under a tree after a season of rain."],
+      ["2024", "Example: a first-time vendor starts with savings pooled by a small circle of friends."],
+      ["2025", "Example: the stall moves under a tree after a season of rain."],
     ],
   },
   {
     n: 12, slug: "visitor-drop-off", name: "Visitor drop-off point", category: "transport",
     geometry: { type: "Point", coordinates: [72.5059, 22.9921] },
-    timeline: [["2023", "Illustrative: cars and autos drop visitors at the shrine gate, slowing the lane on weekends."]],
+    timeline: [["2023", "Example: cars and autos drop visitors at the shrine gate, slowing the lane on weekends."]],
   },
 ];
 
@@ -145,7 +145,7 @@ export const demoLocations = {
 
 const SOURCE = {
   id: SOURCE_ID,
-  citation: "Illustrative demo note: fictional composite written for this demonstration, not a historical or survey source",
+  citation: "Example note: composite, fictional entry written for this prototype; not a historical or survey source",
   url: "https://example.invalid/demo/makarba-composite",
   licence: "synthetic-test-only",
   verificationState: "synthetic",
@@ -158,12 +158,12 @@ export function demoHistory(slug: string) {
   return {
     locationId: id(p.n),
     sources: [SOURCE],
-    events: p.timeline.map(([year, text], i) => ({ id: `demo-${p.slug}-${i + 1}`, sourceId: SOURCE_ID, date: { value: year, precision: "year" }, evidenceType: "illustrative", text })),
+    events: p.timeline.map(([year, text], i) => ({ id: `demo-${p.slug}-${i + 1}`, sourceId: SOURCE_ID, date: { value: year, precision: "year" }, evidenceType: "example", text })),
     comparisonPairs: p.n === 1
       ? [{
           id: "demo-pair-1", locationId: id(1), beforeMediaId: "synthetic-before", afterMediaId: "synthetic-after",
           beforeDate: { value: "2021", precision: "year" }, afterDate: { value: "2025", precision: "year" }, sourceIds: [SOURCE_ID],
-          matchingViewpointNotes: "Illustrative pair for demonstrating the comparison view only", evidenceQuality: "synthetic",
+          matchingViewpointNotes: "Example pair for showing the comparison view only", evidenceQuality: "synthetic",
         }]
       : [],
     meta: meta(`demo-makarba-history-${p.n}`),
@@ -196,22 +196,22 @@ const ready = (cohortId: string, n: number, missingN: number, unsureN: number, r
     respondentCategories: respondentCategories.map(([code, count]) => ({ code, count })),
     ratings: ratings.map(([value, count]) => ({ value, count })),
     issues: issues.map(([code, count]) => ({ code, count })),
-    denominatorLabel, countingRule: "Illustrative demo counts; a person can appear in more than one group",
+    denominatorLabel, countingRule: "Example counts for this prototype; one entry can appear in more than one group",
   };
 };
 
 export const demoCohorts = [
-  ready("demo-weekend-visitors", 48, 4, 6,
+  ready("weekend-visitors", 48, 4, 6,
     [["local-resident", 14], ["city-visitor", 22], ["out-of-town-visitor", 12]],
     [[1, 3], [2, 5], [3, 10], [4, 14], [5, 6]],
     [["traffic-congestion", 26], ["crowding-thu-sun", 21], ["parking", 17], ["waste", 9]],
-    "38 valid illustrative answers about the junction area"),
-  ready("demo-street-vendors", 16, 1, 2,
+    "38 example answers about the junction area (composite, fictional)"),
+  ready("street-vendors", 16, 1, 2,
     [["cart-vendor", 9], ["stall-vendor", 7]],
     [[1, 2], [2, 3], [3, 4], [4, 3], [5, 1]],
     [["vending-space", 12], ["traffic-conflict", 8], ["permission-uncertainty", 6]],
-    "13 valid illustrative answers from fictional vendors"),
-  { cohortId: "demo-canal-bank-small", suppressed: true, n: null, validAnswerN: null, missingN: null, unsureN: null, respondentCategories: [], ratings: [], issues: [], reasonCode: "DISCLOSURE_POLICY" },
+    "13 example answers about vending (composite, fictional)"),
+  { cohortId: "canal-bank-small", suppressed: true, n: null, validAnswerN: null, missingN: null, unsureN: null, respondentCategories: [], ratings: [], issues: [], reasonCode: "DISCLOSURE_POLICY" },
 ];
 
 export const demoInsights = {
@@ -219,7 +219,7 @@ export const demoInsights = {
   collectionPeriod: { fromMonth: "2026-01", throughMonth: "2026-03" },
   questionVersion: "demo-survey-v1",
   policyVersion: "demo-disclosure-v1",
-  sampleNote: "ILLUSTRATIVE DEMO figures: invented counts for demonstrating the charts, not real Makarba findings or population estimates. Groups overlap and have no common total.",
+  sampleNote: "Example figures for this prototype: composite, fictional counts that show how charts work. They are not findings or population estimates. Groups overlap and have no common total.",
   meta: meta("demo-makarba-insights-1"),
 };
 
@@ -227,16 +227,16 @@ export const demoInsights = {
 export const demoStories = {
   stories: [
     {
-      id: "demo-story-1", locationId: id(1), slug: "junction-fruit-carts", title: "Illustrative: a weekend at the junction carts",
+      id: "demo-story-1", locationId: id(1), slug: "junction-fruit-carts", title: "Example: a weekend at the junction carts",
       blocks: [
-        { label: "What a person remembers", quote: "On Thursdays the crowd starts early and by Sunday evening the whole corner is busy with families from all over the city.", period: "recent years", attribution: "fictional composite voice (illustrative demo)" },
-        { label: "What a person remembers", quote: "We set up only after asking at the shrine office, and we pull back when the traffic police come by.", period: null, attribution: "fictional composite voice (illustrative demo)" },
+        { label: "What a person remembers", quote: "On Thursdays the crowd starts early and by Sunday evening the whole corner is busy with families from all over the city.", period: "recent years", attribution: "composite example voice (fictional)" },
+        { label: "What a person remembers", quote: "We set up only after asking at the shrine office, and we pull back when the traffic police come by.", period: null, attribution: "composite example voice (fictional)" },
       ],
     },
     {
-      id: "demo-story-2", locationId: id(7), slug: "factory-road-vending-stretch", title: "Illustrative: starting small on the factory road",
+      id: "demo-story-2", locationId: id(7), slug: "factory-road-vending-stretch", title: "Example: starting small on the factory road",
       blocks: [
-        { label: "What a person remembers", quote: "A few friends chipped in so the stall could open; the first months were about finding a spot nobody objected to.", period: "about five years of change", attribution: "fictional composite voice (illustrative demo)" },
+        { label: "What a person remembers", quote: "A few friends chipped in so the stall could open; the first months were about finding a spot nobody objected to.", period: "about five years of change", attribution: "composite example voice (fictional)" },
       ],
     },
   ],
