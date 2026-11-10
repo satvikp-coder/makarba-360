@@ -7,7 +7,8 @@ import { findForbiddenField, validatePublic } from "@makarba/contracts";
  */
 export interface Check { id: string; ok: boolean; detail: string }
 type Json = Record<string, unknown>;
-const SYNTHETIC_SLUG = "synthetic-point";
+// Default published slug of the mock API's illustrative Makarba demo dataset (apps/api/src/demo-makarba.ts).
+const SYNTHETIC_SLUG = "junction-fruit-carts";
 const SYNTHETIC_MEDIA = "synthetic-media-1";
 
 async function get(base: string, path: string, init: RequestInit = {}) {
