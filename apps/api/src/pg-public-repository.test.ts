@@ -61,7 +61,8 @@ describe.skipIf(!url)("PgPublicRepository on PostGIS [PASS - SYNTHETIC DATABASE 
   });
 
   it("the shared 11-check conformance suite passes against the database-backed router", async () => {
-    const res = await runConformance(base);
+    // the database is seeded with the frozen contract fixture, whose published slug is synthetic-point (the suite's default is the mock's Makarba example)
+    const res = await runConformance(base, { slug: "synthetic-point" });
     expect(summarize(res).failed, JSON.stringify(summarize(res).failed)).toEqual([]);
   });
 
