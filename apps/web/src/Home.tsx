@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { fetchPlaces, type PlacesResult } from "./api.js";
 import { strings } from "./i18n.js";
+import { Landmarks } from "./landmarks.js";
+import { DataNote } from "./DataNote.js";
 
 /** An approved, rights-cleared hero image. None is configured yet, so the honest typographic fallback is shown. */
 export interface HeroMediaInfo { src: string; alt: string; date: string; credit: string; licence: string }
@@ -49,6 +51,12 @@ export function Home({ fetcher, hero }: { fetcher?: typeof fetch; hero?: HeroMed
         <p><Link to="/research/methodology">Read the research methodology</Link></p>
       </section>
 
+      <section aria-labelledby="landmarks-h">
+        <h2 id="landmarks-h">Landmarks around Makarba</h2>
+        <p>Short notes on the well-known landmarks near Makarba and why they matter, each with its source.</p>
+        <Landmarks />
+      </section>
+
       <section aria-labelledby="featured-h">
         <h2 id="featured-h">Featured places</h2>
         <div role="status" aria-live="polite">
@@ -56,7 +64,7 @@ export function Home({ fetcher, hero }: { fetcher?: typeof fetch; hero?: HeroMed
           {r !== "loading" && r.status === "error" && t.errorPlaces}
           {r !== "loading" && r.status === "ok" && featured.length === 0 && t.emptyPlaces}
         </div>
-        {r !== "loading" && r.status === "ok" && r.synthetic && featured.length > 0 && <p><strong>{t.synthetic}</strong></p>}
+        {r !== "loading" && r.status === "ok" && r.synthetic && featured.length > 0 && <DataNote />}
         {featured.length > 0 && (
           <ul>{featured.map((p) => <li key={p.id}><Link to={`/explore?place=${p.id}`}>{p.name}</Link> <small>({p.category})</small></li>)}</ul>
         )}

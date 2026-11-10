@@ -5,6 +5,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 vi.mock("./map/MapView.js", () => ({ MapView: () => null }));
 import { LANGUAGES } from "./i18n.js";
 import { AccessibilityHelp, Methodology, Sources } from "./ResearchPages.js";
+import { LANDMARKS } from "./landmarks.js";
 import { App } from "./App.js";
 
 afterEach(cleanup);
@@ -26,10 +27,14 @@ describe("methodology, sources and accessibility pages", () => {
       cleanup();
     }
   });
-  it("sources credit OpenStreetMap and do not list unapproved sources", () => {
+  it("sources describe the offline sketch basemap honestly, credit landmark sources and photos, and list no unapproved place sources", () => {
     const t = text(Sources);
-    expect(t).toContain("OpenStreetMap contributors");
+    expect(t).toContain("approximate sketch of Makarba drawn for this prototype");
+    expect(t).not.toContain("OpenStreetMap contributors");   // no OSM data is used any more, so it must not be credited as the base map
     expect(t).toContain("none are shown until their rights and dates have been checked");
+    expect(screen.getByRole("link", { name: "Wikipedia: Sarkhej Roza" })).toBeTruthy();
+    expect(screen.getAllByRole("link", { name: "Commons file page" }).length).toBe(LANDMARKS.flatMap((l) => l.photos ?? []).length);
+    expect(t).toMatch(/CC BY-SA.*same licence/);
   });
   it("language claims match what the app actually offers", () => {
     const t = text(AccessibilityHelp);

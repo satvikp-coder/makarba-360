@@ -62,7 +62,7 @@ def p95(values: list[float]) -> float:
     return s[min(len(s) - 1, int(0.95 * len(s)))]
 
 def check_api(base: str, requests: int = API_REQUESTS) -> list[str]:
-    urls = [f"{base}/api/v1/public/{p}" for p in ("locations", "insights", "locations/synthetic-point/history", "media/synthetic-media-1")]
+    urls = [f"{base}/api/v1/public/{p}" for p in ("locations", "insights", "locations/junction-fruit-carts/history", "media/synthetic-media-1")]
     def one(i: int) -> float:
         t = time.perf_counter()
         with urllib.request.urlopen(urls[i % len(urls)], timeout=10) as r:

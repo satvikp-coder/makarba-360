@@ -65,7 +65,7 @@ describe("place list alternative", () => {
   it("shows places from the validated mock contract, labelled synthetic", async () => {
     wrap(<PlaceList fetcher={okFetch} />);
     await waitFor(() => expect(screen.getAllByRole("listitem").length).toBe(bundle.locations.features.length));
-    expect(screen.getByText(/Demonstration data/)).toBeTruthy();
+    expect(screen.getByText(/Example data: these entries are composite, fictional/)).toBeTruthy();
   });
   it("empty collection says no places are published, not zero or an error", async () => {
     const f = (() => json({ ...bundle.locations, features: [] })) as unknown as typeof fetch;

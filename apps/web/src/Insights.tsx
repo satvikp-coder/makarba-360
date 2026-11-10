@@ -1,9 +1,19 @@
 import { useCallback, useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { captionFor, viewCell, viewInsights, type CohortView } from "@makarba/insights-view";
+import { captionFor, viewCell, viewInsights, type CellView, type CohortView } from "@makarba/insights-view";
 import { sanitizeQuery } from "@makarba/public-ia";
 import { fetchInsights, type InsightsResult } from "./api.js";
 import { strings } from "./i18n.js";
+import { useCountUp } from "./motion.js";
+import { DataNote } from "./DataNote.js";
+
+function CountUp({ n }: { n: number }) {
+  return <>{useCountUp(n)}</>;
+}
+/** A table cell value. Only a real, ready count is animated; "Suppressed", "Unavailable" and "No data" are shown as text, never as a number. */
+function Count({ cell }: { cell: CellView }) {
+  return cell.kind === "value" ? <CountUp n={cell.count} /> : <>{cell.text}</>;
+}
 
 interface RawCohort { cohortId?: string; respondentCategories?: Count[]; ratings?: Count[]; issues?: Count[] }
 interface Count { code?: string; value?: string | number; count: number }
@@ -21,7 +31,7 @@ function CountTable({ title, rows, view }: { title: string; rows: Count[]; view:
           return (
             <tr key={i}>
               <th scope="row">{String(r.code ?? r.value ?? "")}</th>
-              <td>{cell.text}</td>
+              <td><Count cell={cell} /></td>
               <td aria-hidden="true"><span className="bar" style={{ width: `${(r.count / max) * 100}%` }} /></td>
             </tr>
           );
@@ -64,7 +74,7 @@ export function Insights({ fetcher }: { fetcher?: typeof fetch }) {
   return (
     <section aria-labelledby="in-h">
       <h1 id="in-h">Urban Insights</h1>
-      {r.data.synthetic && <p><strong>{t.synthetic}</strong></p>}
+      {r.data.synthetic && <DataNote />}
       <p>{view.sampleNote}</p>
       <p>These figures describe the people who were interviewed, not all residents. Groups can overlap, so figures for different groups must not be added together, and no overall total is shown.</p>
 
@@ -95,10 +105,10 @@ export function Insights({ fetcher }: { fetcher?: typeof fetch }) {
                     <table>
                       <caption>{caption!.text}</caption>
                       <tbody>
-                        <tr><th scope="row">People interviewed (n)</th><td>{viewCell(c, c.n).text}</td></tr>
-                        <tr><th scope="row">Valid answers</th><td>{viewCell(c, c.validN).text}</td></tr>
-                        <tr><th scope="row">Unsure</th><td>{viewCell(c, c.unsureN).text}</td></tr>
-                        <tr><th scope="row">Missing or not answered</th><td>{viewCell(c, c.missingN).text}</td></tr>
+                        <tr><th scope="row">People interviewed (n)</th><td><Count cell={viewCell(c, c.n)} /></td></tr>
+                        <tr><th scope="row">Valid answers</th><td><Count cell={viewCell(c, c.validN)} /></td></tr>
+                        <tr><th scope="row">Unsure</th><td><Count cell={viewCell(c, c.unsureN)} /></td></tr>
+                        <tr><th scope="row">Missing or not answered</th><td><Count cell={viewCell(c, c.missingN)} /></td></tr>
                       </tbody>
                     </table>
                     <CountTable title="Respondent groups" rows={raw.respondentCategories ?? []} view={c} />

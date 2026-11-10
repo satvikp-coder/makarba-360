@@ -22,7 +22,7 @@ describe("Insights tables", () => {
     const t = container.textContent!;
     for (const x of ["People interviewed (n)", "40", "Valid answers", "30", "Unsure", "Missing or not answered", "Collected 2026-01 to 2026-02", "synthetic-survey-v1", "synthetic-disclosure-v1", "Respondent groups", "Reported issues"]) expect(t).toContain(x);
     expect(screen.getByRole("table", { name: /Ratings/ })).toBeTruthy();
-    expect(screen.getByText(/Demonstration data/)).toBeTruthy();
+    expect(screen.getByText(/Example data: these entries are composite, fictional/)).toBeTruthy();
   });
   it("a hidden group is stated as hidden and shows no figures, never zero", async () => {
     show();

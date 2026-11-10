@@ -32,7 +32,8 @@ describe("one conformance suite, two implementations", () => {
     expect(checks.length).toBeGreaterThanOrEqual(10);
   });
   it("the repository-backed router passes every check [PASS - SYNTHETIC REPOSITORY]", async () => {
-    const checks = await runConformance(repoBase);
+    // the synthetic repository serves the frozen contract fixture, whose published slug is synthetic-point
+    const checks = await runConformance(repoBase, { slug: "synthetic-point" });
     expect(summarize(checks).failed, JSON.stringify(summarize(checks).failed)).toEqual([]);
   });
   it("the suite really fails an implementation that leaks: a repository returning a private field is refused with a generic 500", async () => {

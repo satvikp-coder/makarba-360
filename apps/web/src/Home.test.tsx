@@ -25,7 +25,7 @@ describe("home page", () => {
     const first = bundle.locations.features[0];
     const link = await screen.findByRole("link", { name: first.properties.name.en });
     expect(link.getAttribute("href")).toBe(`/explore?place=${first.id}`);
-    expect(screen.getByText(/Demonstration data/)).toBeTruthy();
+    expect(screen.getByText(/Example data: these entries are composite, fictional/)).toBeTruthy();
   });
   it("shows no fabricated findings, counts or percentages", async () => {
     const { container } = show(f(bundle.locations));
@@ -41,7 +41,9 @@ describe("home page", () => {
   });
   it("without approved hero media it shows the honest typographic fallback and no image", () => {
     const { container } = show(f(bundle.locations));
-    expect(container.querySelector("img")).toBeNull();
+    // the hero has no photo; the only <img> elements on the page are the credited landmark photos further down
+    expect(container.querySelector(".hero img")).toBeNull();
+    for (const img of container.querySelectorAll("img")) expect(img.closest("figure.landmark-photo")).not.toBeNull();
     expect(screen.getByRole("img", { name: /No approved photograph is available/ })).toBeTruthy();
   });
   it("approved hero media renders with date, credit and licence; incomplete or unsafe media falls back", () => {

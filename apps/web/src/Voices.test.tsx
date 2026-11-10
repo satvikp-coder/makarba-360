@@ -41,7 +41,7 @@ describe("Community Voices page", () => {
     const { container } = show((() => res(fixture)) as unknown as typeof fetch);
     expect(await screen.findByRole("heading", { level: 2, name: "Synthetic test story" })).toBeTruthy();
     const t = container.textContent!;
-    for (const x of ["Verified fact", "What a person remembers", "Official statement", "a long-time shopkeeper", "This is one person's memory, not a verified fact", "Synthetic Ward Office", "2026-03-01", "statement about the lake works", "Demonstration data"]) expect(t).toContain(x);
+    for (const x of ["Verified fact", "What a person remembers", "Official statement", "a long-time shopkeeper", "This is one person's memory, not a verified fact", "Synthetic Ward Office", "2026-03-01", "statement about the lake works", "Example data: these entries are composite, fictional"]) expect(t).toContain(x);
     const r = await axe.run(container, { rules: { "color-contrast": { enabled: false }, region: { enabled: false } } });
     expect(r.violations.map((v) => v.id)).toEqual([]);
   });

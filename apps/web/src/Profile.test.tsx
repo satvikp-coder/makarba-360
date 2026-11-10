@@ -29,7 +29,7 @@ describe("place profile", () => {
     expect(screen.getByText(/Invented test citation/, { selector: "small" })).toBeTruthy();
     expect(await screen.findByAltText(/Synthetic panorama placeholder/)).toBeTruthy();
     expect(screen.getAllByText(/synthetic-test-only/, { selector: "small" }).length).toBeGreaterThan(0);
-    expect(screen.getByText(/Demonstration data/)).toBeTruthy();
+    expect(screen.getByText(/Example data: these entries are composite, fictional/)).toBeTruthy();
   });
   it("missing description, findings and counts are stated plainly and never as zero", async () => {
     const { container } = show("synthetic-point", mk());

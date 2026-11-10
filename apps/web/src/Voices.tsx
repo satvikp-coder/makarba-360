@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { fetchStories, type StoriesResult } from "./stories.js";
 import { strings } from "./i18n.js";
+import { DataNote } from "./DataNote.js";
 
 const EMPTY = "No community accounts have been approved for publication yet.";
 
@@ -33,7 +34,7 @@ export function Voices({ fetcher }: { fetcher?: typeof fetch }) {
         </>
       )}
       {r !== "loading" && (r.status === "missing" || (r.status === "ok" && stories.length === 0)) && <p><strong>{EMPTY}</strong></p>}
-      {r !== "loading" && r.status === "ok" && r.data.synthetic && stories.length > 0 && <p><strong>{strings.en.synthetic}</strong></p>}
+      {r !== "loading" && r.status === "ok" && r.data.synthetic && stories.length > 0 && <DataNote />}
       {stories.map((s) => (
         <section key={s.id} aria-labelledby={`st-${s.id}`}>
           <h2 id={`st-${s.id}`}>{s.title}</h2>

@@ -174,7 +174,7 @@ describe("AC-07 raw positions and private fields never reach the public contract
     app.use("/api/v1/public", mockRouter());
     app.use(notFound);
     app.use(safeErrors);
-    for (const p of ["/locations", "/insights", "/locations/synthetic-point/history", "/media/synthetic-media-1"]) {
+    for (const p of ["/locations", "/insights", "/locations/junction-fruit-carts/history", "/media/synthetic-media-1", "/stories"]) {
       const res = await request(app).get(`/api/v1/public${p}`);
       expect(res.status).toBe(200);
       expect(findForbiddenField(res.body), p).toBeNull();
