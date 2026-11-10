@@ -56,7 +56,13 @@ test("the production build works under the required security headers (map, worke
   // either the viewer starts or a clear message appears; a blocked script or worker would show a CSP violation below
   await expect(page.locator(".pnlm-container canvas, [role=status]").first()).toBeVisible({ timeout: 20_000 });
 
-  expect(violations, violations.join("\n")).toEqual([]);
+  // The frozen synthetic fixture hosts its panorama on https://example.invalid/, which this policy rightly refuses to fetch
+  // (connect-src). Whether the viewer reaches that fetch before the check above is a timing race, so the outcome is made explicit:
+  // that one placeholder request (and the viewer's follow-on error) is expected and must end in the clear message for the visitor.
+  // Every other violation - our scripts, worker, styles, images - still fails the test. The policy itself is not loosened.
+  const placeholder = (v: string) => /example\.invalid\/public\/synthetic-panorama/.test(v) || /readAsBinaryString/.test(v);
+  if (violations.some(placeholder)) await expect(page.getByText(/could not be loaded/)).toBeVisible({ timeout: 15_000 });
+  expect(violations.filter((v) => !placeholder(v)), violations.join("\n")).toEqual([]);
 });
 
 test("the headers are really on the response, including for deep links", async ({ request }) => {
