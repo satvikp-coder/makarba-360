@@ -26,7 +26,7 @@ async function scan(page: Page) {
 }
 
 const ROUTES = [
-  "/", "/explore", "/explore?place=00000000-0000-4000-8000-000000000001&category=heritage", "/places/synthetic-point", "/places/synthetic-point/then-and-now", "/places/synthetic-point/panorama",
+  "/", "/explore", "/explore?place=00000000-0000-4000-8000-000000000001&category=heritage", "/places/junction-fruit-carts", "/places/junction-fruit-carts/then-and-now", "/places/junction-fruit-carts/panorama",
   "/voices", "/insights", "/research/methodology", "/research/sources", "/accessibility", "/stories/index", "/places/does-not-exist",
 ];
 
@@ -72,9 +72,10 @@ test.describe("structure and keyboard", () => {
     expect(await page.evaluate(() => document.activeElement?.id)).toBe("main");
   });
   test("tabbing through the explorer reaches every control and never gets trapped", async ({ page }) => {
+    test.setTimeout(60_000);   // 60 key presses against a live WebGL map in software rendering
     await prepare(page);
     await page.goto("/explore");
-    await expect(page.getByRole("button", { name: "Synthetic Atlas Point" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Junction fruit and sugarcane carts" })).toBeVisible();
     const seen = new Set<string>();
     for (let i = 0; i < 60; i++) {
       await page.keyboard.press("Tab");
@@ -82,7 +83,8 @@ test.describe("structure and keyboard", () => {
       seen.add(d);
     }
     const names = [...seen].join(" | ");
-    for (const must of ["Search places", "heritage", "Synthetic Atlas Point", "Explore"]) expect(names, must).toContain(must);
+    // names are cut to 30 characters above
+    for (const must of ["Search places", "Heritage", "Junction fruit and sugarcane", "Explore"]) expect(names, must).toContain(must);
     expect([...seen].filter((s) => s.endsWith(":false")), "focus landed on an element with no size").toEqual([]);
     expect(seen.size).toBeGreaterThan(10);               // cycled through many distinct stops rather than being trapped in one
   });

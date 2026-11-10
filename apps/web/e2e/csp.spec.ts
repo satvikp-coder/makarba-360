@@ -21,7 +21,7 @@ test.beforeAll(async () => {
     const url = new URL(req.url ?? "/", "http://x");
     const send = (status: number, body: Buffer | string, type: string, extra: Record<string, string> = {}) => res.writeHead(status, { ...HEADERS, "content-type": type, "cache-control": "no-store", ...extra }).end(body);
     if (url.pathname.startsWith("/api/")) {
-      const up = await fetch("http://127.0.0.1:4010" + url.pathname + url.search, { method: req.method }).catch(() => null);
+      const up = await fetch(`http://127.0.0.1:${process.env.MOCK_API_PORT ?? "4010"}` + url.pathname + url.search, { method: req.method }).catch(() => null);
       return up ? send(up.status, Buffer.from(await up.arrayBuffer()), up.headers.get("content-type") ?? "application/json") : send(502, "{}", "application/json");
     }
     const file = join(DIST, url.pathname === "/" ? "index.html" : url.pathname);
@@ -44,12 +44,12 @@ test("the production build works under the required security headers (map, worke
 
   await page.goto(base + "/explore");
   await expect(page.locator("canvas.maplibregl-canvas")).toBeVisible({ timeout: 20_000 });
-  await page.getByRole("searchbox", { name: "Search places" }).fill("atlas");
+  await page.getByRole("searchbox", { name: "Search places" }).fill("canal");
   await page.getByRole("button", { name: "Search" }).click();
   await expect(page.getByText(/1 place matches/)).toBeVisible();
 
-  await page.goto(base + "/places/synthetic-point");
-  await expect(page.getByRole("heading", { level: 1, name: "Synthetic Atlas Point" })).toBeVisible();
+  await page.goto(base + "/places/junction-fruit-carts");
+  await expect(page.getByRole("heading", { level: 1, name: "Junction fruit and sugarcane carts" })).toBeVisible();
   const open = page.getByRole("button", { name: "Explore in 360°" });
   await open.scrollIntoViewIfNeeded();
   await open.click();
@@ -60,7 +60,7 @@ test("the production build works under the required security headers (map, worke
 });
 
 test("the headers are really on the response, including for deep links", async ({ request }) => {
-  for (const path of ["/", "/explore", "/places/synthetic-point"]) {
+  for (const path of ["/", "/explore", "/places/junction-fruit-carts"]) {
     const r = await request.get(base + path);
     for (const [k, v] of Object.entries(HEADERS)) expect(r.headers()[k.toLowerCase()], `${path} ${k}`).toBe(v);
   }
