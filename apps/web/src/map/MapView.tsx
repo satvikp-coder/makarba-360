@@ -166,8 +166,10 @@ export function MapView({ features, sourceAttribution, selectedId, onSelect, onS
         labelsRef.current.push(new maplibregl.Marker({ element: el(`map-label map-label--${l.kind}`, l.text), anchor: "center" }).setLngLat(l.at).addTo(map));
       }
       zoomClass();
-      // first complete frame (not "idle": the ambient animation keeps repainting, so the map is rarely idle)
-      const onRender = () => { if (typeof map.loaded !== "function" || map.loaded()) { setRendered(true); map.off?.("render", onRender); } };
+      // First frame drawn with all source data in place. Not "idle" or loaded(): the ambient animation changes paint properties
+      // several times a second, which marks the style dirty, so on slow (software-rendered) devices those may never report true.
+      const drawn = () => (typeof map.areTilesLoaded === "function" ? map.areTilesLoaded() : typeof map.loaded !== "function" || map.loaded());
+      const onRender = () => { if (drawn()) { setRendered(true); map.off?.("render", onRender); } };
       map.on("render", onRender);
       report("ready");
     });
@@ -261,10 +263,12 @@ export function MapView({ features, sourceAttribution, selectedId, onSelect, onS
     map.easeTo({ pitch: is3d ? HOME_VIEW.pitch : 0, bearing: is3d ? map.getBearing() : 0, duration: reducedRef.current ? 0 : 900 });
   }, [is3d, status]);
 
-  // Ambient motion: flowing canal and traffic. Stopped when paused, under reduced motion and while the tab is hidden.
+  // Ambient motion: flowing canal and traffic. Stopped when paused, under reduced motion and while the tab is hidden, and held until
+  // the intro flight has finished so the fly-in gets the full frame budget.
+  const flying = intro === "flying";
   useEffect(() => {
     const map = mapRef.current;
-    if (!map || status !== "ready" || paused || typeof requestAnimationFrame !== "function") return;
+    if (!map || status !== "ready" || paused || flying || typeof requestAnimationFrame !== "function") return;
     let raf = 0, last = 0, step = 0;
     const n = DASH_STEPS.length;
     const tick = (now: number) => {
@@ -278,7 +282,7 @@ export function MapView({ features, sourceAttribution, selectedId, onSelect, onS
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [status, paused]);
+  }, [status, paused, flying]);
 
   const unavailable = status === "unavailable";
   return (
