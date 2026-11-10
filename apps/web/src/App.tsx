@@ -1,8 +1,11 @@
-import { Suspense, lazy, useCallback, useEffect, useRef, useState } from "react";
+import { Suspense, lazy, useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
 import { Link, NavLink, Outlet, Route, Routes, useLocation, useSearchParams } from "react-router-dom";
 import { sanitizeQuery } from "@makarba/public-ia";
 import { mainNavigation, publicRoutes, type NavGroup } from "@makarba/public-ia";
-import { fetchPlaces, type PlacesResult } from "./api.js";
+import { fetchPlaces, type PlaceSummary, type PlacesResult } from "./api.js";
+import { categoryColor, categoryLabel } from "./categories.js";
+import { LandmarkCard, landmarksFor } from "./landmarks.js";
+import { DataNote } from "./DataNote.js";
 import { Home } from "./Home.js";
 import { AccessibilityHelp, Methodology, Sources } from "./ResearchPages.js";
 import { NotFound } from "./NotFound.js";
@@ -40,7 +43,9 @@ function Layout() {
   const t = strings[lang];
   const loc = useLocation();
   useEffect(() => { document.documentElement.lang = lang === "en" || !LANGUAGES.find((l) => l.code === lang)?.available ? "en" : lang; }, [lang]);
-  useEffect(() => { document.title = `${titleFor(loc.pathname)} – ${t.siteName}`; }, [loc.pathname, t.siteName]);
+  // In-page links such as the footer's "About this data" (/research/methodology#prototype-data) land on their section.
+  useEffect(() => { if (loc.hash) document.getElementById(decodeURIComponent(loc.hash.slice(1)))?.scrollIntoView?.(); }, [loc.pathname, loc.hash]);
+  useEffect(() => { document.title =`${titleFor(loc.pathname)} – ${t.siteName}`; }, [loc.pathname, t.siteName]);
   return (
     <>
       <a className="skip" href="#main">{t.skip}</a>
@@ -60,11 +65,14 @@ function Layout() {
           </select>
         </label>
       </header>
-      <main id="main" tabIndex={-1}><Outlet /></main>
+      <main id="main" tabIndex={-1}>
+        <Outlet />
+      </main>
       <footer>
         <nav aria-label={t.footerLabel}>
           <ul>{FOOTER.map((r) => <li key={r.id}><Link to={r.path}>{r.title}</Link></li>)}</ul>
         </nav>
+        <p className="footer-note">{t.footerNote} <Link to="/research/methodology#prototype-data">About this data</Link></p>
       </footer>
     </>
   );
@@ -159,7 +167,7 @@ export function PlaceList({ fetcher, withMap = false, makeSource = localSource }
           <fieldset>
             <legend>Category</legend>
             {categories.map((c) => (
-              <button key={c} type="button" className="chip" aria-pressed={filters.categories.includes(c)} onClick={() => setFilters({ ...filters, categories: toggle(filters.categories, c) })}>{c}</button>
+              <button key={c} type="button" className="chip" aria-pressed={filters.categories.includes(c)} onClick={() => setFilters({ ...filters, categories: toggle(filters.categories, c) })}><span className="swatch" style={{ background: categoryColor(c) }} aria-hidden="true" />{categoryLabel(c)}</button>
             ))}
           </fieldset>
           <fieldset>
@@ -179,7 +187,7 @@ export function PlaceList({ fetcher, withMap = false, makeSource = localSource }
         <div className="explore">
           <div className="explore-map">
       {withMap && r !== "loading" && r.status === "ok" && r.places.length > 0 && (
-        <Suspense fallback={<p role="status">Loading map…</p>}><MapView features={view.features} sourceAttribution={r.synthetic ? "Demonstration place data (synthetic)" : "Place data: Makarba 360 published snapshot"} selectedId={selected} onSelect={setSelected} onStatus={setMapStatus} /></Suspense>
+        <Suspense fallback={<p role="status">Loading map…</p>}><MapView features={view.features} sourceAttribution={r.synthetic ? "Places: prototype example data (fictional)" : "Place data: Makarba 360 published snapshot"} selectedId={selected} onSelect={setSelected} onStatus={setMapStatus} /></Suspense>
       )}
           </div>
           <div className="sheet" data-state={sheet} ref={sheetRef}
@@ -195,7 +203,7 @@ export function PlaceList({ fetcher, withMap = false, makeSource = localSource }
       {withMap && r !== "loading" && r.status === "ok" && selected && (() => {
         const p = r.places.find((x) => x.id === selected);
         return p ? (
-          <aside aria-label="Selected place"><h2>{p.name}</h2><p>Category: {p.category}</p><p><Link to={`/places/${p.slug}`}>Open full profile</Link></p><button type="button" onClick={() => setSelected(null)}>Clear selection</button></aside>
+          <SelectedPlace key={p.id} p={p} synthetic={r.synthetic} onClear={() => setSelected(null)} />
         ) : (
           <aside role="status">That place was not found. It may have been unpublished. <button type="button" onClick={() => setSelected(null)}>Clear selection</button></aside>
         );
@@ -203,11 +211,12 @@ export function PlaceList({ fetcher, withMap = false, makeSource = localSource }
       {withMap && mapStatus === "unavailable" && <p><small>Map unavailable - the list is the full alternative.</small></p>}
       {r !== "loading" && r.status === "ok" && r.places.length > 0 && (
         <>
-          {r.synthetic && <p><strong>{t.synthetic}</strong></p>}
-          <ul>{view.places.map((p) => (
-            <li key={p.id}>
+          {r.synthetic && <DataNote />}
+          <ul className="place-list">{view.places.map((p, i) => (
+            <li key={p.id} style={{ "--i": Math.min(i, 12) } as CSSProperties}>
+              <span className="swatch" style={{ background: categoryColor(p.category) }} aria-hidden="true" />
               {withMap ? <button type="button" aria-pressed={selected === p.id} onClick={() => setSelected(selected === p.id ? null : p.id)}>{p.name}</button> : p.name}{" "}
-              <small>({p.category})</small>
+              <small>({categoryLabel(p.category)})</small>
               {selected === p.id && <span role="status"> - selected</span>}
             </li>
           ))}</ul>
@@ -229,7 +238,7 @@ export function PlaceList({ fetcher, withMap = false, makeSource = localSource }
       {withMap && mapStatus === "unavailable" && <p><small>Map unavailable - the list is the full alternative.</small></p>}
       {r !== "loading" && r.status === "ok" && r.places.length > 0 && (
         <>
-          {r.synthetic && <p><strong>{t.synthetic}</strong></p>}
+          {r.synthetic && <DataNote />}
           <ul>{r.places.map((p) => (
             <li key={p.id}>
               {withMap ? <button type="button" aria-pressed={selected === p.id} onClick={() => setSelected(selected === p.id ? null : p.id)}>{p.name}</button> : p.name}{" "}
@@ -242,6 +251,21 @@ export function PlaceList({ fetcher, withMap = false, makeSource = localSource }
         </>
       )}
     </section>
+  );
+}
+
+/** Details of the selected place. Fictional demo details and sourced landmark notes are labelled separately. */
+function SelectedPlace({ p, synthetic, onClear }: { p: PlaceSummary; synthetic: boolean; onClear: () => void }) {
+  const notes = landmarksFor(p.slug);
+  return (
+    <aside aria-label="Selected place" className="selected-place">
+      <h2>{p.name}</h2>
+      <p><span className="swatch" style={{ background: categoryColor(p.category) }} aria-hidden="true" />Category: {categoryLabel(p.category)}</p>
+      <p><Link to={`/places/${p.slug}`}>Open full profile</Link></p>
+      <button type="button" onClick={onClear}>Clear selection</button>
+      {synthetic && <DataNote />}
+      {notes.map((l) => <LandmarkCard key={l.id} l={l} />)}
+    </aside>
   );
 }
 

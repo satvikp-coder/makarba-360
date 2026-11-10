@@ -75,7 +75,7 @@ describe("place search", () => {
   it("combines with category filters (AND)", async () => {
     const u = userEvent.setup();
     show();
-    await u.click(await screen.findByRole("button", { name: "transport" }));
+    await u.click(await screen.findByRole("button", { name: "Transport" }));
     await search(u, "atlas");
     expect(await screen.findByText("No places match “atlas”.")).toBeTruthy();
   });
