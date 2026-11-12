@@ -36,6 +36,7 @@ export function ThenNowPage({ fetcher }: { fetcher?: typeof fetch }) {
       <p><Link to={`/places/${slug}`}>← {s.place.name}</Link></p>
       <h1 id="tn-h">Then &amp; Now: {s.place.name}</h1>
       {s.history.status === "error" && <p role="status">History could not be loaded. Please try again later.</p>}
+      {s.history.status !== "error" && pairs.length === 0 && <p role="status">No comparisons are available for this place yet.</p>}
       <ThenNowSection pairs={pairs} sources={sources} fetcher={fetcher} />
       <p>Only comparisons whose dates, sources and images have been checked are shown. If a comparison is withdrawn it disappears from this page the next time it loads.</p>
       <p><Link to={`/places/${slug}`}>Back to the place page</Link></p>
