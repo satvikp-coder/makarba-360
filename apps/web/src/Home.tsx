@@ -4,6 +4,10 @@ import { fetchPlaces, type PlacesResult } from "./api.js";
 import { strings } from "./i18n.js";
 import { Landmarks } from "./landmarks.js";
 import { DataNote } from "./DataNote.js";
+import { Particles } from "./Particles.js";
+import { DEFAULT_END_YEAR, useForecasts } from "./Forecasts.js";
+import { fmt, signal } from "./outlook.js";
+import { useTween } from "./motion.js";
 
 /** An approved, rights-cleared hero image. None is configured yet, so the honest typographic fallback is shown. */
 export interface HeroMediaInfo { src: string; alt: string; date: string; credit: string; licence: string }
@@ -15,7 +19,7 @@ export function HeroMedia({ media = APPROVED_HERO }: { media?: HeroMediaInfo | n
   if (!media || failed || !SAFE_SRC.test(media.src) || !media.credit || !media.date || !media.licence) {
     return (
       <div className="hero-fallback" role="img" aria-label="Typographic atlas panel. No approved photograph is available yet.">
-        <span aria-hidden="true" className="hero-mark">360°</span>
+        <Particles text="360°" />
       </div>
     );
   }
@@ -50,6 +54,8 @@ export function Home({ fetcher, hero }: { fetcher?: typeof fetch; hero?: HeroMed
         </div>
         <HeroMedia media={hero} />
       </section>
+
+      <OutlookStrip />
 
       <div className="tiles">
         <section aria-labelledby="about-h" className="tile">
@@ -90,5 +96,36 @@ export function Home({ fetcher, hero }: { fetcher?: typeof fetch; hero?: HeroMed
         <Landmarks />
       </section>
     </>
+  );
+}
+
+const KPIS = ["NY.GDP.PCAP.CD", "SP.URB.TOTL.IN.ZS", "KAGGLE_AHD_PM2.5", "IT.NET.USER.ZS"];
+
+function Kpi({ label, from, to, unit, pct, verdict }: { label: string; from: number; to: number; unit: string; pct: number | null; verdict: string }) {
+  const v = useTween(to, 1100);
+  return (
+    <li className={`kpi kpi-${verdict}`}>
+      <span className="kpi-label">{label}</span>
+      <span className="kpi-val">{fmt(Number(v.toPrecision(4)))}</span>
+      <span className="kpi-sub">{unit} · now {fmt(from)}{pct !== null ? ` · ${pct >= 0 ? "+" : ""}${pct.toFixed(0)}%` : ""}</span>
+    </li>
+  );
+}
+
+/** Four headline forecasts for the default end year; the full set lives in Outlook. Hidden if the forecast file is absent. */
+function OutlookStrip() {
+  const { doc } = useForecasts();
+  if (!doc) return null;
+  const sig = KPIS.map((id) => doc.series.find((s) => s.id === id)).flatMap((s) => (s ? [signal(s, DEFAULT_END_YEAR)!] : []));
+  if (!sig.length) return null;
+  return (
+    <section aria-labelledby="kpi-h" className="kpi-wrap">
+      <div className="kpi-head">
+        <h2 id="kpi-h">Outlook for {DEFAULT_END_YEAR}</h2>
+        <Link to="/forecasts">All {doc.series.length} indicators, AI briefing and model details</Link>
+      </div>
+      <ul className="kpis">{sig.map((x) => <Kpi key={x.s.id} label={x.s.label} from={x.from.value} to={x.to.value} unit={x.s.unit} pct={x.pct} verdict={x.verdict} />)}</ul>
+      <p className="kpi-note"><small>TimesFM forecasts of national and Ahmedabad data; not Makarba measurements.</small></p>
+    </section>
   );
 }

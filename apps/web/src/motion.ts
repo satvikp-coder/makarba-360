@@ -44,3 +44,38 @@ export function useCountUp(target: number, duration = 900): number {
   }, [target, duration, reduced]);
   return value;
 }
+
+/**
+ * Spring easing (damped harmonic oscillator, unit mass, starting at rest), after the motion model in DSTNS WebKit.
+ * Critically damped by default, so camera moves glide in and settle without overshoot or a hard stop.
+ */
+export function springAt(t: number, k = 120, c = 2 * Math.sqrt(120)): number {
+  const w0 = Math.sqrt(k), z = c / (2 * w0);
+  if (z < 1) { const wd = w0 * Math.sqrt(1 - z * z); return 1 - Math.exp(-z * w0 * t) * (Math.cos(wd * t) + ((z * w0) / wd) * Math.sin(wd * t)); }
+  return 1 - Math.exp(-w0 * t) * (1 + w0 * t);
+}
+/** A spring as a 0..1 easing over a fixed duration (normalised so it lands exactly on 1). */
+export const springEase = (t: number) => (t >= 1 ? 1 : springAt(t * 0.85) / springAt(0.85));
+/** Smooth start and finish for long camera flights: a sine in-out has no jerk at either end. */
+export const easeInOutSine = (t: number) => -(Math.cos(Math.PI * t) - 1) / 2;
+
+/** Animates a number towards `target` whenever it changes (spring, ~600 ms). Final value at once under reduced motion. */
+export function useTween(target: number, duration = 650): number {
+  const reduced = useReducedMotion();
+  const [value, setValue] = useState(target);
+  useEffect(() => {
+    if (reduced || typeof requestAnimationFrame !== "function") { setValue(target); return; }
+    let raf = 0;
+    const start = performance.now();
+    let from = 0;
+    setValue((v) => { from = v; return v; });
+    const tick = (now: number) => {
+      const t = Math.min(1, (now - start) / duration);
+      setValue(from + (target - from) * springEase(t));
+      if (t < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [target, duration, reduced]);
+  return value;
+}

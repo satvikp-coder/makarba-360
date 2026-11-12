@@ -133,12 +133,15 @@ export function generateBuildings(seed = 2026): FC {
       const a = (r() - 0.5) * 0.3, ca = Math.cos(a), sa = Math.sin(a);
       const ring: Pos[] = [[-hw, -hh], [hw, -hh], [hw, hh], [-hw, hh]].map(([x, y]) => [c[0] + (x! * ca - y! * sa) / KX, c[1] + (x! * sa + y! * ca)] as Pos);
       if (ring.some((p) => blocked.some((b) => inside(p, b)))) continue;   // no corner may reach into water or open space
-      features.push(poly(ring, { levels, h: Math.round(levels * 3.2) }));
+      // zone and a stable per-plot random value let forecast scenarios restyle the city without changing its layout
+      const zone = village ? "village" : nearHighway ? "corridor" : north ? "north" : "south";
+      const k = Math.sin(features.length * 12.9898) * 43758.5453;
+      features.push(poly(ring, { levels, h: Math.round(levels * 3.2), zone, r: Math.round((k - Math.floor(k)) * 1000) / 1000 }));
     }
   }
   // former mill compound: long sheds and one chimney
-  for (let i = 0; i < 4; i++) features.push(poly(box(72.5154 + i * 0.0008, 22.991, 72.5159 + i * 0.0008, 22.993), { levels: 3, h: 10, mill: 1 }));
-  features.push(poly(box(72.51815, 22.9927, 72.51827, 22.99282), { levels: 11, h: 35, mill: 1 }));
+  for (let i = 0; i < 4; i++) features.push(poly(box(72.5154 + i * 0.0008, 22.991, 72.5159 + i * 0.0008, 22.993), { levels: 3, h: 10, mill: 1, zone: "mill", r: 1 }));
+  features.push(poly(box(72.51815, 22.9927, 72.51827, 22.99282), { levels: 11, h: 35, mill: 1, zone: "mill", r: 1 }));
   return { type: "FeatureCollection", features };
 }
 

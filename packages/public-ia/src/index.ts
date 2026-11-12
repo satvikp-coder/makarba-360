@@ -21,8 +21,8 @@ const S = ["loading", "empty", "error"] as const;
 
 export const publicRoutes: readonly PublicRoute[] = [
   { id: "P01", path: "/", title: "Home", nav: "Explore", alternative: "text hero and featured-place list", states: S, query: [] },
-  { id: "P02", path: "/explore", title: "Explore the map", nav: "Explore", alternative: "searchable place list", states: S, query: ["q", "category", "layers", "place"] },
-  { id: "P03", path: "/explore", title: "Explore (mobile)", nav: "Explore", alternative: "searchable place list", states: S, query: ["q", "category", "layers", "place"] },
+  { id: "P02", path: "/explore", title: "Explore the map", nav: "Explore", alternative: "searchable place list", states: S, query: ["q", "category", "layers", "place", "future", "year"] },
+  { id: "P03", path: "/explore", title: "Explore (mobile)", nav: "Explore", alternative: "searchable place list", states: S, query: ["q", "category", "layers", "place", "future", "year"] },
   { id: "P04", path: "/explore/search", title: "Search places", nav: "Explore", alternative: "result list with clear-filters action", states: S, query: ["q", "category", "layers"] },
   { id: "P05", path: "/places/:slug", title: "Place profile", nav: "Explore", alternative: "text profile with sources", states: S, query: [] },
   { id: "P06", path: "/places/:slug/then-and-now", title: "Then & Now", nav: "Then & Now", alternative: "side-by-side images with text descriptions", states: S, query: [] },

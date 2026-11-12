@@ -6,7 +6,9 @@ import workerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?url";
 if (typeof maplibregl.setWorkerUrl === "function") maplibregl.setWorkerUrl(workerUrl);
 import type { PublicFeature } from "../api.js";
 import { categoryColor, categoryColorExpression, CATEGORY_STYLE } from "../categories.js";
-import { easeInOutCubic, useReducedMotion } from "../motion.js";
+import { easeInOutSine as easeInOutCubic, useReducedMotion } from "../motion.js";
+import type { Scenario } from "../scenario.js";
+import { Icon, type IconName } from "../Icon.js";
 import { BASE_LABELS, BASEMAP_ATTRIBUTION, buildOfflineStyle, DASH_STEPS, MAKARBA_BOUNDS, MAKARBA_CENTER, THEMES, themedPaint, type Pos, type TimeOfDay } from "./basemap.js";
 import { Fallback2D } from "./Fallback2D.js";
 import { TOUR } from "./tour.js";
@@ -59,9 +61,17 @@ interface Props {
   selectedId?: string | null;
   onSelect?: (id: string) => void;
   onStatus?: (s: MapStatus) => void;
+  /** Forecast scene: restyles buildings, haze and traffic. null = today's sketch. */
+  scenario?: Scenario | null;
 }
 
-const LIGHTS: { id: TimeOfDay; label: string }[] = [{ id: "day", label: "Day" }, { id: "dusk", label: "Dusk" }, { id: "night", label: "Night" }];
+/** Overview that shows the highway corridor and the old village together, used when a scenario is first shown. */
+const SCENARIO_VIEW = { center: [72.5105, 22.9935] as Pos, zoom: 15.1, pitch: 64, bearing: -38 };
+
+const LIGHTS: { id: TimeOfDay; label: string; icon: IconName }[] = [{ id: "day", label: "Day", icon: "sun" }, { id: "dusk", label: "Dusk", icon: "sunset" }, { id: "night", label: "Night", icon: "moon" }];
+/** Auto focus: fly in, then orbit slowly, then move on. */
+const AUTO_FLY_MS = 5200, AUTO_ORBIT_MS = 9000;
+interface FocusStop { id: string; title: string; caption: string; kind: string; center: Pos; zoom: number; pitch: number; bearing: number }
 
 function el(className: string, text?: string): HTMLDivElement {
   const d = document.createElement("div");
@@ -77,7 +87,7 @@ function el(className: string, text?: string): HTMLDivElement {
  * the same information. Motion (intro flight, flowing canal and traffic, pulsing selection) honours prefers-reduced-motion and can be
  * paused at any time (WCAG 2.2.2).
  */
-export function MapView({ features, sourceAttribution, selectedId, onSelect, onStatus }: Props) {
+export function MapView({ features, sourceAttribution, selectedId, onSelect, onStatus, scenario = null }: Props) {
   const host = useRef<HTMLDivElement>(null);
   const mapRef = useRef<maplibregl.Map | null>(null);
   const labelsRef = useRef<maplibregl.Marker[]>([]);
@@ -273,7 +283,7 @@ export function MapView({ features, sourceAttribution, selectedId, onSelect, onS
     const n = DASH_STEPS.length;
     const tick = (now: number) => {
       raf = requestAnimationFrame(tick);
-      if (document.hidden || now - last < 85) return;
+      if (document.hidden || map.isMoving?.() || now - last < 85 / trafficRef.current) return;
       last = now;
       step = (step + 1) % n;
       map.setPaintProperty("canal-flow", "line-dasharray", DASH_STEPS[step]);
@@ -284,18 +294,83 @@ export function MapView({ features, sourceAttribution, selectedId, onSelect, onS
     return () => cancelAnimationFrame(raf);
   }, [status, paused, flying]);
 
+  // Auto focus: a cinematic loop over the tour's landmarks and every published place, with its info card.
+  const [auto, setAuto] = useState<number | null>(null);
+  const stops: FocusStop[] = [
+    ...TOUR.map((t) => ({ ...t, kind: t.kind === "sourced" ? "Sourced fact" : "Example narrative", caption: t.caption + (t.source ? ` Source: ${t.source}.` : "") })),
+    ...features.flatMap((f, i) => {
+      const at = anchorOf(f);
+      return at ? [{ id: `place-${String(f.id)}`, title: nameOf(f), kind: `Place · ${CATEGORY_STYLE[f.properties.category as keyof typeof CATEGORY_STYLE]?.label ?? f.properties.category}`,
+        caption: "Prototype example place (fictional). Select it in the list for its full profile.", center: at, zoom: 17.2, pitch: 64, bearing: (i * 67) % 360 - 180 }] : [];
+    }),
+  ];
+  const stopsRef = useRef(stops);
+  stopsRef.current = stops;
+  useEffect(() => {
+    const map = mapRef.current;
+    if (auto === null || !map || status !== "ready") return;
+    const s = stopsRef.current[auto % stopsRef.current.length]!;
+    let live = true, timer = 0;
+    const next = () => { if (live) setAuto((a) => (a === null ? null : (a + 1) % stopsRef.current.length)); };
+    const stop = () => { if (live) setAuto(null); };
+    const view = { center: s.center, zoom: s.zoom, pitch: is3d ? s.pitch : 0, bearing: s.bearing };
+    if (reducedRef.current) { map.jumpTo(view); timer = window.setTimeout(next, AUTO_ORBIT_MS); }
+    else {
+      map.flyTo({ ...view, duration: AUTO_FLY_MS, curve: 1.15, easing: easeInOutCubic, essential: true });
+      map.once("moveend", () => {
+        if (!live) return;
+        map.easeTo({ bearing: s.bearing + 50, pitch: Math.min(70, view.pitch + 4), duration: AUTO_ORBIT_MS, easing: (t: number) => t, essential: true });
+        map.once("moveend", next);
+      });
+    }
+    // the visitor takes over the moment they touch the map
+    const c = map.getCanvasContainer?.();
+    c?.addEventListener("pointerdown", stop); c?.addEventListener("wheel", stop, { passive: true });
+    return () => { live = false; clearTimeout(timer); c?.removeEventListener("pointerdown", stop); c?.removeEventListener("wheel", stop); map.stop?.(); };
+  }, [auto, status]);
+  useEffect(() => { if (tour !== null) setAuto(null); }, [tour]);
+  const focusStop = auto === null ? null : stops[auto % stops.length];
+
+  // Forecast scenario: building heights/colours animate via style transitions; haze is a CSS overlay; traffic speeds up.
+  const trafficRef = useRef(1);
+  trafficRef.current = scenario?.traffic ?? 1;
+  const hadScenario = useRef(false);
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || status !== "ready" || !map.getLayer("buildings")) return;
+    const base = (themedPaint(THEMES[time])["buildings"] ?? {})["fill-extrusion-color"];
+    const sc = scenario;
+    const isNew: unknown = sc ? ["all", ["<", ["coalesce", ["get", "r"], 1], sc.redevelop], ["!=", ["get", "zone"], "village"], ["!=", ["get", "zone"], "mill"]] : false;
+    const factor: unknown = !sc ? 1 : ["*",
+      ["match", ["get", "zone"], "corridor", sc.corridorGrowth, "village", 1, "mill", 1, sc.densify],
+      ["case", isNew, 1.9, 1]];
+    map.setPaintProperty("buildings", "fill-extrusion-height-transition" as never, { duration: reducedRef.current ? 0 : 1800, delay: 0 } as never);
+    map.setPaintProperty("buildings", "fill-extrusion-color-transition" as never, { duration: reducedRef.current ? 0 : 1200, delay: 0 } as never);
+    map.setPaintProperty("buildings", "fill-extrusion-height", ["interpolate", ["linear"], ["zoom"], 13, 0, 14.5, ["*", ["get", "h"], factor]] as never);
+    map.setPaintProperty("buildings", "fill-extrusion-color", (!sc ? base : ["case", isNew, "#D9894F", [">", ["coalesce", ["get", "r"], 0], 1 - sc.solar], "#4A78B0", base]) as never);
+    if (sc && !hadScenario.current && tour === null) {
+      const view = { ...SCENARIO_VIEW, pitch: is3d ? SCENARIO_VIEW.pitch : 0 };
+      if (reducedRef.current) map.jumpTo(view);
+      else map.flyTo({ ...view, duration: 2600, curve: 1.2, easing: easeInOutCubic, essential: true });
+    }
+    hadScenario.current = !!sc;
+    // camera moves only when a scenario is first switched on, not on every slider step
+  }, [scenario, status, time]);
+
   const unavailable = status === "unavailable";
   return (
     <div className="map-wrap" data-map-status={status} data-rendered={rendered ? "true" : "false"} data-motion={reduced ? "reduced" : "full"} data-paused={paused ? "true" : "false"} data-time={time} data-intro={intro}>
       {!unavailable && (
         <div className="map-toolbar" role="group" aria-label="Map view">
-          <button type="button" aria-pressed={is3d} onClick={() => setIs3d(!is3d)}>3D buildings</button>
+          <button type="button" className="tb tb-text" aria-pressed={auto !== null} onClick={() => { setTour(null); setAuto(auto === null ? 0 : null); }} data-tip="Cinematic camera through landmarks and places"><Icon name="camera" /><span>Auto focus</span></button>
+          <button type="button" className="tb tb-text tour-start" aria-pressed={tour !== null} onClick={() => setTour(tour === null ? 0 : null)} aria-label={tour === null ? "Start story tour" : "End story tour"} data-tip="Story tour, stop by stop"><Icon name="route" /><span>Tour</span></button>
+          <span className="tb-sep" aria-hidden="true" />
+          <button type="button" className="tb" aria-pressed={is3d} onClick={() => setIs3d(!is3d)} aria-label="3D buildings" data-tip="3D buildings"><Icon name="cube" /></button>
           <span className="seg" role="group" aria-label="Lighting">
-            {LIGHTS.map((l) => <button key={l.id} type="button" aria-pressed={time === l.id} onClick={() => setTime(l.id)}>{l.label}</button>)}
+            {LIGHTS.map((l) => <button key={l.id} type="button" className="tb" aria-pressed={time === l.id} onClick={() => setTime(l.id)} aria-label={l.label} data-tip={l.label}><Icon name={l.icon} /></button>)}
           </span>
-          <button type="button" aria-pressed={paused} onClick={() => setPaused(!paused)}>{paused ? "Play motion" : "Pause motion"}</button>
-          <button type="button" onClick={() => flyHome(true)}>Replay fly-in</button>
-          <button type="button" className="tour-start" aria-pressed={tour !== null} onClick={() => setTour(tour === null ? 0 : null)}>{tour === null ? "Start story tour" : "End story tour"}</button>
+          <button type="button" className="tb" aria-pressed={paused} onClick={() => setPaused(!paused)} aria-label={paused ? "Play motion" : "Pause motion"} data-tip={paused ? "Play motion" : "Pause motion"}><Icon name={paused ? "play" : "pause"} /></button>
+          <button type="button" className="tb" onClick={() => { setAuto(null); flyHome(true); }} aria-label="Replay fly-in" data-tip="Replay fly-in"><Icon name="replay" /></button>
         </div>
       )}
       {!unavailable && tour !== null && (() => {
@@ -315,6 +390,21 @@ export function MapView({ features, sourceAttribution, selectedId, onSelect, onS
         );
       })()}
       <div className="map-stage">
+        {scenario && <div className="map-haze" aria-hidden="true" style={{ opacity: scenario.haze }} />}
+        {focusStop && (
+          <div className="auto-card" role="region" aria-label="Auto focus" aria-live="polite" key={`${focusStop.id}-${auto}`}>
+            <span className="auto-line" aria-hidden="true" style={{ animationDuration: `${(reduced ? 0 : AUTO_FLY_MS) + AUTO_ORBIT_MS}ms` }} />
+            <p className="tour-kind">{focusStop.kind}</p>
+            <h2>{focusStop.title}</h2>
+            <p>{focusStop.caption}</p>
+            <div className="auto-nav">
+              <button type="button" className="tb" aria-label="Previous" onClick={() => setAuto(((auto ?? 0) - 1 + stops.length) % stops.length)}><Icon name="chevL" /></button>
+              <span>{(auto ?? 0) % stops.length + 1} / {stops.length}</span>
+              <button type="button" className="tb" aria-label="Next" onClick={() => setAuto(((auto ?? 0) + 1) % stops.length)}><Icon name="chevR" /></button>
+              <button type="button" className="tb" aria-label="Stop auto focus" onClick={() => setAuto(null)}><Icon name="close" /></button>
+            </div>
+          </div>
+        )}
         <div ref={host} className="map" role="region" aria-label="Interactive 3D map of Makarba (a text list of the same places follows)" hidden={unavailable} />
         {!unavailable && (
           <div className="map-legend">

@@ -1,5 +1,8 @@
 import { Suspense, lazy, useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
-import { Forecasts } from "./Forecasts.js";
+import { Forecasts, useEndYear, useForecasts, YearSlider } from "./Forecasts.js";
+import { scenarioFor, type Scenario } from "./scenario.js";
+import { ParticleLoader } from "./Particles.js";
+import { Icon } from "./Icon.js";
 import { Link, NavLink, Outlet, Route, Routes, useLocation, useSearchParams } from "react-router-dom";
 import { sanitizeQuery } from "@makarba/public-ia";
 import { mainNavigation, publicRoutes, type NavGroup } from "@makarba/public-ia";
@@ -25,6 +28,7 @@ import { applyFilters, isActive, LAYERS, parseFilters, toggle, writeFilters, typ
 const NAV_TARGET: Record<Exclude<NavGroup, "footer">, string> = {
   Explore: "/explore", "Then & Now": "/stories/index", "Community Voices": "/voices", "Urban Insights": "/insights", Research: "/research/methodology",
 };
+const NAV_ICON: Record<string, string> = { Explore: "⌖", "Then & Now": "◐", "Community Voices": "❝", "Urban Insights": "▤", Research: "§" };
 const FOOTER = publicRoutes.filter((r) => r.nav === "footer");
 
 function Layout() {
@@ -33,13 +37,16 @@ function Layout() {
   useEffect(() => {
     const el = headerRef.current;
     if (!el) return;
-    const set = () => document.documentElement.style.setProperty("--header-h", `${el.offsetHeight}px`);
+    // On wide screens the header is a vertical side rail and covers nothing above the content.
+    const set = () => document.documentElement.style.setProperty("--header-h", `${el.offsetWidth > el.offsetHeight ? el.offsetHeight : 0}px`);
     set();
     if (typeof ResizeObserver === "undefined") return;
     const ro = new ResizeObserver(set);
     ro.observe(el);
     return () => ro.disconnect();
   }, []);
+  const [rail, setRail] = useState(() => { try { return localStorage.getItem("rail") === "min"; } catch { return false; } });
+  useEffect(() => { document.documentElement.classList.toggle("rail-min", rail); try { localStorage.setItem("rail", rail ? "min" : "full"); } catch { /* private mode */ } }, [rail]);
   const [lang, setLang] = useState<Lang>("en");
   const t = strings[lang];
   const loc = useLocation();
@@ -51,13 +58,14 @@ function Layout() {
     <>
       <a className="skip" href="#main">{t.skip}</a>
       <header ref={headerRef}>
-        <Link to="/" className="brand">{t.siteName}</Link>
+        <Link to="/" className="brand"><span className="brand-mark" aria-hidden="true">M</span><span className="lbl">{t.siteName}</span></Link>
+        <button type="button" className="rail-toggle tb" aria-pressed={rail} aria-label={rail ? "Expand menu" : "Collapse menu"} data-tip={rail ? "Expand menu" : "Collapse menu"} onClick={() => setRail(!rail)}><Icon name={rail ? "chevR" : "chevL"} /></button>
         <nav aria-label={t.navLabel}>
           <ul>
+            <li><NavLink to="/" end data-tip="Overview"><span className="ico" aria-hidden="true">◎</span><span className="lbl">Overview</span></NavLink></li>
             {mainNavigation.map((g) => (
-              <li key={g}><NavLink to={NAV_TARGET[g as Exclude<NavGroup, "footer">]}>{g}</NavLink></li>
-            ))}
-            <li><NavLink to="/forecasts">Outlook</NavLink></li>
+              <li key={g}><NavLink to={NAV_TARGET[g as Exclude<NavGroup, "footer">]} data-tip={g}><span className="ico" aria-hidden="true">{NAV_ICON[g] ?? "•"}</span><span className="lbl">{g}</span></NavLink></li>
+            )).flatMap((li, i) => (i === 0 ? [li, <li key="outlook"><NavLink to="/forecasts" data-tip="Outlook: forecasts and AI briefing"><span className="ico" aria-hidden="true">↗</span><span className="lbl">Outlook</span></NavLink></li>] : [li]))}
           </ul>
         </nav>
         <label className="lang">
@@ -141,17 +149,31 @@ export function PlaceList({ fetcher, withMap = false, makeSource = localSource }
     return () => ac.abort();
   }, [fetcher]);
   useEffect(() => load(), [load]);
+  // "Future" panel: the same TimesFM forecasts as Outlook, shown as an illustrative scene on the 3D map.
+  const future = withMap && params.get("future") === "1";
+  const setFuture = (on: boolean) => { const p = new URLSearchParams(sanitizeQuery("P02", params)); if (on) p.set("future", "1"); else { p.delete("future"); p.delete("year"); } setParams(p); };
+  const fc = useForecasts(undefined, future);
+  const [year, setYear] = useEndYear(fc.doc?.maxYear ?? 2050);
+  const scenario: Scenario | null = future && fc.doc ? scenarioFor(fc.doc, year) : null;
+  const [panel, setPanel] = useState(true);
   return (
-    <section aria-labelledby="h" className={withMap ? "explore-page" : undefined}>
+    <section aria-labelledby="h" className={withMap ? `explore-page${panel ? "" : " panel-closed"}` : undefined}>
       <h1 id="h">{t.listTitle}</h1>
       <p className="lead">{t.listIntro}</p>
+      {withMap && (
+        <div role="group" aria-label="Map mode" className="seg-tabs">
+          <button type="button" aria-pressed={!future} onClick={() => setFuture(false)}>Today</button>
+          <button type="button" aria-pressed={future} onClick={() => setFuture(true)}>Future scenario</button>
+        </div>
+      )}
+      {future && <FuturePanel scenario={scenario} error={fc.err} year={year} setYear={setYear} max={fc.doc?.maxYear ?? 2050} />}
       <div role="status" aria-live="polite">
         {r === "loading" && t.loading}
         {r !== "loading" && r.status === "error" && <span>{t.errorPlaces}</span>}
         {r !== "loading" && r.status === "ok" && r.places.length === 0 && <span>{t.emptyPlaces}</span>}
       </div>
       {r !== "loading" && r.status === "error" && r.retryable && <button type="button" onClick={load}>{t.retry}</button>}
-      {withMap && r !== "loading" && r.status === "ok" && r.places.length > 0 && (
+      {withMap && !future && r !== "loading" && r.status === "ok" && r.places.length > 0 && (
         <form className="search" role="search" aria-label="Search places" onSubmit={(e) => { e.preventDefault(); setQuery(typed); }}>
           <label htmlFor="place-search">Search places</label>
           <input id="place-search" type="search" value={typed} maxLength={100} autoComplete="off" onChange={(e) => setTyped(e.target.value)} />
@@ -164,7 +186,7 @@ export function PlaceList({ fetcher, withMap = false, makeSource = localSource }
           </p>
         </form>
       )}
-      {withMap && r !== "loading" && r.status === "ok" && r.places.length > 0 && (
+      {withMap && !future && r !== "loading" && r.status === "ok" && r.places.length > 0 && (
         <div className="filters" role="group" aria-label="Filter places">
           <fieldset>
             <legend>Category</legend>
@@ -188,11 +210,12 @@ export function PlaceList({ fetcher, withMap = false, makeSource = localSource }
       {withMap ? (
         <div className="explore">
           <div className="explore-map">
+            <button type="button" className="panel-toggle tb" aria-expanded={panel} aria-label={panel ? "Hide side panel" : "Show side panel"} data-tip={panel ? "Hide side panel (full-width map)" : "Show side panel"} onClick={() => setPanel(!panel)}><Icon name={panel ? "chevL" : "chevR"} /></button>
       {withMap && r !== "loading" && r.status === "ok" && r.places.length > 0 && (
-        <Suspense fallback={<p role="status">Loading map…</p>}><MapView features={view.features} sourceAttribution={r.synthetic ? "Places: prototype example data (fictional)" : "Place data: Makarba 360 published snapshot"} selectedId={selected} onSelect={setSelected} onStatus={setMapStatus} /></Suspense>
+        <Suspense fallback={<p role="status">Loading map…</p>}><MapView features={view.features} sourceAttribution={r.synthetic ? "Places: prototype example data (fictional)" : "Place data: Makarba 360 published snapshot"} selectedId={selected} onSelect={setSelected} onStatus={setMapStatus} scenario={scenario} /></Suspense>
       )}
           </div>
-          <div className="sheet" data-state={sheet} ref={sheetRef}
+          <div className="sheet" data-state={sheet} ref={sheetRef} hidden={future}
             onKeyDown={(e) => { if (e.key === "Escape" && sheet !== "peek") { setSheet("peek"); } }}>
             <div className="sheet-bar" role="group" aria-label="Places panel size">
               <span id="sheet-title">Places and details</span>
@@ -252,6 +275,29 @@ export function PlaceList({ fetcher, withMap = false, makeSource = localSource }
       )}
         </>
       )}
+    </section>
+  );
+}
+
+/** Explains, change by change, what the 3D scene is showing for the chosen year and why. */
+function FuturePanel({ scenario, error, year, setYear, max }: { scenario: Scenario | null; error: boolean; year: number; setYear: (y: number) => void; max: number }) {
+  if (error) return <p role="alert">Forecasts are unavailable. Generate them with <code>python ml/forecast.py</code>.</p>;
+  if (!scenario) return <ParticleLoader label="Loading the forecast scene…" />;
+  return (
+    <section className="future-panel" aria-labelledby="future-h">
+      <h2 id="future-h">Makarba in {year}: what could change</h2>
+      <YearSlider year={year} onChange={setYear} max={max} />
+      <p className="notice"><small>Illustrative scene driven by national TimesFM forecasts (India). Each change below is a stated mapping from one indicator; it is not a plan or a local projection.</small></p>
+      <ol className="changes">
+        {scenario.changes.map((c, i) => (
+          <li key={c.id} style={{ "--i": i } as CSSProperties} className={`chg chg-${c.id}`}>
+            <h3>{c.title}</h3>
+            <p className="chg-because">{c.because}</p>
+            <p>{c.effect}</p>
+          </li>
+        ))}
+      </ol>
+      <p><Link to={`/forecasts${year === 2034 ? "" : `?year=${year}`}`}>All indicators, AI briefing and model details</Link></p>
     </section>
   );
 }

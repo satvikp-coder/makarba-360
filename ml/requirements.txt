@@ -1,0 +1,8 @@
+timesfm==3.0.2
+torch
+numpy
+pandas
+yfinance
+kaggle
+six
+pytest

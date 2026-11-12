@@ -16,3 +16,6 @@ __pycache__/
 .planning-tmp/
 test-results/
 playwright-report/
+
+# Yahoo Finance data: personal-use terms, never committed
+apps/web/public/markets.json
