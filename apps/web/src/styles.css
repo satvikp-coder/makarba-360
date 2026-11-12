@@ -71,6 +71,10 @@ html{overflow-wrap:anywhere}
 .chip[aria-pressed="true"] { background: #14315c; color: #fff; border-color: #14315c; }
 .chip-check { display: inline-flex; align-items: center; gap: .4rem; }
 .filter-count { flex-basis: 100%; margin: 0; }
+.comparison-directory { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); gap: .75rem; padding: 0; list-style: none; }
+.comparison-directory li { display: flex; flex-direction: column; gap: .4rem; padding: 1rem; border: 1px solid #c9bfa8; border-radius: .7rem; background: #fff; }
+.comparison-directory a { font-weight: 700; }
+.comparison-directory span { font-size: .9rem; }
 
 /* Photo gallery (#78) */
 .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }

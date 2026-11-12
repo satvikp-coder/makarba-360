@@ -7,6 +7,7 @@ import { categoryColor, categoryLabel } from "./categories.js";
 import { LandmarkCard, landmarksFor } from "./landmarks.js";
 import { DataNote } from "./DataNote.js";
 import { Home } from "./Home.js";
+import { ComparisonIndex } from "./ComparisonIndex.js";
 import { AccessibilityHelp, Methodology, Sources } from "./ResearchPages.js";
 import { NotFound } from "./NotFound.js";
 import { PlaceProfile } from "./Profile.js";
@@ -279,7 +280,7 @@ function Pending({ title }: { title: string }) {
 }
 
 const seen = new Set<string>();
-const pageRoutes = publicRoutes.filter((r) => r.path !== "/" && r.path !== "/explore" && r.path !== "/places/:slug" && r.path !== "/places/:slug/panorama" && r.path !== "/places/:slug/then-and-now" && r.path !== "/voices" && r.path !== "/insights" && !["/research/methodology", "/research/sources", "/accessibility"].includes(r.path) && !seen.has(r.path) && !!seen.add(r.path));
+const pageRoutes = publicRoutes.filter((r) => r.path !== "/" && r.path !== "/explore" && r.path !== "/places/:slug" && r.path !== "/places/:slug/panorama" && r.path !== "/places/:slug/then-and-now" && r.path !== "/stories/index" && r.path !== "/voices" && r.path !== "/insights" && !["/research/methodology", "/research/sources", "/accessibility"].includes(r.path) && !seen.has(r.path) && !!seen.add(r.path));
 
 export function App() {
   return (
@@ -296,7 +297,7 @@ export function App() {
         <Route path="/research/sources" element={<Sources />} />
         <Route path="/accessibility" element={<AccessibilityHelp />} />
         {pageRoutes.map((r) => <Route key={r.path} path={r.path} element={<Pending title={r.title} />} />)}
-        <Route path="/stories/index" element={<Pending title="Then & Now" />} />
+        <Route path="/stories/index" element={<ComparisonIndex />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
