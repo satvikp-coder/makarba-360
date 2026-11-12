@@ -56,7 +56,7 @@ describe("explorer filter controls", () => {
   it("chips are toggle buttons with selected state, keyboard operable, and update list, map and URL", async () => {
     const u = userEvent.setup();
     const { container } = show();
-    const chip = await screen.findByRole("button", { name: "heritage" });
+    const chip = await screen.findByRole("button", { name: "Heritage" });
     expect(chip.getAttribute("aria-pressed")).toBe("false");
     chip.focus();
     await u.keyboard("{Enter}");
@@ -78,7 +78,7 @@ describe("explorer filter controls", () => {
   it("empty result keeps reset, list area, map attribution and says so; reset restores everything", async () => {
     const u = userEvent.setup();
     show();
-    await u.click(await screen.findByRole("button", { name: "heritage" }));
+    await u.click(await screen.findByRole("button", { name: "Heritage" }));
     await u.click(screen.getByRole("checkbox", { name: "Streets and routes" }));
     expect(screen.getByText(/No places match these filters/)).toBeTruthy();
     expect(screen.getByTestId("map").textContent).toBe("attribution kept");
@@ -91,16 +91,16 @@ describe("explorer filter controls", () => {
   });
   it("restores filters from a shared link and ignores a stale category", async () => {
     show("/explore?category=transport");
-    expect((await screen.findByRole("button", { name: "transport" })).getAttribute("aria-pressed")).toBe("true");
+    expect((await screen.findByRole("button", { name: "Transport" })).getAttribute("aria-pressed")).toBe("true");
     cleanup();
     show("/explore?category=gone");
-    await screen.findByRole("button", { name: "transport" });
+    await screen.findByRole("button", { name: "Transport" });
     expect(screen.getByText("Showing all 3 places.")).toBeTruthy();
   });
   it("selecting a place keeps filters in the URL", async () => {
     const u = userEvent.setup();
     show();
-    await u.click(await screen.findByRole("button", { name: "heritage" }));
+    await u.click(await screen.findByRole("button", { name: "Heritage" }));
     await u.click(within(screen.getByRole("region", { name: "Places and details" })).getByRole("button", { name: "Synthetic Atlas Point" }));
     const url = screen.getByTestId("url").textContent!;
     expect(url).toContain("category=heritage");

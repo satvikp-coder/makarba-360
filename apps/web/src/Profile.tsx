@@ -6,6 +6,8 @@ import { ThenNowSection } from "./ThenNowView.js";
 import { Gallery } from "./Gallery.js";
 import { Panorama } from "./Panorama.js";
 import { strings } from "./i18n.js";
+import { Landmarks, landmarksFor } from "./landmarks.js";
+import { DataNote } from "./DataNote.js";
 
 type PlaceState = { slug: string; status: "loading" } | { slug: string; status: "missing" } | { slug: string; status: "error" } | { slug: string; status: "ok"; place: PlaceSummary; synthetic: boolean };
 const GEOMETRY: Record<string, string> = { Point: "a point", LineString: "a line (street or route)", Polygon: "an area", MultiPoint: "several points", MultiLineString: "several lines", MultiPolygon: "several areas" };
@@ -60,7 +62,8 @@ export function PlaceProfile({ fetcher }: { fetcher?: typeof fetch }) {
     <article aria-labelledby="place-h">
       <p><Link to="/explore">← All places</Link></p>
       <h1 id="place-h">{p.name}</h1>
-      <p>Category: {p.category}. {place.synthetic && <strong>{strings.en.synthetic}</strong>}</p>
+      <p>Category: {p.category}.</p>
+      {place.synthetic && <DataNote />}
       <p>No approved description has been published yet.</p>
       <p>Mapped as {GEOMETRY[p.geometryType] ?? "a mapped feature"}. <Link to={`/explore?place=${p.id}`}>Show on the map</Link></p>
 
@@ -69,10 +72,10 @@ export function PlaceProfile({ fetcher }: { fetcher?: typeof fetch }) {
         {h?.status === "error" && <p role="status">History could not be loaded.</p>}
         {(h?.status === "missing" || (h?.status === "ok" && h.data.events.length === 0)) && <p>No verified history has been published yet.</p>}
         {h?.status === "ok" && h.data.events.length > 0 && (
-          <ul>{h.data.events.map((e) => {
+          <ol className="timeline">{h.data.events.map((e) => {
             const src = h.data.sources.find((s) => s.id === e.sourceId);
             return <li key={e.id}><strong>{formatDated(e.date)}</strong> – {e.text} <small>({e.evidenceType}; source: {src ? src.citation : "source not listed"})</small></li>;
-          })}</ul>
+          })}</ol>
         )}
       </Section>
 
@@ -90,6 +93,12 @@ export function PlaceProfile({ fetcher }: { fetcher?: typeof fetch }) {
 
       {h?.status === "ok" && h.data.comparisonPairs.length > 0 && (
         <ThenNowSection pairs={h.data.comparisonPairs} sources={h.data.sources} fetcher={fetcher} />
+      )}
+
+      {landmarksFor(p.slug).length > 0 && (
+        <Section id="landmark-h" title="Landmark notes (sourced)">
+          <Landmarks only={landmarksFor(p.slug)} />
+        </Section>
       )}
 
       <Section id="findings-h" title="Community findings">

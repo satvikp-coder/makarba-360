@@ -3,7 +3,7 @@ import { expect, test, type Page } from "@playwright/test";
 
 // 1x1 transparent PNG so no request ever leaves the machine for map tiles.
 const PNG = Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==", "base64");
-const FIRST = "Synthetic Atlas Point";
+const FIRST = "Junction fruit and sugarcane carts";
 // Synthetic 2:1 test image (gradient, no real place) for the equirectangular viewer.
 const PANO = readFileSync(new URL("./fixtures/synthetic-pano-64x32.png", import.meta.url));
 
@@ -25,8 +25,8 @@ test.describe("desktop 1280x800", () => {
     const { apiCalls, errors } = await prepare(page);
     await page.goto("/explore");
     await expect(page.locator("canvas.maplibregl-canvas")).toBeVisible();
-    await expect(page.getByText(/OpenStreetMap contributors/)).toBeVisible();
-    await expect(page.getByText("Demonstration place data (synthetic)")).toBeVisible();
+    await expect(page.getByText(/approximate sketch drawn for this prototype/)).toBeVisible();
+    await expect(page.getByText("Places: prototype example data (fictional)")).toBeVisible();
     await page.getByRole("button", { name: FIRST }).click();
     await expect(page).toHaveURL(/place=00000000-0000-4000-8000-000000000001/);
     await expect(page.getByRole("complementary", { name: "Selected place" })).toBeVisible();
@@ -77,7 +77,7 @@ test.describe("desktop 1280x800", () => {
 
   test("profile page and unpublished place", async ({ page }) => {
     const { apiCalls } = await prepare(page);
-    await page.goto("/places/synthetic-point");
+    await page.goto("/places/junction-fruit-carts");
     await expect(page.getByRole("heading", { level: 1, name: FIRST })).toBeVisible();
     await expect(page.getByText("No approved description has been published yet.")).toBeVisible();
     await page.goto("/places/not-published");
@@ -124,7 +124,7 @@ test.describe("mobile 375x667 bottom sheet", () => {
     await expect(page.locator(".sheet")).toHaveAttribute("data-state", "half");
     await expect(page.getByRole("heading", { level: 2, name: FIRST })).toBeVisible();
     await page.getByRole("button", { name: "Close" }).click();
-    await expect(page.getByText(/OpenStreetMap contributors/)).toBeVisible();
+    await expect(page.getByText(/approximate sketch drawn for this prototype/)).toBeVisible();
   });
 
   test("sheet controls are at least 44px touch targets", async ({ page }) => {
@@ -207,7 +207,7 @@ test.describe("Then & Now (synthetic images, technical verification only)", () =
 
   test("slider works by keyboard, side by side and text views work, dates and sources shown", async ({ page }) => {
     await stub(page);
-    await page.goto("/places/synthetic-point");
+    await page.goto("/places/junction-fruit-carts");
     const slider = page.getByRole("slider", { name: "Compare before and after" });
     await expect(slider).toBeVisible();
     await slider.focus();
@@ -216,7 +216,7 @@ test.describe("Then & Now (synthetic images, technical verification only)", () =
     await page.keyboard.press("End");
     await expect(slider).toHaveAttribute("aria-valuenow", "100");
     await expect(page.getByText(/2021 \(year\)/).first()).toBeVisible();
-    await expect(page.getByText(/Invented test citation/).first()).toBeVisible();
+    await expect(page.getByText(/Example note/).first()).toBeVisible();
     await page.getByLabel("Side by side").check();
     await expect(slider).toHaveCount(0);
     await expect(page.getByText(/^Before: 2021/).first()).toBeVisible();
@@ -227,7 +227,7 @@ test.describe("Then & Now (synthetic images, technical verification only)", () =
 
   test("slider handle drags with the mouse", async ({ page }) => {
     await stub(page);
-    await page.goto("/places/synthetic-point");
+    await page.goto("/places/junction-fruit-carts");
     const area = page.locator(".tn-slider");
     await expect(area).toBeVisible();
     await area.scrollIntoViewIfNeeded();
@@ -242,14 +242,14 @@ test.describe("Then & Now (synthetic images, technical verification only)", () =
 
   test("image failure keeps the narrative; unsupported pair is hidden; no horizontal scroll at 320px", async ({ page }) => {
     await stub(page, true);
-    await page.goto("/places/synthetic-point");
+    await page.goto("/places/junction-fruit-carts");
     await expect(page.getByText(/An image is unavailable/)).toBeVisible();
     await expect(page.getByText(/Evidence quality: synthetic/)).toBeVisible();
     await page.setViewportSize({ width: 320, height: 568 });
     expect(await noHorizontalScroll(page)).toBe(true);
     await page.unrouteAll();
     await prepare(page); // after-image endpoint missing: the pair cannot be shown
-    await page.goto("/places/synthetic-point");
+    await page.goto("/places/junction-fruit-carts");
     await expect(page.getByRole("heading", { name: "Sources" })).toBeVisible();
     await expect(page.getByRole("slider")).toHaveCount(0);
     await expect(page.getByRole("heading", { name: "Then & Now" })).toHaveCount(0);
@@ -262,26 +262,26 @@ test.describe("map filters (real MapLibre canvas, stubbed tiles)", () => {
     await page.setViewportSize({ width: 1280, height: 800 });
     await page.goto("/explore");
     await expect(page.locator("canvas.maplibregl-canvas")).toBeVisible();
-    await expect(page.getByText("Showing all 3 places.")).toBeVisible();
-    await page.getByRole("button", { name: "heritage" }).click();
+    await expect(page.getByText("Showing all 12 places.")).toBeVisible();
+    await page.getByRole("button", { name: "Heritage" }).click();
     await expect(page).toHaveURL(/category=heritage/);
-    await expect(page.getByText("Showing 1 of 3 places.")).toBeVisible();
-    await expect(page.getByRole("button", { name: "Synthetic Test Route" })).toHaveCount(0);
+    await expect(page.getByText("Showing 1 of 12 places.")).toBeVisible();
+    await expect(page.getByRole("button", { name: "Canal bank walk" })).toHaveCount(0);
     // React Router 7 applies URL changes in a transition, so assert the new state with a retrying expect instead of .check()
     await page.getByRole("checkbox", { name: "Streets and routes" }).click();
     await expect(page.getByRole("checkbox", { name: "Streets and routes" })).toBeChecked();
     await expect(page.getByText(/No places match these filters/)).toBeVisible();
-    await expect(page.getByText(/OpenStreetMap contributors/)).toBeVisible();
+    await expect(page.getByText(/approximate sketch drawn for this prototype/)).toBeVisible();
     await expect(page.locator("canvas.maplibregl-canvas")).toBeVisible();
     await page.goBack();
-    await expect(page.getByText("Showing 1 of 3 places.")).toBeVisible();
+    await expect(page.getByText("Showing 1 of 12 places.")).toBeVisible();
     await page.goBack();
-    await expect(page.getByText("Showing all 3 places.")).toBeVisible();
+    await expect(page.getByText("Showing all 12 places.")).toBeVisible();
     await page.goForward();
     await page.goForward();
     await page.getByRole("button", { name: "Reset filters" }).click();
     await expect(page).not.toHaveURL(/category=/);
-    await expect(page.getByText("Showing all 3 places.")).toBeVisible();
+    await expect(page.getByText("Showing all 12 places.")).toBeVisible();
     expect(errors).toEqual([]);
   });
 
@@ -289,8 +289,8 @@ test.describe("map filters (real MapLibre canvas, stubbed tiles)", () => {
     await prepare(page);
     await page.setViewportSize({ width: 375, height: 667 });
     await page.goto("/explore?category=transport");
-    await expect(page.getByRole("button", { name: "transport" })).toHaveAttribute("aria-pressed", "true");
-    const chip = page.getByRole("button", { name: "heritage" });
+    await expect(page.getByRole("button", { name: "Transport" })).toHaveAttribute("aria-pressed", "true");
+    const chip = page.getByRole("button", { name: "Heritage" });
     await chip.focus();
     await page.keyboard.press("Space");
     await expect(page).toHaveURL(/category=transport%2Cheritage/);
@@ -304,7 +304,7 @@ test.describe("photo gallery and lightbox (real dialog element, synthetic image)
     await prepare(page);
     await flatMedia(page);
     await page.route(/example\.invalid/, (route) => route.fulfill({ status: 200, contentType: "image/png", body: PNG }));
-    await page.goto("/places/synthetic-point");
+    await page.goto("/places/junction-fruit-carts");
     const thumb = page.getByRole("button", { name: /Open photograph: Synthetic panorama placeholder/ });
     await thumb.scrollIntoViewIfNeeded();
     await thumb.focus();
@@ -328,7 +328,7 @@ test.describe("photo gallery and lightbox (real dialog element, synthetic image)
     await flatMedia(page);
     await page.route(/example\.invalid/, (route) => route.abort());
     await page.setViewportSize({ width: 320, height: 568 });
-    await page.goto("/places/synthetic-point");
+    await page.goto("/places/junction-fruit-carts");
     await expect(page.getByText("A photograph is unavailable.")).toBeVisible();
     await expect(page.getByRole("button", { name: /Open photograph/ })).toHaveCount(0);
     expect(await noHorizontalScroll(page)).toBe(true);
@@ -356,7 +356,7 @@ test.describe("owned panorama (real Pannellum viewer, real WebGL in headless Chr
   test("place page shows the still photo first; the viewer starts on request, takes arrow keys, closes cleanly", async ({ page }) => {
     const { errors } = await prepare(page);
     await serve(page);
-    await page.goto("/places/synthetic-point");
+    await page.goto("/places/junction-fruit-carts");
     await expect(page.getByRole("heading", { level: 1, name: FIRST })).toBeVisible();
     await expect(page.locator(".pnlm-container")).toHaveCount(0);       // not loaded until asked
     await expect(page.getByAltText(/Synthetic panorama placeholder/)).toBeVisible();
@@ -382,7 +382,7 @@ test.describe("owned panorama (real Pannellum viewer, real WebGL in headless Chr
         return (orig as (...x: unknown[]) => unknown).call(this, type, ...a) as RenderingContext | null;
       } as typeof HTMLCanvasElement.prototype.getContext;
     });
-    await page.goto("/places/synthetic-point");
+    await page.goto("/places/junction-fruit-carts");
     await page.getByRole("button", { name: "Explore in 360°" }).click();
     await expect(page.getByText(/needs WebGL/)).toBeVisible();
     await expect(page.getByAltText(/Synthetic panorama placeholder/)).toBeVisible();
@@ -391,7 +391,7 @@ test.describe("owned panorama (real Pannellum viewer, real WebGL in headless Chr
 
   test("panorama image missing: falls back to the still photo with a message", async ({ page }) => {
     await serve(page, { panoOk: false });
-    await page.goto("/places/synthetic-point");
+    await page.goto("/places/junction-fruit-carts");
     await page.getByRole("button", { name: "Explore in 360°" }).click();
     await expect(page.getByText(/could not be loaded/)).toBeVisible({ timeout: 15000 });
     await expect(page.getByAltText(/Synthetic panorama placeholder/)).toBeVisible();
@@ -405,34 +405,34 @@ test.describe("place search (real map)", () => {
     await page.setViewportSize({ width: 1280, height: 800 });
     await page.goto("/explore");
     await expect(page.locator("canvas.maplibregl-canvas")).toBeVisible();
-    await page.getByRole("searchbox", { name: "Search places" }).fill("ROUTE");
+    await page.getByRole("searchbox", { name: "Search places" }).fill("CANAL");
     await page.getByRole("button", { name: "Search" }).click();
-    await expect(page).toHaveURL(/q=ROUTE/);
+    await expect(page).toHaveURL(/q=CANAL/);
     await expect(page.getByText(/1 place matches/)).toBeVisible();
-    await expect(page.getByRole("button", { name: "Synthetic Test Route" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Canal bank walk" })).toBeVisible();
     await expect(page.getByRole("button", { name: FIRST })).toHaveCount(0);
-    await page.getByRole("button", { name: "Synthetic Test Route" }).click();
+    await page.getByRole("button", { name: "Canal bank walk" }).click();
     await expect(page).toHaveURL(/place=/);
     await page.reload();
     await expect(page.getByText(/1 place matches/)).toBeVisible();
-    await expect(page.getByRole("heading", { level: 2, name: "Synthetic Test Route" })).toBeVisible();
+    await expect(page.getByRole("heading", { level: 2, name: "Canal bank walk" })).toBeVisible();
     await page.getByRole("searchbox", { name: "Search places" }).fill("nothing-here");
     await page.keyboard.press("Enter");
     await expect(page.getByText(/No places match/)).toBeVisible();
-    await expect(page.getByText(/OpenStreetMap contributors/)).toBeVisible();
+    await expect(page.getByText(/approximate sketch drawn for this prototype/)).toBeVisible();
     await page.getByRole("button", { name: "Clear search" }).click();
-    await expect(page.getByText("Showing all 3 places.")).toBeVisible();
+    await expect(page.getByText("Showing all 12 places.")).toBeVisible();
     await page.goBack();
     await expect(page.getByText(/No places match/)).toBeVisible();
     expect(errors).toEqual([]);
     // searching is local: it never adds an API request containing the query
-    for (const u of apiCalls) expect(u).not.toMatch(/ROUTE|nothing-here/i);
+    for (const u of apiCalls) expect(u).not.toMatch(/CANAL|nothing-here/i);
   });
 
   test("search is usable at 375px and the input is at least 44px high", async ({ page }) => {
     await prepare(page);
     await page.setViewportSize({ width: 375, height: 667 });
-    await page.goto("/explore?q=point");
+    await page.goto("/explore?q=bus");
     await expect(page.getByText(/1 place matches/)).toBeVisible();
     const box = await page.getByRole("searchbox", { name: "Search places" }).boundingBox();
     expect(box!.height).toBeGreaterThanOrEqual(44);
@@ -445,21 +445,21 @@ test.describe("panorama unavailable states", () => {
     await prepare(page);
     await page.route(/example\.invalid/, (r) => r.fulfill({ status: 200, contentType: "image/png", body: PNG, headers: { "access-control-allow-origin": "*" } }));
     await page.route(/pannellum/i, (r) => r.abort());   // dev server path of the lazy viewer chunk (no API call contains this word)
-    await page.goto("/places/synthetic-point/panorama");
-    await expect(page.getByRole("heading", { level: 1, name: /360° view: Synthetic Atlas Point/ })).toBeVisible();
+    await page.goto("/places/junction-fruit-carts/panorama");
+    await expect(page.getByRole("heading", { level: 1, name: /360° view: Junction fruit and sugarcane carts/ })).toBeVisible();
     await page.getByRole("button", { name: "Explore in 360°" }).click();
     await expect(page.getByText(/viewer could not be loaded/)).toBeVisible({ timeout: 15000 });
     await expect(page.getByAltText(/Synthetic panorama placeholder/)).toBeVisible();
-    await page.getByRole("link", { name: /← Synthetic Atlas Point/ }).click();
+    await page.getByRole("link", { name: /← Junction fruit and sugarcane carts/ }).click();
     await expect(page.getByRole("heading", { level: 1, name: FIRST })).toBeVisible();
   });
   test("a place with no panorama: profile and panorama page both say so", async ({ page }) => {
     await prepare(page);
     await flatMedia(page);
     await page.route(/example\.invalid/, (r) => r.fulfill({ status: 200, contentType: "image/png", body: PNG }));
-    await page.goto("/places/synthetic-point");
+    await page.goto("/places/junction-fruit-carts");
     await expect(page.getByText("No 360° view has been published for this place.")).toBeVisible();
-    await page.goto("/places/synthetic-point/panorama");
+    await page.goto("/places/junction-fruit-carts/panorama");
     await expect(page.getByRole("heading", { name: "No 360° view for this place" })).toBeVisible();
   });
 });
@@ -468,19 +468,21 @@ test.describe("Urban Insights tables (synthetic mock snapshot)", () => {
   test("approved group tables, hidden group, selector with URL state, no total, only the public insights request", async ({ page }) => {
     const { apiCalls, errors } = await prepare(page);
     await page.goto("/insights");
-    await expect(page.getByRole("heading", { level: 2, name: "synthetic-safe" })).toBeVisible();
-    await expect(page.getByRole("table", { name: /Ratings/ })).toBeVisible();
-    const hidden = page.getByRole("heading", { level: 2, name: "synthetic-small-independent" }).locator("xpath=..");
+    await expect(page.getByRole("heading", { level: 2, name: "weekend-visitors" })).toBeVisible();
+    // two groups are ready in the prototype dataset, so each has its own Ratings table
+    await expect(page.getByRole("heading", { level: 2, name: "weekend-visitors" }).locator("xpath=..").getByRole("table", { name: /Ratings/ })).toBeVisible();
+    await expect(page.getByRole("table", { name: /Ratings/ })).toHaveCount(2);
+    const hidden = page.getByRole("heading", { level: 2, name: "canal-bank-small" }).locator("xpath=..");
     await expect(hidden).toContainText("Hidden to protect privacy");
     await expect(hidden.getByRole("table")).toHaveCount(0);
     await expect(page.getByText(/no overall total is shown/)).toBeVisible();
-    await page.getByRole("combobox", { name: /Group/ }).selectOption("synthetic-small-independent");
-    await expect(page).toHaveURL(/cohort=synthetic-small-independent/);
-    await expect(page.getByRole("heading", { level: 2, name: "synthetic-safe" })).toHaveCount(0);
+    await page.getByRole("combobox", { name: /Group/ }).selectOption("canal-bank-small");
+    await expect(page).toHaveURL(/cohort=canal-bank-small/);
+    await expect(page.getByRole("heading", { level: 2, name: "weekend-visitors" })).toHaveCount(0);
     await page.reload();
-    await expect(page.getByText(/Showing synthetic-small-independent/)).toBeVisible();
+    await expect(page.getByText(/Showing canal-bank-small/)).toBeVisible();
     await page.goBack();
-    await expect(page.getByRole("heading", { level: 2, name: "synthetic-safe" })).toBeVisible();
+    await expect(page.getByRole("heading", { level: 2, name: "weekend-visitors" })).toBeVisible();
     expect(await noHorizontalScroll(page)).toBe(true);
     expect(errors).toEqual([]);
     for (const u of apiCalls) expect(u).toBe("/api/v1/public/insights");
@@ -489,7 +491,7 @@ test.describe("Urban Insights tables (synthetic mock snapshot)", () => {
     await prepare(page);
     await page.setViewportSize({ width: 320, height: 568 });
     await page.goto("/insights");
-    await expect(page.getByRole("heading", { level: 2, name: "synthetic-safe" })).toBeVisible();
+    await expect(page.getByRole("heading", { level: 2, name: "weekend-visitors" })).toBeVisible();
     expect(await noHorizontalScroll(page)).toBe(true);
   });
 });
