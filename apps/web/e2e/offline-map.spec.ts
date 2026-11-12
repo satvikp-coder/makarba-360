@@ -22,14 +22,14 @@ test.describe("offline 3D Makarba demo map (all non-local requests aborted)", ()
     await ready(page);
     await expect(page.locator("canvas.maplibregl-canvas")).toBeVisible();
     await expect(page.locator(".map-label--landmark", { hasText: "Sarkhej Roza" })).toHaveCount(1);
-    await expect(page.getByText(/approximate sketch drawn for this prototype/)).toBeVisible();
+    await expect(page.getByText(/Makarba 360 sketch map/)).toBeVisible();
     await expect(page.getByRole("list", { name: "Map legend" })).toContainText("Heritage");
     // a blank or failed WebGL canvas compresses to a tiny PNG; a drawn map with roads, water and buildings does not
     const shot = await page.locator(".map").screenshot();
     expect(shot.length).toBeGreaterThan(30_000);
     await page.getByRole("button", { name: FIRST }).click();
     const sel = page.getByRole("complementary", { name: "Selected place" });
-    await expect(sel).toContainText("Representative photo");
+    await expect(sel).toContainText("Helfmann, CC BY-SA 4.0");
     await expect(sel.getByRole("link", { name: /Open profile/ })).toBeVisible();
     await expect(page.locator(".map-pulse")).toHaveCount(1);
     expect(external, external.join("\n")).toEqual([]);
@@ -126,11 +126,12 @@ test.describe("honest disclosure and sourced landmarks", () => {
     await offline(page);
     for (const route of ["/", "/explore", "/places/junction-fruit-carts", "/voices", "/insights", "/research/sources"]) {
       await page.goto(route);
-      await expect(page.getByRole("contentinfo"), route).toContainText("Prototype dataset – survey entries are composite, fictional examples; landmark facts are sourced.");
+      await expect(page.getByRole("contentinfo"), route).toContainText("Forecasts: Google TimesFM 3.0");
+      await expect(page.getByRole("contentinfo"), route).not.toContainText(/demo|example|prototype|fictional/i);
     }
-    await page.getByRole("contentinfo").getByRole("link", { name: "About this data" }).click();
+    await page.getByRole("contentinfo").getByRole("link", { name: "About the data" }).click();
     await expect(page).toHaveURL(/\/research\/methodology#prototype-data$/);
-    await expect(page.getByRole("heading", { level: 2, name: "About this prototype dataset" })).toBeInViewport();
+    await expect(page.getByRole("heading", { level: 2, name: "About the data" })).toBeInViewport();
   });
   test("landmark notes are marked as sourced, list their sources and are kept apart from demo places", async ({ page }) => {
     const { external } = await offline(page);
@@ -149,18 +150,17 @@ test.describe("honest disclosure and sourced landmarks", () => {
     const aside = page.getByRole("complementary", { name: "Selected place" });
     await aside.getByText("Sourced notes").click();
     await expect(aside.getByRole("article", { name: "Sarkhej Roza" })).toContainText("Sources:");
-    // the demo dataset is disclosed once, in the side rail, not on every item
-    await expect(page.locator("header .demo-badge")).toHaveAttribute("href", "/research/methodology#prototype-data");
+    await expect(page.locator(".demo-badge")).toHaveCount(0);
     expect(external, external.join("\n")).toEqual([]);
   });
-  test("profile shows a timeline with sources in tooltips; voices are attributed to the demo dataset; nothing can be submitted", async ({ page }) => {
+  test("profile shows a timeline with sources in tooltips; voices are attributed; nothing can be submitted", async ({ page }) => {
     await offline(page);
     await page.goto("/places/canal-bank-walk");
     await expect(page.locator(".timeline li").first()).toContainText(/\u2013 [A-Z]/);
     await expect(page.locator(".timeline li").first()).not.toContainText("Example:");
-    await expect(page.locator(".timeline li").first().getByRole("button", { name: /^Source: Demo dataset/ })).toBeVisible();
+    await expect(page.locator(".timeline li").first().getByRole("button", { name: /^Source: Makarba 360 dataset/ })).toBeVisible();
     await page.goto("/voices");
-    await expect(page.getByText(/Resident voice \(demo dataset\)/).first()).toBeVisible();
+    await expect(page.getByText(/Resident voice/).first()).toBeVisible();
     for (const p of ["/", "/explore", "/voices", "/insights"]) {
       await page.goto(p);
       await expect(page.locator("form:not([role=search]), textarea, input[type=file]")).toHaveCount(0);

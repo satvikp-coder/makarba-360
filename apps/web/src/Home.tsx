@@ -4,7 +4,7 @@ import { fetchPlaces, type PlacesResult } from "./api.js";
 import { strings } from "./i18n.js";
 import { Landmarks } from "./landmarks.js";
 import { Particles } from "./Particles.js";
-import { DEFAULT_END_YEAR, useForecasts } from "./Forecasts.js";
+import { DEFAULT_END_YEAR, useForecasts } from "./forecastData.js";
 import { fmt, signal } from "./outlook.js";
 import { useTween } from "./motion.js";
 import { Icon, type IconName } from "./Icon.js";

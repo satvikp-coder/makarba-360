@@ -5,7 +5,7 @@ import { Icon, type IconName } from "./Icon.js";
 import { strings } from "./i18n.js";
 import { DEFAULT_PREFS, usePrefs, type Prefs } from "./prefs.js";
 import { ensureAi, useAiBusy } from "./aiStore.js";
-import { DEFAULT_END_YEAR, loadForecasts } from "./Forecasts.js";
+import { DEFAULT_END_YEAR, loadForecasts } from "./forecastData.js";
 import { Orb } from "./Orb.js";
 
 /** True while the visitor is typing, so single-key shortcuts never steal letters from a form field. */
@@ -101,6 +101,7 @@ export function DisplaySettings({ prefs, set }: { prefs: Prefs; set: (p: Partial
       <Choice label="Colours" icon="palette" value={prefs.palette} onChange={(v) => set({ palette: v })} options={[{ v: "standard", label: "Standard" }, { v: "cvd", label: "Colour-blind safe" }]} />
       <Choice label="Text size" icon="text" value={prefs.text} onChange={(v) => set({ text: v })} options={[{ v: 100, label: "A" }, { v: 115, label: "A+" }, { v: 130, label: "A++" }, { v: 150, label: "A+++" }]} />
       <Choice label="Motion" icon="motion" value={prefs.motion} onChange={(v) => set({ motion: v })} options={[{ v: "system", label: "Follow device" }, { v: "reduce", label: "Reduce" }]} />
+      <Choice label="Map detail" icon="cube" value={prefs.detail} onChange={(v) => set({ detail: v })} options={[{ v: "auto", label: "Auto" }, { v: "high", label: "High" }, { v: "low", label: "Low" }]} />
       <Toggle label="Readable text" icon="eye" hint="Wider letter and line spacing, plainer font" on={prefs.readable} onChange={(v) => set({ readable: v })} />
       <Toggle label="Underline links" icon="link" hint="Every link is underlined" on={prefs.underline} onChange={(v) => set({ underline: v })} />
       <p className="pref-foot"><button type="button" onClick={() => set(DEFAULT_PREFS)}>Reset to defaults</button> <Link to="/accessibility">Accessibility statement</Link></p>
@@ -197,9 +198,6 @@ export function Layout() {
           </Link>
           <button type="button" className="rail-btn" onClick={() => setDlg("prefs")} data-tip="Display and accessibility (,)" aria-label="Display and accessibility settings"><Icon name="settings" /><span className="lbl">Display</span></button>
           <button type="button" className="rail-btn" onClick={() => setDlg("keys")} data-tip="Keyboard shortcuts (?)" aria-label="Keyboard shortcuts"><Icon name="keyboard" /><span className="lbl">Shortcuts</span></button>
-          <Link to="/research/methodology#prototype-data" className="demo-badge" data-tip="Places, stories and survey figures are a demo dataset; forecasts use public national and Ahmedabad data.">
-            <Icon name="info" size={14} /><span className="lbl">Demo data</span>
-          </Link>
         </div>
       </header>
       <main id="main" tabIndex={-1} className={loc.pathname === "/explore" ? "main-explore" : "main-content"}>
@@ -212,7 +210,7 @@ export function Layout() {
             {publicRoutes.filter((r) => r.nav === "footer").map((r) => <li key={r.id}><Link to={r.path}>{r.title}</Link></li>)}
           </ul>
         </nav>
-        <p className="footer-note">{t.footerNote} <Link to="/research/methodology#prototype-data">About this data</Link></p>
+        <p className="footer-note">{t.footerNote} <Link to="/research/methodology#prototype-data">About the data</Link></p>
       </footer>
       <Dialog id="prefs" title="Display and accessibility" icon="eye" open={dlg === "prefs"} onClose={() => setDlg(null)}>
         <DisplaySettings prefs={prefs} set={setPrefs} />

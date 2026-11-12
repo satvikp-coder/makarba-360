@@ -9,7 +9,8 @@ All place data is **synthetic**: nothing here is a verified field result, and no
 | Node.js | 22+ | everything |
 | pnpm | 10.x (`corepack enable`) | everything |
 | Python | 3.11 recommended | `forecast` mode only |
-| Ollama | any recent version, plus a model (`ollama pull gemma3n`) | on-device AI briefing (optional) |
+| macOS 26+ with Apple Intelligence on, and Xcode command-line tools (`swiftc`) | Apple Foundation Models for AI insights: used first whenever available (optional) |
+| Ollama | any recent version, plus a model (`ollama pull gemma3n`) | on-device AI insights when Apple Intelligence isn't available (optional) |
 | Groq API key | – | cloud AI briefing (optional) |
 | Docker Desktop | recent | `api` / `db` modes only |
 
@@ -22,7 +23,7 @@ All place data is **synthetic**: nothing here is a verified field result, and no
 
 | Mode | What it does |
 |---|---|
-| `demo` (default) | Starts the synthetic mock API, the web app (Vite, usually http://localhost:5173) and Ollama if it is installed. |
+| `demo` (default) | Starts the local API, the web app (Vite, usually http://localhost:5173), the Apple Foundation Models bridge on macOS (built once from `tools/applefm/server.swift`) and Ollama if installed. |
 | `forecast` | Builds `ml/.venv` and regenerates the forecasts with TimesFM (see [ml/README.md](../../ml/README.md)). |
 | `check` | Runs typecheck, lint and all unit tests. |
 | `db` / `api` | Runs the PostGIS container, or the real API with a `.env` file. |
@@ -35,9 +36,8 @@ The side rail has three destinations: **Overview**, **Explore** and **Outlook**.
 - **AI insights**, with an orb that moves while a model is thinking.
 - **Display** (accessibility settings).
 - **Shortcuts**.
-- One small **Demo data** notice, linking to the explanation of the dataset.
 
-Collapse the rail to icons with the round button at its edge. On phones it becomes a row of tabs. Then & Now, Community Voices, Urban Insights and Research are reached from the Overview cards and the footer. Hover or focus any icon for a tooltip.
+Collapse the rail to icons with the round button at its edge. On phones it becomes a row of tabs. Then & Now, Community Voices, Urban Insights and Research are reached from the Overview cards and the footer; the footer also links to **About the data** on the Methodology page. Hover or focus any icon for a tooltip.
 
 - **Overview:**
   - **Hero:** the particle "360°".
@@ -45,10 +45,10 @@ Collapse the rail to icons with the round button at its edge. On phones it becom
   - **Featured places:** cards with photos.
   - **Library:** cards for the reading pages.
   - **Landmark notes:** each with its sources.
-- **Explore:** the 3D map of Makarba.
+- **Explore:** the 3D map fills the page; the title, mode switch, search, filters and place list float over it in a glass panel (the **‹** handle hides it). On phones the map sits on top with the list in a bottom sheet.
   - **Today** (default): the current city.
-    - **City detail:** stepped domes, colonnade and gateway at Sarkhej Roza, Begada's palace, ghat steps, trees, rooftop rooms and water tanks, market stalls with awnings, bus shelters, parked autos, zebra crossings and lane markings.
-    - **Traffic:** moving vehicles (cars, autos, bikes, buses and trucks) drive on the left. Their headlights and the street lamps glow at dawn, dusk and night, and there are stars at night.
+    - **City detail:** ground shadows cast by every building and tree, balcony and floor ledges on mid- and high-rise blocks, parapets, rooftop rooms and water tanks, two-tier tree crowns, grey asphalt with footpaths and lane markings, stepped domes, colonnade and gateway at Sarkhej Roza, Begada's palace, ghat steps, market stalls with awnings, bus shelters, parked autos and a zebra crossing.
+    - **Traffic:** moving vehicles drive on the left. Cars have glass cabins, buses have window bands, CNG autos have their yellow canopy, bikes have riders, and trucks have a cab and cargo box. Headlights and street lamps glow at dawn, dusk and night, and there are stars at night.
     - **Tour** visits every landmark, then every place. Use Previous / Next or ← / →. Place stops have **Open details**; the ⓘ button shows a landmark's source.
     - **360° camera** turns the view once around the current spot. Drag or scroll the map to take over.
     - **Places panel:** photo cards with a category icon. Select one to fly there and open its card (photo, category, Open profile, ‹ › to step through places, Sourced notes for landmarks). Use the search box, or the category chips and layer filters.
@@ -60,13 +60,13 @@ Collapse the rail to icons with the round button at its edge. On phones it becom
   - The **‹** handle at the map's left edge hides the side panel for a full-width map.
 - **Outlook:** choose the end year with the slider.
   - **Theme tiles** count how many indicators in each theme are improving or worsening. Click a tile to filter.
-  - **Signals** shows one chart per indicator with the 80% range, before → after values with units, and tags (hover them for an explanation). "Why it matters · data" holds the interpretation and the table.
+  - **Signals** shows one chart per indicator with the 80% range, before → after values with units, and tags (hover them for an explanation). Two dropdowns under each chart: **Why it matters** (the interpretation) and **Data** (the forecast table and how many observations it is based on).
   - **AI insights:** highlights plus a written briefing on what the trends could mean for Makarba.
     - **Background start:** generation begins quietly when the site opens (default year) and when you change the year, then is cached per year. You see an orb while it thinks.
-    - **Providers:** on-device Ollama, or Groq. Groq is used only when you choose it.
+    - **Providers:** Apple Intelligence (Apple's on-device Foundation Model) is used first whenever it's available, then on-device Ollama. Groq is used only when you choose it.
     - **Labelling:** everything is marked **AI-generated**, with the model and time.
   - **Model & data:** TimesFM 3.0 and its licence, the data sources, preparation, the 3D mappings and the limits.
-- **Then & Now, Community Voices, Urban Insights, Research, place pages:** the same calm reading layout. Place pages open with a photo, credited; most are representative Ahmedabad scenes, and the Sarkhej Roza ones are the real place.
+- **Then & Now, Community Voices, Urban Insights, Research, place pages:** the same calm reading layout. Place pages open with a credited Wikimedia Commons photograph.
 
 ### Keyboard shortcuts (press ? in the app)
 
@@ -91,7 +91,8 @@ Settings are remembered in this browser.
 
 ## 4. Troubleshooting
 
-- **AI briefing says "No local model found":** start Ollama (`ollama serve`) and pull a model.
+- **AI insights say Apple Intelligence isn't reachable:** you need macOS 26+ with Apple Intelligence on. `./run.sh` builds and starts the bridge; to start it by hand, run `swiftc -O tools/applefm/server.swift -o tools/applefm/.build/applefm-server && tools/applefm/.build/applefm-server`.
+- **AI briefing says "No local model found" (Ollama):** start Ollama (`ollama serve`) and pull a model.
 - **Groq not configured:** add the key to `apps/web/.env.local` and restart.
 - **Forecasts are unavailable:** run `./run.sh forecast`. Use `--naive` for an offline fallback.
 - **Port 4010 is busy:** stop the old mock process or set `MOCK_API_PORT`.

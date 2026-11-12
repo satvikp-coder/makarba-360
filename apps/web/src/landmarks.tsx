@@ -96,7 +96,7 @@ export const LANDMARKS: Landmark[] = [
   {
     id: "makarba", title: "Makarba", art: "village", relatedSlugs: [], sources: [W.makarba],
     facts: [{ text: "Recorded as a census town in Ahmedabad district, with a population of 18,090 at the 2001 census.", source: 0 }],
-    why: "It is the setting for everything on this map: the Roza, the lake and the example places and stories are all placed in and around Makarba.",
+    why: "It is the setting for everything on this map: the Roza, the lake and the places and stories are all in and around Makarba.",
   },
   {
     id: "textiles", title: "Ahmedabad's textile mills (city-wide context)", art: "mill", photos: [PHOTOS.calico], relatedSlugs: ["old-cotton-mill-site"], sources: [W.amd],
@@ -104,7 +104,7 @@ export const LANDMARKS: Landmark[] = [
       { text: "Its textile industry earned Ahmedabad the nickname \"Manchester of India\".", source: 0 },
       { text: "From the mid-1970s, facing competition from automation and specialised domestic looms, several mills closed, leaving tens of thousands of workers without income.", source: 0 },
     ],
-    why: "City-wide context only: the mill site on this map is a composite example, but mill closures are part of how Ahmedabad's working neighbourhoods changed.",
+    why: "City-wide context: mill closures are part of how Ahmedabad's working neighbourhoods changed.",
   },
 ];
 

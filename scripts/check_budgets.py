@@ -14,6 +14,11 @@ BUDGET_KB = {            # gzip kilobytes
     "css": 15,
     "panorama_js": 25,    # loaded only when a visitor asks for the 360 view
     "panorama_css": 5,
+    # Added with the v2 dashboard (2026-11-12): splitting work OUT of the entry bundle creates these chunks; each is fetched only
+    # when its page is opened, and together they are still budgeted. The entry budgets above did not change.
+    "map_css": 15,        # MapLibre's stylesheet plus map chrome, loaded with the explorer (was previously inside "css")
+    "page_js": 60,        # lazily loaded pages, summed: Outlook, Insights, Voices, place profile, panorama page, Then & Now, research
+    "page_css": 5,        # Outlook-only styles
 }
 FIXTURE_MAX_KB = 200
 API_P95_MS = 300
@@ -27,6 +32,9 @@ def classify(name: str) -> str | None:
     if re.match(r"maplibre-gl-worker-.*\.mjs$", name): return "map_worker"
     if re.match(r"pannellum-.*\.js$", name): return "panorama_js"
     if re.match(r"pannellum-.*\.css$", name): return "panorama_css"
+    if re.match(r"MapView-.*\.css$", name): return "map_css"
+    if re.match(r"(Forecasts|Insights|Voices|Profile|Panorama|PanoramaPage|ThenNowPage|ThenNowView|ResearchPages|ComparisonIndex)-.*\.js$", name): return "page_js"
+    if re.match(r"(Forecasts|Insights|Voices|Profile|ThenNowPage|ResearchPages|ComparisonIndex)-.*\.css$", name): return "page_css"
     if re.match(r"index-.*\.js$", name): return "initial_js"
     if re.match(r"index-.*\.css$", name): return "css"
     return None

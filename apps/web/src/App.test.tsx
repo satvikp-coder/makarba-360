@@ -36,7 +36,7 @@ describe("public shell", () => {
     vi.stubGlobal("localStorage", { getItem: (k: string) => store.get(k) ?? null, setItem: (k: string, v: string) => void store.set(k, v), removeItem: (k: string) => void store.delete(k) });
     at("/");
     fireEvent.click(screen.getByRole("button", { name: "Display and accessibility settings" }));
-    fireEvent.click(await screen.findByRole("radio", { name: "High" }));
+    fireEvent.click(within(await screen.findByRole("radiogroup", { name: "Contrast" })).getByRole("radio", { name: "High" }));
     fireEvent.click(screen.getByRole("radio", { name: "Colour-blind safe" }));
     fireEvent.click(screen.getByRole("radio", { name: "A++" }));
     fireEvent.click(screen.getByRole("radio", { name: "Reduce" }));
@@ -72,7 +72,7 @@ describe("public shell", () => {
   it("every route renders one h1 and an accessible page (axe, no serious violations)", async () => {
     for (const path of ["/", "/voices", "/insights", "/research/methodology", "/accessibility"]) {
       const { container } = at(path);
-      expect(container.querySelectorAll("h1").length, path).toBe(1);
+      await waitFor(() => expect(container.querySelectorAll("h1").length, path).toBe(1));   // pages load lazily
       const res = await axe.run(container, { rules: { "color-contrast": { enabled: false }, region: { enabled: false } } });
       expect(res.violations.map((v) => `${path}:${v.id}`)).toEqual([]);
       cleanup();

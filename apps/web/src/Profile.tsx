@@ -70,7 +70,7 @@ export function PlaceProfile({ fetcher }: { fetcher?: typeof fetch }) {
         return ph ? (
           <figure className="profile-hero">
             <img src={ph.src} alt={ph.alt} />
-            <figcaption>{ph.representative ? "Representative photo: " : ""}{ph.title} · <a href={ph.source} rel="noopener noreferrer">{ph.credit}</a>, {ph.licence}</figcaption>
+            <figcaption>{ph.title} · <a href={ph.source} rel="noopener noreferrer">{ph.credit}</a>, {ph.licence}</figcaption>
           </figure>
         ) : null;
       })()}

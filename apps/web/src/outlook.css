@@ -1,0 +1,86 @@
+/* Outlook-only styles: loaded with the lazy Outlook page. */
+.outlook-top{display:grid;gap:16px 32px;align-items:end;grid-template-columns:1fr}
+@media (min-width:900px) {
+  .outlook-top{grid-template-columns:1fr minmax(280px,360px)}
+}
+.outlook h1{margin-bottom:.4em}
+.scenario-cta{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin:0 0 16px;color:var(--muted)}
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin-bottom:16px;overflow-x:auto}
+.tabs [role=tab]{border:0!important;border-radius:10px 10px 0 0!important;background:transparent;color:var(--muted);font-weight:600;position:relative}
+.tabs [role=tab][aria-selected=true]{color:var(--teal)}
+.tabs [role=tab][aria-selected=true]::after{content:"";position:absolute;left:12px;right:12px;bottom:-1px;height:3px;border-radius:3px;background:var(--accent);animation:grow .5s var(--spring) both}
+.tabpanel{animation:page-in .45s var(--spring-soft) both}
+.cards{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(min(100%,330px),1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow-sm);padding:16px 18px;transition:transform .45s var(--spring),box-shadow .3s}
+.card:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+.cards .card{animation:card-in .6s var(--spring-soft) both}
+.sig-head{display:flex;justify-content:space-between;align-items:start;gap:8px}
+.sig h3{margin:0;font-size:1.02rem}
+.pill{font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);white-space:nowrap}
+.card svg{width:100%;height:auto;margin:6px 0}
+.card svg text{font-size:11px;fill:var(--muted)}
+.hist{stroke:var(--teal);stroke-width:2.4;stroke-linejoin:round}
+.fcst{stroke:var(--accent);stroke-width:2.6;stroke-dasharray:1;stroke-dashoffset:1;animation:draw 1.1s var(--spring-soft) .1s forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.band{fill:var(--accent);opacity:0;animation:fade-band .9s ease .35s forwards}
+@keyframes fade-band{to{opacity:.16}}
+.now-line{stroke:var(--line);stroke-dasharray:3 3}
+.sig-num{margin:4px 0;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px}
+.sig-num b{font-size:1.25rem;color:var(--teal)}
+.delta{margin-left:auto;font-weight:700;font-variant-numeric:tabular-nums}
+.delta-improving{color:#2f7d4f}
+.delta-worsening{color:var(--error)}
+.delta-neutral{color:var(--muted)}
+.sig-tags{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}
+.tag{font-size:.75rem;padding:2px 8px;border-radius:999px;background:#efe8d8;color:var(--muted);text-transform:capitalize}
+.tag-improving{background:#dcefe2;color:#1f5d39}
+.tag-worsening{background:#f6dcdc;color:#7d1a1a}
+.sig-impl{margin:6px 0;padding:8px 10px;border-radius:10px;background:#f4efe3;font-size:.92rem}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow-sm)}
+.panel h2{margin-top:0}
+.ai-controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:12px 0}
+.ai-controls label{display:flex;gap:8px;align-items:center;font-weight:600}
+.briefing-text{line-height:1.7;max-width:75ch}
+.briefing-text h4{margin:1em 0 .3em;color:var(--teal)}
+.briefing-text > *{animation:page-in .4s var(--spring-soft) both}
+.tech-grid{display:grid;grid-template-columns:1fr;gap:4px 20px;margin:0}
+@media (min-width:700px) {
+  .tech-grid{grid-template-columns:180px 1fr}
+}
+.tech-grid dt{font-weight:700;color:var(--teal)}
+.tech-grid dd{margin:0 0 10px;color:var(--ink)}
+.panel-toggle{display:none}
+@media (min-width:900px) {
+  .panel-toggle{display:inline-flex;position:absolute;z-index:4;left:-14px;top:50%;width:28px;min-width:28px!important;height:44px;padding:0!important;justify-content:center;border-radius:0 12px 12px 0!important;background:var(--card)!important;box-shadow:var(--shadow-sm)}
+  .explore-page.panel-closed{grid-template-columns:0 minmax(0,1fr);column-gap:14px}
+  .explore-page.panel-closed > :not(.explore){display:none}
+  .explore-page.panel-closed .sheet{display:none}
+  .explore-page.panel-closed .panel-toggle{left:-14px}
+}
+.scoreboard{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;list-style:none;padding:0;margin:22px 0}
+.sb{display:grid!important;gap:6px;width:100%;min-height:auto!important;padding:14px 16px!important;border-radius:16px!important;text-align:left;align-items:start!important}
+.sb[aria-pressed="true"]{background:var(--card)!important;color:var(--teal)!important;border-color:var(--teal)!important;box-shadow:0 0 0 1px var(--teal)}
+.sb-label{display:flex;align-items:center;gap:6px;text-transform:capitalize;font-weight:600;color:var(--muted);font-size:.85rem}
+.sb-val b{font-size:1.6rem;font-weight:800;color:var(--teal);font-variant-numeric:tabular-nums}
+.sb-val small{color:var(--muted);font-weight:500}
+.sb-bar{display:flex;gap:2px;height:4px}
+.sb-bar span{border-radius:2px;min-width:0;transition:flex-grow .8s var(--spring)}
+.sb-bar .g{background:#3c9a64}
+.sb-bar .n{background:#d8d0bd}
+.sb-bar .r{background:#c8693f}
+.sb-sub{font-size:.78rem;color:var(--muted)}
+.sig-num .yr{font-size:.75rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.sig-num .unit{color:var(--muted)}
+.tag{cursor:help}
+.briefing h2{display:flex;align-items:center;gap:8px}
+.briefing-head { display: flex; align-items: center; gap: 14px; margin-bottom: 8px; }
+.briefing-head h2 { margin: 0; }
+.ai-cards { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); }
+.ai-cards li { display: grid; grid-template-columns: 34px 1fr; gap: 10px; padding: 12px; border-radius: 14px; background: var(--card); border: 1px solid var(--line); animation: card-in .5s var(--spring-soft) both; }
+.ai-cards p { margin: 4px 0 0; font-size: .9rem; color: var(--muted); }
+.ai-ico { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 10px; background: #f2ede1; color: var(--teal); }
+.ai-cards .tone-positive .ai-ico { color: var(--good); background: var(--good-bg); }
+.ai-cards .tone-negative .ai-ico { color: var(--bad); background: var(--bad-bg); }
+.sig-more { display: grid; gap: 0; margin-top: 6px; border-top: 1px solid var(--line); }
+.sig-more details.more { margin: 0; padding: 4px 0; border-top: 0; }
+.sig-more details.more + details.more { border-top: 1px dashed var(--line); }

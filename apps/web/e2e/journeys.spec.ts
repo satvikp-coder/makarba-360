@@ -25,8 +25,8 @@ test.describe("desktop 1280x800", () => {
     const { apiCalls, errors } = await prepare(page);
     await page.goto("/explore");
     await expect(page.locator("canvas.maplibregl-canvas")).toBeVisible();
-    await expect(page.getByText(/approximate sketch drawn for this prototype/)).toBeVisible();
-    await expect(page.getByText(/^Places: Makarba 360 demo dataset · /)).toBeVisible();
+    await expect(page.getByText(/Makarba 360 sketch map/)).toBeVisible();
+    await expect(page.getByText(/^Places: Makarba 360 · Basemap: Makarba 360 sketch map/)).toBeVisible();
     await page.getByRole("button", { name: FIRST }).click();
     await expect(page).toHaveURL(/place=00000000-0000-4000-8000-000000000001/);
     await expect(page.getByRole("complementary", { name: "Selected place" })).toBeVisible();
@@ -123,7 +123,7 @@ test.describe("mobile 375x667 bottom sheet", () => {
     await expect(page.locator(".sheet")).toHaveAttribute("data-state", "half");
     await expect(page.getByRole("heading", { level: 2, name: FIRST })).toBeVisible();
     await page.getByRole("button", { name: "Close" }).click();
-    await expect(page.getByText(/approximate sketch drawn for this prototype/)).toBeVisible();
+    await expect(page.getByText(/Makarba 360 sketch map/)).toBeVisible();
   });
 
   test("sheet controls are at least 44px touch targets", async ({ page }) => {
@@ -215,7 +215,7 @@ test.describe("Then & Now (synthetic images, technical verification only)", () =
     await page.keyboard.press("End");
     await expect(slider).toHaveAttribute("aria-valuenow", "100");
     await expect(page.getByText(/2021 \(year\)/).first()).toBeVisible();
-    await expect(page.getByText(/Demo dataset/).first()).toBeVisible();
+    await expect(page.getByText(/Makarba 360 dataset/).first()).toBeVisible();
     await page.getByLabel("Side by side").check();
     await expect(slider).toHaveCount(0);
     await expect(page.getByText(/^Before: 2021/).first()).toBeVisible();
@@ -270,7 +270,7 @@ test.describe("map filters (real MapLibre canvas, stubbed tiles)", () => {
     await page.getByRole("checkbox", { name: "Streets and routes" }).click();
     await expect(page.getByRole("checkbox", { name: "Streets and routes" })).toBeChecked();
     await expect(page.getByText(/No places match these filters/)).toBeVisible();
-    await expect(page.getByText(/approximate sketch drawn for this prototype/)).toBeVisible();
+    await expect(page.getByText(/Makarba 360 sketch map/)).toBeVisible();
     await expect(page.locator("canvas.maplibregl-canvas")).toBeVisible();
     await page.goBack();
     await expect(page.getByText("Showing 1 of 12 places.")).toBeVisible();
@@ -426,7 +426,7 @@ test.describe("place search (real map)", () => {
     await page.getByRole("searchbox", { name: "Search places" }).fill("nothing-here");
     await page.keyboard.press("Enter");
     await expect(page.getByText(/No places match/)).toBeVisible();
-    await expect(page.getByText(/approximate sketch drawn for this prototype/)).toBeVisible();
+    await expect(page.getByText(/Makarba 360 sketch map/)).toBeVisible();
     await page.getByRole("button", { name: "Clear search" }).click();
     await expect(page.getByText("Showing all 12 places.")).toBeVisible();
     await page.goBack();

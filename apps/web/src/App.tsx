@@ -1,5 +1,6 @@
+import type React from "react";
 import { Suspense, lazy, useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
-import { Forecasts, useEndYear, useForecasts, YearSlider } from "./Forecasts.js";
+import { useEndYear, useForecasts, YearSlider } from "./forecastData.js";
 import { scenarioFor, type Scenario } from "./scenario.js";
 import { ParticleLoader } from "./Particles.js";
 import { Icon } from "./Icon.js";
@@ -17,16 +18,23 @@ import { Orb } from "./Orb.js";
 import type { ForecastDoc } from "./outlook.js";
 import { LandmarkCard, landmarksFor } from "./landmarks.js";
 import { Home } from "./Home.js";
-import { AccessibilityHelp, Methodology, Sources } from "./ResearchPages.js";
 import { NotFound } from "./NotFound.js";
-import { PlaceProfile } from "./Profile.js";
-import { PanoramaPage } from "./PanoramaPage.js";
-import { ThenNowPage } from "./ThenNowPage.js";
-import { Voices } from "./Voices.js";
-import { Insights } from "./Insights.js";
 import type { MapStatus } from "./map/MapView.js";
 // The map library is large and only the explorer needs it, so it is loaded when that page is opened.
 const MapView = lazy(() => import("./map/MapView.js").then((m) => ({ default: m.MapView })));
+// Pages other than the Overview and Explore load on first visit, keeping the entry bundle small (scripts/check_budgets.py).
+const page = <K extends string>(load: () => Promise<Record<K, React.ComponentType>>, name: K) => lazy(() => load().then((m) => ({ default: m[name] })));
+const Forecasts = page(() => import("./Forecasts.js") as Promise<Record<"Forecasts", React.ComponentType>>, "Forecasts");
+const Insights = page(() => import("./Insights.js") as Promise<Record<"Insights", React.ComponentType>>, "Insights");
+const Voices = page(() => import("./Voices.js") as Promise<Record<"Voices", React.ComponentType>>, "Voices");
+const PlaceProfile = page(() => import("./Profile.js") as Promise<Record<"PlaceProfile", React.ComponentType>>, "PlaceProfile");
+const PanoramaPage = page(() => import("./PanoramaPage.js") as Promise<Record<"PanoramaPage", React.ComponentType>>, "PanoramaPage");
+const ThenNowPage = page(() => import("./ThenNowPage.js") as Promise<Record<"ThenNowPage", React.ComponentType>>, "ThenNowPage");
+const ComparisonIndex = page(() => import("./ComparisonIndex.js") as Promise<Record<"ComparisonIndex", React.ComponentType>>, "ComparisonIndex");
+const Methodology = page(() => import("./ResearchPages.js") as Promise<Record<"Methodology", React.ComponentType>>, "Methodology");
+const Sources = page(() => import("./ResearchPages.js") as Promise<Record<"Sources", React.ComponentType>>, "Sources");
+const AccessibilityHelp = page(() => import("./ResearchPages.js") as Promise<Record<"AccessibilityHelp", React.ComponentType>>, "AccessibilityHelp");
+const Lazy = ({ children }: { children: React.ReactNode }) => <Suspense fallback={<ParticleLoader label="Loading…" />}>{children}</Suspense>;
 import { strings } from "./i18n.js";
 import { cleanQuery, localSource, type SourceFactory } from "./searchSource.js";
 import { applyFilters, isActive, LAYERS, parseFilters, toggle, writeFilters, type Filters } from "./filters.js";
@@ -142,7 +150,8 @@ export function PlaceList({ fetcher, withMap = false, makeSource = localSource }
   const aiHighlights = future && ai.highlights?.length ? ai.highlights : null;
   const mapHighlights = scenario ? (aiHighlights ? aiHighlights.map((h) => ({ id: h.id, title: h.title, at: ANCHORS[h.anchor].at, tone: h.tone })) : scenario.changes.map((c) => ({ id: c.id, title: c.title, at: c.at, tone: "mixed" as const }))) : null;
   return (
-    <section aria-labelledby="h" className={withMap ? `explore-page${panel ? "" : " panel-closed"}` : undefined}>
+    <section aria-labelledby="h" className={withMap ? `explore-page${panel ? "" : " panel-closed"}${future ? " future-on" : ""}` : undefined}>
+      <div className={withMap ? "float-panel" : "list-head"}>
       <h1 id="h">{t.listTitle}</h1>
       <p className="lead">{t.listIntro}</p>
       {withMap && (
@@ -196,12 +205,13 @@ export function PlaceList({ fetcher, withMap = false, makeSource = localSource }
           </p>
         </div>
       )}
+      </div>
       {withMap ? (
         <div className="explore">
           <div className="explore-map">
             <button type="button" className="panel-toggle tb" aria-expanded={panel} aria-label={panel ? "Hide side panel" : "Show side panel"} data-tip={panel ? "Hide side panel (full-width map)" : "Show side panel"} onClick={() => setPanel(!panel)}><Icon name={panel ? "chevL" : "chevR"} /></button>
       {withMap && r !== "loading" && r.status === "ok" && r.places.length > 0 && (
-        <Suspense fallback={<p role="status">Loading map…</p>}><MapView features={view.features} sourceAttribution={r.synthetic ? "Places: Makarba 360 demo dataset" : "Place data: Makarba 360 published snapshot"} selectedId={selected} onSelect={setSelected} onStatus={setMapStatus} scenario={scenario} highlights={mapHighlights} onFocusChange={setFocusId} /></Suspense>
+        <Suspense fallback={<p role="status">Loading map…</p>}><MapView features={view.features} sourceAttribution={"Places: Makarba 360"} selectedId={selected} onSelect={setSelected} onStatus={setMapStatus} scenario={scenario} highlights={mapHighlights} onFocusChange={setFocusId} /></Suspense>
       )}
           </div>
           <div className="sheet" data-state={sheet} ref={sheetRef} hidden={future}
@@ -353,7 +363,7 @@ function SelectedPlace({ p, index, total, onStep, onClear }: { p: PlaceSummary; 
       {ph && (
         <figure className="sp-photo">
           <img src={ph.src} alt={ph.alt} />
-          <figcaption data-tip={`${ph.title} · ${ph.credit} · ${ph.licence}`}>{ph.representative ? "Representative photo · " : ""}{ph.credit}, {ph.licence}</figcaption>
+          <figcaption data-tip={`${ph.title} · ${ph.credit} · ${ph.licence}`}>{ph.title} · {ph.credit}, {ph.licence}</figcaption>
         </figure>
       )}
       <div className="sp-body">
@@ -390,7 +400,7 @@ function Pending({ title }: { title: string }) {
 }
 
 const seen = new Set<string>();
-const pageRoutes = publicRoutes.filter((r) => r.path !== "/" && r.path !== "/explore" && r.path !== "/places/:slug" && r.path !== "/places/:slug/panorama" && r.path !== "/places/:slug/then-and-now" && r.path !== "/voices" && r.path !== "/insights" && !["/research/methodology", "/research/sources", "/accessibility"].includes(r.path) && !seen.has(r.path) && !!seen.add(r.path));
+const pageRoutes = publicRoutes.filter((r) => r.path !== "/" && r.path !== "/explore" && r.path !== "/places/:slug" && r.path !== "/places/:slug/panorama" && r.path !== "/places/:slug/then-and-now" && r.path !== "/stories/index" && r.path !== "/voices" && r.path !== "/insights" && !["/research/methodology", "/research/sources", "/accessibility"].includes(r.path) && !seen.has(r.path) && !!seen.add(r.path));
 
 export function App() {
   return (
@@ -398,17 +408,17 @@ export function App() {
       <Route element={<Layout />}>
         <Route index element={<Home />} />
         <Route path="/explore" element={<PlaceList withMap />} />
-        <Route path="/places/:slug" element={<PlaceProfile />} />
-        <Route path="/places/:slug/panorama" element={<PanoramaPage />} />
-        <Route path="/places/:slug/then-and-now" element={<ThenNowPage />} />
-        <Route path="/voices" element={<Voices />} />
-        <Route path="/insights" element={<Insights />} />
-        <Route path="/forecasts" element={<Forecasts />} />
-        <Route path="/research/methodology" element={<Methodology />} />
-        <Route path="/research/sources" element={<Sources />} />
-        <Route path="/accessibility" element={<AccessibilityHelp />} />
+        <Route path="/places/:slug" element={<Lazy><PlaceProfile /></Lazy>} />
+        <Route path="/places/:slug/panorama" element={<Lazy><PanoramaPage /></Lazy>} />
+        <Route path="/places/:slug/then-and-now" element={<Lazy><ThenNowPage /></Lazy>} />
+        <Route path="/voices" element={<Lazy><Voices /></Lazy>} />
+        <Route path="/insights" element={<Lazy><Insights /></Lazy>} />
+        <Route path="/forecasts" element={<Lazy><Forecasts /></Lazy>} />
+        <Route path="/research/methodology" element={<Lazy><Methodology /></Lazy>} />
+        <Route path="/research/sources" element={<Lazy><Sources /></Lazy>} />
+        <Route path="/accessibility" element={<Lazy><AccessibilityHelp /></Lazy>} />
         {pageRoutes.map((r) => <Route key={r.path} path={r.path} element={<Pending title={r.title} />} />)}
-        <Route path="/stories/index" element={<Pending title="Then & Now" />} />
+        <Route path="/stories/index" element={<Lazy><ComparisonIndex /></Lazy>} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>

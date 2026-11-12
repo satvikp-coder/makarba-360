@@ -52,11 +52,19 @@ describe("home page", () => {
     expect(a.container.querySelector("img")).not.toBeNull();
     expect(a.container.textContent).toContain("Synthetic credit");
     a.unmount();
-    for (const bad of [{ ...ok, credit: "" }, { ...ok, licence: "" }, { ...ok, date: "" }, { ...ok, src: "javascript:alert(1)" }, { ...ok, src: "http://insecure.example/x.jpg" }]) {
+    for (const bad of [{ ...ok, credit: "" }, { ...ok, licence: "" }, { ...ok, date: "" }, { ...ok, src: "//unapproved.example/image.jpg" }, { ...ok, src: "javascript:alert(1)" }, { ...ok, src: "http://insecure.example/x.jpg" }]) {
       const r = render(<HeroMedia media={bad} />);
       expect(r.container.querySelector("img")).toBeNull();
       r.unmount();
     }
+  });
+  it("recovers featured places after a temporary failure", async () => {
+    let available = false;
+    show((() => available ? json(bundle.locations) : json({}, 503)) as unknown as typeof fetch);
+    const retry = await screen.findByRole("button", { name: "Try again" }, { timeout: 5000 });
+    available = true;
+    fireEvent.click(retry);
+    expect(await screen.findByRole("link", { name: bundle.locations.features[0].properties.name.en })).toBeTruthy();
   });
   it("an image that fails to load switches to the fallback", () => {
     const ok = { src: "/media/missing.jpg", alt: "x", date: "2026-01-01", credit: "c", licence: "l" };

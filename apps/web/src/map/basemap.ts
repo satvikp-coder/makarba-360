@@ -16,7 +16,7 @@ export interface FC { type: "FeatureCollection"; features: F[] }
 export const MAKARBA_CENTER: Pos = [72.5078, 22.9928];
 /** [[west, south], [east, north]] of the demo area. The camera is kept near it. */
 export const MAKARBA_BOUNDS: [Pos, Pos] = [[72.49, 22.975], [72.52, 23.005]];
-export const BASEMAP_ATTRIBUTION = "Basemap: approximate sketch drawn for this prototype, not surveyed";
+export const BASEMAP_ATTRIBUTION = "Basemap: Makarba 360 sketch map (approximate)";
 
 const poly = (ring: Pos[], properties: Props): F => ({ type: "Feature", properties, geometry: { type: "Polygon", coordinates: [[...ring, ring[0]!]] } });
 const box = (w: number, s: number, e: number, n: number): Pos[] => [[w, s], [e, s], [e, n], [w, n]];
@@ -201,12 +201,59 @@ export function generateRoofs(b: FC): FC {
     const ringPts = f.geometry.coordinates[0]!.slice(0, 4);
     const c: Pos = [ringPts.reduce((a, q) => a + q[0], 0) / 4, ringPts.reduce((a, q) => a + q[1], 0) / 4];
     const shared = { h, zone: String(p["zone"]), r };
+    // parapet: a low wall around the roof edge (outer ring = footprint, hole = footprint shrunk by ~0.4 m)
+    const inner = ringPts.map(([x, y]) => [c[0] + (x - c[0]) * 0.9, c[1] + (y - c[1]) * 0.9] as Pos);
+    features.push(ring(ringPts, inner, { ...shared, extra: 1.0, kind: "parapet" }));
     if (h >= 12) {
       const k = 0.32, off: Pos = [(ringPts[1]![0] - c[0]) * 0.35, (ringPts[1]![1] - c[1]) * 0.35];
       features.push(poly(ringPts.map(([x, y]) => [c[0] + off[0] + (x - c[0]) * k, c[1] + off[1] + (y - c[1]) * k] as Pos), { ...shared, extra: 3, kind: "room" }));
     }
     if (r > 0.25) features.push(poly(ngon([c[0] - (ringPts[1]![0] - c[0]) * 0.3, c[1] - (ringPts[1]![1] - c[1]) * 0.3], 0.000014, 8), { ...shared, extra: 1.7, kind: "tank" }));
   }
+  return { type: "FeatureCollection", features };
+}
+
+/**
+ * Floor ledges and balcony slabs: a thin ring slightly larger than the footprint every two floors on blocks of four or more
+ * floors. `f` is the ledge height as a fraction of the building height, so forecast scenarios can scale them with the block.
+ */
+export function generateLedges(b: FC): FC {
+  const features: F[] = [];
+  for (const f of b.features) {
+    const p = f.properties, levels = Number(p["levels"]), h = Number(p["h"]);
+    if (p["mill"] || levels < 4 || f.geometry.type !== "Polygon") continue;
+    const pts = f.geometry.coordinates[0]!.slice(0, 4);
+    const c: Pos = [pts.reduce((a, q) => a + q[0], 0) / 4, pts.reduce((a, q) => a + q[1], 0) / 4];
+    const outer = pts.map(([x, y]) => [c[0] + (x - c[0]) * 1.06, c[1] + (y - c[1]) * 1.06] as Pos);
+    const inner = pts.map(([x, y]) => [c[0] + (x - c[0]) * 0.97, c[1] + (y - c[1]) * 0.97] as Pos);
+    for (let k = 2; k < levels; k += 2) features.push(ring(outer, inner, { h, f: (k * 3.2) / h, zone: String(p["zone"]), r: Number(p["r"] ?? 0.5) }));
+  }
+  return { type: "FeatureCollection", features };
+}
+
+/**
+ * Ground shadows: the footprint swept away from the sun (south-west light, so shadows fall north-east), as the convex hull of the
+ * footprint and its offset copy. Length grows with height. Drawn as translucent ground fill under the buildings.
+ */
+const SUN: Pos = [0.62, 0.78];   // unit direction shadows fall (east, north)
+function hull(points: Pos[]): Pos[] {
+  const pts = [...points].sort((a, b) => a[0] - b[0] || a[1] - b[1]);
+  const cross = (o: Pos, a: Pos, b: Pos) => (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0]);
+  const lower: Pos[] = [], upper: Pos[] = [];
+  for (const p of pts) { while (lower.length >= 2 && cross(lower[lower.length - 2]!, lower[lower.length - 1]!, p) <= 0) lower.pop(); lower.push(p); }
+  for (const p of [...pts].reverse()) { while (upper.length >= 2 && cross(upper[upper.length - 2]!, upper[upper.length - 1]!, p) <= 0) upper.pop(); upper.push(p); }
+  return [...lower.slice(0, -1), ...upper.slice(0, -1)];
+}
+export function generateShadows(b: FC, trees: FC): FC {
+  const features: F[] = [];
+  const M = 111320;
+  const cast = (pts: Pos[], h: number, kind: string) => {
+    const len = h * 1.25;   // metres of shadow per metre of height (sun about 40° up)
+    const dx = (SUN[0] * len) / (M * KXr), dy = (SUN[1] * len) / M;
+    features.push(poly(hull([...pts, ...pts.map(([x, y]) => [x + dx, y + dy] as Pos)]), { kind }));
+  };
+  for (const f of b.features) if (f.geometry.type === "Polygon") cast(f.geometry.coordinates[0]!.slice(0, -1), Number(f.properties["h"]), "building");
+  for (const f of trees.features) if (f.geometry.type === "Polygon") cast(f.geometry.coordinates[0]!.slice(0, -1), Number(f.properties["h"]) * 0.8, "tree");
   return { type: "FeatureCollection", features };
 }
 
@@ -224,7 +271,10 @@ export function generateTrees(b: FC, seed = 7): { canopies: FC; trunks: FC } {
   for (const p of spots) {
     if (!free(p)) continue;
     const size = 0.000045 + r() * 0.00004, top = 5 + r() * 6;
-    canopies.push(poly(ngon(p, size, 7, r()), { b: 2.2, h: top, tone: Math.round(r() * 2) }));
+    const tone = Math.round(r() * 2), rot = r();
+    // two tiers read as a rounded crown: a wide lower tier and a narrower, lighter upper one
+    canopies.push(poly(ngon(p, size, 9, rot), { b: 2.2, h: top * 0.72, tone }));
+    canopies.push(poly(ngon([p[0] + size * 0.15 / KXr, p[1] + size * 0.1], size * 0.68, 8, rot + 0.3), { b: top * 0.6, h: top, tone: Math.min(2, tone + 1) }));
     trunks.push(poly(ngon(p, 0.000007, 4), { h: 2.4 }));
   }
   return { canopies: { type: "FeatureCollection", features: canopies }, trunks: { type: "FeatureCollection", features: trunks } };
@@ -276,9 +326,12 @@ export const lamps: FC = {
 };
 
 // The generated city is deterministic and costly enough to build once.
-let cityCache: { buildings: FC; roofs: FC; trees: { canopies: FC; trunks: FC } } | null = null;
+let cityCache: { buildings: FC; roofs: FC; ledges: FC; shadows: FC; trees: { canopies: FC; trunks: FC } } | null = null;
 export function city() {
-  if (!cityCache) { const buildings = generateBuildings(); cityCache = { buildings, roofs: generateRoofs(buildings), trees: generateTrees(buildings) }; }
+  if (!cityCache) {
+    const buildings = generateBuildings(), trees = generateTrees(buildings);
+    cityCache = { buildings, roofs: generateRoofs(buildings), ledges: generateLedges(buildings), shadows: generateShadows(buildings, trees.canopies), trees };
+  }
   return cityCache;
 }
 
@@ -289,34 +342,36 @@ export interface Theme {
   traffic: string; low: string; high: string; mill: string; landmark: string;
   /** plaster variety for low-rise walls, rooftop rooms, water tanks, tree canopy tones, trunk, stone, dome, lane marking, lamp glow */
   low2: string; low3: string; room: string; tank: string; tree: [string, string, string]; trunk: string; stone: string; dome: string; marking: string; lamp: number;
+  /** asphalt for streets, ledge/balcony colour, ground-shadow opacity */
+  asphalt: string; ledge: string; shadow: number;
   light: maplibregl.LightSpecification; sky: Record<string, string | number>;
 }
 export const THEMES: Record<TimeOfDay, Theme> = {
   dawn: {
-    bg: "#efe2d8", green: "#b3cf9c", ground: "#e6d2b4", water: "#8cb9d4", waterLine: "#5a8fae", canalFlow: "#fff1ea", road: "#fbf4ee", casing: "#d6c2b2",
+    bg: "#efe2d8", green: "#b3cf9c", ground: "#e6d2b4", water: "#8cb9d4", waterLine: "#5a8fae", canalFlow: "#fff1ea", road: "#c9c2bb", casing: "#e3d6c8",
     highway: "#f1c89a", traffic: "#a0492f", low: "#f0dccb", high: "#a7aec2", mill: "#c49a80", landmark: "#e0a27a",
-    low2: "#f2cfc0", low3: "#e2dad0", room: "#d8c6b6", tank: "#2c2a2a", tree: ["#86a874", "#729862", "#9cb882"], trunk: "#76563c", stone: "#dcb092", dome: "#ecc2a0", marking: "#fff8f2", lamp: 0.35,
+    low2: "#f2cfc0", low3: "#e2dad0", room: "#d8c6b6", tank: "#2c2a2a", tree: ["#86a874", "#729862", "#9cb882"], trunk: "#76563c", stone: "#dcb092", dome: "#ecc2a0", marking: "#fff8f2", lamp: 0.35, asphalt: "#8d8b8a", ledge: "#f6e6dc", shadow: 0.2,
     light: { anchor: "viewport", color: "#ffd7c2", intensity: 0.45, position: [1.3, 100, 65] },
     sky: { "sky-color": "#a9c6e6", "horizon-color": "#f6c9b4", "fog-color": "#efe2d8", "sky-horizon-blend": 0.75, "horizon-fog-blend": 0.65, "fog-ground-blend": 0.7 },
   },
   day: {
-    bg: "#efe8da", green: "#bcd8a4", ground: "#e2d3ae", water: "#7fbfd4", waterLine: "#4c91a3", canalFlow: "#f4fbff", road: "#ffffff", casing: "#d3c6ad",
+    bg: "#efe8da", green: "#bcd8a4", ground: "#e2d3ae", water: "#7fbfd4", waterLine: "#4c91a3", canalFlow: "#f4fbff", road: "#c4c3bd", casing: "#ddd5c4",
     highway: "#f3cf86", traffic: "#b5522f", low: "#efe2c6", high: "#9fb7b4", mill: "#c9a27e", landmark: "#d9a066",
-    low2: "#f0d4c0", low3: "#dfe3d6", room: "#d8ccb4", tank: "#2b2b2b", tree: ["#7fae6a", "#6a9c5a", "#94bd78"], trunk: "#7a5a3c", stone: "#d6b48a", dome: "#e2c49c", marking: "#ffffff", lamp: 0,
-    light: { anchor: "viewport", color: "#ffffff", intensity: 0.35, position: [1.4, 210, 35] },
+    low2: "#f0d4c0", low3: "#dfe3d6", room: "#d8ccb4", tank: "#2b2b2b", tree: ["#7fae6a", "#6a9c5a", "#94bd78"], trunk: "#7a5a3c", stone: "#d6b48a", dome: "#e2c49c", marking: "#ffffff", lamp: 0, asphalt: "#8e9193", ledge: "#f7f2e8", shadow: 0.26,
+    light: { anchor: "map", color: "#fff6e8", intensity: 0.55, position: [1.5, 225, 38] },
     sky: { "sky-color": "#9cc9e6", "horizon-color": "#f3efe4", "fog-color": "#efe8da", "sky-horizon-blend": 0.6, "horizon-fog-blend": 0.6, "fog-ground-blend": 0.75 },
   },
   dusk: {
-    bg: "#e7d2c1", green: "#a9bf8f", ground: "#d9bf98", water: "#6b98b8", waterLine: "#3d6b8a", canalFlow: "#ffe2c4", road: "#f7ebe0", casing: "#c4a78f",
+    bg: "#e7d2c1", green: "#a9bf8f", ground: "#d9bf98", water: "#6b98b8", waterLine: "#3d6b8a", canalFlow: "#ffe2c4", road: "#b5a99f", casing: "#cfb9a4",
     highway: "#f2b073", traffic: "#7a2e1c", low: "#efcfae", high: "#8b8fae", mill: "#b98466", landmark: "#e59a5c",
-    low2: "#ecbfa2", low3: "#d6c9b8", room: "#cfb393", tank: "#2a2522", tree: ["#7d9a5e", "#6b8a52", "#8ea66c"], trunk: "#6b4a33", stone: "#e0a476", dome: "#efb886", marking: "#fff4e6", lamp: 0.55,
+    low2: "#ecbfa2", low3: "#d6c9b8", room: "#cfb393", tank: "#2a2522", tree: ["#7d9a5e", "#6b8a52", "#8ea66c"], trunk: "#6b4a33", stone: "#e0a476", dome: "#efb886", marking: "#fff4e6", lamp: 0.55, asphalt: "#7f7672", ledge: "#f2dcc8", shadow: 0.18,
     light: { anchor: "viewport", color: "#ffc58a", intensity: 0.5, position: [1.3, 260, 70] },
     sky: { "sky-color": "#f0a37a", "horizon-color": "#f7d2a6", "fog-color": "#e7d2c1", "sky-horizon-blend": 0.8, "horizon-fog-blend": 0.7, "fog-ground-blend": 0.7 },
   },
   night: {
     bg: "#0f1d29", green: "#1c3428", ground: "#2a2a24", water: "#163b55", waterLine: "#2f6e93", canalFlow: "#7fd3ff", road: "#33475a", casing: "#1b2a37",
     highway: "#d89a3c", traffic: "#ffd27a", low: "#2b3e50", high: "#5d7895", mill: "#4a3d36", landmark: "#c98a4a",
-    low2: "#334658", low3: "#2a3a48", room: "#3a4f63", tank: "#11161b", tree: ["#1f3a2c", "#1a3326", "#264536"], trunk: "#2a221c", stone: "#a87a4c", dome: "#d6a066", marking: "#8aa0b4", lamp: 1,
+    low2: "#334658", low3: "#2a3a48", room: "#3a4f63", tank: "#11161b", tree: ["#1f3a2c", "#1a3326", "#264536"], trunk: "#2a221c", stone: "#a87a4c", dome: "#d6a066", marking: "#8aa0b4", lamp: 1, asphalt: "#26323d", ledge: "#3a4c5e", shadow: 0,
     light: { anchor: "viewport", color: "#a8c4ff", intensity: 0.25, position: [1.2, 40, 50] },
     sky: { "sky-color": "#0b1424", "horizon-color": "#22344d", "fog-color": "#0f1d29", "sky-horizon-blend": 0.7, "horizon-fog-blend": 0.8, "fog-ground-blend": 0.8 },
   },
@@ -332,13 +387,15 @@ export function themedPaint(t: Theme): Record<string, Record<string, unknown>> {
     canal: { "line-color": t.water },
     "canal-flow": { "line-color": t.canalFlow },
     "road-casing": { "line-color": t.casing },
-    road: { "line-color": ["match", ["get", "kind"], "highway", t.highway, t.road] },
+    road: { "line-color": ["match", ["get", "kind"], "local", t.road, t.asphalt] },
+    ledges: { "fill-extrusion-color": t.ledge },
+    shadows: { "fill-opacity": ["match", ["get", "kind"], "tree", t.shadow * 0.8, t.shadow] },
     "traffic-a": { "line-color": t.traffic },
     "traffic-b": { "line-color": t.traffic },
     buildings: { "fill-extrusion-color": ["case", ["has", "mill"], t.mill,
       ["interpolate", ["linear"], ["get", "h"], 3, ["match", ["%", ["round", ["*", ["coalesce", ["get", "r"], 0], 30]], 3], 0, t.low, 1, t.low2, t.low3], 22, t.low3, 50, t.high]] },
     landmark: { "fill-extrusion-color": ["match", ["get", "part"], "dome", t.dome, "finial", t.highway, "ghat", t.stone, "plinth", t.stone, "parapet", t.dome, t.landmark] },
-    roofs: { "fill-extrusion-color": ["match", ["get", "kind"], "tank", t.tank, t.room] },
+    roofs: { "fill-extrusion-color": ["match", ["get", "kind"], "tank", t.tank, "parapet", t.low3, t.room] },
     "tree-canopy": { "fill-extrusion-color": ["match", ["get", "tone"], 0, t.tree[0], 1, t.tree[1], t.tree[2]] },
     "tree-trunk": { "fill-extrusion-color": t.trunk },
     "lane-marking": { "line-color": t.marking },
@@ -373,6 +430,9 @@ export function buildOfflineStyle(time: TimeOfDay = "day"): maplibregl.StyleSpec
       roads: { type: "geojson", data: roads as unknown as maplibregl.GeoJSONSourceSpecification['data'] },
       buildings: { type: "geojson", data: city().buildings as unknown as maplibregl.GeoJSONSourceSpecification['data'] },
       roofs: { type: "geojson", data: city().roofs as unknown as maplibregl.GeoJSONSourceSpecification['data'] },
+      ledges: { type: "geojson", data: city().ledges as unknown as maplibregl.GeoJSONSourceSpecification['data'] },
+      shadows: { type: "geojson", data: city().shadows as unknown as maplibregl.GeoJSONSourceSpecification['data'] },
+      ground: { type: "geojson", data: { type: "Feature", properties: {}, geometry: { type: "Polygon", coordinates: [[[72.47, 22.96], [72.54, 22.96], [72.54, 23.02], [72.47, 23.02], [72.47, 22.96]]] } } as unknown as maplibregl.GeoJSONSourceSpecification['data'] },
       "tree-canopy": { type: "geojson", data: city().trees.canopies as unknown as maplibregl.GeoJSONSourceSpecification['data'] },
       "tree-trunk": { type: "geojson", data: city().trees.trunks as unknown as maplibregl.GeoJSONSourceSpecification['data'] },
       lamps: { type: "geojson", data: lamps as unknown as maplibregl.GeoJSONSourceSpecification['data'] },
@@ -385,8 +445,11 @@ export function buildOfflineStyle(time: TimeOfDay = "day"): maplibregl.StyleSpec
     },
     layers: [
       { id: "background", type: "background", paint: p["background"] as never },
+      // fine ground grain (image added by MapView on demand); keeps large flat areas from looking like plastic
+      { id: "ground-grain", type: "fill", source: "ground", paint: { "fill-pattern": "grain", "fill-opacity": 0.5 } as never },
       { id: "greens", type: "fill", source: "greens", paint: { ...(p["greens"] as object), "fill-opacity": 0.9 } as never },
       { id: "water", type: "fill", source: "water", paint: p["water"] as never },
+      { id: "water-depth", type: "line", source: "water", paint: { "line-color": "#2f6f8c", "line-width": 10, "line-blur": 9, "line-offset": -5, "line-opacity": 0.45 } as never },
       { id: "water-line", type: "line", source: "water", paint: { ...(p["water-line"] as object), "line-width": 1.5 } as never },
       { id: "canal", type: "line", source: "canal", layout: { "line-cap": "round", "line-join": "round" }, paint: { ...(p["canal"] as object), "line-width": w(3, 12, 40) } as never },
       { id: "canal-flow", type: "line", source: "canal", layout: { "line-cap": "butt", "line-join": "round" }, paint: { ...(p["canal-flow"] as object), "line-width": w(1, 3, 8), "line-opacity": 0.7, "line-dasharray": DASH_STEPS[0] } as never },
@@ -396,13 +459,15 @@ export function buildOfflineStyle(time: TimeOfDay = "day"): maplibregl.StyleSpec
       { id: "zebra", type: "fill", source: "markings", minzoom: 15.5, paint: { "fill-color": "#ffffff", "fill-opacity": 0.9 } as never },
       { id: "traffic-a", type: "line", source: "roads", filter: ["==", ["get", "kind"], "highway"], paint: { ...(p["traffic-a"] as object), "line-width": w(1, 2.5, 6), "line-offset": w(1, 4, 14), "line-opacity": 0.3, "line-dasharray": DASH_STEPS[0] } as never },
       { id: "traffic-b", type: "line", source: "roads", filter: ["==", ["get", "kind"], "highway"], paint: { ...(p["traffic-b"] as object), "line-width": w(1, 2.5, 6), "line-offset": w(-1, -4, -14), "line-opacity": 0.3, "line-dasharray": DASH_STEPS[7] } as never },
-      { id: "buildings", type: "fill-extrusion", source: "buildings", minzoom: 13, paint: { ...(p["buildings"] as object), "fill-extrusion-height": ["interpolate", ["linear"], ["zoom"], 13, 0, 14.5, ["get", "h"]], "fill-extrusion-base": 0, "fill-extrusion-opacity": 0.92, "fill-extrusion-height-transition": extrusionTransition } as never },
+      { id: "shadows", type: "fill", source: "shadows", minzoom: 14.5, paint: { ...(p["shadows"] as object), "fill-color": "#2a2620", "fill-antialias": false } as never },
+      { id: "buildings", type: "fill-extrusion", source: "buildings", minzoom: 13, paint: { ...(p["buildings"] as object), "fill-extrusion-height": ["interpolate", ["linear"], ["zoom"], 13, 0, 14.5, ["get", "h"]], "fill-extrusion-base": 0, "fill-extrusion-opacity": 1, "fill-extrusion-vertical-gradient": true, "fill-extrusion-height-transition": extrusionTransition } as never },
+      { id: "ledges", type: "fill-extrusion", source: "ledges", minzoom: 15.8, paint: { ...(p["ledges"] as object), "fill-extrusion-base": ["*", ["get", "h"], ["get", "f"]], "fill-extrusion-height": ["+", ["*", ["get", "h"], ["get", "f"]], 0.35], "fill-extrusion-opacity": 1, "fill-extrusion-base-transition": extrusionTransition, "fill-extrusion-height-transition": extrusionTransition } as never },
       { id: "roofs", type: "fill-extrusion", source: "roofs", minzoom: 15, paint: { ...(p["roofs"] as object), "fill-extrusion-base": ["get", "h"], "fill-extrusion-height": ["+", ["get", "h"], ["get", "extra"]], "fill-extrusion-opacity": 0.95, "fill-extrusion-height-transition": extrusionTransition, "fill-extrusion-base-transition": extrusionTransition } as never },
       { id: "landmark", type: "fill-extrusion", source: "landmark", paint: { ...(p["landmark"] as object), "fill-extrusion-height": ["get", "h"], "fill-extrusion-base": ["get", "b"], "fill-extrusion-opacity": 1 } as never },
       { id: "tree-trunk", type: "fill-extrusion", source: "tree-trunk", minzoom: 15.5, paint: { ...(p["tree-trunk"] as object), "fill-extrusion-height": ["get", "h"], "fill-extrusion-opacity": 1 } as never },
       { id: "tree-canopy", type: "fill-extrusion", source: "tree-canopy", minzoom: 15, paint: { ...(p["tree-canopy"] as object), "fill-extrusion-base": ["get", "b"], "fill-extrusion-height": ["interpolate", ["linear"], ["zoom"], 15, ["get", "b"], 15.6, ["get", "h"]], "fill-extrusion-opacity": 0.96 } as never },
       { id: "furniture", type: "fill-extrusion", source: "furniture", minzoom: 15.5, paint: { "fill-extrusion-color": ["get", "c"], "fill-extrusion-base": ["get", "b"], "fill-extrusion-height": ["get", "h"], "fill-extrusion-opacity": 1 } as never },
-      { id: "vehicles", type: "fill-extrusion", source: "vehicles", minzoom: 14.5, paint: { "fill-extrusion-color": ["get", "c"], "fill-extrusion-base": 0.25, "fill-extrusion-height": ["get", "h"], "fill-extrusion-opacity": 1 } as never },
+      { id: "vehicles", type: "fill-extrusion", source: "vehicles", minzoom: 14.5, paint: { "fill-extrusion-color": ["get", "c"], "fill-extrusion-base": ["get", "b"], "fill-extrusion-height": ["get", "h"], "fill-extrusion-opacity": 1 } as never },
       { id: "vehicle-lights", type: "circle", source: "vehicle-lights", minzoom: 15, paint: { ...(p["vehicle-lights"] as object), "circle-color": "#fff4d6", "circle-radius": ["interpolate", ["linear"], ["zoom"], 15, 2, 18, 9], "circle-blur": 0.8, "circle-pitch-alignment": "map" } as never },
       { id: "lamps", type: "circle", source: "lamps", minzoom: 14, paint: { ...(p["lamps"] as object), "circle-color": "#ffd58a", "circle-radius": ["interpolate", ["linear"], ["zoom"], 14, 3, 18, 18], "circle-blur": 0.9, "circle-pitch-alignment": "map", "circle-stroke-width": 1, "circle-stroke-color": "#fff3d0" } as never },
     ],

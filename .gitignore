@@ -19,3 +19,6 @@ playwright-report/
 
 # Yahoo Finance data: personal-use terms, never committed
 apps/web/public/markets.json
+
+# Apple Foundation Models bridge build output
+tools/applefm/.build/

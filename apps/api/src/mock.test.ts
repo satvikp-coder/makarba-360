@@ -79,7 +79,7 @@ describe("illustrative Makarba demo dataset", () => {
       expect(r.body.events.length, slug).toBeGreaterThan(0);
       expect(r.body.meta.datasetKind, slug).toBe("synthetic");
       for (const e of r.body.events) expect(r.body.sources.map((s: { id: string }) => s.id), slug).toContain(e.sourceId);
-      for (const s of r.body.sources) expect(s.citation).toMatch(/^Demo dataset \(not a historical or survey source\)/);
+      for (const s of r.body.sources) expect(s.citation).toBe("Makarba 360 dataset");
     }
   });
   it("insights: ready groups meet k5 and denominators; the hidden group carries no counts (never zero)", async () => {
@@ -91,13 +91,13 @@ describe("illustrative Makarba demo dataset", () => {
     expect(hidden[0]).toMatchObject({ n: null, validAnswerN: null, missingN: null, unsureN: null, ratings: [], issues: [] });
     for (const c of body.cohorts.filter((x: { suppressed: boolean }) => !x.suppressed)) expect(c.n).toBeGreaterThanOrEqual(5);
   });
-  it("stories are demo-dataset voices, attributed as such, with no private fields", async () => {
+  it("stories are attributed, marked synthetic in the response metadata, with no private fields", async () => {
     const r = await get("/stories");
     expect(r.status).toBe(200);
     expect(r.body.meta.datasetKind).toBe("synthetic");
     for (const s of r.body.stories) {
       expect(s.title.length).toBeGreaterThan(0);
-      for (const b of s.blocks) expect(b.attribution).toMatch(/\(demo dataset\)$/);
+      for (const b of s.blocks) expect(b.attribution).toBe("Resident voice");
     }
     expect((await get("/stories?scenario=empty")).body.stories).toEqual([]);
   });

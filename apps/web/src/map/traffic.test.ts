@@ -7,7 +7,10 @@ describe("3D traffic", () => {
     expect(vs).toHaveLength(40);
     for (const v of vs) { expect(PATHS[v.path]).toBeDefined(); expect(v.s).toBeGreaterThanOrEqual(0); expect(v.s).toBeLessThanOrEqual(PATHS[v.path]!.len); }
     const f = toFeatures(vs);
-    expect(f.bodies.features).toHaveLength(40);
+    // every vehicle is 2-3 extruded parts (body + cabin, canopy, rider, windows or cargo box)
+    expect(f.bodies.features.length).toBeGreaterThanOrEqual(80);
+    expect(f.bodies.features.length).toBeLessThanOrEqual(120);
+    expect(f.bodies.features.every((b) => Number(b.properties["h"]) > Number(b.properties["b"]))).toBe(true);
     expect(f.lights.features).toHaveLength(40);
     expect(f.bodies.features.every((b) => b.geometry.type === "Polygon" && b.geometry.coordinates[0]!.length === 5)).toBe(true);
   });

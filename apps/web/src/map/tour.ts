@@ -21,7 +21,7 @@ export const TOUR: TourStop[] = [
     caption: "Fruit and sugarcane carts beside the shrine approach, busiest from Thursday to Sunday, balancing trade against traffic.",
     center: [72.5062, 22.9936], zoom: 17.5, pitch: 62, bearing: 70 },
   { id: "highway", title: "Highway, bus stand and autos", kind: "sourced", source: "Wikipedia: Sarkhej–Gandhinagar Highway",
-    caption: "The Sarkhej–Gandhinagar Highway runs about 44.5 km north to Gandhinagar. The bus and auto stands shown here are example places.",
+    caption: "The Sarkhej–Gandhinagar Highway runs about 44.5 km north to Gandhinagar.",
     center: [72.5122, 22.992], zoom: 16.4, pitch: 60, bearing: -12 },
   { id: "canal", title: "Canal bank and factory road", kind: "illustrative",
     caption: "An evening walk along the canal bank, and a vending stretch on the factory road that grew over about five years.",

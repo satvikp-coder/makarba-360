@@ -22,22 +22,23 @@ The first run downloads the model checkpoint from Hugging Face. On Apple silicon
 
 If a model can't be loaded, the pipeline tries the next one (3.0, then 2.5, then a linear trend) and says so in the log. The model actually used is recorded in `forecasts.json` and shown in the app's *Model & data* tab.
 
-## Data (57 series in the current file)
+## Data (78 series, 3,648 observations in the current file)
 
 | Source | Series | Frequency | Licence | Stored |
 |---|---|---|---|---|
-| World Bank Open Data (India) | 39 economic, development and social indicators. Economic: GDP, inflation, jobs, informal work, credit, household spending. Development: urbanisation, density, sanitation, water, clean cooking, CO₂, power losses, air travel, energy, internet. Social: health, education, ageing. | annual | CC BY 4.0 | `forecasts.json` |
+| World Bank Open Data (India) | 53 economic, development and social indicators. Economic: GDP, income (PPP), inflation, jobs, informal work, credit, household spending, exports, remittances, R&D. Development: urbanisation, urban population, density, sanitation, water, clean cooking, CO₂, power losses, renewable electricity, forest cover, air travel, broadband, internet. Social: health, education, primary completion, ageing, dependency, migration, road deaths. | annual | CC BY 4.0 | `forecasts.json` |
 | Worldwide Governance Indicators (6) and World Bank (2) | 8 political indicators: stability, effectiveness, rule of law, corruption control, voice, regulatory quality, women in parliament, tax revenue | annual | CC BY 4.0 | `forecasts.json` |
-| Kaggle `rohanrao/air-quality-data-in-india` (CPCB) | Ahmedabad PM2.5, NO₂, AQI, CO, SO₂, O₃. PM10 is dropped when it has fewer than 24 months. | daily → monthly mean | CC0 | `forecasts.json` |
-| Kaggle `developerghost/climate-in-india-daily-weather-data-2000-2024` | Ahmedabad days at or above 40 °C, average summer high, hottest "feels like" temperature, yearly rainfall | daily → annual | MIT | `forecasts.json` |
+| Kaggle `rohanrao/air-quality-data-in-india` (CPCB) | Ahmedabad PM2.5, NO₂, NO, NOx, benzene, AQI, CO, SO₂, O₃. PM10 and NH₃ are dropped: Ahmedabad has fewer than 24 months of them. | daily → monthly mean | CC0 | `forecasts.json` |
+| Kaggle `developerghost/climate-in-india-daily-weather-data-2000-2024` | Ahmedabad days at or above 40 °C, average summer high, hottest "feels like" temperature, coldest night, yearly and monsoon rainfall, rainy days, strongest gust | daily → annual | MIT | `forecasts.json` |
 | Yahoo Finance via `yfinance` | NIFTY 50, NIFTY Realty, NIFTY Infra, NIFTY Bank, USD/INR, Brent, gold | monthly | personal use only | `markets.json`, git-ignored, never committed |
 
-Kaggle needs `~/.kaggle/credentials.json` (or `kaggle.json`). Two candidates were deliberately left out, both CC BY-NC-SA: `abhisheksjha/time-series-air-quality-data-of-india-2010-2023` (more recent Gujarat stations) and `bhautikvekariya21/air-quality-dataset-indian-cities-2022-2025`. The repository has no licence chosen yet; add them once the owner decides.
+Kaggle needs `~/.kaggle/credentials.json` (or `kaggle.json`). The urban-slum share (`EN.POP.SLUM.UR.ZS`) is requested but dropped: the World Bank has too few observations for India. Two Kaggle candidates were deliberately left out, both CC BY-NC-SA: `abhisheksjha/time-series-air-quality-data-of-india-2010-2023` (more recent Gujarat stations) and `bhautikvekariya21/air-quality-dataset-indian-cities-2022-2025`. The repository has no licence chosen yet; add them once the owner decides.
 
 The World Bank API throttles bursts, so it is called three requests at a time with up to six retries.
 
 ## Method
 
+- The full observed history is kept: every year or month the source has.
 - Missing years or months are linearly interpolated. Series with fewer than 15 points (24 for monthly) are dropped. Weather years with fewer than 360 days are dropped.
 - One TimesFM batch covers annual and monthly series together. It returns a point forecast and nine quantiles; the 10th–90th percentile band is shown.
 - The whole horizon to `--to` (default 2050) is decoded in one pass. The web app's end-year slider (default 2034) reads a prefix, which is identical to re-running with a shorter horizon.

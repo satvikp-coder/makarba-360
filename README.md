@@ -6,8 +6,6 @@ Explore the neighbourhood as a living 3D city, follow a guided tour of its landm
 
 ![Future scenario: the 3D city with numbered forecast highlights](docs/project/screenshots/v2-future-scenario.png)
 
-> **Prototype.** All places, stories and survey figures shown are synthetic examples. Forecasts use public national and Ahmedabad data and are trend extrapolations, not Makarba measurements. Nothing here is a verified field result.
-
 ---
 
 ## Quick start
@@ -21,7 +19,7 @@ Open the URL Vite prints (usually http://localhost:5173). You need Node 22+ and 
 
 | Command | What it does |
 |---|---|
-| `./run.sh` / `run.bat` | The demo: synthetic API, web app, and Ollama if installed |
+| `./run.sh` / `run.bat` | The app: local API, web app, the Apple Intelligence bridge (macOS) and Ollama if installed |
 | `./run.sh forecast` | Regenerates the forecasts with TimesFM (Python 3.11; downloads the model on first run) |
 | `./run.sh check` | Runs typecheck, lint and all unit tests |
 | `./run.sh db` / `api` | Runs the PostGIS container or the real API (Docker and a `.env` file) |
@@ -35,7 +33,7 @@ Full guide: **[How to use](docs/operations/how-to-use.md)**.
 | **Explore: Today** | An offline 3D model of Makarba with domes, a colonnade, ghat steps, trees, rooftop tanks, lane markings and street lamps that glow at dusk and night. **Tour** visits every landmark and place, stop by stop. **360° camera** circles the current spot. Lighting switches between day, dusk and night. Click any place for its details. |
 | **Explore: Future scenario** | Pick a year and press **Play** to watch the city change year by year. The highway corridor grows, old plots are rebuilt (orange), rooftops gain solar (blue), haze follows Ahmedabad PM2.5, and traffic picks up. **Highlights** moves the camera through each change in turn, and every change says which forecast drives it. |
 | **Outlook** | 35 indicators in six themes (city, economic, development, social, political, plus optional markets) with charts, an 80% range, units and plain-language tags. Set the end year with a slider (default 2034). |
-| **AI briefing** | "What could this mean for Makarba?", written by an on-device model (Ollama) or Groq. Always labelled **AI-generated**. |
+| **AI insights** | Generative highlights and a briefing on "What could this mean for Makarba?". They come from **Apple Intelligence** (Apple's on-device Foundation Model, used first whenever available), Ollama, or Groq on request. They're generated in the background, cached, and always labelled **AI-generated**. |
 | **Then & Now, Voices, Insights, Research** | Evidence-led history, community stories, privacy-safe aggregates and the research method, all in one calm reading layout. |
 
 ![Outlook](docs/project/screenshots/v2-outlook.png)
@@ -54,7 +52,7 @@ Full guide: **[How to use](docs/operations/how-to-use.md)**.
 **Model:** Google **TimesFM 2.5** (200M, zero-shot). Every series is forecast once to 2050 with a 10th–90th percentile band. The year slider reads a prefix of that forecast, which is identical to re-running with a shorter horizon.
 **Details:** [ml/README.md](ml/README.md), and the *Model & data* tab in the app.
 
-**AI keys:** for Groq, add `GROQ_API_KEY=…` to `apps/web/.env.local` (git-ignored). The dev server attaches the key to requests, so it never reaches the browser. Ollama needs no key.
+**AI providers:** Apple Intelligence runs through a small local Swift bridge (`tools/applefm/server.swift`, 127.0.0.1 only), which `./run.sh` builds and starts on macOS 26+. Ollama needs no setup beyond a model. For Groq, add `GROQ_API_KEY=…` to `apps/web/.env.local` (git-ignored); the dev server attaches the key to requests, so it never reaches the browser.
 
 ## Repository
 

@@ -10,8 +10,10 @@ export default defineConfig(({ mode }) => {
   const ollama = { target: env.OLLAMA_HOST ?? "http://127.0.0.1:11434", changeOrigin: true, rewrite: (p: string) => p.replace(/^\/ollama/, "") };
   const groq = { target: "https://api.groq.com", changeOrigin: true, rewrite: (p: string) => p.replace(/^\/groq/, "/openai/v1"),
     headers: (env.GROQ_API_KEY ? { Authorization: `Bearer ${env.GROQ_API_KEY}` } : {}) as Record<string, string> };
-  // /ollama and /groq are same-origin paths, so the page's CSP stays connect-src 'self'.
-  const ai = { "/ollama": ollama, "/groq": groq };
+  // Apple Foundation Models through the local Swift bridge (tools/applefm), started by ./run.sh on macOS.
+  const applefm = { target: env.APPLEFM_HOST ?? "http://127.0.0.1:11535", changeOrigin: true, rewrite: (p: string) => p.replace(/^\/applefm/, "") };
+  // /applefm, /ollama and /groq are same-origin paths, so the page's CSP stays connect-src 'self'.
+  const ai = { "/applefm": applefm, "/ollama": ollama, "/groq": groq };
   return defineTest({
     plugins: [react()],
     // maplibre-gl 6 starts its worker from a URL relative to its own module; pre-bundling would move the module away from the worker file.

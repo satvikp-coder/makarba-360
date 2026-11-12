@@ -32,7 +32,7 @@ export function Methodology() {
       <p>Participation is voluntary and based on consent. Exact interview positions, names, raw answers and recordings are never published. The place an interview was held can differ from the place it is about, and only the second is used for place summaries.</p>
 
       <section aria-labelledby="prototype-data" className="prototype-data">
-        <h2 id="prototype-data" tabIndex={-1}>About this prototype dataset</h2>
+        <h2 id="prototype-data" tabIndex={-1}>About the data</h2>
         <p>This version of the site runs on a <strong>prototype dataset</strong> so the map, stories and charts can be shown before any real results are approved for publication.</p>
         <table>
           <caption>What each kind of content on this site is</caption>
@@ -58,9 +58,9 @@ export function Sources() {
     <article aria-labelledby="s-h">
       <h1 id="s-h">Sources and credits</h1>
       <h2>Map data</h2>
-      <p>Base map: an approximate sketch of Makarba drawn for this prototype and bundled with the site (roads, lake, canal, green spaces and generated building blocks). It is not surveyed and uses no outside map tiles or third-party map data. Place data shown on the map comes from this project&apos;s published records.</p>
+      <p>Base map: an approximate sketch of Makarba drawn for this project and bundled with the site (roads, lake, canal, green spaces and generated building blocks). It is not surveyed and uses no outside map tiles or third-party map data. Place data shown on the map comes from this project&apos;s published records.</p>
       <h2>Landmark notes (sourced)</h2>
-      <p>The landmark notes are the only factual statements on the prototype site. Each is a paraphrase of the page below, read on the date shown.</p>
+      <p>Each landmark note is a paraphrase of the page below, read on the date shown.</p>
       <ul>{[...new Map(LANDMARKS.flatMap((l) => l.sources).map((s) => [s.url, s])).values()].map((s) => (
         <li key={s.url}><a href={s.url} rel="noopener noreferrer">{s.title}</a> (retrieved {new Date(s.retrieved + "T00:00:00Z").toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" })}; text CC BY-SA 4.0, paraphrased)</li>
       ))}</ul>
@@ -71,7 +71,7 @@ export function Sources() {
       ))}</ul>
       <p>Cards without a suitable licensed photograph show original drawings made for this project.</p>
       <h2>Historical sources for places</h2>
-      <p>Each place page lists its own citations, licences and photograph credits. No historical sources about the example places have been approved for general listing here yet; none are shown until their rights and dates have been checked.</p>
+      <p>Each place page lists its own citations, licences and photograph credits. No historical sources about the places have been approved for general listing here yet; none are shown until their rights and dates have been checked.</p>
       <h2>Corrections</h2>
       <p>If a source is found to be wrong or withdrawn, the citation is kept and flagged and the affected content is removed or corrected. A public contact route has not been set up yet.</p>
     </article>

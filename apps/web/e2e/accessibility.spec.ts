@@ -121,7 +121,7 @@ test.describe("structure and keyboard", () => {
     await expect(page.locator("html")).toHaveAttribute("lang", "en");
     await page.keyboard.press(",");
     await expect(page.getByRole("heading", { name: "Display and accessibility" })).toBeVisible();
-    await page.getByRole("radio", { name: "High" }).click();
+    await page.getByRole("radiogroup", { name: "Contrast" }).getByRole("radio", { name: "High" }).click();
     await expect(page.locator("html")).toHaveAttribute("data-contrast", "high");
   });
 });

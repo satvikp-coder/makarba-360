@@ -12,26 +12,25 @@ afterEach(cleanup);
 const WEB = process.cwd();   // vitest runs from apps/web
 
 describe("one calm, honest disclosure of the prototype dataset", () => {
-  it("every page footer says the survey entries are fictional examples and links to the full explanation", () => {
+  it("every page footer credits the forecasts, photos and sources and links to 'About the data'", () => {
     for (const path of ["/", "/explore", "/voices", "/insights", "/places/x", "/research/sources"]) {
       at(path);
       const footer = screen.getByRole("contentinfo");
-      expect(footer.textContent, path).toMatch(/Prototype dataset – survey entries are composite, fictional examples; landmark facts are sourced\./);
-      expect(within(footer).getByRole("link", { name: "About this data" }).getAttribute("href")).toBe("/research/methodology#prototype-data");
+      expect(footer.textContent, path).toMatch(/Forecasts: Google TimesFM 3\.0 .* Photos: Wikimedia Commons · Landmark facts are sourced\./);
+      expect(footer.textContent, path).not.toMatch(/demo|example|prototype|fictional/i);
+      expect(within(footer).getByRole("link", { name: "About the data" }).getAttribute("href")).toBe("/research/methodology#prototype-data");
       cleanup();
     }
   });
-  it("one quiet notice in the side rail; no banner or per-item labels in the main content", () => {
+  it("no banner, badge or per-item labels about the dataset anywhere in the page chrome", () => {
     at("/");
-    expect(screen.getByRole("main").querySelector(".demo-badge, .badge")).toBeNull();
-    const badges = document.querySelectorAll("header .demo-badge");
-    expect(badges).toHaveLength(1);
-    expect(badges[0]!.getAttribute("href")).toBe("/research/methodology#prototype-data");
+    expect(document.querySelector(".demo-badge, .badge")).toBeNull();
+    expect(document.querySelector("header")!.textContent).not.toMatch(/demo|example|prototype/i);
     expect(screen.getByRole("main").textContent).not.toMatch(/ILLUSTRATIVE DEMO|awaiting real data/i);
   });
-  it("the methodology page explains what is example, what is sourced and the privacy rules", () => {
+  it("the methodology page explains what is example, what is sourced and the privacy rules", async () => {
     at("/research/methodology#prototype-data");
-    const h = screen.getByRole("heading", { level: 2, name: "About this prototype dataset" });
+    const h = await screen.findByRole("heading", { level: 2, name: "About the data" });
     const s = h.closest("section")!;
     expect(s.textContent).toMatch(/composite, fictional examples/i);
     expect(s.textContent).toMatch(/not survey results/);

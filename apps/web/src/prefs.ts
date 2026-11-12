@@ -17,9 +17,11 @@ export interface Prefs {
   readable: boolean;
   /** Underline every link, not only in running text. */
   underline: boolean;
+  /** 3D map detail: auto drops the finest layers on software WebGL or very weak hardware. */
+  detail: "auto" | "high" | "low";
 }
 
-export const DEFAULT_PREFS: Prefs = { contrast: "standard", palette: "standard", text: 100, motion: "system", readable: false, underline: false };
+export const DEFAULT_PREFS: Prefs = { contrast: "standard", palette: "standard", text: 100, motion: "system", readable: false, underline: false, detail: "auto" };
 const KEY = "makarba.prefs.v1";
 
 export function loadPrefs(): Prefs {
@@ -32,6 +34,7 @@ export function loadPrefs(): Prefs {
     if (![100, 115, 130, 150].includes(p.text)) p.text = 100;
     if (!["system", "reduce"].includes(p.motion)) p.motion = "system";
     p.readable = !!p.readable; p.underline = !!p.underline;
+    if (!["auto", "high", "low"].includes(p.detail)) p.detail = "auto";
     return p;
   } catch { return { ...DEFAULT_PREFS }; }
 }

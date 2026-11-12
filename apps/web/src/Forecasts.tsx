@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import "./outlook.css";
+import { Link } from "react-router-dom";
 import { fmt, signals, upTo, type ForecastDoc, type Series, type Signal } from "./outlook.js";
 import { scenarioFor } from "./scenario.js";
 import { useTween } from "./motion.js";
@@ -9,9 +10,9 @@ import { ensureAi, getChoice, listModels, PROVIDERS, useAi, type Provider } from
 import { Icon, type IconName } from "./Icon.js";
 
 export type { ForecastDoc, Series } from "./outlook.js";
+import { DEFAULT_END_YEAR, useEndYear, useForecasts, YearSlider } from "./forecastData.js";
+export { DEFAULT_END_YEAR, loadForecasts, useEndYear, useForecasts, YearSlider } from "./forecastData.js";
 
-export const DEFAULT_END_YEAR = 2034;
-const THIS_YEAR = new Date().getFullYear();
 const THEME_ICON: Record<string, IconName> = { city: "building", economic: "coins", development: "bolt", social: "users", political: "shield", markets: "chart" };
 const TAG_TIP: Record<string, string> = {
   improving: "Moving in the direction that is usually better for residents (e.g. falling unemployment).",
@@ -24,57 +25,6 @@ const TAG_TIP: Record<string, string> = {
   high: "The 80% range is narrow relative to the value.", medium: "The 80% range is moderate.", low: "The 80% range is wide: treat this forecast with caution.",
 };
 const THEMES = ["city", "economic", "development", "social", "political", "markets"] as const;
-
-/** Forecast file plus the optional, locally generated markets file. One fetch per page load, shared by Outlook and the map. */
-let cache: Promise<ForecastDoc> | null = null;
-export function loadForecasts(fetcher: typeof fetch = fetch, url = "/forecasts.json"): Promise<ForecastDoc> {
-  if (fetcher !== fetch) return load(fetcher, url);
-  return (cache ??= load(fetcher, url).catch((e) => { cache = null; throw e; }));
-}
-async function load(fetcher: typeof fetch, url: string): Promise<ForecastDoc> {
-  const r = await fetcher(url);
-  if (!r.ok) throw new Error("missing");
-  const doc = (await r.json()) as ForecastDoc;
-  try {
-    const m = await fetcher(url.replace("forecasts.json", "markets.json"));
-    if (m.ok && (m.headers?.get?.("content-type") ?? "json").includes("json")) {
-      const md = (await m.json()) as ForecastDoc;
-      return { ...doc, series: [...doc.series, ...md.series], marketsSource: md.source } as ForecastDoc;
-    }
-  } catch { /* markets are optional */ }
-  return doc;
-}
-
-export function useForecasts(fetcher?: typeof fetch, enabled = true) {
-  const [doc, setDoc] = useState<ForecastDoc | null>(null);
-  const [err, setErr] = useState(false);
-  useEffect(() => {
-    if (!enabled) return;
-    let live = true;
-    loadForecasts(fetcher).then((d) => live && setDoc(d), () => live && setErr(true));
-    return () => { live = false; };
-  }, [fetcher, enabled]);
-  return { doc, err };
-}
-
-/** End year lives in the URL (?year=) so the map and Outlook agree and a view can be shared. */
-export function useEndYear(max = 2050): [number, (y: number) => void] {
-  const [params, setParams] = useSearchParams();
-  const raw = Number(params.get("year"));
-  const year = Number.isInteger(raw) && raw > THIS_YEAR && raw <= max ? raw : Math.min(DEFAULT_END_YEAR, max);
-  const set = (y: number) => { const p = new URLSearchParams(params); if (y === DEFAULT_END_YEAR) p.delete("year"); else p.set("year", String(y)); setParams(p, { replace: true }); };
-  return [year, set];
-}
-
-export function YearSlider({ year, onChange, max }: { year: number; onChange: (y: number) => void; max: number }) {
-  return (
-    <div className="year-slider">
-      <label htmlFor="end-year">Forecast to <output htmlFor="end-year" className="year-out">{year}</output></label>
-      <input id="end-year" type="range" min={THIS_YEAR + 1} max={max} step={1} value={year} onChange={(e) => onChange(Number(e.target.value))} />
-      <span className="year-range" aria-hidden="true"><span>{THIS_YEAR + 1}</span><span>{max}</span></span>
-    </div>
-  );
-}
 
 const W = 560, H = 200, P = 30;
 
@@ -126,13 +76,20 @@ function SignalCard({ x, endYear }: { x: Signal; endYear: number }) {
         <span className="tag" tabIndex={0} data-tip={TAG_TIP[x.momentum]}>{x.momentum}</span>
         <span className="tag" tabIndex={0} data-tip={TAG_TIP[x.confidence]}>{x.confidence} confidence</span>
       </p>
-      <details className="more">
-        <summary>Why it matters · data</summary>
-        {x.implication && <p className="sig-impl"><span className="visually-hidden">Possible implication: </span>{x.implication} <small>(interpretation, not a finding)</small></p>}
-        <table><caption className="visually-hidden">{x.s.label} forecast</caption><thead><tr><th scope="col">Year</th><th scope="col">Forecast</th><th scope="col">Low (10%)</th><th scope="col">High (90%)</th></tr></thead>
-          <tbody>{upTo(x.s, endYear).forecast.filter((_, i, a) => a.length < 30 || i % 12 === 11 || i === a.length - 1).map((p) => <tr key={p.year}><td>{Math.floor(p.year)}</td><td>{fmt(p.value)}</td><td>{fmt(p.lo)}</td><td>{fmt(p.hi)}</td></tr>)}</tbody></table>
-        <p><small>Source series <code>{x.s.id}</code> · last actual {Math.floor(x.from.year)}</small></p>
-      </details>
+      <div className="sig-more">
+        {x.implication && (
+          <details className="more">
+            <summary>Why it matters</summary>
+            <p className="sig-impl">{x.implication} <small>(interpretation, not a finding)</small></p>
+          </details>
+        )}
+        <details className="more">
+          <summary>Data</summary>
+          <table><caption className="visually-hidden">{x.s.label} forecast</caption><thead><tr><th scope="col">Year</th><th scope="col">Forecast</th><th scope="col">Low (10%)</th><th scope="col">High (90%)</th></tr></thead>
+            <tbody>{upTo(x.s, endYear).forecast.filter((_, i, a) => a.length < 30 || i % 12 === 11 || i === a.length - 1).map((p) => <tr key={p.year}><td>{Math.floor(p.year)}</td><td>{fmt(p.value)}</td><td>{fmt(p.lo)}</td><td>{fmt(p.hi)}</td></tr>)}</tbody></table>
+          <p><small>Series <code>{x.s.id}</code> · {x.s.history.length} observations to {Math.floor(x.from.year)} · forecast to {endYear}</small></p>
+        </details>
+      </div>
     </article>
   );
 }
@@ -161,7 +118,7 @@ function Briefing({ text }: { text: string }) {
  */
 export function AiBriefing({ doc, endYear }: { doc: ForecastDoc; endYear: number }) {
   const ai = useAi(doc, endYear);
-  const [provider, setProvider] = useState<Provider>(() => getChoice()?.provider ?? "ollama");
+  const [provider, setProvider] = useState<Provider>(() => getChoice()?.provider ?? ai.provider ?? "applefm");
   const [models, setModels] = useState<string[] | null>(null);
   const [model, setModel] = useState(() => getChoice()?.model ?? "");
   useEffect(() => {
@@ -189,7 +146,9 @@ export function AiBriefing({ doc, endYear }: { doc: ForecastDoc; endYear: number
         ))}
       </div>
       {models && models.length === 0 ? (
-        provider === "ollama"
+        provider === "applefm"
+          ? <p role="status">Apple Intelligence isn't reachable. It needs macOS 26 or later with Apple Intelligence turned on, and the local bridge that <code>./run.sh</code> starts (<code>tools/applefm</code>).</p>
+          : provider === "ollama"
           ? <p role="status">No local model found. Install <a href="https://ollama.com" rel="noreferrer">Ollama</a>, run <code>ollama pull gemma3n</code>, keep it open, then reload.</p>
           : <p role="status">Groq is not configured. Put <code>GROQ_API_KEY=…</code> in <code>apps/web/.env.local</code> (git-ignored) and restart <code>./run.sh</code>. The key stays on the dev server.</p>
       ) : (

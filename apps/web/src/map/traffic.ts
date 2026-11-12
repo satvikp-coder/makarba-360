@@ -69,6 +69,17 @@ function at(p: Path, s: number): { x: number; y: number; dx: number; dy: number 
   return { x: a[0] + (b[0] - a[0]) * t, y: a[1] + (b[1] - a[1]) * t, dx: (b[0] - a[0]) / seg, dy: (b[1] - a[1]) / seg };
 }
 
+/** Each vehicle is a few extruded parts: [length share, width share, offset along length (share), base m, top m, colour or "body"]. */
+type Part = [number, number, number, number, number, string];
+const GLASS = "#25313a";
+const PARTS: Record<VehicleKind, Part[]> = {
+  car: [[1, 1, 0, 0.25, 0.95, "body"], [0.55, 0.86, -0.05, 0.95, 1.45, GLASS]],
+  auto: [[1, 1, 0, 0.25, 0.95, "#3c9a4a"], [0.74, 0.96, -0.08, 0.95, 1.8, "#f2cf2e"]],          // Ahmedabad CNG auto: green body, yellow canopy
+  bike: [[1, 0.9, 0, 0.3, 0.9, "body"], [0.3, 0.8, -0.1, 0.9, 1.65, "#4a3b2e"]],                // the rider
+  bus: [[1, 1, 0, 0.3, 1.2, "body"], [0.97, 1, 0, 1.2, 2.4, GLASS], [0.98, 1, 0, 2.4, 3.1, "body"]],
+  truck: [[0.27, 1, 0.36, 0.3, 2.6, "body"], [0.68, 1.04, -0.15, 0.6, 3.4, "#d9d4c8"]],
+};
+
 const LANE: Record<RoadKind, (lane: number) => number> = { highway: (l) => 2.2 + l * 3.3, arterial: () => 1.9, local: () => 1.2 };
 
 /** GeoJSON for the vehicle bodies (extruded) and their headlights. */
@@ -76,14 +87,17 @@ export function toFeatures(vs: Vehicle[]): { bodies: FC; lights: FC } {
   const bodies: FC["features"] = [], lights: FC["features"] = [];
   for (const v of vs) {
     const p = PATHS[v.path]!, q = at(p, v.s);
-    const [L, W, H] = DIMS[v.kind];
+    const [L, W] = DIMS[v.kind];
     const off = LANE[p.kind](v.lane);
     // keep left: shift to the left of the direction of travel
     const nx = -q.dy, ny = q.dx;
     const cx = q.x + nx * off, cy = q.y + ny * off;
-    const fx = q.dx * L / 2, fy = q.dy * L / 2, sx = nx * W / 2, sy = ny * W / 2;
-    const ring: Pos[] = [[cx + fx + sx, cy + fy + sy], [cx + fx - sx, cy + fy - sy], [cx - fx - sx, cy - fy - sy], [cx - fx + sx, cy - fy + sy]].map((m) => toDeg(m as [number, number]));
-    bodies.push({ type: "Feature", properties: { h: H, c: v.color, k: v.kind }, geometry: { type: "Polygon", coordinates: [[...ring, ring[0]!]] } });
+    for (const [ls, ws, along, b, h, col] of PARTS[v.kind]) {
+      const px = cx + q.dx * along * L, py = cy + q.dy * along * L;
+      const fx = q.dx * L * ls / 2, fy = q.dy * L * ls / 2, sx = nx * W * ws / 2, sy = ny * W * ws / 2;
+      const ring: Pos[] = [[px + fx + sx, py + fy + sy], [px + fx - sx, py + fy - sy], [px - fx - sx, py - fy - sy], [px - fx + sx, py - fy + sy]].map((m) => toDeg(m as [number, number]));
+      bodies.push({ type: "Feature", properties: { b, h, c: col === "body" ? v.color : col, k: v.kind }, geometry: { type: "Polygon", coordinates: [[...ring, ring[0]!]] } });
+    }
     lights.push({ type: "Feature", properties: { k: v.kind }, geometry: { type: "Point", coordinates: toDeg([cx + q.dx * (L / 2 + 1.5), cy + q.dy * (L / 2 + 1.5)]) } });
   }
   return { bodies: { type: "FeatureCollection", features: bodies }, lights: { type: "FeatureCollection", features: lights } };

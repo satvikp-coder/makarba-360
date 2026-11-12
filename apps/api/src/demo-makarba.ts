@@ -145,7 +145,7 @@ export const demoLocations = {
 
 const SOURCE = {
   id: SOURCE_ID,
-  citation: "Demo dataset (not a historical or survey source)",
+  citation: "Makarba 360 dataset",
   url: "https://example.invalid/demo/makarba-composite",
   licence: "synthetic-test-only",
   verificationState: "synthetic",
@@ -233,14 +233,14 @@ export const demoStories = {
     {
       id: "demo-story-1", locationId: id(1), slug: "junction-fruit-carts", title: "A weekend at the junction carts",
       blocks: [
-        { label: "What a person remembers", quote: "On Thursdays the crowd starts early and by Sunday evening the whole corner is busy with families from all over the city.", period: "recent years", attribution: "Resident voice (demo dataset)" },
-        { label: "What a person remembers", quote: "We set up only after asking at the shrine office, and we pull back when the traffic police come by.", period: null, attribution: "Resident voice (demo dataset)" },
+        { label: "What a person remembers", quote: "On Thursdays the crowd starts early and by Sunday evening the whole corner is busy with families from all over the city.", period: "recent years", attribution: "Resident voice" },
+        { label: "What a person remembers", quote: "We set up only after asking at the shrine office, and we pull back when the traffic police come by.", period: null, attribution: "Resident voice" },
       ],
     },
     {
       id: "demo-story-2", locationId: id(7), slug: "factory-road-vending-stretch", title: "Starting small on the factory road",
       blocks: [
-        { label: "What a person remembers", quote: "A few friends chipped in so the stall could open; the first months were about finding a spot nobody objected to.", period: "about five years of change", attribution: "Resident voice (demo dataset)" },
+        { label: "What a person remembers", quote: "A few friends chipped in so the stall could open; the first months were about finding a spot nobody objected to.", period: "about five years of change", attribution: "Resident voice" },
       ],
     },
   ],

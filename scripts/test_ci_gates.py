@@ -93,7 +93,8 @@ class Budgets(unittest.TestCase):
         return d
 
     def full(self, **over):
-        base = {"index-a.js": b"a" * 100, "index-a.css": b"c" * 100, "MapView-a.js": b"m" * 100, "maplibre-gl-worker-a.mjs": b"w" * 100, "pannellum-a.js": b"p" * 100, "pannellum-a.css": b"s" * 100}
+        base = {"index-a.js": b"a" * 100, "index-a.css": b"c" * 100, "MapView-a.js": b"m" * 100, "maplibre-gl-worker-a.mjs": b"w" * 100, "pannellum-a.js": b"p" * 100, "pannellum-a.css": b"s" * 100,
+                "MapView-a.css": b"k" * 100, "Forecasts-a.js": b"f" * 100, "Forecasts-a.css": b"o" * 100}
         base.update(over)
         return base
 
@@ -112,6 +113,12 @@ class Budgets(unittest.TestCase):
         f = self.full()
         del f["MapView-a.js"]
         self.assertTrue(any("map_chunk_js" in x for x in B.check_dist(self.dist(f))))
+
+    def test_lazy_pages_are_budgeted_together(self):
+        big = bytes(range(256)) * 400   # incompressible, ~100 KB gzip
+        p = B.check_dist(self.dist(self.full(**{"Insights-a.js": big})))
+        self.assertTrue(any("page_js" in x for x in p), p)
+        self.assertFalse(any("unclassified" in x for x in p), p)
 
     def test_missing_dist_fails(self):
         self.assertTrue(B.check_dist(pathlib.Path(tempfile.mkdtemp()) / "nope"))

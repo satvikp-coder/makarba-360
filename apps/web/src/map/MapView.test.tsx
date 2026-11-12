@@ -91,7 +91,7 @@ describe("MapView (offline 3D)", () => {
     const onStatus = vi.fn();
     render(<MapView features={feats} sourceAttribution="Places: prototype example data (fictional)" onStatus={onStatus} />);
     const m = h.maps[0]!;
-    expect(document.querySelector(".map-attrib")!.textContent).toMatch(/^Places: prototype example data \(fictional\) · .*approximate sketch/);
+    expect(document.querySelector(".map-attrib")!.textContent).toMatch(/^Places: prototype example data \(fictional\) · Basemap: Makarba 360 sketch map \(approximate\)$/);
     expect(document.querySelector(".maplibregl-ctrl")).toBeNull();   // our own controls, not MapLibre's
     expect(JSON.stringify(m.opts.style)).not.toMatch(/openstreetmap|https?:/);
     m.fire("load");

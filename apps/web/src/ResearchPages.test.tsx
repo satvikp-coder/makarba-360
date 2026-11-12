@@ -1,4 +1,4 @@
-import { cleanup, render, screen } from "@testing-library/react";
+import { cleanup, render, screen, waitFor } from "@testing-library/react";
 import axe from "axe-core";
 import { MemoryRouter } from "react-router-dom";
 import { afterEach, describe, expect, it, vi } from "vitest";
@@ -29,7 +29,7 @@ describe("methodology, sources and accessibility pages", () => {
   });
   it("sources describe the offline sketch basemap honestly, credit landmark sources and photos, and list no unapproved place sources", () => {
     const t = text(Sources);
-    expect(t).toContain("approximate sketch of Makarba drawn for this prototype");
+    expect(t).toContain("approximate sketch of Makarba drawn for this project");
     expect(t).not.toContain("OpenStreetMap contributors");   // no OSM data is used any more, so it must not be credited as the base map
     expect(t).toContain("none are shown until their rights and dates have been checked");
     expect(screen.getByRole("link", { name: "Wikipedia: Sarkhej Roza" })).toBeTruthy();
@@ -54,7 +54,7 @@ describe("methodology, sources and accessibility pages", () => {
   it("routes render these pages with one h1 and pass automated accessibility checks", { timeout: 30_000 }, async () => {
     for (const path of ["/research/methodology", "/research/sources", "/accessibility"]) {
       const { container } = render(<MemoryRouter initialEntries={[path]}><App /></MemoryRouter>);
-      expect(container.querySelectorAll("h1")).toHaveLength(1);
+      await waitFor(() => expect(container.querySelectorAll("h1")).toHaveLength(1));   // pages load lazily
       expect(screen.queryByText(/being built/)).toBeNull();
       const r = await axe.run(container, { rules: { "color-contrast": { enabled: false }, region: { enabled: false } } });
       expect(r.violations.map((v) => `${path}:${v.id}`)).toEqual([]);

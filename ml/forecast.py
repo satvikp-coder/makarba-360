@@ -26,6 +26,10 @@ IND = {
     "SL.EMP.SELF.ZS": ("Self-employed (incl. street vending)", "economic", "% of employment", None),
     "FS.AST.PRVT.GD.ZS": ("Credit to households and firms", "economic", "% of GDP", "up"),
     "NE.CON.PRVT.PC.KD": ("Household spending per person", "economic", "constant 2015 US$", "up"),
+    "NY.GNP.PCAP.PP.CD": ("Income per person (PPP)", "economic", "international $", "up"),
+    "NE.EXP.GNFS.ZS": ("Exports", "economic", "% of GDP", None),
+    "BX.TRF.PWKR.CD.DT": ("Remittances received", "economic", "US$", None),
+    "GB.XPD.RSDV.GD.ZS": ("Research and development spending", "economic", "% of GDP", "up"),
     # development
     "SP.POP.TOTL": ("Population", "development", "people", None),
     "SP.URB.TOTL.IN.ZS": ("Urban population share", "development", "% of population", None),
@@ -44,6 +48,12 @@ IND = {
     "EN.GHG.CO2.PC.CE.AR5": ("CO₂ emissions per person", "development", "t CO₂e", "down"),
     "EG.ELC.LOSS.ZS": ("Power lost in transmission", "development", "% of output", "down"),
     "IS.AIR.PSGR": ("Air passengers", "development", "trips per year", None),
+    "IT.NET.BBND.P2": ("Fixed broadband", "development", "per 100 people", "up"),
+    "EG.ELC.RNEW.ZS": ("Renewable electricity", "development", "% of electricity output", "up"),
+    "AG.LND.FRST.ZS": ("Forest cover", "development", "% of land", "up"),
+    "EN.POP.SLUM.UR.ZS": ("Urban population in slums", "development", "% of urban population", "down"),
+    "EG.ELC.ACCS.UR.ZS": ("Urban access to electricity", "development", "% of urban population", "up"),
+    "SP.URB.TOTL": ("Urban population", "development", "people", None),
     # social
     "SP.DYN.LE00.IN": ("Life expectancy", "social", "years", "up"),
     "SH.DYN.MORT": ("Under-5 mortality", "social", "per 1,000 births", "down"),
@@ -55,6 +65,11 @@ IND = {
     "SH.XPD.CHEX.GD.ZS": ("Health spending", "social", "% of GDP", "up"),
     "SE.XPD.TOTL.GD.ZS": ("Education spending", "social", "% of GDP", "up"),
     "SP.POP.0014.TO.ZS": ("Children under 15", "social", "% of population", None),
+    "SH.STA.TRAF.P5": ("Road traffic deaths", "social", "per 100,000 people", "down"),
+    "SP.POP.DPND": ("Age dependency ratio", "social", "% of working-age population", None),
+    "SM.POP.NETM": ("Net migration", "social", "people", None),
+    "SH.STA.SUIC.P5": ("Suicide rate", "social", "per 100,000 people", "down"),
+    "SE.PRM.CMPT.ZS": ("Primary school completion", "social", "% of age group", "up"),
     # political (Worldwide Governance Indicators, World Bank source 3)
     "GOV_WGI_PV.EST": ("Political stability", "political", "WGI score (-2.5 to 2.5)", "up"),
     "GOV_WGI_GE.EST": ("Government effectiveness", "political", "WGI score (-2.5 to 2.5)", "up"),
@@ -152,7 +167,7 @@ def forecast_naive(series_list, horizon):
 def clamp(series):
     """Percent-of-population series cannot leave 0..100 and counts cannot go negative; the model doesn't know that."""
     unit = series["unit"]
-    lo, hi = (0.0, 100.0) if unit.startswith("% of") and "GDP" not in unit else (0.0, None) if unit in ("people", "years", "kWh", "µg/m³", "per 100 people", "per 1,000 births", "births per woman", "days per year", "mm per year", "mg/m³", "trips per year", "people per km²", "t CO₂e", "constant 2015 US$") else (None, None)
+    lo, hi = (0.0, 100.0) if unit.startswith("% of") and "GDP" not in unit else (0.0, None) if unit in ("people", "years", "kWh", "µg/m³", "per 100 people", "per 1,000 births", "births per woman", "days per year", "mm per year", "mg/m³", "trips per year", "people per km²", "t CO₂e", "constant 2015 US$", "international $", "per 100,000 people", "ppb", "km/h") else (None, None)
     for p in series["forecast"]:
         for k in ("value", "lo", "hi"):
             if lo is not None: p[k] = max(lo, p[k])
@@ -170,6 +185,10 @@ CITY = {
     "CO": ("Ahmedabad carbon monoxide (monthly mean)", "city", "mg/m³", "down"),
     "SO2": ("Ahmedabad SO₂, industrial (monthly mean)", "city", "µg/m³", "down"),
     "O3": ("Ahmedabad ground-level ozone (monthly mean)", "city", "µg/m³", "down"),
+    "NO": ("Ahmedabad nitric oxide (monthly mean)", "city", "µg/m³", "down"),
+    "NOx": ("Ahmedabad nitrogen oxides (monthly mean)", "city", "ppb", "down"),
+    "NH3": ("Ahmedabad ammonia (monthly mean)", "city", "µg/m³", "down"),
+    "Benzene": ("Ahmedabad benzene (monthly mean)", "city", "µg/m³", "down"),
 }
 
 # Kaggle (MIT): daily weather 2000-2024 for major Indian cities (developerghost/climate-in-india-daily-weather-data-2000-2024).
@@ -179,6 +198,10 @@ WEATHER = {
     "TMAX_SUMMER": ("Ahmedabad average summer high (Apr–Jun)", "city", "°C", "down"),
     "FEELS_MAX": ("Ahmedabad hottest 'feels like' temperature", "city", "°C", "down"),
     "RAIN": ("Ahmedabad yearly rainfall", "city", "mm per year", None),
+    "MONSOON": ("Ahmedabad monsoon rainfall (Jun–Sep)", "city", "mm per year", None),
+    "RAINYDAYS": ("Ahmedabad rainy days (≥ 2.5 mm)", "city", "days per year", None),
+    "TMIN_WINTER": ("Ahmedabad coldest night of the year", "city", "°C", None),
+    "GUST": ("Ahmedabad strongest wind gust", "city", "km/h", "down"),
 }
 
 
@@ -202,6 +225,10 @@ def fetch_weather(cache_dir):
         "TMAX_SUMMER": summer["temperature_2m_max"].mean(),
         "FEELS_MAX": g["apparent_temperature_max"].max(),
         "RAIN": g["precipitation_sum"].sum(),
+        "MONSOON": d[d.index.month.isin([6, 7, 8, 9])].groupby(d[d.index.month.isin([6, 7, 8, 9])].index.year)["precipitation_sum"].sum(),
+        "RAINYDAYS": g["precipitation_sum"].apply(lambda x: (x >= 2.5).sum()),
+        "TMIN_WINTER": g["temperature_2m_min"].min(),
+        "GUST": g["wind_gusts_10m_max"].max(),
     }
     return {f"WEATHER_AHD_{k}": [(int(y), float(v)) for y, v in s.items()] for k, s in series.items()}
 
@@ -253,7 +280,7 @@ def run(meta, data, a, model_name_out):
         last = data[c][-1][0]; lab, theme, unit, good = meta[c]; st = step[c]
         yr = (lambda k: last + k + 1) if st == 1 else (lambda k: round(last + (k + 1) / 12, 3))
         res.append(clamp({"id": c, "label": lab, "theme": theme, "unit": unit, "good": good,
-            "history": [{"year": y, "value": round(v, 4)} for y, v in data[c][-(40 if st == 1 else 240):]],
+            "history": [{"year": y, "value": round(v, 4)} for y, v in data[c]],
             "forecast": [{"year": yr(k), "value": round(float(point[i][k]), 4),
                           "lo": round(float(q[i][k][1]), 4), "hi": round(float(q[i][k][9]), 4)} for k in range(steps[c])]}))
     return res

@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from "react";
+import "maplibre-gl/dist/maplibre-gl.css";
+import "./map.css";
 import * as maplibregl from "maplibre-gl";
 // maplibre-gl 6 finds its worker next to its own module, which no longer exists once the app is bundled, so the worker file is
 // emitted as an asset and its URL is given explicitly (verified against the production build in the browser tests).
@@ -8,10 +10,27 @@ import type { PublicFeature } from "../api.js";
 import { categoryColor, categoryColorExpression, CATEGORY_STYLE, scenarioColors } from "../categories.js";
 import { makeVehicles, step as stepTraffic, toFeatures } from "./traffic.js";
 import { plainKey } from "../Shell.js";
+import { getPrefs } from "../prefs.js";
+
+/** Fine detail costs a lot on software WebGL (SwiftShader, llvmpipe) and very weak devices; "auto" turns it down there. */
+const DETAIL_LAYERS = ["ledges", "shadows", "furniture", "tree-trunk", "zebra", "lane-marking", "ground-grain", "roofs"];
+/** Sources whose geometry is dropped (not just hidden) in low detail, so the worker does not parse and index it at all. */
+const detailData = (): Record<string, unknown> => ({ ledges: city().ledges, shadows: city().shadows, furniture: furniture.solid, markings: furniture.flat, "tree-trunk": city().trees.trunks, roofs: city().roofs });
+const EMPTY = { type: "FeatureCollection", features: [] };
+export function lowDetail(canvas: HTMLCanvasElement | undefined, detail = getPrefs().detail): boolean {
+  if (detail !== "auto") return detail === "low";
+  if (typeof navigator !== "undefined" && (navigator.hardwareConcurrency ?? 8) <= 2) return true;
+  try {
+    const gl = (canvas?.getContext("webgl2") ?? canvas?.getContext("webgl")) as WebGLRenderingContext | null;
+    const ext = gl?.getExtension("WEBGL_debug_renderer_info");
+    const r = ext && gl ? String(gl.getParameter(ext.UNMASKED_RENDERER_WEBGL)) : "";
+    return /swiftshader|llvmpipe|software|basic render/i.test(r);
+  } catch { return false; }
+}
 import { easeInOutSine as easeInOutCubic, useReducedMotion } from "../motion.js";
 import type { Scenario } from "../scenario.js";
 import { Icon, type IconName } from "../Icon.js";
-import { BASE_LABELS, BASEMAP_ATTRIBUTION, buildOfflineStyle, DASH_STEPS, MAKARBA_BOUNDS, MAKARBA_CENTER, THEMES, themedPaint, type Pos, type TimeOfDay } from "./basemap.js";
+import { city, furniture, BASE_LABELS, BASEMAP_ATTRIBUTION, buildOfflineStyle, DASH_STEPS, MAKARBA_BOUNDS, MAKARBA_CENTER, THEMES, themedPaint, type Pos, type TimeOfDay } from "./basemap.js";
 import { Fallback2D } from "./Fallback2D.js";
 import { TOUR } from "./tour.js";
 
@@ -169,6 +188,18 @@ export function MapView({ features, sourceAttribution, selectedId, onSelect, onS
     });
     const zoomClass = () => host.current?.parentElement?.classList.toggle("labels-far", map.getZoom() < LABEL_MIN_ZOOM);
     map.on("zoom", zoomClass);
+    // Ground grain for the "ground-grain" layer, generated on the fly (no image file, nothing fetched).
+    map.on("styleimagemissing", (e: { id?: string }) => {
+      if (e.id !== "grain" || map.hasImage?.("grain")) return;
+      const n = 96, px = new Uint8Array(n * n * 4);
+      let seed = 1337;
+      for (let i = 0; i < n * n; i++) {
+        seed = (seed * 16807) % 2147483647;
+        const v = seed % 255, dark = v < 128;
+        px.set([dark ? 70 : 255, dark ? 62 : 250, dark ? 50 : 240, Math.round((v % 64) / 64 * (dark ? 34 : 22))], i * 4);
+      }
+      map.addImage?.("grain", { width: n, height: n, data: px });
+    });
     map.on("load", () => {
       // Only published, contract-validated features are ever added. Clustering applies to points only.
       map.addSource(SRC, { type: "geojson", data: { type: "FeatureCollection", features: [] }, cluster: true, clusterRadius: 50, clusterMaxZoom: 14 });
@@ -339,10 +370,24 @@ export function MapView({ features, sourceAttribution, selectedId, onSelect, onS
 
   // Moving 3D traffic: vehicles drive on the left along the sketch roads; the forecast's traffic factor adds vehicles and slows them.
   const vehiclesRef = useRef(makeVehicles(56));
+  const [low, setLow] = useState(false);
   useEffect(() => {
     const map = mapRef.current;
     if (!map || status !== "ready") return;
-    const want = Math.min(150, Math.round(56 * (scenario?.traffic ?? 1)));
+    const apply = () => {
+      const l = lowDetail(map.getCanvas?.());
+      setLow(l);
+      for (const id of DETAIL_LAYERS) if (map.getLayer(id)) map.setLayoutProperty?.(id, "visibility", l ? "none" : "visible");
+      for (const [id, data] of Object.entries(detailData())) (map.getSource(id) as maplibregl.GeoJSONSource | undefined)?.setData?.((l ? EMPTY : data) as never);
+    };
+    apply();
+    window.addEventListener("prefs-change", apply);
+    return () => window.removeEventListener("prefs-change", apply);
+  }, [status]);
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || status !== "ready") return;
+    const want = Math.min(150, Math.round((low ? 22 : 56) * (scenario?.traffic ?? 1)));
     if (vehiclesRef.current.length !== want) vehiclesRef.current = makeVehicles(want);
     const draw = () => {
       const f = toFeatures(vehiclesRef.current);
@@ -357,7 +402,7 @@ export function MapView({ features, sourceAttribution, selectedId, onSelect, onS
     const tick = (now: number) => {
       raf = requestAnimationFrame(tick);
       // ~18 fps is smooth for small vehicles; frozen while the camera moves so flights keep the whole frame budget
-      if (document.hidden || map.isMoving?.() || now - last < 55) { if (map.isMoving?.()) last = now; return; }
+      if (document.hidden || map.isMoving?.() || now - last < (low ? 110 : 55)) { if (map.isMoving?.()) last = now; return; }
       const dt = last ? Math.min(0.1, (now - last) / 1000) : 0.04;
       last = now;
       stepTraffic(vehiclesRef.current, dt, scenario?.traffic ?? 1);
@@ -365,7 +410,7 @@ export function MapView({ features, sourceAttribution, selectedId, onSelect, onS
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [status, paused, scenario?.traffic, rendered, flying]);
+  }, [status, paused, scenario?.traffic, rendered, flying, low]);
 
   // 360° camera: a slow full turn around the current centre. Stops on any touch, scroll or drag, or after one revolution.
   const [orbit, setOrbit] = useState(false);
@@ -416,6 +461,12 @@ export function MapView({ features, sourceAttribution, selectedId, onSelect, onS
       map.setPaintProperty("roofs", "fill-extrusion-base", roofBase as never);
       map.setPaintProperty("roofs", "fill-extrusion-height", ["+", roofBase, sc ? ["case", ["all", ["==", ["get", "kind"], "tank"], [">", ["get", "r"], 1 - sc.solar]], 0.4, ["get", "extra"]] : ["get", "extra"]] as never);
       map.setPaintProperty("roofs", "fill-extrusion-color", (sc ? ["case", ["all", ["==", ["get", "kind"], "tank"], [">", ["get", "r"], 1 - sc.solar]], sco.solar, roofBaseColor] : roofBaseColor) as never);
+      if (map.getLayer("ledges")) {
+        // floor ledges keep their storey as the block grows
+        const ledgeBase = ["*", ["*", ["get", "h"], ["get", "f"]], factor];
+        map.setPaintProperty("ledges", "fill-extrusion-base", ledgeBase as never);
+        map.setPaintProperty("ledges", "fill-extrusion-height", ["+", ledgeBase, 0.35] as never);
+      }
     }
     if (sc && !hadScenario.current && tour === null && reducedRef.current) {
       const view = { ...SCENARIO_VIEW, pitch: is3d ? SCENARIO_VIEW.pitch : 0 };
@@ -525,7 +576,7 @@ export function MapView({ features, sourceAttribution, selectedId, onSelect, onS
 
   const unavailable = status === "unavailable";
   return (
-    <div className="map-wrap" ref={wrapRef} data-full={full ? "true" : "false"} data-map-status={status} data-rendered={rendered ? "true" : "false"} data-motion={reduced ? "reduced" : "full"} data-paused={paused ? "true" : "false"} data-time={time} data-intro={intro}>
+    <div className="map-wrap" ref={wrapRef} data-detail={low ? "low" : "high"} data-full={full ? "true" : "false"} data-map-status={status} data-rendered={rendered ? "true" : "false"} data-motion={reduced ? "reduced" : "full"} data-paused={paused ? "true" : "false"} data-time={time} data-intro={intro}>
       {!unavailable && (
         <div className="map-toolbar" role="group" aria-label="Map view">
           <button type="button" className="tb tb-text" aria-pressed={orbit} disabled={reduced} onClick={() => { setTour(null); setOrbit(!orbit); }} data-tip={reduced ? "Off while reduced motion is on" : "Spin the camera 360° around the current spot"}><Icon name="camera" /><span>360° camera</span></button>
