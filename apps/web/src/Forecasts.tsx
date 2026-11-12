@@ -4,6 +4,8 @@ export interface Point { year: number; value: number; lo?: number; hi?: number }
 export interface Series { id: string; label: string; theme: string; unit: string; history: Point[]; forecast: Point[] }
 export interface ForecastDoc { generated: string; model: string; horizon: number; region: string; source: string; disclaimer: string; series: Series[] }
 
+const fmt = (v: number | undefined) => v === undefined ? "–" : v.toLocaleString("en-IN", { maximumSignificantDigits: 4 });
+
 const W = 560, H = 220, P = 32;
 
 /** Pure SVG chart: history line, forecast line and 10-90% band. */
@@ -22,7 +24,7 @@ export function Chart({ s }: { s: Series }) {
       <path d={line(s.history)} className="hist" fill="none" />
       <path d={line([last, ...s.forecast])} className="fcst" fill="none" />
       <text x={P} y={H - 8}>{x0}</text><text x={W - P} y={H - 8} textAnchor="end">{x1}</text>
-      <text x={4} y={P}>{y1.toPrecision(3)}</text><text x={4} y={H - P}>{y0.toPrecision(3)}</text>
+      <text x={4} y={P}>{fmt(y1)}</text><text x={4} y={H - P}>{fmt(y0)}</text>
     </svg>
   );
 }
@@ -52,7 +54,7 @@ export function Forecasts({ url = "/forecasts.json" }: { url?: string }) {
             <article key={s.id} className="card">
               <h2>{s.label} <small>{s.theme}</small></h2>
               <Chart s={s} />
-              <p>{a.year}: <b>{a.value.toPrecision(4)}</b> → {b.year}: <b>{b.value.toPrecision(4)}</b> {s.unit} ({d >= 0 ? "+" : ""}{d.toFixed(0)}%, 80% range {b.lo?.toPrecision(3)}–{b.hi?.toPrecision(3)})</p>
+              <p>{a.year}: <b>{fmt(a.value)}</b> → {b.year}: <b>{fmt(b.value)}</b> {s.unit} ({d >= 0 ? "+" : ""}{d.toFixed(0)}%, 80% range {fmt(b.lo)}–{fmt(b.hi)})</p>
               <details><summary>Data table</summary>
                 <table><thead><tr><th>Year</th><th>Forecast</th><th>Low</th><th>High</th></tr></thead>
                   <tbody>{s.forecast.map((p) => <tr key={p.year}><td>{p.year}</td><td>{p.value}</td><td>{p.lo}</td><td>{p.hi}</td></tr>)}</tbody></table>

@@ -60,8 +60,8 @@ function Layout() {
             <li><NavLink to="/forecasts">Outlook</NavLink></li>
           </ul>
         </nav>
-        <label>
-          {t.language}{" "}
+        <label className="lang">
+          <span className="visually-hidden">{t.language}</span>
           <select value={lang} onChange={(e) => setLang(e.target.value as Lang)}>
             {LANGUAGES.map((l) => <option key={l.code} value={l.code} disabled={!l.available}>{l.available ? l.label : `${l.label} (${t.languagePending})`}</option>)}
           </select>
@@ -142,9 +142,9 @@ export function PlaceList({ fetcher, withMap = false, makeSource = localSource }
   }, [fetcher]);
   useEffect(() => load(), [load]);
   return (
-    <section aria-labelledby="h">
+    <section aria-labelledby="h" className={withMap ? "explore-page" : undefined}>
       <h1 id="h">{t.listTitle}</h1>
-      <p>{t.listIntro}</p>
+      <p className="lead">{t.listIntro}</p>
       <div role="status" aria-live="polite">
         {r === "loading" && t.loading}
         {r !== "loading" && r.status === "error" && <span>{t.errorPlaces}</span>}
@@ -155,7 +155,7 @@ export function PlaceList({ fetcher, withMap = false, makeSource = localSource }
         <form className="search" role="search" aria-label="Search places" onSubmit={(e) => { e.preventDefault(); setQuery(typed); }}>
           <label htmlFor="place-search">Search places</label>
           <input id="place-search" type="search" value={typed} maxLength={100} autoComplete="off" onChange={(e) => setTyped(e.target.value)} />
-          <button type="submit">Search</button>
+          <button type="submit" className="btn">Search</button>
           {q && <button type="button" onClick={() => { setTyped(""); setQuery(""); }}>Clear search</button>}
           <p role="status" aria-live="polite" className="search-status">
             {searchPending && "Searching…"}

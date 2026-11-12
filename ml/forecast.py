@@ -50,6 +50,14 @@ def forecast_naive(series_list, horizon):
         pts.append(f); qs.append(np.stack([f] + [f + z * sd * np.sqrt(h) for z in np.linspace(-1.28, 1.28, 9)], -1))
     return np.array(pts), np.array(qs)
 
+def clamp(series):
+    """Percent-of-population series cannot leave 0..100; the model doesn't know that, so bound them."""
+    if not series["unit"].startswith("%") or "gross" in series["unit"]:  # gross enrolment can legitimately exceed 100
+        return series
+    for p in series["forecast"]:
+        for k in ("value", "lo", "hi"): p[k] = min(100.0, max(0.0, p[k]))
+    return series
+
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument("--horizon", type=int, default=10); ap.add_argument("--naive", action="store_true")
     ap.add_argument("--out", default="apps/web/public/forecasts.json"); a = ap.parse_args()
@@ -72,6 +80,7 @@ def main():
             "history": [{"year": y, "value": round(float(v), 3)} for y, v in data[c][-40:]],
             "forecast": [{"year": last + k + 1, "value": round(float(point[i][k]), 3),
                           "lo": round(float(q[i][k][1]), 3), "hi": round(float(q[i][k][9]), 3)} for k in range(a.horizon)]})
+    out["series"] = [clamp(x) for x in out["series"]]
     pathlib.Path(a.out).write_text(json.dumps(out, indent=1)); print("wrote", a.out, model, len(codes), "series")
 
 if __name__ == "__main__": main()
