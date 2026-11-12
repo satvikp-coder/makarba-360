@@ -7,7 +7,9 @@ import { Gallery } from "./Gallery.js";
 import { Panorama } from "./Panorama.js";
 import { strings } from "./i18n.js";
 import { Landmarks, landmarksFor } from "./landmarks.js";
-import { DataNote } from "./DataNote.js";
+import { photoFor } from "./placePhotos.js";
+import { CATEGORY_ICON, categoryColor, categoryLabel } from "./categories.js";
+import { Icon } from "./Icon.js";
 
 type PlaceState = { slug: string; status: "loading" } | { slug: string; status: "missing" } | { slug: string; status: "error" } | { slug: string; status: "ok"; place: PlaceSummary; synthetic: boolean };
 const GEOMETRY: Record<string, string> = { Point: "a point", LineString: "a line (street or route)", Polygon: "an area", MultiPoint: "several points", MultiLineString: "several lines", MultiPolygon: "several areas" };
@@ -61,11 +63,18 @@ export function PlaceProfile({ fetcher }: { fetcher?: typeof fetch }) {
   return (
     <article aria-labelledby="place-h">
       <p><Link to="/explore">← All places</Link></p>
+      <p className="sp-cat"><span style={{ color: categoryColor(p.category) }}><Icon name={CATEGORY_ICON[p.category] ?? "info"} size={15} /></span> {categoryLabel(p.category)}</p>
       <h1 id="place-h">{p.name}</h1>
-      <p>Category: {p.category}.</p>
-      {place.synthetic && <DataNote />}
-      <p>No approved description has been published yet.</p>
-      <p>Mapped as {GEOMETRY[p.geometryType] ?? "a mapped feature"}. <Link to={`/explore?place=${p.id}`}>Show on the map</Link></p>
+      {(() => {
+        const ph = photoFor(p.slug);
+        return ph ? (
+          <figure className="profile-hero">
+            <img src={ph.src} alt={ph.alt} />
+            <figcaption>{ph.representative ? "Representative photo: " : ""}{ph.title} · <a href={ph.source} rel="noopener noreferrer">{ph.credit}</a>, {ph.licence}</figcaption>
+          </figure>
+        ) : null;
+      })()}
+      <p className="profile-meta"><Icon name="map" size={15} /> Mapped as {GEOMETRY[p.geometryType] ?? "a mapped feature"}. <Link to={`/explore?place=${p.id}`}>Show on the 3D map</Link></p>
 
       <Section id="history-h" title="History">
         {!h && <p role="status">{strings.en.loading}</p>}
@@ -74,7 +83,8 @@ export function PlaceProfile({ fetcher }: { fetcher?: typeof fetch }) {
         {h?.status === "ok" && h.data.events.length > 0 && (
           <ol className="timeline">{h.data.events.map((e) => {
             const src = h.data.sources.find((s) => s.id === e.sourceId);
-            return <li key={e.id}><strong>{formatDated(e.date)}</strong> – {e.text} <small>({e.evidenceType}; source: {src ? src.citation : "source not listed"})</small></li>;
+            const cite = src ? src.citation : "Source not listed";
+            return <li key={e.id}><strong>{formatDated(e.date)}</strong> – {e.text} <button type="button" className="src-tip" data-tip={cite} aria-label={`Source: ${cite}`}><Icon name="info" size={13} /></button></li>;
           })}</ol>
         )}
       </Section>
@@ -82,13 +92,13 @@ export function PlaceProfile({ fetcher }: { fetcher?: typeof fetch }) {
       <Section id="media-h" title="Photographs">
         {!items && <p role="status">{strings.en.loading}</p>}
         {items && (flat.length > 0 || panos.length === 0) && <Gallery items={flat} />}
-        {panos.length > 0 ? (
+        {panos.length > 0 && (
           <>
             <h3>360° view</h3>
             {panos.map((m) => <Panorama key={m.id} media={m} />)}
             <p><Link to={`/places/${p.slug}/panorama`}>Open the 360° view on its own page</Link></p>
           </>
-        ) : items && <p>No 360° view has been published for this place.</p>}
+        )}
       </Section>
 
       {h?.status === "ok" && h.data.comparisonPairs.length > 0 && (

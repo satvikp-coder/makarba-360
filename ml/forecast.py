@@ -1,4 +1,5 @@
-"""Fetch public World Bank series for India and forecast them with Google TimesFM 2.5.
+"""Fetch public World Bank series for India plus Ahmedabad air-quality and weather data, and forecast them with Google TimesFM 3.0
+(falling back to TimesFM 2.5 when the 3.0 code is not installed).
 
 NATIONAL-LEVEL context only (not Makarba-specific, not a field finding). Output: apps/web/public/forecasts.json
 Usage: python ml/forecast.py [--to 2050] [--naive]   (--naive = linear-trend fallback, no model download)
@@ -22,6 +23,9 @@ IND = {
     "NE.GDI.TOTL.ZS": ("Investment (gross capital formation)", "economic", "% of GDP", "up"),
     "NV.IND.MANF.ZS": ("Manufacturing share of GDP", "economic", "% of GDP", "up"),
     "NV.SRV.TOTL.ZS": ("Services share of GDP", "economic", "% of GDP", None),
+    "SL.EMP.SELF.ZS": ("Self-employed (incl. street vending)", "economic", "% of employment", None),
+    "FS.AST.PRVT.GD.ZS": ("Credit to households and firms", "economic", "% of GDP", "up"),
+    "NE.CON.PRVT.PC.KD": ("Household spending per person", "economic", "constant 2015 US$", "up"),
     # development
     "SP.POP.TOTL": ("Population", "development", "people", None),
     "SP.URB.TOTL.IN.ZS": ("Urban population share", "development", "% of population", None),
@@ -32,6 +36,14 @@ IND = {
     "EG.FEC.RNEW.ZS": ("Renewable energy share", "development", "% of final energy use", "up"),
     "EN.ATM.PM25.MC.M3": ("PM2.5 air pollution", "development", "µg/m³", "down"),
     "EG.USE.ELEC.KH.PC": ("Electricity use per person", "development", "kWh", None),
+    "EN.POP.DNST": ("Population density", "development", "people per km²", None),
+    "EN.URB.MCTY.TL.ZS": ("Living in million-plus cities", "development", "% of population", None),
+    "SH.STA.BASS.ZS": ("Basic sanitation", "development", "% of population", "up"),
+    "SH.H2O.BASW.ZS": ("Basic drinking water", "development", "% of population", "up"),
+    "EG.CFT.ACCS.ZS": ("Clean cooking fuel", "development", "% of population", "up"),
+    "EN.GHG.CO2.PC.CE.AR5": ("CO₂ emissions per person", "development", "t CO₂e", "down"),
+    "EG.ELC.LOSS.ZS": ("Power lost in transmission", "development", "% of output", "down"),
+    "IS.AIR.PSGR": ("Air passengers", "development", "trips per year", None),
     # social
     "SP.DYN.LE00.IN": ("Life expectancy", "social", "years", "up"),
     "SH.DYN.MORT": ("Under-5 mortality", "social", "per 1,000 births", "down"),
@@ -41,6 +53,8 @@ IND = {
     "SE.TER.ENRR": ("Tertiary enrolment", "social", "% gross", "up"),
     "SL.TLF.CACT.FE.ZS": ("Female labour participation", "social", "% of women 15+", "up"),
     "SH.XPD.CHEX.GD.ZS": ("Health spending", "social", "% of GDP", "up"),
+    "SE.XPD.TOTL.GD.ZS": ("Education spending", "social", "% of GDP", "up"),
+    "SP.POP.0014.TO.ZS": ("Children under 15", "social", "% of population", None),
     # political (Worldwide Governance Indicators, World Bank source 3)
     "GOV_WGI_PV.EST": ("Political stability", "political", "WGI score (-2.5 to 2.5)", "up"),
     "GOV_WGI_GE.EST": ("Government effectiveness", "political", "WGI score (-2.5 to 2.5)", "up"),
@@ -48,6 +62,8 @@ IND = {
     "GOV_WGI_CC.EST": ("Control of corruption", "political", "WGI score (-2.5 to 2.5)", "up"),
     "GOV_WGI_VA.EST": ("Voice and accountability", "political", "WGI score (-2.5 to 2.5)", "up"),
     "GOV_WGI_RQ.EST": ("Regulatory quality", "political", "WGI score (-2.5 to 2.5)", "up"),
+    "SG.GEN.PARL.ZS": ("Women in parliament", "political", "% of seats", "up"),
+    "GC.TAX.TOTL.GD.ZS": ("Tax revenue", "political", "% of GDP", None),
 }
 MIN_POINTS = 15
 
@@ -77,13 +93,13 @@ def fetch_markets():
 def fetch(code):
     src = "&source=3" if code.startswith("GOV_WGI") else ""
     url = f"https://api.worldbank.org/v2/country/IND/indicator/{code}?format=json&per_page=200{src}"
-    for attempt in range(4):
+    for attempt in range(6):
         try:
             with urllib.request.urlopen(url, timeout=60) as r:
                 rows = json.load(r)[1] or []
             return sorted((int(x["date"]), float(x["value"])) for x in rows if x["value"] is not None)
         except Exception:
-            if attempt == 3:
+            if attempt == 5:
                 print("skipped (fetch failed):", code, file=sys.stderr)
                 return []
             time.sleep(2 ** attempt)
@@ -96,6 +112,22 @@ def fill_gaps(pts):
     years = np.arange(pts[0][0], pts[-1][0] + 1)
     vals = np.interp(years, [y for y, _ in pts], [v for _, v in pts])
     return list(zip(years.tolist(), vals.tolist()))
+
+
+MODEL_3 = "google/timesfm-3.0-pytorch"
+MODEL_25 = "google/timesfm-2.5-200m-pytorch"
+
+
+def forecast_timesfm3(series_list, horizon):
+    """TimesFM 3.0 (weights: TimesFM Non-Commercial License v1.0; research, non-production use only)."""
+    import torch
+    from timesfm3 import ModelConfig, TimesFM3Evaluator
+    device = "mps" if torch.backends.mps.is_available() else "cuda" if torch.cuda.is_available() else "cpu"
+    f = TimesFM3Evaluator(ModelConfig(checkpoint_path=MODEL_3, per_core_batch_size=32, device=device))
+    outs = list(f.predict_batch([np.asarray(x, dtype=np.float32) for x in series_list], horizon=horizon, return_quantiles=True, use_symmetric_averaging=False))
+    point = np.stack([o.forecast for o in outs])
+    q = np.stack([np.concatenate([o.forecast[:, None], o.quantiles], axis=1) for o in outs])  # (n, h, 10): mean + 0.1..0.9, same layout as 2.5
+    return point, q
 
 
 def forecast_timesfm(series_list, horizon):
@@ -120,7 +152,7 @@ def forecast_naive(series_list, horizon):
 def clamp(series):
     """Percent-of-population series cannot leave 0..100 and counts cannot go negative; the model doesn't know that."""
     unit = series["unit"]
-    lo, hi = (0.0, 100.0) if unit.startswith("% of") and "GDP" not in unit else (0.0, None) if unit in ("people", "years", "kWh", "µg/m³", "per 100 people", "per 1,000 births", "births per woman") else (None, None)
+    lo, hi = (0.0, 100.0) if unit.startswith("% of") and "GDP" not in unit else (0.0, None) if unit in ("people", "years", "kWh", "µg/m³", "per 100 people", "per 1,000 births", "births per woman", "days per year", "mm per year", "mg/m³", "trips per year", "people per km²", "t CO₂e", "constant 2015 US$") else (None, None)
     for p in series["forecast"]:
         for k in ("value", "lo", "hi"):
             if lo is not None: p[k] = max(lo, p[k])
@@ -135,7 +167,43 @@ CITY = {
     "PM10": ("Ahmedabad PM10 (monthly mean)", "city", "µg/m³", "down"),
     "NO2": ("Ahmedabad NO₂, traffic-related (monthly mean)", "city", "µg/m³", "down"),
     "AQI": ("Ahmedabad Air Quality Index (monthly mean)", "city", "AQI", "down"),
+    "CO": ("Ahmedabad carbon monoxide (monthly mean)", "city", "mg/m³", "down"),
+    "SO2": ("Ahmedabad SO₂, industrial (monthly mean)", "city", "µg/m³", "down"),
+    "O3": ("Ahmedabad ground-level ozone (monthly mean)", "city", "µg/m³", "down"),
 }
+
+# Kaggle (MIT): daily weather 2000-2024 for major Indian cities (developerghost/climate-in-india-daily-weather-data-2000-2024).
+WEATHER_DATASET = "developerghost/climate-in-india-daily-weather-data-2000-2024"
+WEATHER = {
+    "HOTDAYS": ("Ahmedabad days at or above 40 °C", "city", "days per year", "down"),
+    "TMAX_SUMMER": ("Ahmedabad average summer high (Apr–Jun)", "city", "°C", "down"),
+    "FEELS_MAX": ("Ahmedabad hottest 'feels like' temperature", "city", "°C", "down"),
+    "RAIN": ("Ahmedabad yearly rainfall", "city", "mm per year", None),
+}
+
+
+def fetch_weather(cache_dir):
+    """Annual heat and rain indicators for Ahmedabad from daily weather; incomplete years are dropped."""
+    import pandas as pd
+    from kaggle.api.kaggle_api_extended import KaggleApi
+    path = pathlib.Path(cache_dir) / "india_2000_2024_daily_weather.csv"
+    if not path.exists():
+        api = KaggleApi(); api.authenticate()
+        api.dataset_download_files(WEATHER_DATASET, path=cache_dir, unzip=True)
+    d = pd.read_csv(path, parse_dates=["date"])
+    d = d[d["city"] == "Ahmedabad"].set_index("date")
+    full = d.groupby(d.index.year).size()
+    years = [int(y) for y, n in full.items() if n >= 360]
+    d = d[d.index.year.isin(years)]
+    g = d.groupby(d.index.year)
+    summer = d[d.index.month.isin([4, 5, 6])].groupby(d[d.index.month.isin([4, 5, 6])].index.year)
+    series = {
+        "HOTDAYS": (g["temperature_2m_max"].apply(lambda x: (x >= 40).sum())),
+        "TMAX_SUMMER": summer["temperature_2m_max"].mean(),
+        "FEELS_MAX": g["apparent_temperature_max"].max(),
+        "RAIN": g["precipitation_sum"].sum(),
+    }
+    return {f"WEATHER_AHD_{k}": [(int(y), float(v)) for y, v in s.items()] for k, s in series.items()}
 
 
 def fetch_kaggle(cache_dir):
@@ -165,11 +233,18 @@ def run(meta, data, a, model_name_out):
     steps = {c: int(round((a.to + 1 - step[c] - data[c][-1][0]) / step[c])) for c in codes}
     series = [[v for _, v in data[c]] for c in codes]
     model = "linear-trend-fallback"
+    h = max(steps.values())
     if not a.naive:
-        try:
-            point, q = forecast_timesfm(series, max(steps.values())); model = "google/timesfm-2.5-200m-pytorch"
-        except Exception as e:
-            print("TimesFM failed, using fallback:", e, file=sys.stderr); point, q = forecast_naive(series, max(steps.values()))
+        tries = [(MODEL_3, forecast_timesfm3), (MODEL_25, forecast_timesfm)] if a.model == "3" else [(MODEL_25, forecast_timesfm)]
+        for name, fn in tries:
+            try:
+                point, q = fn(series, h); model = name; break
+            except ImportError as e:
+                print(f"{name} code not installed ({e}); trying the next model. For 3.0: pip install git+https://github.com/google-research/timesfm.git", file=sys.stderr)
+            except Exception as e:
+                print(f"{name} failed ({e}); trying the next model.", file=sys.stderr)
+        else:
+            print("No TimesFM model ran; using the linear-trend fallback.", file=sys.stderr); point, q = forecast_naive(series, h)
     else:
         point, q = forecast_naive(series, max(steps.values()))
     model_name_out.append(model)
@@ -189,6 +264,7 @@ def main():
     ap.add_argument("--markets", action="store_true", help="forecast Yahoo Finance monthly series into markets.json instead")
     ap.add_argument("--no-kaggle", action="store_true", help="skip the Kaggle Ahmedabad air-quality series")
     ap.add_argument("--cache", default="ml/.cache")
+    ap.add_argument("--model", choices=["3", "2.5"], default="3", help="TimesFM 3.0 (non-commercial weights) or 2.5 (Apache-2.0)")
     ap.add_argument("--out", default="apps/web/public/forecasts.json"); a = ap.parse_args()
     model = []
     if a.markets:
@@ -198,7 +274,7 @@ def main():
                "disclaimer": "Market prices are not reliably predictable; these bands show the model's extrapolation only.", "series": series}
         path = pathlib.Path(a.out).with_name("markets.json")
         path.write_text(json.dumps(out)); print("wrote", path, len(series), "market series"); return
-    with ThreadPoolExecutor(8) as ex:
+    with ThreadPoolExecutor(3) as ex:  # the World Bank API throttles bursts
         data = dict(zip(IND, ex.map(fetch, IND)))
     data = {c: fill_gaps(p) for c, p in data.items() if len(p) >= MIN_POINTS}
     meta = dict(IND); sources = ["World Bank Open Data and Worldwide Governance Indicators (CC BY 4.0)"]
@@ -210,8 +286,14 @@ def main():
             if city: sources.append("CPCB city air quality via Kaggle (rohanrao/air-quality-data-in-india, CC0)")
         except Exception as e:
             print("Kaggle skipped:", e, file=sys.stderr)
+        try:
+            w = fetch_weather(a.cache)
+            for c, pts in w.items(): data[c] = pts; meta[c] = WEATHER[c.removeprefix("WEATHER_AHD_")]
+            if w: sources.append(f"Ahmedabad daily weather 2000-2024 via Kaggle ({WEATHER_DATASET}, MIT)")
+        except Exception as e:
+            print("Weather skipped:", e, file=sys.stderr)
     series = run(meta, data, a, model)
-    out = {"generated": datetime.date.today().isoformat(), "model": model[0], "maxYear": a.to, "region": "India (national) and Ahmedabad (city air quality)",
+    out = {"generated": datetime.date.today().isoformat(), "model": model[0], "maxYear": a.to, "region": "India (national) and Ahmedabad (air quality and weather)",
            "source": "; ".join(sources),
            "disclaimer": "Statistical extrapolation of national and city indicators. Not a Makarba finding and not a prediction of events.",
            "series": series}

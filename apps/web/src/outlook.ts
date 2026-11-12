@@ -93,15 +93,3 @@ export function implicationFor(id: string, change: number): string {
 }
 
 export const fmt = (v: number | undefined | null) => v === undefined || v === null ? "–" : Math.abs(v) >= 1e7 ? `${(v / 1e7).toLocaleString("en-IN", { maximumFractionDigits: 1 })} crore` : v.toLocaleString("en-IN", { maximumSignificantDigits: 4 });
-
-/** Prompt for an on-device model. Numbers come only from the signals, so the model summarises; it never sources figures. */
-export function summaryPrompt(sig: Signal[], endYear: number, region: string): string {
-  const lines = sig.map((x) => `- ${x.s.label} (${x.s.theme}): ${fmt(x.from.value)} in ${x.from.year} -> ${fmt(x.to.value)} in ${x.to.year} ${x.s.unit}; ${x.verdict}, ${x.momentum}, confidence ${x.confidence}`);
-  return `You are an urban-planning analyst. Below are statistical forecasts (Google TimesFM) of national indicators for ${region}, to ${endYear}.
-Makarba is a fast-growing peri-urban ward on the south-west edge of Ahmedabad, Gujarat, India.
-Write a short briefing in plain English (max 220 words) with these headings:
-**Big picture**, **What it could mean for Makarba** (4 bullet points: housing, mobility, services, social life), **Risks to watch** (2 bullets).
-Use only the numbers given. Say "could" or "may", never "will". Most series are national; the Ahmedabad air-quality series are city-level but end in mid-2020 (a COVID-lockdown low). None are Makarba measurements; say so once.
-
-${lines.join("\n")}`;
-}

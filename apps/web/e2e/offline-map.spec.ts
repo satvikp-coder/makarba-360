@@ -28,7 +28,9 @@ test.describe("offline 3D Makarba demo map (all non-local requests aborted)", ()
     const shot = await page.locator(".map").screenshot();
     expect(shot.length).toBeGreaterThan(30_000);
     await page.getByRole("button", { name: FIRST }).click();
-    await expect(page.getByRole("complementary", { name: "Selected place" })).toContainText("About this example data");
+    const sel = page.getByRole("complementary", { name: "Selected place" });
+    await expect(sel).toContainText("Representative photo");
+    await expect(sel.getByRole("link", { name: /Open profile/ })).toBeVisible();
     await expect(page.locator(".map-pulse")).toHaveCount(1);
     expect(external, external.join("\n")).toEqual([]);
     expect(errors).toEqual([]);
@@ -83,6 +85,7 @@ test.describe("offline 3D Makarba demo map (all non-local requests aborted)", ()
   });
 
   test("story tour: flies through landmarks then places; sources in a tooltip; 360 camera turns", async ({ page }) => {
+    test.slow();   // eight camera flights plus the 360° camera on software-rendered WebGL
     await offline(page);
     await page.goto("/explore");
     await ready(page);
@@ -94,6 +97,7 @@ test.describe("offline 3D Makarba demo map (all non-local requests aborted)", ()
     await page.getByRole("button", { name: "Next stop" }).click();
     await expect(tour).toContainText("Sarkhej Roza");
     for (let i = 0; i < 6; i++) await page.getByRole("button", { name: "Next stop" }).click();
+    await expect(tour).toContainText("Stop 8 of 19");
     await expect(tour.getByRole("button", { name: "Open details" })).toBeVisible();   // stop 8: the first published place
     await tour.getByRole("button", { name: "End story tour" }).click();
     await expect(tour).toHaveCount(0);
@@ -143,17 +147,20 @@ test.describe("honest disclosure and sourced landmarks", () => {
     await expect(page.getByRole("article", { name: "Ahmed Shah I and Ahmedabad" })).toContainText("not a photograph");
     await page.goto("/explore?place=00000000-0000-4000-8000-000000000010");
     const aside = page.getByRole("complementary", { name: "Selected place" });
-    await aside.getByText("About this example data").click();
-    await expect(aside).toContainText("composite, fictional examples");
+    await aside.getByText("Sourced notes").click();
     await expect(aside.getByRole("article", { name: "Sarkhej Roza" })).toContainText("Sources:");
+    // the demo dataset is disclosed once, in the side rail, not on every item
+    await expect(page.locator("header .demo-badge")).toHaveAttribute("href", "/research/methodology#prototype-data");
     expect(external, external.join("\n")).toEqual([]);
   });
-  test("profile shows an illustrative timeline; voices show fictional composite stories; nothing can be submitted", async ({ page }) => {
+  test("profile shows a timeline with sources in tooltips; voices are attributed to the demo dataset; nothing can be submitted", async ({ page }) => {
     await offline(page);
     await page.goto("/places/canal-bank-walk");
-    await expect(page.locator(".timeline li").first()).toContainText("Example:");
+    await expect(page.locator(".timeline li").first()).toContainText(/\u2013 [A-Z]/);
+    await expect(page.locator(".timeline li").first()).not.toContainText("Example:");
+    await expect(page.locator(".timeline li").first().getByRole("button", { name: /^Source: Demo dataset/ })).toBeVisible();
     await page.goto("/voices");
-    await expect(page.getByText(/composite example voice \(fictional\)/).first()).toBeVisible();
+    await expect(page.getByText(/Resident voice \(demo dataset\)/).first()).toBeVisible();
     for (const p of ["/", "/explore", "/voices", "/insights"]) {
       await page.goto(p);
       await expect(page.locator("form:not([role=search]), textarea, input[type=file]")).toHaveCount(0);

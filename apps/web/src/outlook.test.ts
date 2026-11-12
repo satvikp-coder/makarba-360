@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { signal, summaryPrompt, upTo, type Series } from "./outlook.js";
+import { signal, upTo, type Series } from "./outlook.js";
 import { scenarioFor } from "./scenario.js";
 
 const s = (id: string, good: "up" | "down" | null, hist: number[], fc: number[], unit = "US$"): Series => ({ id, label: id, theme: "economic", unit, good,
@@ -17,10 +17,6 @@ describe("outlook signals", () => {
   it("momentum: faster forecast slope accelerates, opposite slope reverses", () => {
     expect(signal(s("a", null, [1, 2, 3, 4], [6, 8, 10]), 2030)!.momentum).toBe("accelerating");
     expect(signal(s("a", null, [1, 2, 3, 4], [3, 2, 1]), 2030)!.momentum).toBe("reversing");
-  });
-  it("prompt uses only given numbers", () => {
-    const a = signal(s("x", "up", [1, 2], [3]), 2030)!;
-    expect(summaryPrompt([a], 2034, "India")).toMatch(/x \(economic\): 2 in 2016 -> 3 in 2017/);
   });
 });
 

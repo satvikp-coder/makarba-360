@@ -41,7 +41,7 @@ describe("Outlook", () => {
   it("AI tab says how to get a local model when Ollama is not running; model tab names TimesFM", async () => {
     vi.stubGlobal("fetch", vi.fn().mockRejectedValue(new Error("offline")));
     page();
-    await userEvent.click(await screen.findByRole("tab", { name: "AI briefing" }));
+    await userEvent.click(await screen.findByRole("tab", { name: "AI insights" }));
     expect(await screen.findByText(/No local model found/)).toBeTruthy();
     await userEvent.click(screen.getByRole("tab", { name: "Model & data" }));
     expect(screen.getByText(/TimesFM 2.5/)).toBeTruthy();

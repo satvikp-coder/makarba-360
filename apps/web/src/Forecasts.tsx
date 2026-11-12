@@ -1,16 +1,18 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { fmt, signals, summaryPrompt, upTo, type ForecastDoc, type Series, type Signal } from "./outlook.js";
+import { fmt, signals, upTo, type ForecastDoc, type Series, type Signal } from "./outlook.js";
 import { scenarioFor } from "./scenario.js";
 import { useTween } from "./motion.js";
 import { ParticleLoader } from "./Particles.js";
+import { Orb } from "./Orb.js";
+import { ensureAi, getChoice, listModels, PROVIDERS, useAi, type Provider } from "./aiStore.js";
 import { Icon, type IconName } from "./Icon.js";
 
 export type { ForecastDoc, Series } from "./outlook.js";
 
 export const DEFAULT_END_YEAR = 2034;
 const THIS_YEAR = new Date().getFullYear();
-const THEME_ICON: Record<string, IconName> = { city: "layers", economic: "chart", development: "cube", social: "info", political: "route", markets: "spark" };
+const THEME_ICON: Record<string, IconName> = { city: "building", economic: "coins", development: "bolt", social: "users", political: "shield", markets: "chart" };
 const TAG_TIP: Record<string, string> = {
   improving: "Moving in the direction that is usually better for residents (e.g. falling unemployment).",
   worsening: "Moving in the direction that is usually worse for residents (e.g. rising pollution).",
@@ -153,93 +155,68 @@ function Briefing({ text }: { text: string }) {
   return <div className="briefing-text">{blocks}</div>;
 }
 
-type Provider = "ollama" | "groq";
-const PROVIDERS: Record<Provider, { label: string; note: string; list: string; models: (d: unknown) => string[] }> = {
-  ollama: { label: "On-device (Ollama)", note: "Runs on this computer; nothing leaves it.", list: "/ollama/api/tags",
-    models: (d) => ((d as { models?: { name: string }[] }).models ?? []).map((m) => m.name) },
-  groq: { label: "Groq (cloud)", note: "Sends the forecast numbers below (no personal data) to Groq's servers.", list: "/groq/models",
-    models: (d) => ((d as { data?: { id: string }[] }).data ?? []).map((m) => m.id).filter((id) => !/whisper|tts|guard|embed/i.test(id)).sort() },
-};
-
-/** Streams text from Ollama (NDJSON) or Groq (OpenAI-style SSE) into onText. */
-async function stream(provider: Provider, model: string, prompt: string, signal: AbortSignal, onText: (t: string) => void) {
-  const r = provider === "ollama"
-    ? await fetch("/ollama/api/generate", { method: "POST", signal, headers: { "Content-Type": "application/json" }, body: JSON.stringify({ model, prompt, stream: true, options: { temperature: 0.3 } }) })
-    : await fetch("/groq/chat/completions", { method: "POST", signal, headers: { "Content-Type": "application/json" }, body: JSON.stringify({ model, stream: true, temperature: 0.3, messages: [{ role: "user", content: prompt }] }) });
-  if (!r.ok || !r.body) throw new Error(String(r.status));
-  const reader = r.body.getReader(); const dec = new TextDecoder(); let buf = "";
-  for (;;) {
-    const { value, done } = await reader.read();
-    if (done) break;
-    buf += dec.decode(value, { stream: true });
-    const lines = buf.split("\n"); buf = lines.pop() ?? "";
-    for (const raw of lines) {
-      const l = provider === "groq" ? raw.replace(/^data:\s*/, "").trim() : raw.trim();
-      if (!l || l === "[DONE]") continue;
-      const j = JSON.parse(l) as { response?: string; choices?: { delta?: { content?: string } }[] };
-      const t = provider === "ollama" ? j.response : j.choices?.[0]?.delta?.content;
-      if (t) onText(t);
-    }
-  }
-}
-
-/** AI briefing from the forecast numbers: on-device (Ollama) or Groq cloud. Always labelled as AI-generated. */
-export function AiBriefing({ sig, endYear, region }: { sig: Signal[]; endYear: number; region: string }) {
-  const [provider, setProvider] = useState<Provider>("ollama");
+/**
+ * AI briefing and highlights for the chosen year. Generated in the background on boot (default year) or when this tab opens for another
+ * year, cached per forecast file and year, and always labelled AI-generated. The visitor can switch provider/model and regenerate.
+ */
+export function AiBriefing({ doc, endYear }: { doc: ForecastDoc; endYear: number }) {
+  const ai = useAi(doc, endYear);
+  const [provider, setProvider] = useState<Provider>(() => getChoice()?.provider ?? "ollama");
   const [models, setModels] = useState<string[] | null>(null);
-  const [model, setModel] = useState("");
-  const [text, setText] = useState("");
-  const [meta, setMeta] = useState("");
-  const [state, setState] = useState<"idle" | "running" | "done" | "error" | "offline">("idle");
-  const abort = useRef<AbortController | null>(null);
+  const [model, setModel] = useState(() => getChoice()?.model ?? "");
   useEffect(() => {
     let live = true;
-    setModels(null); setModel(""); setState("idle");
-    const p = PROVIDERS[provider];
-    fetch(p.list).then((r) => (r.ok ? r.json() : Promise.reject())).then(
-      (d: unknown) => { if (!live) return; const n = p.models(d); setModels(n); setModel(n.find((m) => /llama-3\.3-70b|gpt-oss-120b|gemma/i.test(m)) ?? n[0] ?? ""); if (!n.length) setState("offline"); },
-      () => { if (live) { setModels([]); setState("offline"); } });
-    return () => { live = false; abort.current?.abort(); };
+    setModels(null);
+    listModels(provider).then((m) => { if (!live) return; setModels(m); setModel((cur) => (m.includes(cur) ? cur : m.find((x) => /gemma|llama-3\.3-70b|gpt-oss-120b|qwen/i.test(x)) ?? m[0] ?? "")); });
+    return () => { live = false; };
   }, [provider]);
-  const run = async () => {
-    abort.current?.abort();
-    const ac = new AbortController(); abort.current = ac;
-    setText(""); setState("running");
-    try {
-      await stream(provider, model, summaryPrompt(sig, endYear, region), ac.signal, (t) => setText((x) => x + t));
-      setMeta(`${model} · ${PROVIDERS[provider].label} · ${new Date().toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short" })} · end year ${endYear}`);
-      setState("done");
-    } catch { if (!ac.signal.aborted) setState("error"); }
-  };
+  // start (or reuse the cache) as soon as this view is open for a year
+  useEffect(() => { if (!navigator.webdriver) void ensureAi(doc, endYear, { background: true }); }, [doc, endYear]);
+  const running = ai.status === "running";
+  const run = () => { if (model) void ensureAi(doc, endYear, { force: true, choice: { provider, model } }); };
   return (
     <section className="panel briefing" aria-labelledby="ai-h">
-      <h2 id="ai-h"><Icon name="spark" /> AI briefing: what could this mean for Makarba?</h2>
+      <div className="briefing-head">
+        <Orb state={running ? "thinking" : ai.status === "done" ? "done" : "idle"} size={44} />
+        <div>
+          <h2 id="ai-h">What could this mean for Makarba?</h2>
+          <p className="hint">{running ? (ai.phase === "highlights" ? "Choosing the highlights…" : "Writing the briefing…") : ai.status === "done" ? `Ready · ${ai.model} · ${PROVIDERS[ai.provider ?? "ollama"].label}` : "Runs in the background and is cached."}</p>
+        </div>
+      </div>
       <div role="radiogroup" aria-label="AI provider" className="seg-tabs">
         {(Object.keys(PROVIDERS) as Provider[]).map((k) => (
           <button key={k} type="button" role="radio" aria-checked={provider === k} aria-pressed={provider === k} data-tip={PROVIDERS[k].note} onClick={() => setProvider(k)}>{PROVIDERS[k].label}</button>
         ))}
       </div>
-      <p className="hint"><Icon name="info" size={14} /> {PROVIDERS[provider].note}</p>
-      {state === "offline" ? (
+      {models && models.length === 0 ? (
         provider === "ollama"
           ? <p role="status">No local model found. Install <a href="https://ollama.com" rel="noreferrer">Ollama</a>, run <code>ollama pull gemma3n</code>, keep it open, then reload.</p>
           : <p role="status">Groq is not configured. Put <code>GROQ_API_KEY=…</code> in <code>apps/web/.env.local</code> (git-ignored) and restart <code>./run.sh</code>. The key stays on the dev server.</p>
       ) : (
         <div className="ai-controls">
           <label>Model <select value={model} onChange={(e) => setModel(e.target.value)} disabled={!models?.length}>{(models ?? []).map((m) => <option key={m}>{m}</option>)}</select></label>
-          <button type="button" className="btn" onClick={run} disabled={!model || state === "running"}><Icon name="spark" /> {state === "done" || state === "error" ? `Regenerate for ${endYear}` : `Generate briefing for ${endYear}`}</button>
-          {state === "running" && <button type="button" onClick={() => { abort.current?.abort(); setState(text ? "done" : "idle"); }}>Stop</button>}
+          <button type="button" className="btn" onClick={run} disabled={!model || running}><Icon name="spark" /> {ai.status === "done" ? `Regenerate for ${endYear}` : `Generate for ${endYear}`}</button>
         </div>
       )}
-      {state === "running" && !text && <ParticleLoader label="The model is reading the forecasts…" />}
-      {state === "error" && <p role="alert">The model did not answer. {provider === "ollama" ? "Check that Ollama is running." : "Check the Groq key and model."}</p>}
-      {text && (
-        <div className="ai-output" aria-live="polite" aria-busy={state === "running"}>
-          <p className="ai-badge"><Icon name="spark" size={14} /> AI-generated insight</p>
-          <Briefing text={text} />
-          <p className="ai-foot"><small>AI-generated from TimesFM forecasts{meta ? ` (${meta})` : ""}. It can be wrong or overconfident; national trends are not Makarba measurements. Check the Signals tab for the numbers.</small></p>
+      {ai.status === "error" && <p role="alert">The model did not answer ({ai.error}). {ai.provider === "groq" ? "Check the Groq key and model." : "Check that Ollama is running."}</p>}
+      {ai.status === "offline" && <p role="status">No AI provider is available right now, so only the forecast figures are shown.</p>}
+      {ai.highlights && ai.highlights.length > 0 && (
+        <div className="ai-output">
+          <p className="ai-badge"><Icon name="spark" size={14} /> AI-generated highlights</p>
+          {ai.headline && <p className="ai-headline">{ai.headline}</p>}
+          <ul className="ai-cards">{ai.highlights.map((h) => (
+            <li key={h.id} className={`tone-${h.tone}`}><span className="ai-ico"><Icon name={h.icon} size={18} /></span><div><b>{h.title}</b><p>{h.body}</p></div></li>
+          ))}</ul>
         </div>
       )}
+      {ai.briefing && (
+        <div className="ai-output" aria-live="polite" aria-busy={running}>
+          <p className="ai-badge"><Icon name="spark" size={14} /> AI-generated briefing</p>
+          <Briefing text={ai.briefing} />
+          <p className="ai-foot"><small>AI-generated from TimesFM forecasts ({ai.model}, {PROVIDERS[ai.provider ?? "ollama"].label}{ai.at ? `, ${new Date(ai.at).toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short" })}` : ""}). It can be wrong or overconfident; national and city trends are not Makarba measurements. The Signals tab has the numbers.</small></p>
+        </div>
+      )}
+      {running && !ai.briefing && !ai.highlights && <ParticleLoader label="The model is reading the forecasts…" />}
     </section>
   );
 }
@@ -250,14 +227,14 @@ export function TechDetails({ doc }: { doc: ForecastDoc }) {
     <section className="panel tech" aria-labelledby="tech-h">
       <h2 id="tech-h">Model and data</h2>
       <dl className="tech-grid">
-        <dt>Forecasting model</dt><dd>{doc.model === "google/timesfm-2.5-200m-pytorch" ? <>Google <b>TimesFM 2.5</b> (200M parameters, decoder-only time-series foundation model, PyTorch), used zero-shot: no training on this data.</> : doc.model}</dd>
-        <dt>Settings</dt><dd>Up to 128 past points of context; point forecast plus a continuous quantile head (10th–90th percentile band shown); input normalisation and flip invariance on; quantile crossing fixed.</dd>
+        <dt>Forecasting model</dt><dd>{doc.model === "google/timesfm-3.0-pytorch" ? <>Google <b>TimesFM 3.0</b> (time-series foundation model: stacked mixing transformer, 20 layers, model width 1280, patches of 32 in / 64 out), used zero-shot through the official <code>timesfm3</code> package. Weights are under the TimesFM Non-Commercial License v1.0: research use only, not production.</> : doc.model === "google/timesfm-2.5-200m-pytorch" ? <>Google <b>TimesFM 2.5</b> (200M parameters, Apache-2.0), used zero-shot.</> : doc.model}</dd>
+        <dt>Settings</dt><dd>Point forecast plus nine quantiles (10th–90th percentile band shown); each series forecast on its own history (univariate); runs on Apple-silicon GPU (MPS) when available.</dd>
         <dt>Horizon</dt><dd>Every series is forecast once to {doc.maxYear}. TimesFM decodes the whole horizon in one pass, so the end-year slider shows an exact prefix of the same forecast, not a re-run.</dd>
         <dt>Data</dt><dd>{doc.source}{(doc as ForecastDoc & { marketsSource?: string }).marketsSource ? `; ${(doc as ForecastDoc & { marketsSource?: string }).marketsSource}` : ""}. {doc.series.length} series: {counts.map(([t, n]) => `${n} ${t}`).join(", ")}. Region: {doc.region}. Generated {doc.generated}.</dd>
-        <dt>Preparation</dt><dd>Annual World Bank values and monthly Ahmedabad/market values (the city air-quality record ends mid-2020, during the COVID lockdown, so its starting point is low); missing periods linearly interpolated; series with fewer than 15 points dropped; percentage-of-population forecasts bounded to 0–100 and counts to ≥0.</dd>
+        <dt>Preparation</dt><dd>Annual World Bank values, annual Ahmedabad heat and rain indicators from daily weather, and monthly Ahmedabad air-quality/market values (the city air-quality record ends mid-2020, during the COVID lockdown, so its starting point is low); missing periods linearly interpolated; series with fewer than 15 points dropped; percentage-of-population forecasts bounded to 0–100 and counts to ≥0.</dd>
         <dt>Signals</dt><dd>Verdict compares the change with the indicator's desirable direction (moves under 2% are neutral). Momentum compares the forecast's yearly slope with the last 10 years. Confidence is the 80% band width relative to the level.</dd>
         <dt>3D scenario</dt><dd>Fixed, stated mappings: GDP per capita → corridor heights and redevelopment; urban share → residential density; renewables → rooftop solar; PM2.5 → haze; incomes and population → traffic. Illustrative only.</dd>
-        <dt>AI briefing</dt><dd>Labelled "AI-generated". On-device through Ollama (<code>/ollama</code> proxy) or Groq cloud (<code>/groq</code> proxy, key from <code>GROQ_API_KEY</code>, never sent to the browser). The prompt contains only the numbers shown here. Apple Foundation Models is not wired in.</dd>
+        <dt>AI briefing</dt><dd>Labelled "AI-generated". Highlights are generative UI: the model returns structured items (icon, tone, map anchor, indicators) chosen from fixed lists, and every number shown beside them comes from the forecast file. Generated in the background at start-up and cached per year. On-device through Ollama (<code>/ollama</code> proxy) or Groq cloud (<code>/groq</code> proxy, key from <code>GROQ_API_KEY</code>, never sent to the browser). The prompt contains only the numbers shown here. Apple Foundation Models is not wired in.</dd>
         <dt>Limits</dt><dd>National India series, not Makarba measurements. Statistical extrapolation cannot foresee policy changes, shocks or elections. Kaggle data is not included (needs the owner's API key and licence review).</dd>
       </dl>
       <p>Regenerate: <code>python ml/forecast.py</code> (see <code>ml/README.md</code>).</p>
@@ -278,7 +255,7 @@ export function Forecasts({ fetcher }: { fetcher?: typeof fetch } = {}) {
   if (!doc) return <ParticleLoader label="Loading forecasts…" />;
   const themes = THEMES.filter((t) => sig.some((x) => x.s.theme === t));
   const shown = sig.filter((x) => theme === "all" || x.s.theme === theme);
-  const tabs: [Tab, string][] = [["signals", "Signals"], ["briefing", "AI briefing"], ["model", "Model & data"]];
+  const tabs: [Tab, string][] = [["signals", "Signals"], ["briefing", "AI insights"], ["model", "Model & data"]];
   return (
     <section className="outlook" aria-labelledby="outlook-h">
       <div className="outlook-top">
@@ -329,7 +306,7 @@ export function Forecasts({ fetcher }: { fetcher?: typeof fetch } = {}) {
             <div className="cards">{shown.map((x) => <SignalCard key={x.s.id} x={x} endYear={year} />)}</div>
           </>
         )}
-        {tab === "briefing" && <AiBriefing sig={sig} endYear={year} region={doc.region} />}
+        {tab === "briefing" && <AiBriefing doc={doc} endYear={year} />}
         {tab === "model" && <TechDetails doc={doc} />}
       </div>
     </section>

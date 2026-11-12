@@ -41,7 +41,8 @@ class FakeMap {
   getBearing() { return -24; }
   addLayer(l: { id: string }) { this.layers.push(l); }
   getLayer(id: string) { return this.layers.find((l) => l.id === id) ?? (["canal-flow", "traffic-a", "traffic-b", "background", "buildings"].includes(id) ? { id } : undefined); }
-  getSource() { return { setData: (d: unknown) => { this.data = d; }, getClusterExpansionZoom: () => Promise.resolve(13) }; }
+  other: Record<string, unknown> = {};
+  getSource(id: string) { return { setData: (d: unknown) => { if (id === "places") this.data = d; else this.other[id] = d; }, getClusterExpansionZoom: () => Promise.resolve(13) }; }
   setPaintProperty(l: string, k: string, v: unknown) { this.paint.push([l, k, v]); }
   setLight(l: unknown) { this.lights.push(l); }
   setSky() {}
@@ -90,7 +91,8 @@ describe("MapView (offline 3D)", () => {
     const onStatus = vi.fn();
     render(<MapView features={feats} sourceAttribution="Places: prototype example data (fictional)" onStatus={onStatus} />);
     const m = h.maps[0]!;
-    expect(h.attrib).toContainEqual({ compact: false, customAttribution: ["Places: prototype example data (fictional)", expect.stringMatching(/approximate sketch/)] });
+    expect(document.querySelector(".map-attrib")!.textContent).toMatch(/^Places: prototype example data \(fictional\) · .*approximate sketch/);
+    expect(document.querySelector(".maplibregl-ctrl")).toBeNull();   // our own controls, not MapLibre's
     expect(JSON.stringify(m.opts.style)).not.toMatch(/openstreetmap|https?:/);
     m.fire("load");
     await waitFor(() => expect(onStatus).toHaveBeenCalledWith("ready"));

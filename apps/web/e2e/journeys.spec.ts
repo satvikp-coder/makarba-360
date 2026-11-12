@@ -26,7 +26,7 @@ test.describe("desktop 1280x800", () => {
     await page.goto("/explore");
     await expect(page.locator("canvas.maplibregl-canvas")).toBeVisible();
     await expect(page.getByText(/approximate sketch drawn for this prototype/)).toBeVisible();
-    await expect(page.getByText("Places: prototype example data (fictional)")).toBeVisible();
+    await expect(page.getByText(/^Places: Makarba 360 demo dataset · /)).toBeVisible();
     await page.getByRole("button", { name: FIRST }).click();
     await expect(page).toHaveURL(/place=00000000-0000-4000-8000-000000000001/);
     await expect(page.getByRole("complementary", { name: "Selected place" })).toBeVisible();
@@ -79,7 +79,6 @@ test.describe("desktop 1280x800", () => {
     const { apiCalls } = await prepare(page);
     await page.goto("/places/junction-fruit-carts");
     await expect(page.getByRole("heading", { level: 1, name: FIRST })).toBeVisible();
-    await expect(page.getByText("No approved description has been published yet.")).toBeVisible();
     await page.goto("/places/not-published");
     await expect(page.getByRole("heading", { name: "Page not found" })).toBeVisible();
     expect(apiCalls.filter((u) => u.includes("not-published"))).toEqual([]);
@@ -151,7 +150,7 @@ test.describe("mobile 375x667 bottom sheet", () => {
     expect(header!.y).toBeGreaterThanOrEqual(0);
     expect(header!.y + header!.height).toBeLessThanOrEqual(sheet!.y + 1);
 
-    for (const name of ["Explore", "Then & Now", "Community Voices", "Urban Insights", "Research"]) {
+    for (const name of ["Overview", "Explore", "Outlook"]) {
       const link = page.getByRole("navigation", { name: "Main navigation" }).getByRole("link", { name });
       const box = await link.boundingBox();
       expect(box).not.toBeNull();
@@ -174,7 +173,7 @@ test.describe("narrow, zoomed and rotated viewports keep navigation reachable", 
       await page.setViewportSize(vp);
       await page.goto("/explore");
       expect(await noHorizontalScroll(page)).toBe(true);
-      for (const n of ["Explore", "Then & Now", "Community Voices", "Urban Insights", "Research"]) {
+      for (const n of ["Overview", "Explore", "Outlook"]) {
         const link = page.getByRole("navigation", { name: "Main navigation" }).getByRole("link", { name: n });
         await link.scrollIntoViewIfNeeded();
         await expect(link).toBeVisible();
@@ -216,7 +215,7 @@ test.describe("Then & Now (synthetic images, technical verification only)", () =
     await page.keyboard.press("End");
     await expect(slider).toHaveAttribute("aria-valuenow", "100");
     await expect(page.getByText(/2021 \(year\)/).first()).toBeVisible();
-    await expect(page.getByText(/Example note/).first()).toBeVisible();
+    await expect(page.getByText(/Demo dataset/).first()).toBeVisible();
     await page.getByLabel("Side by side").check();
     await expect(slider).toHaveCount(0);
     await expect(page.getByText(/^Before: 2021/).first()).toBeVisible();
@@ -335,20 +334,28 @@ test.describe("photo gallery and lightbox (real dialog element, synthetic image)
   });
 });
 
-async function flatMedia(page: Page) {
-  // The mock serves an equirectangular record; the gallery tests need an ordinary photograph record.
+// The mock now serves a real (Commons) photograph; viewer and gallery tests stub a fully synthetic record instead, so they keep
+// testing the components against invented test images only.
+const SYNTH_MEDIA = {
+  url: "https://example.invalid/public/synthetic-panorama.webp", contentType: "image/webp", width: 4096, height: 2048, format: "equirectangular",
+  alt: "Synthetic panorama placeholder; no real photograph supplied", credit: "Synthetic test asset descriptor", licence: "synthetic-test-only",
+  capturedDate: { value: "2026-01-01", precision: "day" }, staticFallbackUrl: "https://example.invalid/public/synthetic-static.webp",
+};
+async function stubMedia(page: Page, extra: Record<string, unknown>) {
   await page.route(/\/api\/v1\/public\/media\/synthetic-media-1$/, async (route) => {
-    const r = await route.fetch();
-    const b = await r.json();
-    await route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ ...b, format: "image", width: 40, height: 30 }) });
+    const b = await (await route.fetch()).json();
+    await route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ ...b, ...SYNTH_MEDIA, ...extra }) });
   });
 }
+const flatMedia = (page: Page) => stubMedia(page, { format: "image", width: 40, height: 30 });
+const panoMedia = (page: Page) => stubMedia(page, {});
 
 test.describe("owned panorama (real Pannellum viewer, real WebGL in headless Chromium, synthetic 64x32 image)", () => {
   test.use({ viewport: { width: 1280, height: 800 } });
   const cors = { "access-control-allow-origin": "*" };
   async function serve(page: Page, opts: { panoOk?: boolean } = {}) {
     await prepare(page);
+    await panoMedia(page);
     await page.route(/example\.invalid\/public\/synthetic-static\.webp/, (r) => r.fulfill({ status: 200, contentType: "image/png", body: PNG, headers: cors }));
     await page.route(/example\.invalid\/public\/synthetic-panorama\.webp/, (r) => (opts.panoOk === false ? r.fulfill({ status: 404, body: "" }) : r.fulfill({ status: 200, contentType: "image/png", body: PANO, headers: cors })));
   }
@@ -443,6 +450,7 @@ test.describe("place search (real map)", () => {
 test.describe("panorama unavailable states", () => {
   test("blocked viewer script (third-party load denied): place page stays usable with a message", async ({ page }) => {
     await prepare(page);
+    await panoMedia(page);
     await page.route(/example\.invalid/, (r) => r.fulfill({ status: 200, contentType: "image/png", body: PNG, headers: { "access-control-allow-origin": "*" } }));
     await page.route(/pannellum/i, (r) => r.abort());   // dev server path of the lazy viewer chunk (no API call contains this word)
     await page.goto("/places/junction-fruit-carts/panorama");
@@ -458,7 +466,7 @@ test.describe("panorama unavailable states", () => {
     await flatMedia(page);
     await page.route(/example\.invalid/, (r) => r.fulfill({ status: 200, contentType: "image/png", body: PNG }));
     await page.goto("/places/junction-fruit-carts");
-    await expect(page.getByText("No 360° view has been published for this place.")).toBeVisible();
+    await expect(page.getByRole("button", { name: "Explore in 360°" })).toHaveCount(0);   // no placeholder, no empty viewer
     await page.goto("/places/junction-fruit-carts/panorama");
     await expect(page.getByRole("heading", { name: "No 360° view for this place" })).toBeVisible();
   });

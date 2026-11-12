@@ -3,13 +3,19 @@ import { Forecasts, useEndYear, useForecasts, YearSlider } from "./Forecasts.js"
 import { scenarioFor, type Scenario } from "./scenario.js";
 import { ParticleLoader } from "./Particles.js";
 import { Icon } from "./Icon.js";
-import { Link, NavLink, Outlet, Route, Routes, useLocation, useSearchParams } from "react-router-dom";
+import { Link, Route, Routes, useSearchParams } from "react-router-dom";
 import { sanitizeQuery } from "@makarba/public-ia";
-import { mainNavigation, publicRoutes, type NavGroup } from "@makarba/public-ia";
+import { publicRoutes } from "@makarba/public-ia";
 import { fetchPlaces, type PlaceSummary, type PlacesResult } from "./api.js";
-import { categoryColor, categoryLabel } from "./categories.js";
+import { CATEGORY_ICON, categoryColor, categoryLabel } from "./categories.js";
+import { Layout, plainKey } from "./Shell.js";
+import { photoFor } from "./placePhotos.js";
+import { ensureAi, useAi, type Highlight } from "./aiStore.js";
+import { fmt, signal } from "./outlook.js";
+import { ANCHORS } from "./scenario.js";
+import { Orb } from "./Orb.js";
+import type { ForecastDoc } from "./outlook.js";
 import { LandmarkCard, landmarksFor } from "./landmarks.js";
-import { DataNote } from "./DataNote.js";
 import { Home } from "./Home.js";
 import { AccessibilityHelp, Methodology, Sources } from "./ResearchPages.js";
 import { NotFound } from "./NotFound.js";
@@ -21,77 +27,9 @@ import { Insights } from "./Insights.js";
 import type { MapStatus } from "./map/MapView.js";
 // The map library is large and only the explorer needs it, so it is loaded when that page is opened.
 const MapView = lazy(() => import("./map/MapView.js").then((m) => ({ default: m.MapView })));
-import { LANGUAGES, strings, type Lang } from "./i18n.js";
+import { strings } from "./i18n.js";
 import { cleanQuery, localSource, type SourceFactory } from "./searchSource.js";
 import { applyFilters, isActive, LAYERS, parseFilters, toggle, writeFilters, type Filters } from "./filters.js";
-
-const NAV_TARGET: Record<Exclude<NavGroup, "footer">, string> = {
-  Explore: "/explore", "Then & Now": "/stories/index", "Community Voices": "/voices", "Urban Insights": "/insights", Research: "/research/methodology",
-};
-const NAV_ICON: Record<string, string> = { Explore: "⌖", "Then & Now": "◐", "Community Voices": "❝", "Urban Insights": "▤", Research: "§" };
-const FOOTER = publicRoutes.filter((r) => r.nav === "footer");
-
-function Layout() {
-  const headerRef = useRef<HTMLElement>(null);
-  // Publish the header height so the full-height sheet starts below it and navigation is never covered.
-  useEffect(() => {
-    const el = headerRef.current;
-    if (!el) return;
-    // On wide screens the header is a vertical side rail and covers nothing above the content.
-    const set = () => document.documentElement.style.setProperty("--header-h", `${el.offsetWidth > el.offsetHeight ? el.offsetHeight : 0}px`);
-    set();
-    if (typeof ResizeObserver === "undefined") return;
-    const ro = new ResizeObserver(set);
-    ro.observe(el);
-    return () => ro.disconnect();
-  }, []);
-  const [rail, setRail] = useState(() => { try { return localStorage.getItem("rail") === "min"; } catch { return false; } });
-  useEffect(() => { document.documentElement.classList.toggle("rail-min", rail); try { localStorage.setItem("rail", rail ? "min" : "full"); } catch { /* private mode */ } }, [rail]);
-  const [lang, setLang] = useState<Lang>("en");
-  const t = strings[lang];
-  const loc = useLocation();
-  useEffect(() => { document.documentElement.lang = lang === "en" || !LANGUAGES.find((l) => l.code === lang)?.available ? "en" : lang; }, [lang]);
-  // In-page links such as the footer's "About this data" (/research/methodology#prototype-data) land on their section.
-  useEffect(() => { if (loc.hash) document.getElementById(decodeURIComponent(loc.hash.slice(1)))?.scrollIntoView?.(); }, [loc.pathname, loc.hash]);
-  useEffect(() => { document.title =`${titleFor(loc.pathname)} – ${t.siteName}`; }, [loc.pathname, t.siteName]);
-  return (
-    <>
-      <a className="skip" href="#main">{t.skip}</a>
-      <header ref={headerRef}>
-        <Link to="/" className="brand"><span className="brand-mark" aria-hidden="true">M</span><span className="lbl">{t.siteName}</span></Link>
-        <button type="button" className="rail-toggle tb" aria-pressed={rail} aria-label={rail ? "Expand menu" : "Collapse menu"} data-tip={rail ? "Expand menu" : "Collapse menu"} onClick={() => setRail(!rail)}><Icon name={rail ? "chevR" : "chevL"} /></button>
-        <nav aria-label={t.navLabel}>
-          <ul>
-            <li><NavLink to="/" end data-tip="Overview"><span className="ico" aria-hidden="true">◎</span><span className="lbl">Overview</span></NavLink></li>
-            {mainNavigation.map((g) => (
-              <li key={g}><NavLink to={NAV_TARGET[g as Exclude<NavGroup, "footer">]} data-tip={g}><span className="ico" aria-hidden="true">{NAV_ICON[g] ?? "•"}</span><span className="lbl">{g}</span></NavLink></li>
-            )).flatMap((li, i) => (i === 0 ? [li, <li key="outlook"><NavLink to="/forecasts" data-tip="Outlook: forecasts and AI briefing"><span className="ico" aria-hidden="true">↗</span><span className="lbl">Outlook</span></NavLink></li>] : [li]))}
-          </ul>
-        </nav>
-        <label className="lang">
-          <span className="visually-hidden">{t.language}</span>
-          <select value={lang} onChange={(e) => setLang(e.target.value as Lang)}>
-            {LANGUAGES.map((l) => <option key={l.code} value={l.code} disabled={!l.available}>{l.available ? l.label : `${l.label} (${t.languagePending})`}</option>)}
-          </select>
-        </label>
-      </header>
-      <main id="main" tabIndex={-1}>
-        <Outlet />
-      </main>
-      <footer>
-        <nav aria-label={t.footerLabel}>
-          <ul>{FOOTER.map((r) => <li key={r.id}><Link to={r.path}>{r.title}</Link></li>)}</ul>
-        </nav>
-        <p className="footer-note">{t.footerNote} <Link to="/research/methodology#prototype-data">About this data</Link></p>
-      </footer>
-    </>
-  );
-}
-
-function titleFor(path: string): string {
-  const route = publicRoutes.find((r) => !r.path.includes(":") && r.path === path);
-  return route?.title ?? "Makarba 360°";
-}
 
 /** List alternative for the map (P02-P04): same published places, no map or WebGL needed. */
 export function PlaceList({ fetcher, withMap = false, makeSource = localSource }: { fetcher?: typeof fetch; withMap?: boolean; makeSource?: SourceFactory }) {
@@ -167,17 +105,53 @@ export function PlaceList({ fetcher, withMap = false, makeSource = localSource }
   const [focusId, setFocusId] = useState<string | null>(null);
   const scenario: Scenario | null = future && fc.doc ? scenarioFor(fc.doc, shownYear) : null;
   const [panel, setPanel] = useState(true);
+  // Explore shortcuts: [ ] step through places, / search, F today/future, P play, Esc clears the selection.
+  const order = view.places.map((p) => p.id);
+  const step = (d: number) => {
+    if (!order.length) return;
+    const i = selected ? order.indexOf(selected) : -1;
+    setSelected(order[(i + d + order.length) % order.length]!);
+  };
+  const keyState = useRef({ step, future, setFuture, onPlay: () => setPlayYear((y) => (y === null ? new Date().getFullYear() + 1 : null)), clear: () => setSelected(null), selected });
+  keyState.current = { step, future, setFuture, onPlay: () => setPlayYear((y) => (y === null ? new Date().getFullYear() + 1 : null)), clear: () => setSelected(null), selected };
+  useEffect(() => {
+    if (!withMap) return;
+    const on = (e: KeyboardEvent) => {
+      if (!plainKey(e) || document.querySelector("dialog[open]")) return;
+      const k = keyState.current;
+      if (e.key === "[") k.step(-1);
+      else if (e.key === "]") k.step(1);
+      else if (e.key === "/") { const el = document.getElementById("place-search"); if (!el) return; el.focus(); }
+      else if (e.key === "f" || e.key === "F") k.setFuture(!k.future);
+      else if ((e.key === "p" || e.key === "P") && k.future) k.onPlay();
+      else if (e.key === "Escape" && k.selected) k.clear();
+      else return;
+      e.preventDefault();
+    };
+    window.addEventListener("keydown", on);
+    return () => window.removeEventListener("keydown", on);
+  }, [withMap]);
+  // Highlights for the map and panel: AI-generated when available, otherwise the rule-based scenario changes.
+  const ai = useAi(future ? fc.doc : null, year);
+  // generate highlights for a newly chosen year once the slider settles (cached years return at once)
+  useEffect(() => {
+    if (!future || !fc.doc || playYear !== null || navigator.webdriver) return;
+    const t = window.setTimeout(() => { void ensureAi(fc.doc!, year, { background: true }); }, 1500);
+    return () => clearTimeout(t);
+  }, [future, fc.doc, year, playYear]);
+  const aiHighlights = future && ai.highlights?.length ? ai.highlights : null;
+  const mapHighlights = scenario ? (aiHighlights ? aiHighlights.map((h) => ({ id: h.id, title: h.title, at: ANCHORS[h.anchor].at, tone: h.tone })) : scenario.changes.map((c) => ({ id: c.id, title: c.title, at: c.at, tone: "mixed" as const }))) : null;
   return (
     <section aria-labelledby="h" className={withMap ? `explore-page${panel ? "" : " panel-closed"}` : undefined}>
       <h1 id="h">{t.listTitle}</h1>
       <p className="lead">{t.listIntro}</p>
       {withMap && (
         <div role="group" aria-label="Map mode" className="seg-tabs">
-          <button type="button" aria-pressed={!future} onClick={() => setFuture(false)}>Today</button>
-          <button type="button" aria-pressed={future} onClick={() => setFuture(true)}>Future scenario</button>
+          <button type="button" aria-pressed={!future} onClick={() => setFuture(false)} data-tip="The city as it is (F)"><Icon name="map" size={16} />Today</button>
+          <button type="button" aria-pressed={future} onClick={() => setFuture(true)} data-tip="An illustrative future from the forecasts (F)"><Icon name="trend" size={16} />Future scenario</button>
         </div>
       )}
-      {future && <FuturePanel scenario={scenario} error={fc.err} year={year} setYear={(y) => { setPlayYear(null); setYear(y); }} max={fc.doc?.maxYear ?? 2050}
+      {future && <FuturePanel scenario={scenario} doc={fc.doc} ai={ai} aiHighlights={aiHighlights} error={fc.err} year={year} setYear={(y) => { setPlayYear(null); setYear(y); }} max={fc.doc?.maxYear ?? 2050}
         focusId={focusId} playing={playYear !== null} onPlay={() => setPlayYear(playYear === null ? new Date().getFullYear() + 1 : null)} />}
       <div role="status" aria-live="polite">
         {r === "loading" && t.loading}
@@ -187,8 +161,11 @@ export function PlaceList({ fetcher, withMap = false, makeSource = localSource }
       {r !== "loading" && r.status === "error" && r.retryable && <button type="button" onClick={load}>{t.retry}</button>}
       {withMap && !future && r !== "loading" && r.status === "ok" && r.places.length > 0 && (
         <form className="search" role="search" aria-label="Search places" onSubmit={(e) => { e.preventDefault(); setQuery(typed); }}>
-          <label htmlFor="place-search">Search places</label>
-          <input id="place-search" type="search" value={typed} maxLength={100} autoComplete="off" onChange={(e) => setTyped(e.target.value)} />
+          <label htmlFor="place-search" className="visually-hidden">Search places</label>
+          <span className="search-box">
+            <Icon name="search" size={16} />
+            <input id="place-search" type="search" placeholder="Search places  ( / )" value={typed} maxLength={100} autoComplete="off" onChange={(e) => setTyped(e.target.value)} />
+          </span>
           <button type="submit" className="btn">Search</button>
           {q && <button type="button" onClick={() => { setTyped(""); setQuery(""); }}>Clear search</button>}
           <p role="status" aria-live="polite" className="search-status">
@@ -203,7 +180,7 @@ export function PlaceList({ fetcher, withMap = false, makeSource = localSource }
           <fieldset>
             <legend>Category</legend>
             {categories.map((c) => (
-              <button key={c} type="button" className="chip" aria-pressed={filters.categories.includes(c)} onClick={() => setFilters({ ...filters, categories: toggle(filters.categories, c) })}><span className="swatch" style={{ background: categoryColor(c) }} aria-hidden="true" />{categoryLabel(c)}</button>
+              <button key={c} type="button" className="chip" aria-pressed={filters.categories.includes(c)} onClick={() => setFilters({ ...filters, categories: toggle(filters.categories, c) })}><span className="chip-ico" style={{ color: categoryColor(c) }} aria-hidden="true"><Icon name={CATEGORY_ICON[c] ?? "info"} size={15} /></span>{categoryLabel(c)}</button>
             ))}
           </fieldset>
           <fieldset>
@@ -224,7 +201,7 @@ export function PlaceList({ fetcher, withMap = false, makeSource = localSource }
           <div className="explore-map">
             <button type="button" className="panel-toggle tb" aria-expanded={panel} aria-label={panel ? "Hide side panel" : "Show side panel"} data-tip={panel ? "Hide side panel (full-width map)" : "Show side panel"} onClick={() => setPanel(!panel)}><Icon name={panel ? "chevL" : "chevR"} /></button>
       {withMap && r !== "loading" && r.status === "ok" && r.places.length > 0 && (
-        <Suspense fallback={<p role="status">Loading map…</p>}><MapView features={view.features} sourceAttribution={r.synthetic ? "Places: prototype example data (fictional)" : "Place data: Makarba 360 published snapshot"} selectedId={selected} onSelect={setSelected} onStatus={setMapStatus} scenario={scenario} onFocusChange={setFocusId} /></Suspense>
+        <Suspense fallback={<p role="status">Loading map…</p>}><MapView features={view.features} sourceAttribution={r.synthetic ? "Places: Makarba 360 demo dataset" : "Place data: Makarba 360 published snapshot"} selectedId={selected} onSelect={setSelected} onStatus={setMapStatus} scenario={scenario} highlights={mapHighlights} onFocusChange={setFocusId} /></Suspense>
       )}
           </div>
           <div className="sheet" data-state={sheet} ref={sheetRef} hidden={future}
@@ -240,7 +217,7 @@ export function PlaceList({ fetcher, withMap = false, makeSource = localSource }
       {withMap && r !== "loading" && r.status === "ok" && selected && (() => {
         const p = r.places.find((x) => x.id === selected);
         return p ? (
-          <SelectedPlace key={p.id} p={p} synthetic={r.synthetic} onClear={() => setSelected(null)} />
+          <SelectedPlace key={p.id} p={p} index={order.indexOf(p.id)} total={order.length} onStep={step} onClear={() => setSelected(null)} />
         ) : (
           <aside role="status">That place was not found. It may have been unpublished. <button type="button" onClick={() => setSelected(null)}>Clear selection</button></aside>
         );
@@ -248,15 +225,21 @@ export function PlaceList({ fetcher, withMap = false, makeSource = localSource }
       {withMap && mapStatus === "unavailable" && <p><small>Map unavailable - the list is the full alternative.</small></p>}
       {r !== "loading" && r.status === "ok" && r.places.length > 0 && (
         <>
-          {r.synthetic && <DataNote />}
-          <ul className="place-list">{view.places.map((p, i) => (
-            <li key={p.id} style={{ "--i": Math.min(i, 12) } as CSSProperties}>
-              <span className="swatch" style={{ background: categoryColor(p.category) }} aria-hidden="true" />
-              {withMap ? <button type="button" aria-pressed={selected === p.id} onClick={() => setSelected(selected === p.id ? null : p.id)}>{p.name}</button> : p.name}{" "}
-              <small>({categoryLabel(p.category)})</small>
-              {selected === p.id && <span role="status"> - selected</span>}
-            </li>
-          ))}</ul>
+          <ul className="place-cards">{view.places.map((p, i) => {
+            const ph = photoFor(p.slug);
+            return (
+              <li key={p.id} style={{ "--i": Math.min(i, 12), "--c": categoryColor(p.category) } as CSSProperties}>
+                <button type="button" className="place-card" aria-describedby={`pc-cat-${p.id}`} aria-pressed={selected === p.id} onClick={() => setSelected(selected === p.id ? null : p.id)}>
+                  <span className="pc-thumb" aria-hidden="true">{ph ? <img src={ph.src} alt="" loading="lazy" /> : <Icon name={CATEGORY_ICON[p.category] ?? "info"} size={22} />}</span>
+                  <span className="pc-name">{p.name}</span>
+                  <span className="pc-go" aria-hidden="true"><Icon name="chevR" size={16} /></span>
+                </button>
+                {/* outside the button so its accessible name is exactly its visible text (WCAG 2.5.3) */}
+                <small className="pc-cat" id={`pc-cat-${p.id}`}><Icon name={CATEGORY_ICON[p.category] ?? "info"} size={13} />{categoryLabel(p.category)}</small>
+                {selected === p.id && <span role="status" className="visually-hidden"> - selected</span>}
+              </li>
+            );
+          })}</ul>
         </>
       )}
             </div>
@@ -275,7 +258,6 @@ export function PlaceList({ fetcher, withMap = false, makeSource = localSource }
       {withMap && mapStatus === "unavailable" && <p><small>Map unavailable - the list is the full alternative.</small></p>}
       {r !== "loading" && r.status === "ok" && r.places.length > 0 && (
         <>
-          {r.synthetic && <DataNote />}
           <ul>{r.places.map((p) => (
             <li key={p.id}>
               {withMap ? <button type="button" aria-pressed={selected === p.id} onClick={() => setSelected(selected === p.id ? null : p.id)}>{p.name}</button> : p.name}{" "}
@@ -291,47 +273,109 @@ export function PlaceList({ fetcher, withMap = false, makeSource = localSource }
   );
 }
 
-/** Explains, change by change, what the 3D scene is showing for the chosen year and why. Numbers match the callouts on the map. */
-function FuturePanel({ scenario, error, year, setYear, max, playing, onPlay, focusId }: { scenario: Scenario | null; error: boolean; year: number; setYear: (y: number) => void; max: number; playing: boolean; onPlay: () => void; focusId: string | null }) {
+const TONE_LABEL = { positive: "Could improve life", negative: "Could make life harder", mixed: "Mixed effects" } as const;
+
+/** Forecast numbers for a highlight's indicators, read from the data (never from model text). */
+function Metrics({ doc, ids, year }: { doc: ForecastDoc | null; ids: string[]; year: number }) {
+  if (!doc) return null;
+  const chips = ids.flatMap((id) => { const s = doc.series.find((x) => x.id === id); const g = s && signal(s, year); return g ? [g] : []; });
+  return chips.length ? <ul className="metric-chips">{chips.map((g) => <li key={g.s.id} data-tip={`${g.s.label}: ${g.s.unit}`}><span>{g.s.label}</span> <b>{fmt(g.from.value)} → {fmt(g.to.value)}</b></li>)}</ul> : null;
+}
+
+/**
+ * The future scene, explained. Highlights are GENERATIVE: when a local or cloud model is available, it chooses what matters, the icons,
+ * tone and map anchors (from fixed lists), and the panel renders whatever it returns. Without a model, the rule-based changes are shown.
+ * Numbers match the callouts on the map.
+ */
+function FuturePanel({ scenario, doc, ai, aiHighlights, error, year, setYear, max, playing, onPlay, focusId }: { scenario: Scenario | null; doc: ForecastDoc | null; ai: ReturnType<typeof useAi>; aiHighlights: Highlight[] | null; error: boolean; year: number; setYear: (y: number) => void; max: number; playing: boolean; onPlay: () => void; focusId: string | null }) {
   if (error) return <p role="alert">Forecasts are unavailable. Generate them with <code>./run.sh forecast</code>.</p>;
   if (!scenario) return <ParticleLoader label="Loading the forecast scene…" />;
+  const thinking = ai.status === "running" && !aiHighlights;
   return (
     <section className="future-panel" aria-labelledby="future-h">
       <h2 id="future-h">Makarba in {scenario.year}</h2>
-      <p className="lead">How the city could look if today's trends continue. Press play to watch it change year by year.</p>
+      <p className="lead">{aiHighlights && ai.headline ? ai.headline : "How the city could look if today's trends continue."}</p>
       <div className="future-controls">
-        <button type="button" className="btn play" aria-pressed={playing} onClick={onPlay}><Icon name={playing ? "pause" : "play"} />{playing ? "Pause" : `Play to ${year}`}</button>
+        <button type="button" className="btn play" aria-pressed={playing} onClick={onPlay} data-tip="Watch the city change year by year (P)"><Icon name={playing ? "pause" : "play"} />{playing ? "Pause" : `Play to ${year}`}</button>
         <YearSlider year={year} onChange={setYear} max={max} />
       </div>
-      <ol className="changes">
-        {scenario.changes.map((c, i) => (
-          <li key={c.id} style={{ "--i": i } as CSSProperties} className={`chg chg-${c.id}${focusId === c.id ? " on" : ""}`} aria-current={focusId === c.id ? "true" : undefined}>
-            <span className="chg-n" aria-hidden="true">{i + 1}</span>
-            <div>
-              <h3>{c.title}</h3>
-              <p>{c.effect}</p>
-              <p className="chg-because" data-tip="The forecast this change is based on">{c.because}</p>
-            </div>
-          </li>
-        ))}
-      </ol>
-      <p className="hint"><Icon name="info" size={14} /> Illustrative: each change follows one national or Ahmedabad forecast. Not a plan.</p>
+      <div className="hl-head">
+        <h3>{aiHighlights ? "Highlights" : "What changes on the map"}</h3>
+        {aiHighlights && <span className="ai-badge" data-tip={`Chosen and written by ${ai.model ?? "a language model"} from the forecasts. Can be wrong.`}><Icon name="spark" size={13} /> AI-generated</span>}
+        {thinking && <span className="ai-thinking" role="status"><Orb state="thinking" size={18} /> Generating highlights…</span>}
+      </div>
+      {aiHighlights ? (
+        <ol className="changes gen">
+          {aiHighlights.map((h, i) => (
+            <li key={h.id} style={{ "--i": i } as CSSProperties} className={`chg tone-${h.tone}${focusId === h.id ? " on" : ""}`} aria-current={focusId === h.id ? "true" : undefined}>
+              <span className="chg-n" aria-hidden="true"><Icon name={h.icon} size={16} /></span>
+              <div>
+                <h3><span className="visually-hidden">{i + 1}. </span>{h.title}</h3>
+                <p>{h.body}</p>
+                <p className="chg-tone"><span className="tone-dot" aria-hidden="true" />{TONE_LABEL[h.tone]} · {ANCHORS[h.anchor].label}</p>
+                <Metrics doc={doc} ids={h.indicators} year={scenario.year} />
+              </div>
+            </li>
+          ))}
+        </ol>
+      ) : (
+        <ol className="changes">
+          {scenario.changes.map((c, i) => (
+            <li key={c.id} style={{ "--i": i } as CSSProperties} className={`chg chg-${c.id}${focusId === c.id ? " on" : ""}`} aria-current={focusId === c.id ? "true" : undefined}>
+              <span className="chg-n" aria-hidden="true">{i + 1}</span>
+              <div>
+                <h3>{c.title}</h3>
+                <p>{c.effect}</p>
+                <p className="chg-because" data-tip="The forecast this change is based on">{c.because}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      )}
+      {aiHighlights && (
+        <details className="more">
+          <summary>What the 3D scene shows</summary>
+          <ul className="scene-rules">{scenario.changes.map((c) => <li key={c.id}><b>{c.title}.</b> {c.effect} <small>{c.because}</small></li>)}</ul>
+        </details>
+      )}
+      <p className="hint"><Icon name="info" size={14} /> Illustrative: each change follows national or Ahmedabad forecasts. Not a plan.</p>
       <p><Link to={`/forecasts${year === 2034 ? "" : `?year=${year}`}`}>All indicators and the AI briefing →</Link></p>
     </section>
   );
 }
 
-/** Details of the selected place. Fictional demo details and sourced landmark notes are labelled separately. */
-function SelectedPlace({ p, synthetic, onClear }: { p: PlaceSummary; synthetic: boolean; onClear: () => void }) {
+/** The selected place: photo, category, sourced notes in brief, and stepping to the neighbours in the list. */
+function SelectedPlace({ p, index, total, onStep, onClear }: { p: PlaceSummary; index: number; total: number; onStep: (d: number) => void; onClear: () => void }) {
   const notes = landmarksFor(p.slug);
+  const ph = photoFor(p.slug);
   return (
-    <aside aria-label="Selected place" className="selected-place">
-      <h2>{p.name}</h2>
-      <p><span className="swatch" style={{ background: categoryColor(p.category) }} aria-hidden="true" />Category: {categoryLabel(p.category)}</p>
-      <p><Link to={`/places/${p.slug}`}>Open full profile</Link></p>
-      <button type="button" onClick={onClear}>Clear selection</button>
-      {synthetic && <DataNote />}
-      {notes.map((l) => <LandmarkCard key={l.id} l={l} />)}
+    <aside aria-label="Selected place" className="selected-place" style={{ "--c": categoryColor(p.category) } as CSSProperties}>
+      {ph && (
+        <figure className="sp-photo">
+          <img src={ph.src} alt={ph.alt} />
+          <figcaption data-tip={`${ph.title} · ${ph.credit} · ${ph.licence}`}>{ph.representative ? "Representative photo · " : ""}{ph.credit}, {ph.licence}</figcaption>
+        </figure>
+      )}
+      <div className="sp-body">
+        <p className="sp-cat"><Icon name={CATEGORY_ICON[p.category] ?? "info"} size={14} /> {categoryLabel(p.category)}</p>
+        <h2>{p.name}</h2>
+        {notes.map((l) => <p key={l.id} className="sp-note">{l.facts[0]?.text}</p>)}
+        <div className="sp-actions">
+          <Link className="btn" to={`/places/${p.slug}`}>Open profile <Icon name="arrowUR" size={15} /></Link>
+          <span className="sp-step" role="group" aria-label="Step through places">
+            <button type="button" className="tb" aria-label="Previous place" data-tip="Previous place ([)" onClick={() => onStep(-1)}><Icon name="chevL" /></button>
+            <span>{index + 1} / {total}</span>
+            <button type="button" className="tb" aria-label="Next place" data-tip="Next place (])" onClick={() => onStep(1)}><Icon name="chevR" /></button>
+          </span>
+          <button type="button" className="tb" aria-label="Clear selection" data-tip="Clear selection (Esc)" onClick={onClear}><Icon name="close" /></button>
+        </div>
+        {notes.length > 0 && (
+          <details className="more">
+            <summary>Sourced notes</summary>
+            {notes.map((l) => <LandmarkCard key={l.id} l={l} />)}
+          </details>
+        )}
+      </div>
     </aside>
   );
 }

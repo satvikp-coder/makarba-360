@@ -114,11 +114,14 @@ test.describe("structure and keyboard", () => {
     expect(outline.style).not.toBe("none");
     expect(outline.width).toBeGreaterThan(0);
   });
-  test("the language selector offers only reviewed languages and the page language follows it", async ({ page }) => {
+  test("there is no language picker; the page is English, and display settings are one keypress away", async ({ page }) => {
     await prepare(page);
     await page.goto("/");
-    const opts = await page.getByRole("combobox", { name: /language/i }).locator("option").evaluateAll((o) => (o as HTMLOptionElement[]).map((x) => ({ v: x.value, d: x.disabled })));
-    expect(opts.filter((o) => !o.d).map((o) => o.v)).toEqual(["en"]);
-    expect(opts.filter((o) => o.d).map((o) => o.v).sort()).toEqual(["gu", "hi"]);
+    await expect(page.getByRole("combobox", { name: /language/i })).toHaveCount(0);
+    await expect(page.locator("html")).toHaveAttribute("lang", "en");
+    await page.keyboard.press(",");
+    await expect(page.getByRole("heading", { name: "Display and accessibility" })).toBeVisible();
+    await page.getByRole("radio", { name: "High" }).click();
+    await expect(page.locator("html")).toHaveAttribute("data-contrast", "high");
   });
 });

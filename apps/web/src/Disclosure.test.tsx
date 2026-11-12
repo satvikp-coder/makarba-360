@@ -21,9 +21,12 @@ describe("one calm, honest disclosure of the prototype dataset", () => {
       cleanup();
     }
   });
-  it("there is no alarming banner: the main content carries no persistent demo badge", () => {
+  it("one quiet notice in the side rail; no banner or per-item labels in the main content", () => {
     at("/");
-    expect(document.querySelector(".demo-badge, .badge")).toBeNull();
+    expect(screen.getByRole("main").querySelector(".demo-badge, .badge")).toBeNull();
+    const badges = document.querySelectorAll("header .demo-badge");
+    expect(badges).toHaveLength(1);
+    expect(badges[0]!.getAttribute("href")).toBe("/research/methodology#prototype-data");
     expect(screen.getByRole("main").textContent).not.toMatch(/ILLUSTRATIVE DEMO|awaiting real data/i);
   });
   it("the methodology page explains what is example, what is sourced and the privacy rules", () => {
@@ -82,6 +85,26 @@ describe("sourced landmark notes", () => {
       const file = resolve(WEB, `public${p.src}`);
       expect(existsSync(file), p.src).toBe(true);
       expect(statSync(file).size, p.src).toBeLessThanOrEqual(150 * 1024);
+    }
+  });
+});
+
+describe("place photographs", () => {
+  it("are bundled, from Wikimedia Commons, openly licensed, at most 150 KB, credited, and representative ones say so", async () => {
+    const { photoFor } = await import("./placePhotos.js");
+    const credits = readFileSync(resolve(WEB, "../../docs/project/media-credits.md"), "utf8");
+    const slugs = ["junction-fruit-carts", "mosque-lane-tea-corner", "village-bus-stand", "highway-auto-stand", "canal-bank-walk", "old-cotton-mill-site", "factory-road-vending-stretch", "weekend-mela-ground", "lake-edge-steps", "sarkhej-roza-area", "crowdfunded-snack-stall", "visitor-drop-off"];
+    for (const s of slugs) {
+      const p = photoFor(s)!;
+      expect(p, s).toBeDefined();
+      expect(p.src).toMatch(/^\/media\/(places|landmarks)\/[a-z0-9-]+\.jpg$/);
+      expect(p.source).toMatch(/^https:\/\/commons\.wikimedia\.org\/wiki\/File:/);
+      expect(p.licence).toMatch(/^(Public domain|CC BY-SA [34]\.0|CC BY 4\.0|CC0)/);
+      expect(p.alt.length).toBeGreaterThan(30);
+      const file = resolve(WEB, `public${p.src}`);
+      expect(existsSync(file), p.src).toBe(true);
+      expect(statSync(file).size, p.src).toBeLessThanOrEqual(150 * 1024);
+      expect(credits, p.src).toContain(p.src.split("/").pop()!);
     }
   });
 });

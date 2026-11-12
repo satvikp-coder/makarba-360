@@ -42,3 +42,23 @@ Retrieved 2026-11-10 through the Wikimedia API (metadata via `en.wikipedia.org/w
 **Share-alike:** `sg-highway-2012.jpg` and `calico-mills-chimney.jpg` are CC BY-SA. Our resized versions are adaptations and are therefore shared under the same licence (CC BY-SA 3.0 and 4.0 respectively) with the attribution above; anyone reusing them must do the same. The site's own code licence does not apply to these files.
 
 Cards without a suitable licensed photo (Shaikh Ahmed Khattu, Ahmed Shah I, Makarba) keep the original drawings. To add more, follow the same rules: Commons only, CC0 / public domain / CC BY / CC BY-SA, at most ~6 files of at most 150 KB each, recorded here and credited in the UI. Images live under `apps/web/public/` (outside `dist/assets`, so the bundle budget categories stay unchanged).
+
+
+## Place photographs (Wikimedia Commons, bundled locally) — added 2026-11-12
+
+Retrieved through the Commons API (`commons.wikimedia.org/w/api.php`, 960 px thumbnails from `upload.wikimedia.org`, then resized to at most 820 px and recompressed to stay under the 150 KB per-photo budget), same rules as above: Commons only, open licences, bundled so the site needs no network, credited on screen. The demo places are not real businesses, so most photos are **representative** Ahmedabad scenes of the same kind of place and are captioned "Representative photo" in the app; the two Sarkhej Roza lake photos show the real place. Synthetic panorama and photo placeholders are no longer shown.
+
+| File in `apps/web/public/media/places/` | Shows / used for | Author | Licence | Source | Size |
+|---|---|---|---|---|---|
+| `ahmedabad2007-066.jpg` | Fruit stall (representative for Junction fruit and sugarcane carts) | Helfmann | CC BY-SA 4.0 — https://creativecommons.org/licenses/by-sa/4.0 | https://commons.wikimedia.org/wiki/File:Ahmedabad2007-066.JPG | 112 KB |
+| `ahmedabad2007-095.jpg` | Dabeli snack cart (representative for Crowd-funded snack stall) | Helfmann | CC BY-SA 4.0 — https://creativecommons.org/licenses/by-sa/4.0 | https://commons.wikimedia.org/wiki/File:Ahmedabad2007-095.JPG | 118 KB |
+| `ahmedabad2007-101.jpg` | Street kiosk under trees (representative for Mosque-lane tea corner) | Helfmann | CC BY-SA 4.0 — https://creativecommons.org/licenses/by-sa/4.0 | https://commons.wikimedia.org/wiki/File:Ahmedabad2007-101.JPG | 130 KB |
+| `ahmedabad2007-151.jpg` | Roadside cart on an open road (representative for Factory-road vending stretch) | Helfmann | CC BY-SA 4.0 — https://creativecommons.org/licenses/by-sa/4.0 | https://commons.wikimedia.org/wiki/File:Ahmedabad2007-151.JPG | 119 KB |
+| `ahmedabad2007-167.jpg` | Open plaza with stalls (representative for Weekend mela ground) | Helfmann | CC BY-SA 4.0 — https://creativecommons.org/licenses/by-sa/4.0 | https://commons.wikimedia.org/wiki/File:Ahmedabad2007-167.JPG | 88 KB |
+| `ahmedabad-amts-bus.jpg` | AMTS bus stop, Lal Darwaja (representative for Village bus stand) | Vrajesh jani | CC BY-SA 3.0 — https://creativecommons.org/licenses/by-sa/3.0 | https://commons.wikimedia.org/wiki/File:Ahmedabad_AMTS_Bus.JPG | 100 KB |
+| `auto-rickshaws-in-ahmedabad.jpg` | Auto-rickshaws (representative for Highway auto stand) | Bernard Gagnon | CC BY-SA 3.0 — https://creativecommons.org/licenses/by-sa/3.0 | https://commons.wikimedia.org/wiki/File:Auto_rickshaws_in_Ahmedabad.jpg | 117 KB |
+| `sarkhej-roza-ahmed-sar-lake-jama-masjid-01.jpg` | Sarkhej Roza seen across the lake bed (the real place; used for Lake-edge viewing steps) | WeHaKa | CC BY-SA 4.0 — https://creativecommons.org/licenses/by-sa/4.0 | https://commons.wikimedia.org/wiki/File:Sarkhej_Roza-Ahmed_Sar_Lake-Jama_Masjid-01.jpg | 116 KB |
+| `sarkhej-roza-ahmed-sar-lake-jama-masjid-05.jpg` | Sarkhej Roza steps and pavilion (the real place; used for Visitor drop-off point) | WeHaKa | CC BY-SA 4.0 — https://creativecommons.org/licenses/by-sa/4.0 | https://commons.wikimedia.org/wiki/File:Sarkhej_Roza-Ahmed_Sar_Lake-Jama_Masjid-05.jpg | 132 KB |
+| `tainter-gate-at-narmada-dholka-canal-01.jpg` | Narmada Dholka canal gate near Ahmedabad (representative for Canal bank walk) | Pravega | CC BY-SA 4.0 — https://creativecommons.org/licenses/by-sa/4.0 | https://commons.wikimedia.org/wiki/File:Tainter_gate_at_Narmada_Dholka_Canal_01.jpg | 104 KB |
+
+**Share-alike:** all ten are CC BY-SA (3.0 or 4.0). The resized versions are adaptations shared under the same licence with the attribution above. The Sarkhej Roza card also reuses `landmarks/sarkhej-roza.jpg` (public domain) and the mill card reuses `landmarks/calico-mills-chimney.jpg` (CC BY-SA 4.0).

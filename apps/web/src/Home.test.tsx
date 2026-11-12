@@ -25,7 +25,7 @@ describe("home page", () => {
     const first = bundle.locations.features[0];
     const link = await screen.findByRole("link", { name: first.properties.name.en });
     expect(link.getAttribute("href")).toBe(`/explore?place=${first.id}`);
-    expect(screen.getByText(/Example data: these entries are composite, fictional/)).toBeTruthy();
+    expect(screen.queryByText(/composite, fictional/)).toBeNull();
   });
   it("shows no fabricated findings, counts or percentages", async () => {
     const { container } = show(f(bundle.locations));

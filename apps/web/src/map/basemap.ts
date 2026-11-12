@@ -25,9 +25,9 @@ const line = (coordinates: Pos[], properties: Props): F => ({ type: "Feature", p
 // --- authored features --------------------------------------------------------------------------------------------------------
 export const HIGHWAY: Pos[] = [[72.511, 22.976], [72.5122, 22.988], [72.5138, 22.998], [72.5152, 23.005]];
 export const CANAL: Pos[] = [[72.49, 23.0025], [72.497, 23.001], [72.503, 22.9985], [72.509, 22.9972], [72.514, 22.9958], [72.52, 22.9945]];
-const ARTERIAL: Pos[] = [[72.49, 22.9872], [72.501, 22.9878], [72.5121, 22.9883], [72.52, 22.9888]];
-const FACTORY_ROAD: Pos[] = [[72.5137, 22.9966], [72.5168, 22.9981], [72.5198, 22.9996]];
-const LOCAL: Pos[][] = [
+export const ARTERIAL: Pos[] = [[72.49, 22.9872], [72.501, 22.9878], [72.5121, 22.9883], [72.52, 22.9888]];
+export const FACTORY_ROAD: Pos[] = [[72.5137, 22.9966], [72.5168, 22.9981], [72.5198, 22.9996]];
+export const LOCAL: Pos[][] = [
   [[72.5058, 22.9934], [72.5121, 22.9938]],
   [[72.5081, 22.9884], [72.5084, 22.9965]],
   [[72.5103, 22.9884], [72.5106, 22.9968]],
@@ -230,6 +230,44 @@ export function generateTrees(b: FC, seed = 7): { canopies: FC; trunks: FC } {
   return { canopies: { type: "FeatureCollection", features: canopies }, trunks: { type: "FeatureCollection", features: trunks } };
 }
 
+/** Small street-level detail: market stalls with coloured awnings, bus shelters, a row of parked autos, zebra crossings. */
+export const furniture: { solid: FC; flat: FC } = (() => {
+  const solid: F[] = [], flat: F[] = [];
+  const AWN = ["#d9534f", "#2f7fb5", "#e3a92b", "#3d9a5b", "#9a5bb5"];
+  const rect = (c: Pos, l: number, w: number, ang: number): Pos[] => {
+    const dx = Math.cos(ang), dy = Math.sin(ang), M = 111320;
+    return [[l, w], [-l, w], [-l, -w], [l, -w]].map(([a, b]) => [c[0] + (a! * dx - b! * dy) / (M * KXr), c[1] + (a! * dy + b! * dx) / M] as Pos);
+  };
+  const heading = (a: Pos, b: Pos) => Math.atan2(b[1] - a[1], (b[0] - a[0]) * KXr);
+  // stalls along the factory road (both sides) and at the junction near the shrine approach
+  FACTORY_ROAD.slice(1).forEach((b, i) => {
+    const a = FACTORY_ROAD[i]!, ang = heading(a, b);
+    for (const p of along(a, b, 0.00022)) for (const side of [1, -1]) {
+      const off = 0.00011 * side, c: Pos = [p[0] - Math.sin(ang) * off / KXr, p[1] + Math.cos(ang) * off];
+      solid.push(poly(rect(c, 1.4, 1.1, ang), { b: 0, h: 1.0, c: "#8a6a4a" }));
+      solid.push(poly(rect(c, 1.7, 1.5, ang), { b: 2.1, h: 2.35, c: AWN[(solid.length >> 1) % AWN.length]! }));
+    }
+  });
+  for (const c of along([72.5056, 22.99365], [72.5068, 22.99375], 0.00012)) {
+    solid.push(poly(rect(c, 1.2, 0.9, 0), { b: 0, h: 1.0, c: "#7a5a3a" }));
+    solid.push(poly(rect(c, 1.5, 1.3, 0), { b: 2.0, h: 2.25, c: AWN[solid.length % AWN.length]! }));
+  }
+  // bus shelters on the highway service lane
+  HIGHWAY.slice(1).forEach((b, i) => {
+    const a = HIGHWAY[i]!, ang = heading(a, b);
+    for (const p of along(a, b, 0.004).slice(1, -1)) {
+      const c: Pos = [p[0] - Math.sin(ang) * 0.00016 / KXr, p[1] + Math.cos(ang) * 0.00016];
+      solid.push(poly(rect(c, 5, 1.6, ang), { b: 2.6, h: 2.9, c: "#3b6a8f" }));
+      solid.push(poly(rect(c, 4.6, 0.15, ang), { b: 0, h: 2.6, c: "#9aa7b2" }));
+    }
+  });
+  // parked autos at the highway auto stand (yellow-green Ahmedabad CNG autos)
+  for (let i = 0; i < 7; i++) solid.push(poly(rect([72.51245 + i * 0.000035, 22.98845], 1.4, 0.7, 0.2), { b: 0, h: 1.8, c: i % 3 ? "#e8c82c" : "#3c9a4a" }));
+  // zebra crossing where the arterial meets the highway
+  for (let i = -4; i <= 4; i++) flat.push(poly(rect([72.5118 + i * 0.000012, 22.98815], 0.45, 3.2, Math.PI / 2 - 0.08), { c: "#ffffff" }));
+  return { solid: { type: "FeatureCollection", features: solid }, flat: { type: "FeatureCollection", features: flat } };
+})();
+
 /** Street lamps along the highway and arterials: invisible by day, warm pools of light at dusk and night. */
 export const lamps: FC = {
   type: "FeatureCollection",
@@ -245,7 +283,7 @@ export function city() {
 }
 
 // --- themes ----------------------------------------------------------------------------------------------------------------
-export type TimeOfDay = "day" | "dusk" | "night";
+export type TimeOfDay = "dawn" | "day" | "dusk" | "night";
 export interface Theme {
   bg: string; green: string; ground: string; water: string; waterLine: string; canalFlow: string; road: string; casing: string; highway: string;
   traffic: string; low: string; high: string; mill: string; landmark: string;
@@ -254,6 +292,13 @@ export interface Theme {
   light: maplibregl.LightSpecification; sky: Record<string, string | number>;
 }
 export const THEMES: Record<TimeOfDay, Theme> = {
+  dawn: {
+    bg: "#efe2d8", green: "#b3cf9c", ground: "#e6d2b4", water: "#8cb9d4", waterLine: "#5a8fae", canalFlow: "#fff1ea", road: "#fbf4ee", casing: "#d6c2b2",
+    highway: "#f1c89a", traffic: "#a0492f", low: "#f0dccb", high: "#a7aec2", mill: "#c49a80", landmark: "#e0a27a",
+    low2: "#f2cfc0", low3: "#e2dad0", room: "#d8c6b6", tank: "#2c2a2a", tree: ["#86a874", "#729862", "#9cb882"], trunk: "#76563c", stone: "#dcb092", dome: "#ecc2a0", marking: "#fff8f2", lamp: 0.35,
+    light: { anchor: "viewport", color: "#ffd7c2", intensity: 0.45, position: [1.3, 100, 65] },
+    sky: { "sky-color": "#a9c6e6", "horizon-color": "#f6c9b4", "fog-color": "#efe2d8", "sky-horizon-blend": 0.75, "horizon-fog-blend": 0.65, "fog-ground-blend": 0.7 },
+  },
   day: {
     bg: "#efe8da", green: "#bcd8a4", ground: "#e2d3ae", water: "#7fbfd4", waterLine: "#4c91a3", canalFlow: "#f4fbff", road: "#ffffff", casing: "#d3c6ad",
     highway: "#f3cf86", traffic: "#b5522f", low: "#efe2c6", high: "#9fb7b4", mill: "#c9a27e", landmark: "#d9a066",
@@ -298,6 +343,7 @@ export function themedPaint(t: Theme): Record<string, Record<string, unknown>> {
     "tree-trunk": { "fill-extrusion-color": t.trunk },
     "lane-marking": { "line-color": t.marking },
     lamps: { "circle-opacity": t.lamp, "circle-stroke-opacity": t.lamp },
+    "vehicle-lights": { "circle-opacity": t.lamp },
   };
 }
 
@@ -330,6 +376,11 @@ export function buildOfflineStyle(time: TimeOfDay = "day"): maplibregl.StyleSpec
       "tree-canopy": { type: "geojson", data: city().trees.canopies as unknown as maplibregl.GeoJSONSourceSpecification['data'] },
       "tree-trunk": { type: "geojson", data: city().trees.trunks as unknown as maplibregl.GeoJSONSourceSpecification['data'] },
       lamps: { type: "geojson", data: lamps as unknown as maplibregl.GeoJSONSourceSpecification['data'] },
+      furniture: { type: "geojson", data: furniture.solid as unknown as maplibregl.GeoJSONSourceSpecification['data'] },
+      markings: { type: "geojson", data: furniture.flat as unknown as maplibregl.GeoJSONSourceSpecification['data'] },
+      // filled by MapView's traffic animation
+      vehicles: { type: "geojson", data: { type: "FeatureCollection", features: [] } },
+      "vehicle-lights": { type: "geojson", data: { type: "FeatureCollection", features: [] } },
       landmark: { type: "geojson", data: landmark as unknown as maplibregl.GeoJSONSourceSpecification['data'] },
     },
     layers: [
@@ -342,13 +393,17 @@ export function buildOfflineStyle(time: TimeOfDay = "day"): maplibregl.StyleSpec
       { id: "road-casing", type: "line", source: "roads", layout: { "line-cap": "round", "line-join": "round" }, paint: { ...(p["road-casing"] as object), "line-width": byKind([6, 22, 70], [4, 14, 44], [2, 8, 26]) } as never },
       { id: "road", type: "line", source: "roads", layout: { "line-cap": "round", "line-join": "round" }, paint: { ...(p["road"] as object), "line-width": byKind([4, 18, 60], [3, 11, 36], [1, 6, 20]) } as never },
       { id: "lane-marking", type: "line", source: "roads", minzoom: 14.5, filter: ["!=", ["get", "kind"], "local"], paint: { ...(p["lane-marking"] as object), "line-width": w(0.5, 1, 3), "line-opacity": 0.85, "line-dasharray": [3, 3] } as never },
-      { id: "traffic-a", type: "line", source: "roads", filter: ["==", ["get", "kind"], "highway"], paint: { ...(p["traffic-a"] as object), "line-width": w(1, 2.5, 6), "line-offset": w(1, 4, 14), "line-opacity": 0.85, "line-dasharray": DASH_STEPS[0] } as never },
-      { id: "traffic-b", type: "line", source: "roads", filter: ["==", ["get", "kind"], "highway"], paint: { ...(p["traffic-b"] as object), "line-width": w(1, 2.5, 6), "line-offset": w(-1, -4, -14), "line-opacity": 0.85, "line-dasharray": DASH_STEPS[7] } as never },
+      { id: "zebra", type: "fill", source: "markings", minzoom: 15.5, paint: { "fill-color": "#ffffff", "fill-opacity": 0.9 } as never },
+      { id: "traffic-a", type: "line", source: "roads", filter: ["==", ["get", "kind"], "highway"], paint: { ...(p["traffic-a"] as object), "line-width": w(1, 2.5, 6), "line-offset": w(1, 4, 14), "line-opacity": 0.3, "line-dasharray": DASH_STEPS[0] } as never },
+      { id: "traffic-b", type: "line", source: "roads", filter: ["==", ["get", "kind"], "highway"], paint: { ...(p["traffic-b"] as object), "line-width": w(1, 2.5, 6), "line-offset": w(-1, -4, -14), "line-opacity": 0.3, "line-dasharray": DASH_STEPS[7] } as never },
       { id: "buildings", type: "fill-extrusion", source: "buildings", minzoom: 13, paint: { ...(p["buildings"] as object), "fill-extrusion-height": ["interpolate", ["linear"], ["zoom"], 13, 0, 14.5, ["get", "h"]], "fill-extrusion-base": 0, "fill-extrusion-opacity": 0.92, "fill-extrusion-height-transition": extrusionTransition } as never },
       { id: "roofs", type: "fill-extrusion", source: "roofs", minzoom: 15, paint: { ...(p["roofs"] as object), "fill-extrusion-base": ["get", "h"], "fill-extrusion-height": ["+", ["get", "h"], ["get", "extra"]], "fill-extrusion-opacity": 0.95, "fill-extrusion-height-transition": extrusionTransition, "fill-extrusion-base-transition": extrusionTransition } as never },
       { id: "landmark", type: "fill-extrusion", source: "landmark", paint: { ...(p["landmark"] as object), "fill-extrusion-height": ["get", "h"], "fill-extrusion-base": ["get", "b"], "fill-extrusion-opacity": 1 } as never },
       { id: "tree-trunk", type: "fill-extrusion", source: "tree-trunk", minzoom: 15.5, paint: { ...(p["tree-trunk"] as object), "fill-extrusion-height": ["get", "h"], "fill-extrusion-opacity": 1 } as never },
       { id: "tree-canopy", type: "fill-extrusion", source: "tree-canopy", minzoom: 15, paint: { ...(p["tree-canopy"] as object), "fill-extrusion-base": ["get", "b"], "fill-extrusion-height": ["interpolate", ["linear"], ["zoom"], 15, ["get", "b"], 15.6, ["get", "h"]], "fill-extrusion-opacity": 0.96 } as never },
+      { id: "furniture", type: "fill-extrusion", source: "furniture", minzoom: 15.5, paint: { "fill-extrusion-color": ["get", "c"], "fill-extrusion-base": ["get", "b"], "fill-extrusion-height": ["get", "h"], "fill-extrusion-opacity": 1 } as never },
+      { id: "vehicles", type: "fill-extrusion", source: "vehicles", minzoom: 14.5, paint: { "fill-extrusion-color": ["get", "c"], "fill-extrusion-base": 0.25, "fill-extrusion-height": ["get", "h"], "fill-extrusion-opacity": 1 } as never },
+      { id: "vehicle-lights", type: "circle", source: "vehicle-lights", minzoom: 15, paint: { ...(p["vehicle-lights"] as object), "circle-color": "#fff4d6", "circle-radius": ["interpolate", ["linear"], ["zoom"], 15, 2, 18, 9], "circle-blur": 0.8, "circle-pitch-alignment": "map" } as never },
       { id: "lamps", type: "circle", source: "lamps", minzoom: 14, paint: { ...(p["lamps"] as object), "circle-color": "#ffd58a", "circle-radius": ["interpolate", ["linear"], ["zoom"], 14, 3, 18, 18], "circle-blur": 0.9, "circle-pitch-alignment": "map", "circle-stroke-width": 1, "circle-stroke-color": "#fff3d0" } as never },
     ],
   };

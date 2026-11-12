@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import type React from "react";
-import { cleanup, render, screen, waitFor } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import axe from "axe-core";
 import { MemoryRouter } from "react-router-dom";
@@ -19,20 +19,41 @@ const at = (path: string) => render(<MemoryRouter initialEntries={[path]}><App /
 afterEach(cleanup);
 
 describe("public shell", () => {
-  it("exposes the five atlas navigation entries, a language control and footer links", () => {
+  it("the rail has three destinations; the reading pages are in the footer; there is no language picker", () => {
     at("/");
     const nav = within(screen.getByRole("navigation", { name: "Main navigation" }));
-    for (const n of ["Explore", "Then & Now", "Community Voices", "Urban Insights", "Research"]) expect(nav.getByRole("link", { name: n })).toBeTruthy();
-    expect(screen.getByRole("combobox", { name: /language/i })).toBeTruthy();
+    for (const n of ["Overview", "Explore", "Outlook"]) expect(nav.getByRole("link", { name: n })).toBeTruthy();
+    expect(nav.queryByRole("link", { name: "Then & Now" })).toBeNull();
+    const footer = within(screen.getByRole("navigation", { name: "Site information" }));
+    for (const n of ["Then & Now", "Community Voices", "Urban Insights", "Research"]) expect(footer.getByRole("link", { name: n })).toBeTruthy();
+    expect(screen.queryByRole("combobox", { name: /language/i })).toBeNull();
     expect(screen.getByRole("link", { name: "Sources and credits" })).toBeTruthy();
     expect(screen.getByRole("link", { name: "Accessibility and language" })).toBeTruthy();
     expect(screen.getByRole("link", { name: "Skip to main content" })).toBeTruthy();
   });
-  it("does not offer unreviewed Gujarati/Hindi", () => {
+  it("display settings change contrast, palette, text size and motion, and are remembered", async () => {
+    const store = new Map<string, string>();
+    vi.stubGlobal("localStorage", { getItem: (k: string) => store.get(k) ?? null, setItem: (k: string, v: string) => void store.set(k, v), removeItem: (k: string) => void store.delete(k) });
     at("/");
-    const opts = screen.getAllByRole("option") as HTMLOptionElement[];
-    expect(opts.find((o) => o.value === "en")!.disabled).toBe(false);
-    for (const code of ["gu", "hi"]) expect(opts.find((o) => o.value === code)!.disabled).toBe(true);
+    fireEvent.click(screen.getByRole("button", { name: "Display and accessibility settings" }));
+    fireEvent.click(await screen.findByRole("radio", { name: "High" }));
+    fireEvent.click(screen.getByRole("radio", { name: "Colour-blind safe" }));
+    fireEvent.click(screen.getByRole("radio", { name: "A++" }));
+    fireEvent.click(screen.getByRole("radio", { name: "Reduce" }));
+    const root = document.documentElement;
+    expect([root.dataset["contrast"], root.dataset["palette"], root.dataset["motion"], root.style.fontSize]).toEqual(["high", "cvd", "reduce", "130%"]);
+    expect(JSON.parse(localStorage.getItem("makarba.prefs.v1")!)).toMatchObject({ contrast: "high", palette: "cvd", text: 130, motion: "reduce" });
+    fireEvent.click(screen.getByRole("button", { name: "Reset to defaults" }));
+    expect(root.dataset["contrast"]).toBe("standard");
+    vi.unstubAllGlobals();
+  });
+  it("? opens the keyboard shortcuts and 2 goes to Explore; keys typed into a field are ignored", async () => {
+    at("/");
+    fireEvent.keyDown(window, { key: "?" });
+    expect(await screen.findByRole("heading", { name: /Keyboard shortcuts/ })).toBeTruthy();
+    fireEvent.click(screen.getByRole("button", { name: "Close" }));
+    fireEvent.keyDown(window, { key: "2" });
+    expect(await screen.findByRole("heading", { level: 1, name: "Explore Makarba" })).toBeTruthy();
   });
   it("has no survey entry route or action anywhere in the public routes", async () => {
     for (const r of publicRoutes) {
@@ -62,10 +83,10 @@ describe("public shell", () => {
 import { within } from "@testing-library/react";
 
 describe("place list alternative", () => {
-  it("shows places from the validated mock contract, labelled synthetic", async () => {
+  it("shows places from the validated mock contract without a per-list disclosure box (one site-wide notice instead)", async () => {
     wrap(<PlaceList fetcher={okFetch} />);
     await waitFor(() => expect(screen.getAllByRole("listitem").length).toBe(bundle.locations.features.length));
-    expect(screen.getByText(/Example data: these entries are composite, fictional/)).toBeTruthy();
+    expect(screen.queryByText(/composite, fictional/)).toBeNull();
   });
   it("empty collection says no places are published, not zero or an error", async () => {
     const f = (() => json({ ...bundle.locations, features: [] })) as unknown as typeof fetch;

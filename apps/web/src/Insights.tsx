@@ -5,7 +5,6 @@ import { sanitizeQuery } from "@makarba/public-ia";
 import { fetchInsights, type InsightsResult } from "./api.js";
 import { strings } from "./i18n.js";
 import { useCountUp } from "./motion.js";
-import { DataNote } from "./DataNote.js";
 
 function CountUp({ n }: { n: number }) {
   return <>{useCountUp(n)}</>;
@@ -74,7 +73,6 @@ export function Insights({ fetcher }: { fetcher?: typeof fetch }) {
   return (
     <section aria-labelledby="in-h">
       <h1 id="in-h">Urban Insights</h1>
-      {r.data.synthetic && <DataNote />}
       <p>{view.sampleNote}</p>
       <p>These figures describe the people who were interviewed, not all residents. Groups can overlap, so figures for different groups must not be added together, and no overall total is shown.</p>
 

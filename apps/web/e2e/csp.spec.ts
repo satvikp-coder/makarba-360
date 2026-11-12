@@ -41,6 +41,11 @@ test("the production build works under the required security headers (map, worke
   page.on("pageerror", (e) => violations.push(String(e)));
   await page.route(/tile\.openstreetmap\.org/, (r) => r.fulfill({ status: 200, contentType: "image/png", body: PNG }));
   await page.route(/example\.invalid/, (r) => r.fulfill({ status: 200, contentType: "image/png", body: PNG, headers: { "access-control-allow-origin": "*" } }));
+  // the mock now serves a real photograph; this check needs the panorama viewer, so it stubs the synthetic panorama record
+  await page.route(/\/api\/v1\/public\/media\/synthetic-media-1$/, async (route) => {
+    const b = await (await route.fetch()).json();
+    await route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ ...b, url: "https://example.invalid/public/synthetic-panorama.webp", contentType: "image/webp", width: 4096, height: 2048, format: "equirectangular", alt: "Synthetic panorama placeholder", staticFallbackUrl: "https://example.invalid/public/synthetic-static.webp" }) });
+  });
 
   await page.goto(base + "/explore");
   await expect(page.locator("canvas.maplibregl-canvas")).toBeVisible({ timeout: 20_000 });

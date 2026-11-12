@@ -5,6 +5,8 @@ const QUERY = "(prefers-reduced-motion: reduce)";
 /** True when the visitor asked for reduced motion. Environments without matchMedia (tests, old engines) get the calm path. */
 export function prefersReducedMotion(): boolean {
   if (typeof window === "undefined" || typeof window.matchMedia !== "function") return true;
+  // the site's own "Reduce motion" setting overrides the OS when switched on
+  if (document.documentElement.dataset["motion"] === "reduce") return true;
   return window.matchMedia(QUERY).matches;
 }
 
@@ -13,9 +15,10 @@ export function useReducedMotion(): boolean {
   useEffect(() => {
     if (typeof window === "undefined" || typeof window.matchMedia !== "function") return;
     const mq = window.matchMedia(QUERY);
-    const on = () => setReduced(mq.matches);
+    const on = () => setReduced(prefersReducedMotion());
     mq.addEventListener?.("change", on);
-    return () => mq.removeEventListener?.("change", on);
+    window.addEventListener("prefs-change", on);
+    return () => { mq.removeEventListener?.("change", on); window.removeEventListener("prefs-change", on); };
   }, []);
   return reduced;
 }

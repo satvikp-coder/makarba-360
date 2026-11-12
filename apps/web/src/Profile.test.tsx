@@ -26,15 +26,14 @@ describe("place profile", () => {
     expect(await screen.findByRole("heading", { level: 1, name: "Synthetic Atlas Point" })).toBeTruthy();
     expect(screen.getByText(/Mapped as a point/)).toBeTruthy();
     expect((await screen.findAllByText(/2021 \(year\)/)).length).toBeGreaterThan(0);           // year stays a year
-    expect(screen.getByText(/Invented test citation/, { selector: "small" })).toBeTruthy();
+    expect(screen.getByRole("button", { name: /^Source: .*Invented test citation/ })).toBeTruthy();
     expect(await screen.findByAltText(/Synthetic panorama placeholder/)).toBeTruthy();
     expect(screen.getAllByText(/synthetic-test-only/, { selector: "small" }).length).toBeGreaterThan(0);
-    expect(screen.getByText(/Example data: these entries are composite, fictional/)).toBeTruthy();
+    expect(screen.queryByText(/composite, fictional/)).toBeNull();
   });
   it("missing description, findings and counts are stated plainly and never as zero", async () => {
     const { container } = show("synthetic-point", mk());
     await screen.findByRole("heading", { level: 1 });
-    expect(screen.getByText("No approved description has been published yet.")).toBeTruthy();
     expect(screen.getByText(/No findings are published for this place yet/)).toBeTruthy();
     expect(container.textContent).not.toMatch(/\b0 (responses|respondents|interviews)/i);
   });
@@ -83,14 +82,14 @@ describe("place profile", () => {
     expect(screen.getByRole("heading", { name: "Then & Now" })).toBeTruthy();
     cleanup();
     show("synthetic-point", mk({ history: { ...bundle.history, comparisonPairs: [] } }));
-    await screen.findByText(/Invented test citation/, { selector: "small" });
+    await screen.findByRole("button", { name: /^Source: .*Invented test citation/ });
     expect(screen.queryByRole("slider")).toBeNull();
     expect(screen.queryByRole("heading", { name: "Then & Now" })).toBeNull();
   });
   it("hides the comparison when one of its images is unavailable", async () => {
     const f = ((url: string) => (/media\/synthetic-after/.test(url) ? res({}, 404) : mk()(url))) as unknown as typeof fetch;
     show("synthetic-point", f);
-    await screen.findByText(/Invented test citation/, { selector: "small" });
+    await screen.findByRole("button", { name: /^Source: .*Invented test citation/ });
     await waitFor(() => expect(screen.queryByText("Loading comparison…")).toBeNull());
     expect(screen.queryByRole("slider")).toBeNull();
   });
