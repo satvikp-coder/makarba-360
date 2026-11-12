@@ -12,6 +12,11 @@ need node; need pnpm
 case "$cmd" in
   demo) # synthetic mock API (4010) + web app (Vite); Ctrl+C stops both. Start Ollama for the AI briefing.
     command -v ollama >/dev/null && ! curl -s -m 1 127.0.0.1:11434 >/dev/null && { ollama serve >/dev/null 2>&1 & }
+    # Apple Intelligence (macOS 26+): build the local Foundation Models bridge once, then start it; preferred for AI insights
+    if [ "$(uname)" = Darwin ] && command -v swiftc >/dev/null && ! curl -s -m 1 127.0.0.1:11535/health >/dev/null; then
+      [ tools/applefm/.build/applefm-server -nt tools/applefm/server.swift ] || { mkdir -p tools/applefm/.build && swiftc -O tools/applefm/server.swift -o tools/applefm/.build/applefm-server 2>/dev/null; }
+      [ -x tools/applefm/.build/applefm-server ] && { tools/applefm/.build/applefm-server 11535 >/dev/null 2>&1 & }
+    fi
     pnpm dev:mock & api=$!
     trap 'kill $api 2>/dev/null' EXIT INT TERM
     pnpm --filter @makarba/web dev ;;
