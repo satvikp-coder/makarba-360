@@ -168,3 +168,9 @@ Search box on the explorer (`role="search"`, native `type="search"`, 44px high, 
 # Comparison directory
 
 The Then & Now navigation opens a directory of contract-validated published places. Selecting a place loads its current history; a listing does not assert that a comparison exists. Empty and unavailable states are explicit, and synthetic mock data remains labelled. Real evidence, media rights and publication remain subject to the existing integration gates.
+
+## Public atlas polish (2026-11-12)
+
+The homepage uses an original abstract typographic emblem, a two-column introduction, contract-backed featured-place cards, and related exploration links. The emblem represents no geography. Existing sourced landmark media and synthetic mock records retain their attribution and disclosure. Navigation remains available on narrow screens through a horizontally scrollable row; a page change resets scroll and focuses the main region, while map query changes preserve the current interaction. Home failures offer retry after the HTTP client's bounded retry sequence. Reduced-motion settings disable decorative transitions. No new packages or provider accounts are required.
+
+Verification includes the full web unit suite, production build, lint, and Chromium desktop/mobile journeys. Browser coverage uses synthetic mock/contract data and does not establish real fieldwork, approvals, or device testing.

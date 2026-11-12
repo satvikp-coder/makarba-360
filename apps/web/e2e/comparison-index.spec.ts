@@ -13,3 +13,17 @@ test("navigation reaches a synthetic place comparison", async ({ page }) => {
   await expect(page).toHaveURL(new RegExp(`/places/${place.properties.slug}/then-and-now$`));
   await expect(page.getByText("No comparisons are available for this place yet.")).toBeVisible();
 });
+
+for (const width of [375, 1280]) {
+  test(`home and navigation fit at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto("/");
+    await expect(page.getByRole("link", { name: "Explore the map" })).toBeVisible();
+    await expect(page.locator(".featured-grid li").first()).toBeVisible();
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
+    await page.screenshot({ path: `/tmp/makarba-home-${width}.png`, fullPage: true });
+    await page.getByRole("navigation", { name: "Main navigation" }).getByRole("link", { name: "Then & Now" }).click();
+    await expect(page.locator("main")).toBeFocused();
+    expect(await page.evaluate(() => scrollY)).toBe(0);
+  });
+}

@@ -43,6 +43,16 @@ function Layout() {
   const [lang, setLang] = useState<Lang>("en");
   const t = strings[lang];
   const loc = useLocation();
+  const previousPath = useRef(loc.pathname);
+  useEffect(() => {
+    if (previousPath.current !== loc.pathname) {
+      previousPath.current = loc.pathname;
+      if (!loc.hash) {
+        window.scrollTo?.(0, 0);
+        document.getElementById("main")?.focus({ preventScroll: true });
+      }
+    }
+  }, [loc.pathname, loc.hash]);
   useEffect(() => { document.documentElement.lang = lang === "en" || !LANGUAGES.find((l) => l.code === lang)?.available ? "en" : lang; }, [lang]);
   // In-page links such as the footer's "About this data" (/research/methodology#prototype-data) land on their section.
   useEffect(() => { if (loc.hash) document.getElementById(decodeURIComponent(loc.hash.slice(1)))?.scrollIntoView?.(); }, [loc.pathname, loc.hash]);
@@ -66,7 +76,7 @@ function Layout() {
           </select>
         </label>
       </header>
-      <main id="main" tabIndex={-1}>
+      <main id="main" className={loc.pathname === "/explore" ? "main-explore" : "main-content"} tabIndex={-1}>
         <Outlet />
       </main>
       <footer>
