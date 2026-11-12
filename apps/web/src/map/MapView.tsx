@@ -63,15 +63,17 @@ interface Props {
   onStatus?: (s: MapStatus) => void;
   /** Forecast scene: restyles buildings, haze and traffic. null = today's sketch. */
   scenario?: Scenario | null;
+  /** Called with the scenario change the guided camera is showing (null when it stops). */
+  onFocusChange?: (id: string | null) => void;
 }
 
 /** Overview that shows the highway corridor and the old village together, used when a scenario is first shown. */
 const SCENARIO_VIEW = { center: [72.5105, 22.9935] as Pos, zoom: 15.1, pitch: 64, bearing: -38 };
 
 const LIGHTS: { id: TimeOfDay; label: string; icon: IconName }[] = [{ id: "day", label: "Day", icon: "sun" }, { id: "dusk", label: "Dusk", icon: "sunset" }, { id: "night", label: "Night", icon: "moon" }];
-/** Auto focus: fly in, then orbit slowly, then move on. */
-const AUTO_FLY_MS = 5200, AUTO_ORBIT_MS = 9000;
-interface FocusStop { id: string; title: string; caption: string; kind: string; center: Pos; zoom: number; pitch: number; bearing: number }
+interface TourStopView { id: string; placeId?: string; title: string; caption: string; source?: string; center: Pos; zoom: number; pitch: number; bearing: number }
+const ORBIT_MS = 30000;
+const GUIDE_FLY_MS = 3200, GUIDE_HOLD_MS = 4200;
 
 function el(className: string, text?: string): HTMLDivElement {
   const d = document.createElement("div");
@@ -87,7 +89,7 @@ function el(className: string, text?: string): HTMLDivElement {
  * the same information. Motion (intro flight, flowing canal and traffic, pulsing selection) honours prefers-reduced-motion and can be
  * paused at any time (WCAG 2.2.2).
  */
-export function MapView({ features, sourceAttribution, selectedId, onSelect, onStatus, scenario = null }: Props) {
+export function MapView({ features, sourceAttribution, selectedId, onSelect, onStatus, scenario = null, onFocusChange }: Props) {
   const host = useRef<HTMLDivElement>(null);
   const mapRef = useRef<maplibregl.Map | null>(null);
   const labelsRef = useRef<maplibregl.Marker[]>([]);
@@ -105,6 +107,17 @@ export function MapView({ features, sourceAttribution, selectedId, onSelect, onS
   const [paused, setPaused] = useState(reduced);
   const [intro, setIntro] = useState<"pending" | "flying" | "done">("pending");
   const [tour, setTour] = useState<number | null>(null);
+  // The tour visits the authored landmark stops, then every published place.
+  const tourStops: TourStopView[] = [
+    ...TOUR.map((t) => ({ id: t.id, title: t.title, caption: t.caption, source: t.source, center: t.center, zoom: t.zoom, pitch: t.pitch, bearing: t.bearing })),
+    ...features.flatMap((f, i) => {
+      const at = anchorOf(f);
+      const label = CATEGORY_STYLE[f.properties.category as keyof typeof CATEGORY_STYLE]?.label ?? f.properties.category;
+      return at ? [{ id: `place-${String(f.id)}`, placeId: String(f.id), title: nameOf(f), caption: `${label} · Makarba`, center: at, zoom: 17.3, pitch: 62, bearing: ((i * 67) % 360) - 180 }] : [];
+    }),
+  ];
+  const stopsRef = useRef(tourStops);
+  stopsRef.current = tourStops;
   const tourPanel = useRef<HTMLDivElement>(null);
   const report = (s: MapStatus) => { setStatus(s); onStatus?.(s); };
   useEffect(() => { if (reduced) setPaused(true); }, [reduced]);
@@ -191,6 +204,8 @@ export function MapView({ features, sourceAttribution, selectedId, onSelect, onS
 
   // Published places: data, HTML name labels, and the camera (intro flight on first data, gentle refit on later filter changes).
   const placeLabels = useRef<maplibregl.Marker[]>([]);
+  // Parents rebuild the features array on every render; only a change in WHICH places are shown should move the camera.
+  const featKey = features.map((f) => String(f.id)).join("|");
   useEffect(() => {
     const map = mapRef.current;
     if (!map || status !== "ready") return;
@@ -213,7 +228,8 @@ export function MapView({ features, sourceAttribution, selectedId, onSelect, onS
     const box = boundsOf(features);
     if (box) map.fitBounds(box, { padding: 64, maxZoom: 16.4, pitch: map.getPitch(), bearing: map.getBearing(), duration: reducedRef.current ? 0 : 1100 });
     // flyHome is stable for this purpose; features/status drive the update
-  }, [features, status]);
+    // featKey stands in for features (same places = same key)
+  }, [featKey, status]);
 
   // Selection: highlight colour/extrusion, a pulsing ring, and a flight to the place.
   useEffect(() => {
@@ -237,7 +253,7 @@ export function MapView({ features, sourceAttribution, selectedId, onSelect, onS
     if (reducedRef.current) map.jumpTo(view);
     else map.flyTo({ ...view, duration: 1700, curve: 1.3, easing: easeInOutCubic, essential: true });
     // the camera should move only when the selection changes, not when the 3D toggle does
-  }, [selectedId, status, features]);
+  }, [selectedId, status, featKey]);
 
   // Time-of-day lighting.
   useEffect(() => {
@@ -256,7 +272,7 @@ export function MapView({ features, sourceAttribution, selectedId, onSelect, onS
   useEffect(() => {
     const map = mapRef.current;
     if (tour === null || !map || status !== "ready") return;
-    const s = TOUR[tour]!;
+    const s = stopsRef.current[Math.min(tour, stopsRef.current.length - 1)]!;
     const view = { center: s.center, zoom: s.zoom, pitch: is3d ? s.pitch : 0, bearing: s.bearing };
     if (reducedRef.current) map.jumpTo(view);
     else map.flyTo({ ...view, duration: 3200, curve: 1.4, easing: easeInOutCubic, essential: true });
@@ -294,42 +310,28 @@ export function MapView({ features, sourceAttribution, selectedId, onSelect, onS
     return () => cancelAnimationFrame(raf);
   }, [status, paused, flying]);
 
-  // Auto focus: a cinematic loop over the tour's landmarks and every published place, with its info card.
-  const [auto, setAuto] = useState<number | null>(null);
-  const stops: FocusStop[] = [
-    ...TOUR.map((t) => ({ ...t, kind: t.kind === "sourced" ? "Sourced fact" : "Example narrative", caption: t.caption + (t.source ? ` Source: ${t.source}.` : "") })),
-    ...features.flatMap((f, i) => {
-      const at = anchorOf(f);
-      return at ? [{ id: `place-${String(f.id)}`, title: nameOf(f), kind: `Place · ${CATEGORY_STYLE[f.properties.category as keyof typeof CATEGORY_STYLE]?.label ?? f.properties.category}`,
-        caption: "Prototype example place (fictional). Select it in the list for its full profile.", center: at, zoom: 17.2, pitch: 64, bearing: (i * 67) % 360 - 180 }] : [];
-    }),
-  ];
-  const stopsRef = useRef(stops);
-  stopsRef.current = stops;
+  // 360° camera: a slow full turn around the current centre. Stops on any touch, scroll or drag, or after one revolution.
+  const [orbit, setOrbit] = useState(false);
   useEffect(() => {
     const map = mapRef.current;
-    if (auto === null || !map || status !== "ready") return;
-    const s = stopsRef.current[auto % stopsRef.current.length]!;
-    let live = true, timer = 0;
-    const next = () => { if (live) setAuto((a) => (a === null ? null : (a + 1) % stopsRef.current.length)); };
-    const stop = () => { if (live) setAuto(null); };
-    const view = { center: s.center, zoom: s.zoom, pitch: is3d ? s.pitch : 0, bearing: s.bearing };
-    if (reducedRef.current) { map.jumpTo(view); timer = window.setTimeout(next, AUTO_ORBIT_MS); }
-    else {
-      map.flyTo({ ...view, duration: AUTO_FLY_MS, curve: 1.15, easing: easeInOutCubic, essential: true });
-      map.once("moveend", () => {
-        if (!live) return;
-        map.easeTo({ bearing: s.bearing + 50, pitch: Math.min(70, view.pitch + 4), duration: AUTO_ORBIT_MS, easing: (t: number) => t, essential: true });
-        map.once("moveend", next);
-      });
-    }
-    // the visitor takes over the moment they touch the map
+    if (!orbit || !map || status !== "ready" || reducedRef.current || typeof requestAnimationFrame !== "function") return;
+    let raf = 0, t0 = 0;
+    const start = map.getBearing();
+    if (map.getPitch() < 45 && is3d) map.easeTo({ pitch: 60, duration: 900, easing: easeInOutCubic });
+    const tick = (now: number) => {
+      t0 ||= now;
+      const p = Math.min(1, (now - t0) / ORBIT_MS);
+      map.setBearing(start + 360 * easeInOutCubic(p));   // sine in-out: no jolt at either end
+      if (p < 1) raf = requestAnimationFrame(tick); else setOrbit(false);
+    };
+    raf = requestAnimationFrame(tick);
+    const stop = () => setOrbit(false);
     const c = map.getCanvasContainer?.();
     c?.addEventListener("pointerdown", stop); c?.addEventListener("wheel", stop, { passive: true });
-    return () => { live = false; clearTimeout(timer); c?.removeEventListener("pointerdown", stop); c?.removeEventListener("wheel", stop); map.stop?.(); };
-  }, [auto, status]);
-  useEffect(() => { if (tour !== null) setAuto(null); }, [tour]);
-  const focusStop = auto === null ? null : stops[auto % stops.length];
+    return () => { cancelAnimationFrame(raf); c?.removeEventListener("pointerdown", stop); c?.removeEventListener("wheel", stop); };
+  }, [orbit, status]);
+  useEffect(() => { if (tour !== null) setOrbit(false); }, [tour]);
+
 
   // Forecast scenario: building heights/colours animate via style transitions; haze is a CSS overlay; traffic speeds up.
   const trafficRef = useRef(1);
@@ -347,8 +349,17 @@ export function MapView({ features, sourceAttribution, selectedId, onSelect, onS
     map.setPaintProperty("buildings", "fill-extrusion-height-transition" as never, { duration: reducedRef.current ? 0 : 1800, delay: 0 } as never);
     map.setPaintProperty("buildings", "fill-extrusion-color-transition" as never, { duration: reducedRef.current ? 0 : 1200, delay: 0 } as never);
     map.setPaintProperty("buildings", "fill-extrusion-height", ["interpolate", ["linear"], ["zoom"], 13, 0, 14.5, ["*", ["get", "h"], factor]] as never);
-    map.setPaintProperty("buildings", "fill-extrusion-color", (!sc ? base : ["case", isNew, "#D9894F", [">", ["coalesce", ["get", "r"], 0], 1 - sc.solar], "#4A78B0", base]) as never);
-    if (sc && !hadScenario.current && tour === null) {
+    map.setPaintProperty("buildings", "fill-extrusion-color", (!sc ? base : ["case", isNew, "#D9894F", base]) as never);
+    if (map.getLayer("roofs")) {
+      // rooftop rooms and tanks ride on the building below; solar roofs replace tanks with blue panels
+      const roofBase = ["*", ["get", "h"], factor];
+      const roofBaseColor = (themedPaint(THEMES[time])["roofs"] ?? {})["fill-extrusion-color"];
+      for (const [k, v] of [["fill-extrusion-base-transition", { duration: reducedRef.current ? 0 : 1800, delay: 0 }], ["fill-extrusion-height-transition", { duration: reducedRef.current ? 0 : 1800, delay: 0 }]] as const) map.setPaintProperty("roofs", k as never, v as never);
+      map.setPaintProperty("roofs", "fill-extrusion-base", roofBase as never);
+      map.setPaintProperty("roofs", "fill-extrusion-height", ["+", roofBase, sc ? ["case", ["all", ["==", ["get", "kind"], "tank"], [">", ["get", "r"], 1 - sc.solar]], 0.4, ["get", "extra"]] : ["get", "extra"]] as never);
+      map.setPaintProperty("roofs", "fill-extrusion-color", (sc ? ["case", ["all", ["==", ["get", "kind"], "tank"], [">", ["get", "r"], 1 - sc.solar]], "#3d6fb5", roofBaseColor] : roofBaseColor) as never);
+    }
+    if (sc && !hadScenario.current && tour === null && reducedRef.current) {
       const view = { ...SCENARIO_VIEW, pitch: is3d ? SCENARIO_VIEW.pitch : 0 };
       if (reducedRef.current) map.jumpTo(view);
       else map.flyTo({ ...view, duration: 2600, curve: 1.2, easing: easeInOutCubic, essential: true });
@@ -357,52 +368,97 @@ export function MapView({ features, sourceAttribution, selectedId, onSelect, onS
     // camera moves only when a scenario is first switched on, not on every slider step
   }, [scenario, status, time]);
 
+  // Numbered callouts pinned where each change happens; they match the numbered list beside the map.
+  const callouts = useRef<maplibregl.Marker[]>([]);
+  const calloutKey = scenario ? scenario.changes.map((c) => c.id).join(",") : "";
+  useEffect(() => {
+    const map = mapRef.current;
+    const clear = () => { for (const m of callouts.current) m.remove(); callouts.current = []; };
+    clear();
+    if (!map || status !== "ready" || !scenario) return;
+    callouts.current = scenario.changes.map((c, i) => {
+      const d = el(`map-callout map-callout--${c.id}`);
+      const n = document.createElement("b"); n.textContent = String(i + 1);
+      const t = document.createElement("span"); t.textContent = c.title;
+      d.append(n, t);
+      d.style.setProperty("--i", String(i));
+      return new maplibregl.Marker({ element: d, anchor: "bottom" }).setLngLat(c.at).addTo(map);
+    });
+    return clear;
+  }, [calloutKey, status]);
+
+  // Guided highlights: in a forecast scene the camera visits each change in turn (round robin) and lights up its callout.
+  const [guide, setGuide] = useState(true);
+  const [gi, setGi] = useState(0);
+  const onFocusRef = useRef(onFocusChange);
+  onFocusRef.current = onFocusChange;
+  const changesRef = useRef(scenario?.changes ?? []);
+  changesRef.current = scenario?.changes ?? [];
+  useEffect(() => {
+    const map = mapRef.current;
+    const list = changesRef.current;
+    const mark = (id: string | null) => {
+      callouts.current.forEach((m, i) => m.getElement().classList.toggle("on", list[i]?.id === id));
+      onFocusRef.current?.(id);
+    };
+    if (!map || status !== "ready" || !calloutKey || !guide || reduced || tour !== null || orbit || !list.length) { mark(null); return; }
+    const c = list[gi % list.length]!;
+    mark(c.id);
+    map.flyTo({ center: c.at, zoom: 16.1, pitch: is3d ? 62 : 0, bearing: -50 + ((gi * 47) % 120), duration: GUIDE_FLY_MS, curve: 1.2, easing: easeInOutCubic, essential: true });
+    const t = window.setTimeout(() => setGi((g) => g + 1), GUIDE_FLY_MS + GUIDE_HOLD_MS);
+    const stop = () => setGuide(false);
+    const el2 = map.getCanvasContainer?.();
+    el2?.addEventListener("pointerdown", stop); el2?.addEventListener("wheel", stop, { passive: true });
+    return () => { clearTimeout(t); el2?.removeEventListener("pointerdown", stop); el2?.removeEventListener("wheel", stop); };
+  }, [gi, guide, calloutKey, status, tour, orbit, reduced]);
+  useEffect(() => { if (calloutKey) { setGi(0); setGuide(true); } }, [calloutKey]);
+
   const unavailable = status === "unavailable";
   return (
     <div className="map-wrap" data-map-status={status} data-rendered={rendered ? "true" : "false"} data-motion={reduced ? "reduced" : "full"} data-paused={paused ? "true" : "false"} data-time={time} data-intro={intro}>
       {!unavailable && (
         <div className="map-toolbar" role="group" aria-label="Map view">
-          <button type="button" className="tb tb-text" aria-pressed={auto !== null} onClick={() => { setTour(null); setAuto(auto === null ? 0 : null); }} data-tip="Cinematic camera through landmarks and places"><Icon name="camera" /><span>Auto focus</span></button>
-          <button type="button" className="tb tb-text tour-start" aria-pressed={tour !== null} onClick={() => setTour(tour === null ? 0 : null)} aria-label={tour === null ? "Start story tour" : "End story tour"} data-tip="Story tour, stop by stop"><Icon name="route" /><span>Tour</span></button>
+          <button type="button" className="tb tb-text" aria-pressed={orbit} disabled={reduced} onClick={() => { setTour(null); setOrbit(!orbit); }} data-tip={reduced ? "Off while reduced motion is on" : "Spin the camera 360° around the current spot"}><Icon name="camera" /><span>360° camera</span></button>
+          <button type="button" className="tb tb-text tour-start" aria-pressed={tour !== null} onClick={() => setTour(tour === null ? 0 : null)} aria-label={tour === null ? "Start story tour" : "End story tour"} data-tip="Tour every landmark and place, stop by stop"><Icon name="route" /><span>Tour</span></button>
+          {scenario && <button type="button" className="tb tb-text" aria-pressed={guide && !reduced} disabled={reduced} onClick={() => { setGuide(!guide); setTour(null); setOrbit(false); }} data-tip="Camera visits each forecast highlight in turn"><Icon name="spark" /><span>Highlights</span></button>}
           <span className="tb-sep" aria-hidden="true" />
           <button type="button" className="tb" aria-pressed={is3d} onClick={() => setIs3d(!is3d)} aria-label="3D buildings" data-tip="3D buildings"><Icon name="cube" /></button>
           <span className="seg" role="group" aria-label="Lighting">
             {LIGHTS.map((l) => <button key={l.id} type="button" className="tb" aria-pressed={time === l.id} onClick={() => setTime(l.id)} aria-label={l.label} data-tip={l.label}><Icon name={l.icon} /></button>)}
           </span>
           <button type="button" className="tb" aria-pressed={paused} onClick={() => setPaused(!paused)} aria-label={paused ? "Play motion" : "Pause motion"} data-tip={paused ? "Play motion" : "Pause motion"}><Icon name={paused ? "play" : "pause"} /></button>
-          <button type="button" className="tb" onClick={() => { setAuto(null); flyHome(true); }} aria-label="Replay fly-in" data-tip="Replay fly-in"><Icon name="replay" /></button>
+          <button type="button" className="tb" onClick={() => { setOrbit(false); flyHome(true); }} aria-label="Replay fly-in" data-tip="Replay fly-in"><Icon name="replay" /></button>
         </div>
       )}
       {!unavailable && tour !== null && (() => {
-        const s = TOUR[tour]!;
+        const s = tourStops[Math.min(tour, tourStops.length - 1)]!;
+        const n = tourStops.length;
         return (
           <div className="tour" role="region" aria-label="Story tour" ref={tourPanel} tabIndex={-1} key={s.id}>
-            <p className="tour-kind">{s.kind === "sourced" ? "Sourced fact" : "Example narrative"}</p>
-            <h2>{s.title} <small>(stop {tour + 1} of {TOUR.length})</small></h2>
-            <p>{s.caption}{s.source && <small> Source: {s.source}.</small>}</p>
+            <span className="tour-line" aria-hidden="true" style={{ transform: `scaleX(${(tour + 1) / n})` }} />
+            <p className="tour-step">Stop {tour + 1} of {n}</p>
+            <h2>{s.title}{s.source && <span className="tour-src" tabIndex={0} data-tip={`Source: ${s.source}`} aria-label={`Source: ${s.source}`}><Icon name="info" size={14} /></span>}</h2>
+            <p>{s.caption}</p>
             <div className="tour-nav">
-              <button type="button" disabled={tour === 0} onClick={() => setTour(tour - 1)}>Previous stop</button>
-              {tour < TOUR.length - 1 ? <button type="button" onClick={() => setTour(tour + 1)}>Next stop</button> : <button type="button" onClick={() => { setTour(null); flyHome(true); }}>Finish tour</button>}
-              <button type="button" onClick={() => setTour(null)}>End story tour</button>
+              <button type="button" disabled={tour === 0} onClick={() => setTour(tour - 1)}><Icon name="chevL" size={16} />Previous stop</button>
+              {tour < n - 1 ? <button type="button" onClick={() => setTour(tour + 1)}>Next stop<Icon name="chevR" size={16} /></button> : <button type="button" onClick={() => { setTour(null); flyHome(true); }}>Finish tour</button>}
+              {s.placeId && <button type="button" onClick={() => onSelectRef.current?.(s.placeId!)}>Open details</button>}
+              <button type="button" className="tour-end" onClick={() => setTour(null)} aria-label="End story tour"><Icon name="close" size={16} /></button>
             </div>
-            <ol className="tour-dots" aria-hidden="true">{TOUR.map((x, i) => <li key={x.id} className={i === tour ? "on" : ""} />)}</ol>
           </div>
         );
       })()}
       <div className="map-stage">
         {scenario && <div className="map-haze" aria-hidden="true" style={{ opacity: scenario.haze }} />}
-        {focusStop && (
-          <div className="auto-card" role="region" aria-label="Auto focus" aria-live="polite" key={`${focusStop.id}-${auto}`}>
-            <span className="auto-line" aria-hidden="true" style={{ animationDuration: `${(reduced ? 0 : AUTO_FLY_MS) + AUTO_ORBIT_MS}ms` }} />
-            <p className="tour-kind">{focusStop.kind}</p>
-            <h2>{focusStop.title}</h2>
-            <p>{focusStop.caption}</p>
-            <div className="auto-nav">
-              <button type="button" className="tb" aria-label="Previous" onClick={() => setAuto(((auto ?? 0) - 1 + stops.length) % stops.length)}><Icon name="chevL" /></button>
-              <span>{(auto ?? 0) % stops.length + 1} / {stops.length}</span>
-              <button type="button" className="tb" aria-label="Next" onClick={() => setAuto(((auto ?? 0) + 1) % stops.length)}><Icon name="chevR" /></button>
-              <button type="button" className="tb" aria-label="Stop auto focus" onClick={() => setAuto(null)}><Icon name="close" /></button>
-            </div>
+        {scenario && (
+          <div className="scen-hud" aria-hidden="true">
+            <span className="scen-year" key={scenario.year}>{scenario.year}</span>
+            <ul className="scen-legend">
+              <li><i className="sw sw-new" />Rebuilt / new blocks</li>
+              <li><i className="sw sw-solar" />Rooftop solar</li>
+              <li><i className="sw sw-tall" />Taller = growth</li>
+              <li><i className="sw sw-haze" />Haze = air quality</li>
+            </ul>
           </div>
         )}
         <div ref={host} className="map" role="region" aria-label="Interactive 3D map of Makarba (a text list of the same places follows)" hidden={unavailable} />

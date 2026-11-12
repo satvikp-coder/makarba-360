@@ -169,20 +169,24 @@ describe("MapView (offline 3D)", () => {
     await waitFor(() => expect(m.eased).toContainEqual(expect.objectContaining({ pitch: 0 })));
     expect(screen.getByRole("button", { name: "3D buildings" }).getAttribute("aria-pressed")).toBe("false");
   });
-  it("story tour: steps through sourced and example stops, flying to each, and can be ended", async () => {
-    render(<MapView features={feats} sourceAttribution="x" />);
+  it("story tour: visits every landmark stop, then every place; sources sit in a tooltip; places offer details", async () => {
+    const onSelect = vi.fn();
+    render(<MapView features={feats} sourceAttribution="x" onSelect={onSelect} />);
     const m = h.maps[0]!;
     act(() => m.fire("load"));
     fireEvent.click(screen.getByRole("button", { name: "Start story tour" }));
     const tour = await screen.findByRole("region", { name: "Story tour" });
-    expect(tour.textContent).toContain(`stop 1 of ${TOUR.length}`);
-    expect(tour.textContent).toContain("Sourced fact");
+    const total = TOUR.length + feats.length;
+    expect(tour.textContent).toContain(`Stop 1 of ${total}`);
+    expect(tour.textContent).not.toMatch(/Sourced fact|Example narrative/);
+    expect(screen.getByLabelText(`Source: ${TOUR[0]!.source}`)).toBeTruthy();
     expect(screen.getByRole("button", { name: "Previous stop" })).toHaveProperty("disabled", true);
-    for (let i = 1; i < TOUR.length; i++) fireEvent.click(screen.getByRole("button", { name: "Next stop" }));
-    expect(screen.getByRole("region", { name: "Story tour" }).textContent).toContain("Example narrative");
+    for (let i = 1; i < total; i++) fireEvent.click(screen.getByRole("button", { name: "Next stop" }));
     // jsdom has no matchMedia, so the calm path is used: every stop is a jump, never a timed flight
-    await waitFor(() => expect(m.jumped).toContainEqual(expect.objectContaining({ center: TOUR[TOUR.length - 1]!.center })));
-    expect(TOUR.filter((s) => s.kind === "illustrative").every((s) => /^Example narrative/.test(s.caption))).toBe(true);
+    await waitFor(() => expect(m.jumped.length).toBeGreaterThanOrEqual(total));
+    fireEvent.click(screen.getByRole("button", { name: "Open details" }));
+    expect(onSelect).toHaveBeenCalledWith(String(feats[feats.length - 1]!.id));
+    expect(TOUR.every((s) => !/^Example narrative/.test(s.caption))).toBe(true);
     fireEvent.click(screen.getAllByRole("button", { name: "End story tour" })[0]!);
     expect(screen.queryByRole("region", { name: "Story tour" })).toBeNull();
   });

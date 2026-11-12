@@ -1,23 +1,89 @@
 # Makarba 360°
 
-Participatory Urban Mapping and Community Insights Platform for Makarba, Ahmedabad.
+**A participatory urban atlas of Makarba, Ahmedabad: places, history, community voices and where the trends point.**
 
-**Planning plus initial core implementation.** Authorised researchers collect face-to-face interviews; public visitors only explore approved places, evidence, stories and aggregates. There is no public survey submission.
+Explore the neighbourhood as a living 3D city, follow a guided tour of its landmarks, and see an illustrative picture of how it could change by 2034 (or any year to 2050), driven by Google TimesFM forecasts of real public data.
 
-The source repository is **public**, following the owner's explicit request after planning setup. This does not make research records or the future field/admin applications public. See the [visibility decision](docs/project/visibility-decision.md).
+![Future scenario: the 3D city with numbered forecast highlights](docs/project/screenshots/v2-future-scenario.png)
 
-Interview position and discussed place are separate. Raw responses, exact interview GPS, consent and original media stay private. No geography or findings in this repository are verified field results.
+> **Prototype.** All places, stories and survey figures shown are synthetic examples. Forecasts use public national and Ahmedabad data and are trend extrapolations, not Makarba measurements. Nothing here is a verified field result.
 
-**Quick start:** `./run.sh` (macOS/Linux) or `run.bat` (Windows) launches the synthetic demo; see [how to use](docs/operations/how-to-use.md) and [open issue status](docs/project/open-issues-status.md).
+---
 
-Start with [requirements](docs/product/requirements.md), [architecture](docs/architecture/overview.md), [data model](docs/architecture/data-model.md), [UX screens](docs/product/screen-inventory.md), [roadmap](docs/project/roadmap.md), [issue index](docs/project/issue-index.md), and [setup progress](docs/project/setup-progress.json).
+## Quick start
 
-Two-developer plan: **Varun = Developer A, core platform; Satvik = Developer B, public experience.** See [workstreams](docs/project/two-developer-workstreams.md), [Varun’s A guide](docs/project/DEVELOPER_A_GUIDE.md), [Satvik’s B guide](docs/project/DEVELOPER_B_GUIDE.md), [handoff contracts](docs/project/developer-handoffs.md), and [ownership swap report](docs/project/OWNERSHIP_SWAP_REPORT.md). Varun’s GitHub assignments may await invitation acceptance; previously reserved public issues now belong to Satvik. Historical contributions are preserved.
+```bash
+./run.sh            # macOS / Linux
+run.bat             # Windows
+```
 
-The supplied 23-page blueprint was read in full; see [source provenance](docs/source/README.md) and [traceability](docs/project/traceability-matrix.md). Original PDF redistribution is not assumed; its checksum and page summaries are retained.
+Open the URL Vite prints (usually http://localhost:5173). You need Node 22+ and pnpm (`corepack enable`). The launcher installs dependencies on first run.
 
-Releases: A technical foundation; B private offline-capable fieldwork MVP; C approved public demonstration. Advanced work is optional. Institutional ethics/legal verification, a verified study boundary and offline security validation are external gates before real fieldwork.
+| Command | What it does |
+|---|---|
+| `./run.sh` / `run.bat` | The demo: synthetic API, web app, and Ollama if installed |
+| `./run.sh forecast` | Regenerates the forecasts with TimesFM (Python 3.11; downloads the model on first run) |
+| `./run.sh check` | Runs typecheck, lint and all unit tests |
+| `./run.sh db` / `api` | Runs the PostGIS container or the real API (Docker and a `.env` file) |
 
-Future layout: apps/web (public), apps/field (private PWA), apps/admin (research lead), apps/api (shared backend), packages/shared (contracts), packages/gis, packages/ui, infrastructure. These are documented architecture paths, not empty application scaffolding.
+Full guide: **[How to use](docs/operations/how-to-use.md)**.
 
-No source licence has been selected by the owner. Third-party data and media retain their own licences; repository privacy is not a data-protection substitute.
+## What's inside
+
+| | |
+|---|---|
+| **Explore: Today** | An offline 3D model of Makarba with domes, a colonnade, ghat steps, trees, rooftop tanks, lane markings and street lamps that glow at dusk and night. **Tour** visits every landmark and place, stop by stop. **360° camera** circles the current spot. Lighting switches between day, dusk and night. Click any place for its details. |
+| **Explore: Future scenario** | Pick a year and press **Play** to watch the city change year by year. The highway corridor grows, old plots are rebuilt (orange), rooftops gain solar (blue), haze follows Ahmedabad PM2.5, and traffic picks up. **Highlights** moves the camera through each change in turn, and every change says which forecast drives it. |
+| **Outlook** | 35 indicators in six themes (city, economic, development, social, political, plus optional markets) with charts, an 80% range, units and plain-language tags. Set the end year with a slider (default 2034). |
+| **AI briefing** | "What could this mean for Makarba?", written by an on-device model (Ollama) or Groq. Always labelled **AI-generated**. |
+| **Then & Now, Voices, Insights, Research** | Evidence-led history, community stories, privacy-safe aggregates and the research method, all in one calm reading layout. |
+
+![Outlook](docs/project/screenshots/v2-outlook.png)
+
+![Story tour at Sarkhej Roza](docs/project/screenshots/v2-tour-roza.png)
+
+## Forecasting
+
+| Source | What | Licence |
+|---|---|---|
+| World Bank Open Data | 26 India indicators (GDP, inflation, jobs, urbanisation, energy, health, education, …) | CC BY 4.0 |
+| Worldwide Governance Indicators | 6 political indicators | CC BY 4.0 |
+| Kaggle, CPCB air quality | Ahmedabad PM2.5, NO₂, AQI (monthly) | CC0 |
+| Yahoo Finance (optional) | NIFTY indices, USD/INR, oil, gold; git-ignored, personal use | Yahoo terms |
+
+**Model:** Google **TimesFM 2.5** (200M, zero-shot). Every series is forecast once to 2050 with a 10th–90th percentile band. The year slider reads a prefix of that forecast, which is identical to re-running with a shorter horizon.
+**Details:** [ml/README.md](ml/README.md), and the *Model & data* tab in the app.
+
+**AI keys:** for Groq, add `GROQ_API_KEY=…` to `apps/web/.env.local` (git-ignored). The dev server attaches the key to requests, so it never reaches the browser. Ollama needs no key.
+
+## Repository
+
+```
+apps/web          public site (React, Vite, MapLibre 3D, offline basemap)
+apps/api          shared backend and synthetic mock API
+packages/*        contracts, auth/authz, survey, GIS I/O, insights, place content, …
+ml/               TimesFM forecasting pipeline and tests
+db/, deploy/      migrations, nginx/CSP and deployment config
+docs/             product, architecture, research, operations and project records
+run.sh, run.bat   launchers
+```
+
+**Checks:** `pnpm typecheck && pnpm lint && pnpm test` for unit tests, `pnpm --filter @makarba/web test:e2e` for browser tests (accessibility, offline map, journeys), and `python -m pytest ml` for the pipeline.
+
+## Principles
+
+- **Researcher-only collection.** Trained researchers interview people face to face. There is **no public survey submission**.
+- **Privacy by design.** Interview position and discussed place are stored separately. Raw responses, exact interview GPS, consent records and original media stay private. Only allowlisted, reviewed aggregates are published.
+- **Honest data.** Synthetic examples are disclosed on every page. Forecasts are labelled as national or city trends, and AI text as AI-generated.
+- **External gates before real fieldwork:** institutional ethics and legal approval, a verified study boundary, and offline security validation.
+
+The repository is **public** at the owner's request. This does not make research records or the future field and admin apps public ([visibility decision](docs/project/visibility-decision.md)). No source licence has been chosen yet. Third-party data and media keep their own licences.
+
+## Project docs
+
+- **Product and design:** [requirements](docs/product/requirements.md) · [UX screens](docs/product/screen-inventory.md) · [architecture](docs/architecture/overview.md) · [data model](docs/architecture/data-model.md)
+- **Planning:** [roadmap](docs/project/roadmap.md) · [issue index](docs/project/issue-index.md) · [open issue status](docs/project/open-issues-status.md) · [setup progress](docs/project/setup-progress.json)
+- **Team:** Varun is Developer A (core platform) and Satvik is Developer B (public experience). See [workstreams](docs/project/two-developer-workstreams.md) · [A guide](docs/project/DEVELOPER_A_GUIDE.md) · [B guide](docs/project/DEVELOPER_B_GUIDE.md) · [handoffs](docs/project/developer-handoffs.md) · [ownership swap](docs/project/OWNERSHIP_SWAP_REPORT.md)
+- **Sources:** the 23-page blueprint was read in full; see [source provenance](docs/source/README.md) and [traceability](docs/project/traceability-matrix.md). Media credits are in [media-credits](docs/project/media-credits.md).
+
+Releases: **A** technical foundation → **B** private offline-capable fieldwork MVP → **C** approved public demonstration.

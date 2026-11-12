@@ -82,21 +82,23 @@ test.describe("offline 3D Makarba demo map (all non-local requests aborted)", ()
     expect(await running(page)).toBe(0);
   });
 
-  test("story tour: flies stop to stop with captions marked as sourced fact or example narrative", async ({ page }) => {
+  test("story tour: flies through landmarks then places; sources in a tooltip; 360 camera turns", async ({ page }) => {
     await offline(page);
     await page.goto("/explore");
     await ready(page);
     await page.getByRole("button", { name: "Start story tour" }).click();
     const tour = page.getByRole("region", { name: "Story tour" });
     await expect(tour).toBeFocused();
-    await expect(tour).toContainText("Sourced fact");
+    await expect(tour).toContainText("Stop 1 of 19");
+    await expect(tour.getByLabel(/^Source: /)).toBeVisible();
     await page.getByRole("button", { name: "Next stop" }).click();
     await expect(tour).toContainText("Sarkhej Roza");
-    await page.getByRole("button", { name: "Next stop" }).click();
-    await page.getByRole("button", { name: "Next stop" }).click();
-    await expect(tour).toContainText("Example narrative");
+    for (let i = 0; i < 6; i++) await page.getByRole("button", { name: "Next stop" }).click();
+    await expect(tour.getByRole("button", { name: "Open details" })).toBeVisible();   // stop 8: the first published place
     await tour.getByRole("button", { name: "End story tour" }).click();
     await expect(tour).toHaveCount(0);
+    await page.getByRole("button", { name: "360° camera" }).click();
+    await expect(page.getByRole("button", { name: "360° camera" })).toHaveAttribute("aria-pressed", "true");
   });
 
   test("WebGL unavailable: a flat 2D sketch and the full list replace the 3D map", async ({ page }) => {

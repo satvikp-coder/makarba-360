@@ -35,15 +35,21 @@ The side rail holds every section; collapse it to icons with the round button at
 
 - **Overview:** the particle hero, four headline forecasts for 2034 and short introductions to each section.
 - **Explore:** the 3D map of Makarba.
-  - **Today** (default): the current sketch city. Use **Auto focus** for a cinematic camera that flies to each landmark and place, slowly orbits it and shows its information card. Use ‹ › to skip, or drag the map to take over. **Tour** is the step-by-step story tour (Previous / Next stop). Click a place on the map or in the list to fly there and open its details. The icons switch 3D buildings, Day / Dusk / Night lighting, pause motion and replay the fly-in.
-  - **Future scenario:** choose an end year (2027–2050, default 2034). The city animates to an illustrative version of that year: a taller highway corridor and redeveloped plots (orange) from GDP, denser neighbourhoods from urbanisation, rooftop solar (blue) from the renewable share, haze from Ahmedabad PM2.5, and faster traffic. Each change is listed with the forecast behind it.
+  - **Today** (default): the current city, with domes and colonnade at Sarkhej Roza, ghat steps, trees, rooftop tanks, lane markings, and lamps that glow at dusk and night.
+    - **Tour** visits every landmark and then every place, stop by stop. Use Previous / Next. Place stops have **Open details**, and the ⓘ icon shows a landmark's source.
+    - **360° camera** circles the current spot once. Drag the map to take over.
+    - Click a place on the map or in the list to fly there and see its details.
+    - The other icons toggle 3D buildings, switch Day / Dusk / Night lighting, pause motion and replay the fly-in.
+  - **Future scenario:** choose an end year (2027–2050, default 2034), or press **Play** to watch the city change year by year. A large year badge and a legend sit on the map.
+    - **Highlights** (on by default) moves the camera to each numbered change in turn. The matching callout and card light up. Drag the map to stop it, or use the toolbar button.
+    - The changes: the highway corridor grows, old plots are rebuilt (orange), rooftops gain solar panels (blue), haze follows Ahmedabad PM2.5, and traffic picks up. Each card says which forecast drives it.
   - The **‹** handle at the map's left edge hides the side panel for a full-width map.
 - **Outlook:** choose the end year with the slider.
   - **Theme tiles** count how many indicators are improving or worsening. Click a tile to filter.
   - **Signals** shows a chart per indicator with the 80% range, before → after values with units, and tags (hover them for an explanation). "Why it matters · data" holds the interpretation and the table.
   - **AI briefing** writes "what could this mean for Makarba" with Ollama (on-device) or Groq (cloud). The output is always marked **AI-generated** with the model and time.
   - **Model & data** gives the technical details.
-- **Then & Now, Community Voices, Urban Insights, Research:** unchanged content, inside the same shell.
+- **Then & Now, Community Voices, Urban Insights, Research, place pages:** the same content in one reading layout (card sections, quiet tables, story cards with a coloured edge per kind of statement).
 
 ## 4. Troubleshooting
 
@@ -52,4 +58,4 @@ The side rail holds every section; collapse it to icons with the round button at
 - **Forecasts are unavailable:** run `./run.sh forecast`. Use `--naive` for an offline fallback.
 - **Port 4010 is busy:** stop the old mock process or set `MOCK_API_PORT`.
 - **The 3D map does not appear:** WebGL is unavailable, so a 2D sketch and the list take its place.
-- **Reduced motion:** with the OS setting on, flights become cuts, particles are drawn already settled, and Auto focus steps every 9 s instead of moving continuously.
+- **Reduced motion:** with the OS setting on, flights become cuts, particles are drawn already settled, and the 360° camera and Highlights are off.

@@ -61,20 +61,66 @@ export const water: FC = { type: "FeatureCollection", features: [poly(LAKE, { ki
 export const canal: FC = { type: "FeatureCollection", features: [line(CANAL, { kind: "canal" })] };
 export const greens: FC = { type: "FeatureCollection", features: [...GREENS.map((r) => poly(r, { kind: "green" })), poly(MELA, { kind: "ground" })] };
 
-/** Simplified massing of the Roza complex: stepped blocks suggest the tomb and its dome, the mosque and the courtyard walls. */
-export const landmark: FC = {
-  type: "FeatureCollection",
-  features: [
-    poly(box(72.5032, 22.9912, 72.5058, 22.9914), { h: 5, b: 0 }), poly(box(72.5032, 22.9932, 72.5058, 22.9934), { h: 5, b: 0 }),
-    poly(box(72.5032, 22.9912, 72.5034, 22.9934), { h: 5, b: 0 }), poly(box(72.5056, 22.9912, 72.5058, 22.9934), { h: 5, b: 0 }),
-    poly(box(72.5043, 22.99215, 72.50495, 22.99275), { h: 13, b: 0 }),
-    poly(box(72.50443, 22.99228, 72.50482, 22.99262), { h: 17, b: 13 }),
-    poly(box(72.50451, 22.99236, 72.50474, 22.99254), { h: 20, b: 17 }),
-    poly(box(72.50458, 22.99241, 72.50467, 22.99249), { h: 22, b: 20 }),
-    poly(box(72.5035, 22.9927, 72.5041, 22.99315), { h: 10, b: 0 }),
-    poly(box(72.5036, 22.99155, 72.5041, 22.9919), { h: 8, b: 0 }),
-  ],
+/** A regular n-gon ring (used for domes, tanks, tree canopies and pillars). Longitude is stretched so circles stay round. */
+const KXr = Math.cos((23 * Math.PI) / 180);
+export const ngon = (c: Pos, r: number, n = 10, rot = 0): Pos[] =>
+  Array.from({ length: n }, (_, i) => { const a = rot + (i / n) * Math.PI * 2; return [c[0] + (Math.cos(a) * r) / KXr, c[1] + Math.sin(a) * r] as Pos; });
+/** A dome as stacked, narrowing tiers on a drum, with a finial: reads as a dome at map zooms without any mesh. */
+function dome(c: Pos, r: number, base: number, rise: number, part = "dome"): F[] {
+  const tiers = [1, 0.97, 0.9, 0.8, 0.66, 0.48, 0.28];
+  const out = tiers.map((k, i) => poly(ngon(c, r * k, 16), { b: base + (rise * i) / tiers.length, h: base + (rise * (i + 1)) / tiers.length, part }));
+  out.push(poly(ngon(c, r * 0.08, 6), { b: base + rise, h: base + rise * 1.25, part: "finial" }));
+  return out;
+}
+const along = (a: Pos, b: Pos, step: number): Pos[] => {
+  const n = Math.max(1, Math.round(Math.hypot((b[0] - a[0]) * KXr, b[1] - a[1]) / step));
+  return Array.from({ length: n + 1 }, (_, i) => [a[0] + ((b[0] - a[0]) * i) / n, a[1] + ((b[1] - a[1]) * i) / n] as Pos);
 };
+const ring = (outer: Pos[], inner: Pos[], properties: Props): F => ({ type: "Feature", properties, geometry: { type: "Polygon", coordinates: [[...outer, outer[0]!], [...inner, inner[0]!].reverse()] } });
+const scaleRing = (r: Pos[], k: number): Pos[] => {
+  const cx = r.reduce((a, p) => a + p[0], 0) / r.length, cy = r.reduce((a, p) => a + p[1], 0) / r.length;
+  return r.map(([x, y]) => [cx + (x - cx) * k, cy + (y - cy) * k] as Pos);
+};
+
+/**
+ * Massing of the Roza complex, still a sketch but with its parts legible: courtyard walls with an inner colonnade, the tomb on a plinth
+ * with drum and dome, the mosque with a row of small domes, the gateway, and Begada's palace with chhatris at the lake's south-west corner
+ * (its position is sourced; its form is not). `part` lets the style tint stone, dome and finial differently.
+ */
+export const landmark: FC = (() => {
+  const f: F[] = [
+    poly(box(72.5032, 22.9912, 72.5058, 22.9914), { h: 5, b: 0, part: "wall" }), poly(box(72.5032, 22.9932, 72.5058, 22.9934), { h: 5, b: 0, part: "wall" }),
+    poly(box(72.5032, 22.9912, 72.5034, 22.9934), { h: 5, b: 0, part: "wall" }), poly(box(72.5056, 22.9912, 72.5058, 22.9934), { h: 5, b: 0, part: "wall" }),
+    // tomb: plinth, hall, parapet, drum, dome
+    poly(box(72.50425, 22.99208, 72.50500, 22.99282), { h: 1.6, b: 0, part: "plinth" }),
+    poly(box(72.5043, 22.99215, 72.50495, 22.99275), { h: 11, b: 1.6, part: "stone" }),
+    poly(box(72.50428, 22.99213, 72.50497, 22.99277), { h: 12, b: 11, part: "parapet" }),
+    poly(ngon([72.504625, 22.99245], 0.00019, 16), { h: 14, b: 12, part: "stone" }),
+    ...dome([72.504625, 22.99245], 0.00018, 14, 9),
+    // corner chhatris on the tomb roof
+    ...[[72.50438, 22.99222], [72.50487, 22.99222], [72.50438, 22.99268], [72.50487, 22.99268]].flatMap((c) => [
+      poly(ngon(c as Pos, 0.000045, 8), { h: 14, b: 12, part: "stone" }), ...dome(c as Pos, 0.000045, 14, 2.2)]),
+    // mosque: prayer hall with a row of small domes and two short minaret stumps
+    poly(box(72.5035, 22.9927, 72.5041, 22.99315), { h: 9, b: 0, part: "stone" }),
+    ...along([72.50365, 22.99282], [72.50365, 22.99303], 0.00005).flatMap((c) => dome(c, 0.00006, 9, 3.4)),
+    ...along([72.50395, 22.99282], [72.50395, 22.99303], 0.00005).flatMap((c) => dome(c, 0.00006, 9, 3.4)),
+    poly(ngon([72.50352, 22.99273], 0.00004, 8), { h: 13, b: 0, part: "stone" }), poly(ngon([72.50408, 22.99273], 0.00004, 8), { h: 13, b: 0, part: "stone" }),
+    // gateway
+    poly(box(72.5036, 22.99155, 72.5041, 22.9919), { h: 8, b: 0, part: "stone" }), ...dome([72.503855, 22.991725], 0.00009, 8, 3),
+    // Begada's palace at the lake's south-west corner, with two chhatris
+    poly(box(72.50175, 22.98845, 72.50215, 22.98875), { h: 7, b: 0, part: "stone" }),
+    ...[[72.50185, 22.9886], [72.50205, 22.9886]].flatMap((c) => dome(c as Pos, 0.00006, 7, 2.6)),
+  ];
+  // inner colonnade: square pillars along each courtyard wall
+  const pillars = [
+    ...along([72.50345, 22.99152], [72.50565, 22.99152], 0.00011), ...along([72.50345, 22.99308], [72.50565, 22.99308], 0.00011),
+    ...along([72.50422, 22.99165], [72.50422, 22.99198], 0.00011), ...along([72.50548, 22.99165], [72.50548, 22.99305], 0.00011),
+  ];
+  for (const c of pillars) f.push(poly(ngon(c, 0.000016, 4, Math.PI / 4), { h: 4.2, b: 0, part: "stone" }));
+  // stone ghat steps around the lake
+  [[1.1, 1.07, 0.9], [1.07, 1.035, 0.6], [1.035, 1.0, 0.3]].forEach(([o, i, h]) => f.push(ring(scaleRing(LAKE, o!), scaleRing(LAKE, i!), { h: h!, b: 0, part: "ghat" })));
+  return { type: "FeatureCollection", features: f };
+})();
 
 // --- procedural buildings ---------------------------------------------------------------------------------------------------
 function rng(seed: number) {
@@ -145,29 +191,87 @@ export function generateBuildings(seed = 2026): FC {
   return { type: "FeatureCollection", features };
 }
 
+/** Rooftop detail for the generated city: stair/lift rooms on taller blocks, black water tanks on low-rise roofs. Same zone/r/h as
+ *  the building below, so forecast scenarios can lift them with it. */
+export function generateRoofs(b: FC): FC {
+  const features: F[] = [];
+  for (const f of b.features) {
+    const p = f.properties, h = Number(p["h"]), r = Number(p["r"] ?? 0.5);
+    if (p["mill"] || f.geometry.type !== "Polygon") continue;
+    const ringPts = f.geometry.coordinates[0]!.slice(0, 4);
+    const c: Pos = [ringPts.reduce((a, q) => a + q[0], 0) / 4, ringPts.reduce((a, q) => a + q[1], 0) / 4];
+    const shared = { h, zone: String(p["zone"]), r };
+    if (h >= 12) {
+      const k = 0.32, off: Pos = [(ringPts[1]![0] - c[0]) * 0.35, (ringPts[1]![1] - c[1]) * 0.35];
+      features.push(poly(ringPts.map(([x, y]) => [c[0] + off[0] + (x - c[0]) * k, c[1] + off[1] + (y - c[1]) * k] as Pos), { ...shared, extra: 3, kind: "room" }));
+    }
+    if (r > 0.25) features.push(poly(ngon([c[0] - (ringPts[1]![0] - c[0]) * 0.3, c[1] - (ringPts[1]![1] - c[1]) * 0.3], 0.000014, 8), { ...shared, extra: 1.7, kind: "tank" }));
+  }
+  return { type: "FeatureCollection", features };
+}
+
+/** Trees: canopies on short trunks along local streets, in the parks and around the lake, kept off buildings, water and roads. */
+export function generateTrees(b: FC, seed = 7): { canopies: FC; trunks: FC } {
+  const r = rng(seed);
+  const spots: Pos[] = [];
+  for (const l of LOCAL) for (const p of along(l[0]!, l[1]!, 0.00028)) spots.push([p[0] + 0.00013 / KXr, p[1] + 0.00011]);
+  for (const g of GREENS) for (let i = 0; i < 26; i++) spots.push([g[0]![0] + r() * (g[1]![0] - g[0]![0]), g[0]![1] + r() * (g[2]![1] - g[0]![1])]);
+  for (const p of scaleRing(LAKE, 1.22)) spots.push(p);
+  for (const p of along([72.5085, 22.9958], [72.5135, 22.9952], 0.0002)) spots.push(p);
+  const rings = b.features.map((f) => (f.geometry.type === "Polygon" ? f.geometry.coordinates[0]! : []));
+  const free = (p: Pos) => !inside(p, scaleRing(LAKE, 1.12)) && !inside(p, ROZA) && !rings.some((q) => inside(p, q)) && lineDist(p, HIGHWAY) > 0.0003 && lineDist(p, CANAL) > 0.0002;
+  const canopies: F[] = [], trunks: F[] = [];
+  for (const p of spots) {
+    if (!free(p)) continue;
+    const size = 0.000045 + r() * 0.00004, top = 5 + r() * 6;
+    canopies.push(poly(ngon(p, size, 7, r()), { b: 2.2, h: top, tone: Math.round(r() * 2) }));
+    trunks.push(poly(ngon(p, 0.000007, 4), { h: 2.4 }));
+  }
+  return { canopies: { type: "FeatureCollection", features: canopies }, trunks: { type: "FeatureCollection", features: trunks } };
+}
+
+/** Street lamps along the highway and arterials: invisible by day, warm pools of light at dusk and night. */
+export const lamps: FC = {
+  type: "FeatureCollection",
+  features: [...along(HIGHWAY[0]!, HIGHWAY[3]!, 0.0006), ...along(ARTERIAL[0]!, ARTERIAL[3]!, 0.0007), ...along(FACTORY_ROAD[0]!, FACTORY_ROAD[2]!, 0.0006)]
+    .map((c) => ({ type: "Feature" as const, properties: {}, geometry: { type: "Point" as const, coordinates: c } })),
+};
+
+// The generated city is deterministic and costly enough to build once.
+let cityCache: { buildings: FC; roofs: FC; trees: { canopies: FC; trunks: FC } } | null = null;
+export function city() {
+  if (!cityCache) { const buildings = generateBuildings(); cityCache = { buildings, roofs: generateRoofs(buildings), trees: generateTrees(buildings) }; }
+  return cityCache;
+}
+
 // --- themes ----------------------------------------------------------------------------------------------------------------
 export type TimeOfDay = "day" | "dusk" | "night";
 export interface Theme {
   bg: string; green: string; ground: string; water: string; waterLine: string; canalFlow: string; road: string; casing: string; highway: string;
   traffic: string; low: string; high: string; mill: string; landmark: string;
+  /** plaster variety for low-rise walls, rooftop rooms, water tanks, tree canopy tones, trunk, stone, dome, lane marking, lamp glow */
+  low2: string; low3: string; room: string; tank: string; tree: [string, string, string]; trunk: string; stone: string; dome: string; marking: string; lamp: number;
   light: maplibregl.LightSpecification; sky: Record<string, string | number>;
 }
 export const THEMES: Record<TimeOfDay, Theme> = {
   day: {
     bg: "#efe8da", green: "#bcd8a4", ground: "#e2d3ae", water: "#7fbfd4", waterLine: "#4c91a3", canalFlow: "#f4fbff", road: "#ffffff", casing: "#d3c6ad",
     highway: "#f3cf86", traffic: "#b5522f", low: "#efe2c6", high: "#9fb7b4", mill: "#c9a27e", landmark: "#d9a066",
+    low2: "#f0d4c0", low3: "#dfe3d6", room: "#d8ccb4", tank: "#2b2b2b", tree: ["#7fae6a", "#6a9c5a", "#94bd78"], trunk: "#7a5a3c", stone: "#d6b48a", dome: "#e2c49c", marking: "#ffffff", lamp: 0,
     light: { anchor: "viewport", color: "#ffffff", intensity: 0.35, position: [1.4, 210, 35] },
     sky: { "sky-color": "#9cc9e6", "horizon-color": "#f3efe4", "fog-color": "#efe8da", "sky-horizon-blend": 0.6, "horizon-fog-blend": 0.6, "fog-ground-blend": 0.75 },
   },
   dusk: {
     bg: "#e7d2c1", green: "#a9bf8f", ground: "#d9bf98", water: "#6b98b8", waterLine: "#3d6b8a", canalFlow: "#ffe2c4", road: "#f7ebe0", casing: "#c4a78f",
     highway: "#f2b073", traffic: "#7a2e1c", low: "#efcfae", high: "#8b8fae", mill: "#b98466", landmark: "#e59a5c",
+    low2: "#ecbfa2", low3: "#d6c9b8", room: "#cfb393", tank: "#2a2522", tree: ["#7d9a5e", "#6b8a52", "#8ea66c"], trunk: "#6b4a33", stone: "#e0a476", dome: "#efb886", marking: "#fff4e6", lamp: 0.55,
     light: { anchor: "viewport", color: "#ffc58a", intensity: 0.5, position: [1.3, 260, 70] },
     sky: { "sky-color": "#f0a37a", "horizon-color": "#f7d2a6", "fog-color": "#e7d2c1", "sky-horizon-blend": 0.8, "horizon-fog-blend": 0.7, "fog-ground-blend": 0.7 },
   },
   night: {
     bg: "#0f1d29", green: "#1c3428", ground: "#2a2a24", water: "#163b55", waterLine: "#2f6e93", canalFlow: "#7fd3ff", road: "#33475a", casing: "#1b2a37",
     highway: "#d89a3c", traffic: "#ffd27a", low: "#2b3e50", high: "#5d7895", mill: "#4a3d36", landmark: "#c98a4a",
+    low2: "#334658", low3: "#2a3a48", room: "#3a4f63", tank: "#11161b", tree: ["#1f3a2c", "#1a3326", "#264536"], trunk: "#2a221c", stone: "#a87a4c", dome: "#d6a066", marking: "#8aa0b4", lamp: 1,
     light: { anchor: "viewport", color: "#a8c4ff", intensity: 0.25, position: [1.2, 40, 50] },
     sky: { "sky-color": "#0b1424", "horizon-color": "#22344d", "fog-color": "#0f1d29", "sky-horizon-blend": 0.7, "horizon-fog-blend": 0.8, "fog-ground-blend": 0.8 },
   },
@@ -186,8 +290,14 @@ export function themedPaint(t: Theme): Record<string, Record<string, unknown>> {
     road: { "line-color": ["match", ["get", "kind"], "highway", t.highway, t.road] },
     "traffic-a": { "line-color": t.traffic },
     "traffic-b": { "line-color": t.traffic },
-    buildings: { "fill-extrusion-color": ["case", ["has", "mill"], t.mill, ["interpolate", ["linear"], ["get", "h"], 3, t.low, 50, t.high]] },
-    landmark: { "fill-extrusion-color": t.landmark },
+    buildings: { "fill-extrusion-color": ["case", ["has", "mill"], t.mill,
+      ["interpolate", ["linear"], ["get", "h"], 3, ["match", ["%", ["round", ["*", ["coalesce", ["get", "r"], 0], 30]], 3], 0, t.low, 1, t.low2, t.low3], 22, t.low3, 50, t.high]] },
+    landmark: { "fill-extrusion-color": ["match", ["get", "part"], "dome", t.dome, "finial", t.highway, "ghat", t.stone, "plinth", t.stone, "parapet", t.dome, t.landmark] },
+    roofs: { "fill-extrusion-color": ["match", ["get", "kind"], "tank", t.tank, t.room] },
+    "tree-canopy": { "fill-extrusion-color": ["match", ["get", "tone"], 0, t.tree[0], 1, t.tree[1], t.tree[2]] },
+    "tree-trunk": { "fill-extrusion-color": t.trunk },
+    "lane-marking": { "line-color": t.marking },
+    lamps: { "circle-opacity": t.lamp, "circle-stroke-opacity": t.lamp },
   };
 }
 
@@ -215,7 +325,11 @@ export function buildOfflineStyle(time: TimeOfDay = "day"): maplibregl.StyleSpec
       water: { type: "geojson", data: water as unknown as maplibregl.GeoJSONSourceSpecification['data'] },
       canal: { type: "geojson", data: canal as unknown as maplibregl.GeoJSONSourceSpecification['data'], attribution: BASEMAP_ATTRIBUTION },
       roads: { type: "geojson", data: roads as unknown as maplibregl.GeoJSONSourceSpecification['data'] },
-      buildings: { type: "geojson", data: generateBuildings() as unknown as maplibregl.GeoJSONSourceSpecification['data'] },
+      buildings: { type: "geojson", data: city().buildings as unknown as maplibregl.GeoJSONSourceSpecification['data'] },
+      roofs: { type: "geojson", data: city().roofs as unknown as maplibregl.GeoJSONSourceSpecification['data'] },
+      "tree-canopy": { type: "geojson", data: city().trees.canopies as unknown as maplibregl.GeoJSONSourceSpecification['data'] },
+      "tree-trunk": { type: "geojson", data: city().trees.trunks as unknown as maplibregl.GeoJSONSourceSpecification['data'] },
+      lamps: { type: "geojson", data: lamps as unknown as maplibregl.GeoJSONSourceSpecification['data'] },
       landmark: { type: "geojson", data: landmark as unknown as maplibregl.GeoJSONSourceSpecification['data'] },
     },
     layers: [
@@ -227,10 +341,15 @@ export function buildOfflineStyle(time: TimeOfDay = "day"): maplibregl.StyleSpec
       { id: "canal-flow", type: "line", source: "canal", layout: { "line-cap": "butt", "line-join": "round" }, paint: { ...(p["canal-flow"] as object), "line-width": w(1, 3, 8), "line-opacity": 0.7, "line-dasharray": DASH_STEPS[0] } as never },
       { id: "road-casing", type: "line", source: "roads", layout: { "line-cap": "round", "line-join": "round" }, paint: { ...(p["road-casing"] as object), "line-width": byKind([6, 22, 70], [4, 14, 44], [2, 8, 26]) } as never },
       { id: "road", type: "line", source: "roads", layout: { "line-cap": "round", "line-join": "round" }, paint: { ...(p["road"] as object), "line-width": byKind([4, 18, 60], [3, 11, 36], [1, 6, 20]) } as never },
+      { id: "lane-marking", type: "line", source: "roads", minzoom: 14.5, filter: ["!=", ["get", "kind"], "local"], paint: { ...(p["lane-marking"] as object), "line-width": w(0.5, 1, 3), "line-opacity": 0.85, "line-dasharray": [3, 3] } as never },
       { id: "traffic-a", type: "line", source: "roads", filter: ["==", ["get", "kind"], "highway"], paint: { ...(p["traffic-a"] as object), "line-width": w(1, 2.5, 6), "line-offset": w(1, 4, 14), "line-opacity": 0.85, "line-dasharray": DASH_STEPS[0] } as never },
       { id: "traffic-b", type: "line", source: "roads", filter: ["==", ["get", "kind"], "highway"], paint: { ...(p["traffic-b"] as object), "line-width": w(1, 2.5, 6), "line-offset": w(-1, -4, -14), "line-opacity": 0.85, "line-dasharray": DASH_STEPS[7] } as never },
       { id: "buildings", type: "fill-extrusion", source: "buildings", minzoom: 13, paint: { ...(p["buildings"] as object), "fill-extrusion-height": ["interpolate", ["linear"], ["zoom"], 13, 0, 14.5, ["get", "h"]], "fill-extrusion-base": 0, "fill-extrusion-opacity": 0.92, "fill-extrusion-height-transition": extrusionTransition } as never },
-      { id: "landmark", type: "fill-extrusion", source: "landmark", paint: { ...(p["landmark"] as object), "fill-extrusion-height": ["get", "h"], "fill-extrusion-base": ["get", "b"], "fill-extrusion-opacity": 0.95 } as never },
+      { id: "roofs", type: "fill-extrusion", source: "roofs", minzoom: 15, paint: { ...(p["roofs"] as object), "fill-extrusion-base": ["get", "h"], "fill-extrusion-height": ["+", ["get", "h"], ["get", "extra"]], "fill-extrusion-opacity": 0.95, "fill-extrusion-height-transition": extrusionTransition, "fill-extrusion-base-transition": extrusionTransition } as never },
+      { id: "landmark", type: "fill-extrusion", source: "landmark", paint: { ...(p["landmark"] as object), "fill-extrusion-height": ["get", "h"], "fill-extrusion-base": ["get", "b"], "fill-extrusion-opacity": 1 } as never },
+      { id: "tree-trunk", type: "fill-extrusion", source: "tree-trunk", minzoom: 15.5, paint: { ...(p["tree-trunk"] as object), "fill-extrusion-height": ["get", "h"], "fill-extrusion-opacity": 1 } as never },
+      { id: "tree-canopy", type: "fill-extrusion", source: "tree-canopy", minzoom: 15, paint: { ...(p["tree-canopy"] as object), "fill-extrusion-base": ["get", "b"], "fill-extrusion-height": ["interpolate", ["linear"], ["zoom"], 15, ["get", "b"], 15.6, ["get", "h"]], "fill-extrusion-opacity": 0.96 } as never },
+      { id: "lamps", type: "circle", source: "lamps", minzoom: 14, paint: { ...(p["lamps"] as object), "circle-color": "#ffd58a", "circle-radius": ["interpolate", ["linear"], ["zoom"], 14, 3, 18, 18], "circle-blur": 0.9, "circle-pitch-alignment": "map", "circle-stroke-width": 1, "circle-stroke-color": "#fff3d0" } as never },
     ],
   };
 }

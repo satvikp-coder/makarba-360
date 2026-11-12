@@ -154,7 +154,18 @@ export function PlaceList({ fetcher, withMap = false, makeSource = localSource }
   const setFuture = (on: boolean) => { const p = new URLSearchParams(sanitizeQuery("P02", params)); if (on) p.set("future", "1"); else { p.delete("future"); p.delete("year"); } setParams(p); };
   const fc = useForecasts(undefined, future);
   const [year, setYear] = useEndYear(fc.doc?.maxYear ?? 2050);
-  const scenario: Scenario | null = future && fc.doc ? scenarioFor(fc.doc, year) : null;
+  // "Play" grows the city year by year from today to the chosen year; the map's height transitions make it continuous.
+  const [playYear, setPlayYear] = useState<number | null>(null);
+  useEffect(() => {
+    if (playYear === null) return;
+    if (playYear >= year) { const t = setTimeout(() => setPlayYear(null), 600); return () => clearTimeout(t); }
+    const t = setTimeout(() => setPlayYear(playYear + 1), 420);
+    return () => clearTimeout(t);
+  }, [playYear, year]);
+  useEffect(() => { if (!future) setPlayYear(null); }, [future]);
+  const shownYear = playYear ?? year;
+  const [focusId, setFocusId] = useState<string | null>(null);
+  const scenario: Scenario | null = future && fc.doc ? scenarioFor(fc.doc, shownYear) : null;
   const [panel, setPanel] = useState(true);
   return (
     <section aria-labelledby="h" className={withMap ? `explore-page${panel ? "" : " panel-closed"}` : undefined}>
@@ -166,7 +177,8 @@ export function PlaceList({ fetcher, withMap = false, makeSource = localSource }
           <button type="button" aria-pressed={future} onClick={() => setFuture(true)}>Future scenario</button>
         </div>
       )}
-      {future && <FuturePanel scenario={scenario} error={fc.err} year={year} setYear={setYear} max={fc.doc?.maxYear ?? 2050} />}
+      {future && <FuturePanel scenario={scenario} error={fc.err} year={year} setYear={(y) => { setPlayYear(null); setYear(y); }} max={fc.doc?.maxYear ?? 2050}
+        focusId={focusId} playing={playYear !== null} onPlay={() => setPlayYear(playYear === null ? new Date().getFullYear() + 1 : null)} />}
       <div role="status" aria-live="polite">
         {r === "loading" && t.loading}
         {r !== "loading" && r.status === "error" && <span>{t.errorPlaces}</span>}
@@ -212,7 +224,7 @@ export function PlaceList({ fetcher, withMap = false, makeSource = localSource }
           <div className="explore-map">
             <button type="button" className="panel-toggle tb" aria-expanded={panel} aria-label={panel ? "Hide side panel" : "Show side panel"} data-tip={panel ? "Hide side panel (full-width map)" : "Show side panel"} onClick={() => setPanel(!panel)}><Icon name={panel ? "chevL" : "chevR"} /></button>
       {withMap && r !== "loading" && r.status === "ok" && r.places.length > 0 && (
-        <Suspense fallback={<p role="status">Loading map…</p>}><MapView features={view.features} sourceAttribution={r.synthetic ? "Places: prototype example data (fictional)" : "Place data: Makarba 360 published snapshot"} selectedId={selected} onSelect={setSelected} onStatus={setMapStatus} scenario={scenario} /></Suspense>
+        <Suspense fallback={<p role="status">Loading map…</p>}><MapView features={view.features} sourceAttribution={r.synthetic ? "Places: prototype example data (fictional)" : "Place data: Makarba 360 published snapshot"} selectedId={selected} onSelect={setSelected} onStatus={setMapStatus} scenario={scenario} onFocusChange={setFocusId} /></Suspense>
       )}
           </div>
           <div className="sheet" data-state={sheet} ref={sheetRef} hidden={future}
@@ -279,25 +291,32 @@ export function PlaceList({ fetcher, withMap = false, makeSource = localSource }
   );
 }
 
-/** Explains, change by change, what the 3D scene is showing for the chosen year and why. */
-function FuturePanel({ scenario, error, year, setYear, max }: { scenario: Scenario | null; error: boolean; year: number; setYear: (y: number) => void; max: number }) {
-  if (error) return <p role="alert">Forecasts are unavailable. Generate them with <code>python ml/forecast.py</code>.</p>;
+/** Explains, change by change, what the 3D scene is showing for the chosen year and why. Numbers match the callouts on the map. */
+function FuturePanel({ scenario, error, year, setYear, max, playing, onPlay, focusId }: { scenario: Scenario | null; error: boolean; year: number; setYear: (y: number) => void; max: number; playing: boolean; onPlay: () => void; focusId: string | null }) {
+  if (error) return <p role="alert">Forecasts are unavailable. Generate them with <code>./run.sh forecast</code>.</p>;
   if (!scenario) return <ParticleLoader label="Loading the forecast scene…" />;
   return (
     <section className="future-panel" aria-labelledby="future-h">
-      <h2 id="future-h">Makarba in {year}: what could change</h2>
-      <YearSlider year={year} onChange={setYear} max={max} />
-      <p className="notice"><small>Illustrative scene driven by national TimesFM forecasts (India). Each change below is a stated mapping from one indicator; it is not a plan or a local projection.</small></p>
+      <h2 id="future-h">Makarba in {scenario.year}</h2>
+      <p className="lead">How the city could look if today's trends continue. Press play to watch it change year by year.</p>
+      <div className="future-controls">
+        <button type="button" className="btn play" aria-pressed={playing} onClick={onPlay}><Icon name={playing ? "pause" : "play"} />{playing ? "Pause" : `Play to ${year}`}</button>
+        <YearSlider year={year} onChange={setYear} max={max} />
+      </div>
       <ol className="changes">
         {scenario.changes.map((c, i) => (
-          <li key={c.id} style={{ "--i": i } as CSSProperties} className={`chg chg-${c.id}`}>
-            <h3>{c.title}</h3>
-            <p className="chg-because">{c.because}</p>
-            <p>{c.effect}</p>
+          <li key={c.id} style={{ "--i": i } as CSSProperties} className={`chg chg-${c.id}${focusId === c.id ? " on" : ""}`} aria-current={focusId === c.id ? "true" : undefined}>
+            <span className="chg-n" aria-hidden="true">{i + 1}</span>
+            <div>
+              <h3>{c.title}</h3>
+              <p>{c.effect}</p>
+              <p className="chg-because" data-tip="The forecast this change is based on">{c.because}</p>
+            </div>
           </li>
         ))}
       </ol>
-      <p><Link to={`/forecasts${year === 2034 ? "" : `?year=${year}`}`}>All indicators, AI briefing and model details</Link></p>
+      <p className="hint"><Icon name="info" size={14} /> Illustrative: each change follows one national or Ahmedabad forecast. Not a plan.</p>
+      <p><Link to={`/forecasts${year === 2034 ? "" : `?year=${year}`}`}>All indicators and the AI briefing →</Link></p>
     </section>
   );
 }
