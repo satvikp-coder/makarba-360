@@ -8,6 +8,8 @@ The source repository is **public**, following the owner's explicit request afte
 
 Interview position and discussed place are separate. Raw responses, exact interview GPS, consent and original media stay private. No geography or findings in this repository are verified field results.
 
+**Quick start:** `./run.sh` (macOS/Linux) or `run.bat` (Windows) launches the synthetic demo; see [how to use](docs/operations/how-to-use.md) and [open issue status](docs/project/open-issues-status.md).
+
 Start with [requirements](docs/product/requirements.md), [architecture](docs/architecture/overview.md), [data model](docs/architecture/data-model.md), [UX screens](docs/product/screen-inventory.md), [roadmap](docs/project/roadmap.md), [issue index](docs/project/issue-index.md), and [setup progress](docs/project/setup-progress.json).
 
 Two-developer plan: **Varun = Developer A, core platform; Satvik = Developer B, public experience.** See [workstreams](docs/project/two-developer-workstreams.md), [Varun’s A guide](docs/project/DEVELOPER_A_GUIDE.md), [Satvik’s B guide](docs/project/DEVELOPER_B_GUIDE.md), [handoff contracts](docs/project/developer-handoffs.md), and [ownership swap report](docs/project/OWNERSHIP_SWAP_REPORT.md). Varun’s GitHub assignments may await invitation acceptance; previously reserved public issues now belong to Satvik. Historical contributions are preserved.

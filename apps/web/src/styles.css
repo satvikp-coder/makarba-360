@@ -105,3 +105,23 @@ section table caption { text-align: left; font-weight: 600; padding-bottom: .25r
 section th, section td { border: 1px solid #888; padding: .35rem .6rem; text-align: left; }
 .bar { display: inline-block; height: .9rem; background: #14315c; min-width: 2px; }
 td[aria-hidden="true"] { min-width: 6rem; }
+
+/* v2 theme: refined type, cards, glass header, 3D tilt control */
+:root { --ink:#0f2a29; --card:#fffdf8; --accent:#D27A55; --radius:14px; --shadow:0 6px 24px rgba(22,61,59,.12); }
+body{background:radial-gradient(1200px 500px at 80% -10%,#fff3d6,transparent),var(--ivory);color:var(--ink);font-family:Inter,"Noto Sans",system-ui,sans-serif}
+header{background:rgba(22,61,59,.92);backdrop-filter:blur(10px);box-shadow:var(--shadow)}
+nav a{padding:0 10px;border-radius:999px;text-decoration:none}nav a:hover,nav a.active{background:rgba(246,242,233,.16)}
+.map{border-radius:var(--radius);box-shadow:var(--shadow);border:0}
+.map-wrap{position:relative}
+.tilt{position:absolute;z-index:2;top:10px;left:10px;padding:0 14px;border:0;border-radius:999px;background:var(--card);color:var(--teal);box-shadow:var(--shadow);cursor:pointer;font-weight:600}
+.tilt[aria-pressed=true]{background:var(--teal);color:var(--ivory)}
+.forecasts{max-width:1100px;margin:0 auto}
+.notice{background:#fff3d6;border-left:4px solid var(--sand);padding:10px 14px;border-radius:8px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.chips button{padding:0 14px;border:1px solid var(--teal);border-radius:999px;background:transparent;color:var(--teal);text-transform:capitalize;cursor:pointer}
+.chips button[aria-pressed=true]{background:var(--teal);color:var(--ivory)}
+.cards{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(320px,1fr))}
+.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px}
+.card h2{margin:0 0 8px;font-size:1.1rem}.card small{color:var(--accent);text-transform:uppercase;font-size:.7rem;margin-left:6px}
+.card svg{width:100%;height:auto}.card svg text{font-size:11px;fill:#4a5d5c}
+.hist{stroke:var(--teal);stroke-width:2.5}.fcst{stroke:var(--accent);stroke-width:2.5;stroke-dasharray:6 4}.band{fill:var(--accent);opacity:.18}

@@ -1,4 +1,5 @@
 import { Suspense, lazy, useCallback, useEffect, useRef, useState } from "react";
+import { Forecasts } from "./Forecasts.js";
 import { Link, NavLink, Outlet, Route, Routes, useLocation, useSearchParams } from "react-router-dom";
 import { sanitizeQuery } from "@makarba/public-ia";
 import { mainNavigation, publicRoutes, type NavGroup } from "@makarba/public-ia";
@@ -51,6 +52,7 @@ function Layout() {
             {mainNavigation.map((g) => (
               <li key={g}><NavLink to={NAV_TARGET[g as Exclude<NavGroup, "footer">]}>{g}</NavLink></li>
             ))}
+            <li><NavLink to="/forecasts">Outlook</NavLink></li>
           </ul>
         </nav>
         <label>
@@ -268,6 +270,7 @@ export function App() {
         <Route path="/places/:slug/then-and-now" element={<ThenNowPage />} />
         <Route path="/voices" element={<Voices />} />
         <Route path="/insights" element={<Insights />} />
+        <Route path="/forecasts" element={<Forecasts />} />
         <Route path="/research/methodology" element={<Methodology />} />
         <Route path="/research/sources" element={<Sources />} />
         <Route path="/accessibility" element={<AccessibilityHelp />} />

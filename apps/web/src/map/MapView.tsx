@@ -59,7 +59,7 @@ export function MapView({ features, sourceAttribution, selectedId, onSelect, onS
     try {
       map = new maplibregl.Map({
         container: el.current, style: buildStyle(tileUrl), center: [0, 0], zoom: 1, attributionControl: false,
-        cooperativeGestures: true,
+        cooperativeGestures: true, maxPitch: 75,
       });
     } catch {
       report("unavailable");
@@ -113,8 +113,15 @@ export function MapView({ features, sourceAttribution, selectedId, onSelect, onS
     map.setPaintProperty("places-point", "circle-color", selectedId ? ["case", ["==", ["get", "locationId"], selectedId], "#163D3B", "#D27A55"] : "#D27A55");
   }, [selectedId, status]);
 
+  const [tilted, setTilted] = useState(false);
+  const toggleTilt = () => {
+    const next = !tilted; setTilted(next);
+    mapRef.current?.easeTo({ pitch: next ? 60 : 0, bearing: next ? -20 : 0, duration: 900 });
+  };
+
   return (
     <div className="map-wrap">
+      {status !== "unavailable" && <button type="button" className="tilt" aria-pressed={tilted} onClick={toggleTilt}>3D view</button>}
       <div ref={el} className="map" role="region" aria-label="Interactive map (a text list of the same places follows)" hidden={status === "unavailable"} />
       {status === "unavailable" && <p role="status">The map is unavailable on this device. Use the list of places below – it has the same information.</p>}
     </div>
