@@ -1,0 +1,1801 @@
+{
+ "_about": "AI-generated (Apple Foundation Model, on device) from the TimesFM forecasts; may be wrong. Regenerate with apps/web/tools/pregen-ai.ts.",
+ "forecast": "2026-11-12",
+ "series": 78,
+ "provider": "applefm",
+ "model": "apple-foundation-model",
+ "at": "2026-11-13T05:59:06.564Z",
+ "years": {
+  "2027": {
+   "headline": "Makarba: who gets to live, work and speak in the growing city",
+   "highlights": [
+    {
+     "id": "h1",
+     "title": "Street livelihoods under strain",
+     "body": "Street vendors may face pressure as rising costs and pollution affect daily earnings, while new residents seek space and voice in shared streets",
+     "icon": "car",
+     "tone": "negative",
+     "anchor": "canal",
+     "indicators": [
+      "KAGGLE_AHD_CO",
+      "KAGGLE_AHD_AQI"
+     ],
+     "who": [
+      "street vendors",
+      "new apartment dwellers",
+      "domestic workers"
+     ],
+     "right": "Can those who sell goods still belong in the city as it expands?"
+    },
+    {
+     "id": "h2",
+     "title": "Uncertainty for self-employed",
+     "body": "Self-employed may struggle as job stability wavers, with some losing ground while others adapt to shifting demands in a crowded market",
+     "icon": "users",
+     "tone": "mixed",
+     "anchor": "market",
+     "indicators": [
+      "SL.EMP.SELF.ZS",
+      "IT.NET.BBND.P2"
+     ],
+     "who": [
+      "self-employed (incl. street vend",
+      "construction workers",
+      "domestic workers"
+     ],
+     "right": "Will self-made work still be respected as the city grows?"
+    },
+    {
+     "id": "h3",
+     "title": "Air and health divide",
+     "body": "Poor air may limit movement and health, with some groups paying more for clean air while others face new risks in shared spaces",
+     "icon": "thermo",
+     "tone": "negative",
+     "anchor": "haze",
+     "indicators": [
+      "KAGGLE_AHD_AQI",
+      "KAGGLE_AHD_PM2.5"
+     ],
+     "who": [
+      "women",
+      "children",
+      "auto drivers"
+     ],
+     "right": "Can health and movement remain fair when the air grows harder to breathe?"
+    },
+    {
+     "id": "h4",
+     "title": "New rules for movement",
+     "body": "More traffic may force changes in how people move, with some losing access while others gain new routes in a tighter urban flow",
+     "icon": "bus",
+     "tone": "mixed",
+     "anchor": "traffic",
+     "indicators": [
+      "SH.STA.TRAF.P5"
+     ],
+     "who": [
+      "auto drivers",
+      "residents",
+      "construction crews"
+     ],
+     "right": "Can everyone still move freely as the city tightens its grip?"
+    }
+   ],
+   "briefing": "**Big picture**  \nMakarba sits at the intersection of national and city trends: urban population share rising to 36.31%, while net migration drops to 0. People may face shifting patterns in access to infrastructure and services.\n\n**Livelihoods**  \n- Street vendors and self-employed may benefit from informal employment, with 74.18% of employment held by self-employed (including street vending), though this is neutral.  \n- Long-time village residents may face costs as land use changes, amid rising pollution and transport strain.  \n- Construction and domestic work may shift as air quality worsens (AQI rising from 119 to 345.4) and renewable energy share declines (from 34.9 to 27.86%).\n\n**Right to the city**  \n- Housing may become more contested as tax revenue rises to 8.611% of GDP, but road traffic deaths remain stable at 15.6–15.67 per 100,000.  \n- Public space and voice may be constrained as PM2.5 rises to 49.11 µg/m³ and carbon monoxide spikes to 17.7 mg/m³, while monsoon rainfall drops to 1,015 mm.\n\n**Questions for discussion**  \n- How might access to clean air and transport shape who can live, work, and move in Makarba?  \n- What equity risks may emerge as self-employment remains stable at 74.18% amid rising costs and pollution?"
+  },
+  "2028": {
+   "headline": "Makarba: city life shifting by 2028",
+   "highlights": [
+    {
+     "id": "h1",
+     "title": "Street livelihoods under pressure",
+     "body": "Street vendors may face harder rules as pollution rises and space shrinks, while new dwellers seek safety and access, but old jobs risk fading. Could fairness hold when rules change?",
+     "icon": "shop",
+     "tone": "mixed",
+     "anchor": "canal",
+     "indicators": [
+      "KAGGLE_AHD_AQI",
+      "KAGGLE_AHD_PM2.5"
+     ],
+     "who": [
+      "street vendors",
+      "new apartment dwellers",
+      "domestic workers"
+     ],
+     "right": "the right-to-the-city question"
+    },
+    {
+     "id": "h2",
+     "title": "Work in changing air and heat",
+     "body": "Self-employed workers may struggle as air quality drops and heat grows, while construction jobs face delays and new rules, raising questions about who can keep working. Could access to work stay fair?",
+     "icon": "thermo",
+     "tone": "negative",
+     "anchor": "heat",
+     "indicators": [
+      "KAGGLE_AHD_NOx",
+      "KAGGLE_AHD_AQI"
+     ],
+     "who": [
+      "construction workers",
+      "self-employed",
+      "auto drivers"
+     ],
+     "right": "the right-to-the-city question"
+    },
+    {
+     "id": "h3",
+     "title": "Movement and access in dense zones",
+     "body": "Auto drivers may face tighter rules as traffic grows and space tightens, while residents must navigate new routes and costs, questioning who can move freely. Could mobility remain inclusive?",
+     "icon": "bus",
+     "tone": "negative",
+     "anchor": "traffic",
+     "indicators": [
+      "SH.STA.TRAF.P5",
+      "KAGGLE_AHD_CO"
+     ],
+     "who": [
+      "auto drivers",
+      "residents",
+      "domestic workers"
+     ],
+     "right": "the right-to-the-city question"
+    },
+    {
+     "id": "h4",
+     "title": "New energy and digital hopes",
+     "body": "Some may gain from broadband growth and cleaner energy, while others face cost and exclusion as power shifts, raising doubts about who benefits from change. Could opportunity be shared?",
+     "icon": "wifi",
+     "tone": "mixed",
+     "anchor": "solar",
+     "indicators": [
+      "IT.NET.BBND.P2",
+      "EG.FEC.RNEW.ZS"
+     ],
+     "who": [
+      "students",
+      "new dwellers",
+      "self-employed"
+     ],
+     "right": "the right-to-the-city question"
+    }
+   ],
+   "briefing": "**Big picture**  \nMakarba reflects national and city trends in urban transformation: rising population share, shifting migration patterns, and fluctuating economic indicators. The area sits at a nexus of historical, infrastructural, and demographic shifts.\n\n**Livelihoods**  \n- Street vendors and construction workers may benefit from informal market expansion.  \n- Long-time residents and new apartment dwellers may face rising costs due to land and service prices.  \n- Self-employed (incl. street vending) employment may remain stable, though structural changes could alter demand.\n\n**Right to the city**  \n- Housing access may vary, with new dwellers potentially excluded from formal systems.  \n- Public space inclusion may be uneven, with pollution and traffic affecting livability.\n\n**Questions for discussion**  \n- How might access to clean air and transport fairness shape social equity in Makarba?  \n- What implications do shifting employment patterns have for the right to work and voice?"
+  },
+  "2029": {
+   "headline": "Makarba: city shifts, access tightens",
+   "highlights": [
+    {
+     "id": "h1",
+     "title": "Street livelihoods under strain",
+     "body": "Street vendors may face pressure as rising costs and traffic disrupt daily operations, while new dwellers seek space and voice in shared streets.",
+     "icon": "car",
+     "tone": "negative",
+     "anchor": "traffic",
+     "indicators": [
+      "KAGGLE_AHD_PM2.5"
+     ],
+     "who": [
+      "street vendors",
+      "new apartment dwellers",
+      "domestic workers"
+     ],
+     "right": "Can everyone keep earning and being heard in the city?"
+    },
+    {
+     "id": "h2",
+     "title": "Work shifts with new energy limits",
+     "body": "Self-employed may adapt as energy cuts affect tools and transport, while some lose options as renewable use drops and pollution rises.",
+     "icon": "bolt",
+     "tone": "mixed",
+     "anchor": "solar",
+     "indicators": [
+      "EG.FEC.RNEW.ZS",
+      "KAGGLE_AHD_AQI"
+     ],
+     "who": [
+      "self-employed",
+      "construction workers",
+      "auto drivers"
+     ],
+     "right": "Will work stay viable when air and power change?"
+    },
+    {
+     "id": "h3",
+     "title": "Access to water and health risks",
+     "body": "Families near the canal may face stress as pollution grows and health risks rise, while others struggle to secure clean water and safe spaces.",
+     "icon": "water",
+     "tone": "negative",
+     "anchor": "canal",
+     "indicators": [
+      "KAGGLE_AHD_AQI",
+      "KAGGLE_AHD_Benzene"
+     ],
+     "who": [
+      "long-time village residents",
+      "women",
+      "children"
+     ],
+     "right": "Can health and water be shared fairly in the growing city?"
+    },
+    {
+     "id": "h4",
+     "title": "Connectivity and movement changes",
+     "body": "Internet growth may open doors for learning and work, but road deaths and migration shifts could isolate some groups from city services.",
+     "icon": "wifi",
+     "tone": "positive",
+     "anchor": "junction",
+     "indicators": [
+      "IT.NET.USER.ZS",
+      "SH.DYN.MORT"
+     ],
+     "who": [
+      "students",
+      "auto drivers",
+      "residents"
+     ],
+     "right": "Can everyone move, connect, and be part of the city’s future?"
+    }
+   ],
+   "briefing": "**Big picture**  \nMakarba, a peri-urban ward near Ahmedabad, reflects national and city trends in urban growth, economic shifts, and environmental strain. The urban population share may rise to 36.9 %, while net migration may decline to 0. The income per person may increase to 14,810 international $, and fixed broadband may grow to 4.101 per 100 people.\n\n**Livelihoods**  \n- Street vendors and self-employed may benefit from informal income streams.  \n- Long-time village residents may face rising costs due to housing pressure.  \n- Construction and domestic work may shift as demand changes.\n\n**Right to the city**  \n- Housing may become more contested as affordability may decline.  \n- Public space may be unevenly accessed as traffic and pollution may restrict movement.\n\n**Questions for discussion**  \n- How might access to clean air and transport affect different groups’ ability to live and work in Makarba?  \n- Could equitable access to broadband and housing ensure fairness amid rising costs?"
+  },
+  "2030": {
+   "headline": "Makarba: who gets space in a changing city",
+   "highlights": [
+    {
+     "id": "h1",
+     "title": "Street livelihoods under pressure",
+     "body": "Street vendors may struggle as rising costs and traffic disrupt daily work, while new dwellers seek access to markets and services.",
+     "icon": "car",
+     "tone": "negative",
+     "anchor": "traffic",
+     "indicators": [
+      "FP.CPI.TOTL.ZG",
+      "SH.DYN.MORT"
+     ],
+     "who": [
+      "street vendors",
+      "new apartment dwellers",
+      "domestic workers"
+     ],
+     "right": "Can everyone keep earning and moving in Makarba’s growing rhythm?"
+    },
+    {
+     "id": "h2",
+     "title": "New jobs, old risks",
+     "body": "Self-employed may adapt with new tech, but some may lose ground as pollution and congestion affect health and work access.",
+     "icon": "bolt",
+     "tone": "mixed",
+     "anchor": "haze",
+     "indicators": [
+      "KAGGLE_AHD_AQI",
+      "SL.EMP.SELF.ZS"
+     ],
+     "who": [
+      "self-employed",
+      "auto drivers",
+      "long-time residents"
+     ],
+     "right": "Will new work bring fairness or deeper divides in Makarba’s streets?"
+    },
+    {
+     "id": "h3",
+     "title": "Housing and access shifts",
+     "body": "Density may force shared spaces, but some may be pushed out as redevelopment alters where people live and work.",
+     "icon": "home2",
+     "tone": "negative",
+     "anchor": "densify",
+     "indicators": [
+      "SM.POP.NETM",
+      "IT.NET.USER.ZS"
+     ],
+     "who": [
+      "renters",
+      "construction workers",
+      "village residents"
+     ],
+     "right": "Can all live near work and voice in Makarba’s new layout?"
+    },
+    {
+     "id": "h4",
+     "title": "Energy and health trade-offs",
+     "body": "Poor air may limit movement and work, while digital access could open new chances for learning and organizing.",
+     "icon": "leaf",
+     "tone": "positive",
+     "anchor": "solar",
+     "indicators": [
+      "KAGGLE_AHD_NO",
+      "WEATHER_AHD_HOTDAYS"
+     ],
+     "who": [
+      "women",
+      "construction workers",
+      "students"
+     ],
+     "right": "Can health and opportunity grow together in Makarba’s changing air?"
+    }
+   ],
+   "briefing": "**Big picture**  \nMakarba, a peri-urban ward near Ahmedabad, reflects national and city trends in population growth, economic output, and environmental strain. The urban population share may rise to 37.19 %, while income per person may increase to 15,490 international $. Traffic deaths may remain stable at 15.8 per 100,000.\n\n**Livelihoods**  \n- Street vendors and self-employed may benefit from informal economic inclusion.  \n- Long-time village residents may face rising costs due to land and service demands.  \n- Construction and domestic work may shift as demand evolves amid pollution and migration.\n\n**Right to the city**  \n- Housing may become more contested as net migration may drop to 0, and air quality may worsen to 311.6 AQI.  \n- Public space may shrink as pollution—PM2.5 rising to 56.65 µg/m³—may limit movement and voice.\n\n**Questions for discussion**  \n- How might access to clean air and housing shape inclusion in Makarba’s evolving landscape?  \n- Could equitable access to broadband and employment redefine social power in peri-urban zones?"
+  },
+  "2031": {
+   "headline": "Makarba: who gets voice in city life by 2031?",
+   "highlights": [
+    {
+     "id": "h1",
+     "title": "Street voices may fade",
+     "body": "Street vendors could face pressure as new rules limit access to space and resources, making their livelihoods harder to sustain in a changing environment.",
+     "icon": "shop",
+     "tone": "negative",
+     "anchor": "canal",
+     "indicators": [
+      "KAGGLE_AHD_AQI",
+      "SL.EMP.SELF.ZS"
+     ],
+     "who": [
+      "street vendors",
+      "domestic workers",
+      "long-time village residents"
+     ],
+     "right": "Can everyone keep selling, living, and moving in Makarba without unfair barriers?"
+    },
+    {
+     "id": "h2",
+     "title": "New dwellers may struggle",
+     "body": "New apartment residents could face high costs and limited access to clean air and transport, creating gaps in fairness and daily life.",
+     "icon": "home2",
+     "tone": "mixed",
+     "anchor": "lake",
+     "indicators": [
+      "KAGGLE_AHD_NO",
+      "SL.UEM.TOTL.ZS"
+     ],
+     "who": [
+      "new apartment dwellers",
+      "auto drivers",
+      "construction workers"
+     ],
+     "right": "Will new arrivals have equal rights to housing, health, and voice in Makarba?"
+    },
+    {
+     "id": "h3",
+     "title": "Self-employment may shrink",
+     "body": "Self-employed workers like vendors might see fewer opportunities as formal rules grow, affecting how they earn a living in the market.",
+     "icon": "users",
+     "tone": "negative",
+     "anchor": "market",
+     "indicators": [
+      "SL.EMP.SELF.ZS",
+      "IT.NET.USER.ZS"
+     ],
+     "who": [
+      "self-employed (incl. street vend",
+      "domestic workers",
+      "auto drivers"
+     ],
+     "right": "Can informal workers still shape their economic future in a modern Makarba?"
+    },
+    {
+     "id": "h4",
+     "title": "Access to air and energy may divide",
+     "body": "Poor air quality and rising energy costs could limit who can live safely and affordably, exposing deep divides in daily survival.",
+     "icon": "thermo",
+     "tone": "negative",
+     "anchor": "haze",
+     "indicators": [
+      "KAGGLE_AHD_AQI",
+      "EG.FEC.RNEW.ZS"
+     ],
+     "who": [
+      "low-income families",
+      "women",
+      "construction workers"
+     ],
+     "right": "Who can breathe clean air and heat their homes in Makarba as pollution rises?"
+    }
+   ],
+   "briefing": "**Big picture**  \nMakarba reflects national and city trends in urban transformation: rising population share, shifting energy use, and fluctuating migration. The area sits at a nexus of historical, infrastructure, and social change.\n\n**Livelihoods**  \n- **Benefit**: Street vendors, auto drivers, and new apartment dwellers may gain access to informal economies and housing.  \n- **Cost**: Long-time village residents may face displacement and rising living expenses.  \n- **Change**: Self-employed (incl. street vending) employment may decline slightly, while construction and domestic work may shift due to infrastructure demands.\n\n**Right to the city**  \n- **Housing**: Access to affordable homes may vary, with new dwellers potentially excluded from formal systems.  \n- **Voice**: Public space use may be uneven, with marginalized groups possibly less heard in planning.\n\n**Questions for discussion**  \n- How might access to clean air and transport safety shape equity in movement and work?  \n- What implications do declining self-employment rates and rising pollution have for social inclusion?"
+  },
+  "2032": {
+   "headline": "Makarba: who gets voice in city life by 2032?",
+   "highlights": [
+    {
+     "id": "h1",
+     "title": "Street voices may fade",
+     "body": "Street vendors could lose ground as new rules push them out, while renters face rising costs—could access to the city shift power away from those on the margins—",
+     "icon": "home2",
+     "tone": "negative",
+     "anchor": "canal",
+     "indicators": [
+      "SL.EMP.SELF.ZS"
+     ],
+     "who": [
+      "street vendors",
+      "domestic workers",
+      "low-income renters"
+     ],
+     "right": "the right-to-the-city question"
+    },
+    {
+     "id": "h2",
+     "title": "New dwellers may be excluded",
+     "body": "New apartment dwellers might face barriers to movement and voice, while auto drivers struggle with new rules—could fairness in movement and participation be compromised—",
+     "icon": "car",
+     "tone": "mixed",
+     "anchor": "junction",
+     "indicators": [
+      "SH.STA.TRAF.P5",
+      "KAGGLE_AHD_PM2.5"
+     ],
+     "who": [
+      "new apartment dwellers",
+      "auto drivers",
+      "long-time village residents"
+     ],
+     "right": "the right-to-the-city question"
+    },
+    {
+     "id": "h3",
+     "title": "Self-employment may shrink",
+     "body": "Self-employed workers like vendors may see less support as formal rules grow, while women’s roles shift—could livelihoods built on informal work be at risk—",
+     "icon": "users",
+     "tone": "negative",
+     "anchor": "market",
+     "indicators": [
+      "SL.EMP.SELF.ZS",
+      "SL.TLF.CACT.FE.ZS"
+     ],
+     "who": [
+      "self-employed (incl. street vend",
+      "women",
+      "domestic workers"
+     ],
+     "right": "the right-to-the-city question"
+    },
+    {
+     "id": "h4",
+     "title": "Connectivity may open doors",
+     "body": "Internet access could expand, letting more people share ideas—but not all can participate equally—could digital reach create new spaces for inclusion or exclusion—",
+     "icon": "wifi",
+     "tone": "positive",
+     "anchor": "corridor",
+     "indicators": [
+      "IT.NET.USER.ZS",
+      "IT.NET.BBND.P2"
+     ],
+     "who": [
+      "students",
+      "new apartment dwellers",
+      "street vendors"
+     ],
+     "right": "the right-to-the-city question"
+    }
+   ],
+   "briefing": "**Big picture**  \nMakarba reflects national and city trends in urban transformation: rising population share, improving income per person, and shifting energy patterns. The area sits at a nexus of historical, hydrological, and infrastructural change.\n\n**Livelihoods**  \n- Street vendors and new apartment dwellers may benefit from informal and housing opportunities.  \n- Long-time village residents and construction workers may face rising costs due to inflation and pollution.  \n- Self-employed (incl. street vending) may see neutral shifts in employment share as work patterns evolve.\n\n**Right to the city**  \n- Housing may become more accessible as income rises, but access to safe, clean environments could vary.  \n- Public space and voice may expand with internet use, yet air quality and traffic risks may limit equitable presence.\n\n**Questions for discussion**  \n- How might access to housing and clean air shape the inclusion of new residents in Makarba’s social fabric?  \n- Could the decline in female labour participation and rising pollution affect mobility and voice in local governance?"
+  },
+  "2033": {
+   "headline": "Makarba: who gets to live, work and be heard by 2033?",
+   "highlights": [
+    {
+     "id": "h1",
+     "title": "Street livelihoods under strain",
+     "body": "Street vendors may face pressure as rising costs and pollution affect daily operations, while new residents seek space and rights. Could access to markets and clean air shift power dynamics?",
+     "icon": "shop",
+     "tone": "mixed",
+     "anchor": "market",
+     "indicators": [
+      "SL.EMP.SELF.ZS",
+      "KAGGLE_AHD_AQI"
+     ],
+     "who": [
+      "street vendors",
+      "new apartment dwellers",
+      "domestic workers"
+     ],
+     "right": "Who controls the city’s resources and voice for those without formal status?"
+    },
+    {
+     "id": "h2",
+     "title": "Unemployment rising in local labour",
+     "body": "Some workers may lose jobs as unemployment grows and self-employment dips, while others struggle to find work amid changing patterns. Could fairness in employment erode?",
+     "icon": "factory",
+     "tone": "negative",
+     "anchor": "corridor",
+     "indicators": [
+      "SL.UEM.TOTL.ZS",
+      "SL.EMP.SELF.ZS"
+     ],
+     "who": [
+      "construction workers",
+      "auto drivers",
+      "unemployed youth"
+     ],
+     "right": "Can everyone find dignity in work as the city changes?"
+    },
+    {
+     "id": "h3",
+     "title": "New energy demands and health risks",
+     "body": "Increased pollution may harm health, especially for women and children, while new energy shifts bring uncertainty. Could health equity be compromised in dense zones?",
+     "icon": "thermo",
+     "tone": "negative",
+     "anchor": "haze",
+     "indicators": [
+      "KAGGLE_AHD_AQI",
+      "KAGGLE_AHD_PM2.5"
+     ],
+     "who": [
+      "women workers",
+      "children",
+      "domestic workers"
+     ],
+     "right": "Who bears the cost of a cleaner city if it harms the vulnerable?"
+    },
+    {
+     "id": "h4",
+     "title": "Connectivity and mobility shifts",
+     "body": "Internet access may expand, but traffic and pollution could limit movement. Could those without devices be left behind in a connected city?",
+     "icon": "bus",
+     "tone": "mixed",
+     "anchor": "junction",
+     "indicators": [
+      "IT.NET.USER.ZS",
+      "SH.DYN.MORT"
+     ],
+     "who": [
+      "students",
+      "auto drivers",
+      "residents in remote areas"
+     ],
+     "right": "Can all voices reach the city’s new networks and streets?"
+    }
+   ],
+   "briefing": "**Big picture**  \nMakarba reflects national and city trends in urban transformation—population share rising to 37.91%, income per person improving to 17,230 international $, and internet users reaching 98.36%. The area sits at the intersection of historical, agricultural, and commercial zones.\n\n**Livelihoods**  \n- Street vendors and construction workers may benefit from informal economic expansion.  \n- Long-time village residents may face costs due to rising pollution and housing pressures.  \n- Self-employed (incl. street vending) may see a neutral shift in employment share at 72.12%.\n\n**Right to the city**  \n- Housing may become more contested as migration drops to 0 people and air quality worsens to 337.4 AQI.  \n- Public space may shrink as road traffic deaths rise to 15.86 per 100,000, limiting mobility and voice.\n\n**Questions for discussion**  \n- How might access to clean air and transport shape inclusion in Makarba’s evolving landscape?  \n- Could equitable access to broadband and housing reflect broader social shifts in national urban patterns?"
+  },
+  "2034": {
+   "headline": "Makarba: who moves, works, and breathes in 2034",
+   "highlights": [
+    {
+     "id": "h1",
+     "title": "Street livelihoods under pressure",
+     "body": "Street vendors may face tighter rules as new rules limit access to space and materials, while some may shift to formal work. The balance of survival and inclusion could shift. The right-to-the-city qu",
+     "icon": "car",
+     "tone": "negative",
+     "anchor": "traffic",
+     "indicators": [
+      "FP.CPI.TOTL.ZG",
+      "SL.EMP.SELF.ZS"
+     ],
+     "who": [
+      "street vendors",
+      "domestic workers",
+      "auto drivers"
+     ],
+     "right": "The right-to-the-city question: who controls the streets and their use"
+    },
+    {
+     "id": "h2",
+     "title": "New dwellers seek space and voice",
+     "body": "New apartment residents may struggle to access clean water and quiet zones as density grows, while others may gain better services. Access to dignity in shared spaces could become a test. The right-to",
+     "icon": "home2",
+     "tone": "mixed",
+     "anchor": "canal",
+     "indicators": [
+      "KAGGLE_AHD_AQI",
+      "KAGGLE_AHD_PM2.5"
+     ],
+     "who": [
+      "new apartment dwellers",
+      "long-time residents",
+      "families"
+     ],
+     "right": "The right-to-the-city question: who gets to live without noise or pollution"
+    },
+    {
+     "id": "h3",
+     "title": "Work shifts with rising costs",
+     "body": "Self-employed workers may face rising costs and fewer options as prices climb, while some may find new roles. The cost of survival could force choices. The right-to-the-city question: who can afford t",
+     "icon": "bolt",
+     "tone": "negative",
+     "anchor": "haze",
+     "indicators": [
+      "FP.CPI.TOTL.ZG",
+      "SL.EMP.SELF.ZS"
+     ],
+     "who": [
+      "self-employed",
+      "domestic workers",
+      "construction workers"
+     ],
+     "right": "The right-to-the-city question: who can afford to keep working in changing conditions"
+    },
+    {
+     "id": "h4",
+     "title": "Energy and air shape daily life",
+     "body": "Poor air and heat may limit movement and health, while new tech could offer relief. Some may gain comfort, others may lose breath. The right-to-the-city question: who breathes clean air and moves safe",
+     "icon": "thermo",
+     "tone": "negative",
+     "anchor": "heat",
+     "indicators": [
+      "KAGGLE_AHD_AQI",
+      "KAGGLE_AHD_NO"
+     ],
+     "who": [
+      "women",
+      "children",
+      "elderly"
+     ],
+     "right": "The right-to-the-city question: who breathes clean air and moves safely in extreme weather"
+    }
+   ],
+   "briefing": "**Big picture**  \nMakarba reflects national and city trends in urban transformation—population share rising to 38.1 %, migration declining to 0, and income per person improving to 17,750 international $. The area sits at a crossroads of historical, infrastructural, and demographic shifts.\n\n**Livelihoods**  \n- Street vendors and auto drivers may benefit from increased mobility and market access.  \n- Domestic workers and long-time village residents may face rising costs due to housing pressures.  \n- Construction work may shift as renewable energy share drops to 20.53 %, affecting local employment patterns.\n\n**Right to the city**  \n- Housing may become more constrained as road traffic deaths rise to 15.98 per 100,000 and air quality worsens to 331.7 AQI.  \n- Voice may be limited as female labour participation dips to 31.43 % and emissions from benzene rise to 6.992 µg/m³.\n\n**Questions for discussion**  \n- How might access to clean air and transport equity shape inclusion in Makarba’s evolving landscape?  \n- Could shifting employment models affect the balance between new apartment dwellers and long-time residents?"
+  },
+  "2035": {
+   "headline": "Makarba: who gets heard in a changing city",
+   "highlights": [
+    {
+     "id": "h1",
+     "title": "Street voices rising",
+     "body": "Street vendors may gain access to digital tools, but face pressure from rising costs and pollution limits on their work hours",
+     "icon": "bus",
+     "tone": "mixed",
+     "anchor": "canal",
+     "indicators": [
+      "KAGGLE_AHD_AQI",
+      "SL.EMP.SELF.ZS"
+     ],
+     "who": [
+      "street vendors",
+      "domestic workers",
+      "auto drivers"
+     ],
+     "right": "Can everyone keep selling their goods near the lake without health risks?"
+    },
+    {
+     "id": "h2",
+     "title": "New homes, old rules",
+     "body": "New apartment dwellers may enjoy better services, but long-term access to clean air and space could be uneven",
+     "icon": "home2",
+     "tone": "negative",
+     "anchor": "market",
+     "indicators": [
+      "KAGGLE_AHD_NO",
+      "SL.TLF.CACT.FE.ZS"
+     ],
+     "who": [
+      "new apartment dwellers",
+      "long-time residents",
+      "construction workers"
+     ],
+     "right": "Will new residents share the city’s resources fairly with those who’ve lived there long?"
+    },
+    {
+     "id": "h3",
+     "title": "Jobs shifting fast",
+     "body": "Self-employed workers may adapt to new tech demands, but some may lose ground as pollution affects outdoor work",
+     "icon": "car",
+     "tone": "mixed",
+     "anchor": "junction",
+     "indicators": [
+      "SL.EMP.SELF.ZS",
+      "SL.UEM.TOTL.ZS"
+     ],
+     "who": [
+      "self-employed (incl. street vend",
+      "domestic workers",
+      "auto drivers"
+     ],
+     "right": "Can informal workers keep earning in a city with rising emissions and traffic?"
+    },
+    {
+     "id": "h4",
+     "title": "Air and access clash",
+     "body": "Poor air quality may limit movement and work, while new connectivity could open doors for some",
+     "icon": "shield",
+     "tone": "negative",
+     "anchor": "roza",
+     "indicators": [
+      "KAGGLE_AHD_PM2.5",
+      "KAGGLE_AHD_AQI"
+     ],
+     "who": [
+      "women workers",
+      "self-employed",
+      "residents near the roza"
+     ],
+     "right": "Can people move safely and work well when the air grows worse and the city expands?"
+    }
+   ],
+   "briefing": "**Big picture**  \nMakarba reflects national and city trends in urban transformation: rising population share, improving income per person, and shifting energy patterns. The area sits at a crossroads of tradition and modernity, with increasing pressure on infrastructure and equity.\n\n**Livelihoods**  \n- Street vendors and new apartment dwellers may benefit from informal income streams and housing access.  \n- Long-time village residents and construction workers may face rising costs due to inflation and pollution-related health burdens.  \n- Self-employed (incl. street vending) may see a neutral shift in employment share, while work patterns may change with climate stress and traffic congestion.\n\n**Right to the city**  \n- Housing may become more accessible, but air quality and road safety could limit equitable living conditions.  \n- Public space and voice may expand, yet noise, pollution, and traffic could marginalize vulnerable groups.\n\n**Questions for discussion**  \n- How might access to broadband and internet users shape inclusion in Makarba’s evolving social fabric?  \n- What implications could rising pollution and traffic deaths have for the right to move and be heard?"
+  },
+  "2036": {
+   "headline": "Makarba: who gets heard in a changing city",
+   "highlights": [
+    {
+     "id": "h1",
+     "title": "Street voices rising",
+     "body": "Street vendors may gain voice through digital access, but face pressure from rising costs and pollution",
+     "icon": "home2",
+     "tone": "mixed",
+     "anchor": "market",
+     "indicators": [
+      "IT.NET.USER.ZS",
+      "KAGGLE_AHD_AQI"
+     ],
+     "who": [
+      "street vendors",
+      "domestic workers",
+      "auto drivers"
+     ],
+     "right": "Can everyone speak up in the city?"
+    },
+    {
+     "id": "h2",
+     "title": "Jobs shifting under strain",
+     "body": "Self-employed may lose ground as pollution and traffic affect work, while new dwellers seek stability",
+     "icon": "bus",
+     "tone": "negative",
+     "anchor": "traffic",
+     "indicators": [
+      "SL.EMP.SELF.ZS",
+      "SH.DYN.MORT"
+     ],
+     "who": [
+      "self-employed",
+      "new apartment dwellers",
+      "construction workers"
+     ],
+     "right": "Will work be fair for all in the city?"
+    },
+    {
+     "id": "h3",
+     "title": "Air and access divide",
+     "body": "Poor air may limit movement, but new tech could open doors—who controls clean space?",
+     "icon": "thermo",
+     "tone": "mixed",
+     "anchor": "lake",
+     "indicators": [
+      "KAGGLE_AHD_AQI",
+      "KAGGLE_AHD_PM2.5"
+     ],
+     "who": [
+      "female labourers",
+      "children",
+      "residents near lake"
+     ],
+     "right": "Who gets clean air and space in the city?"
+    },
+    {
+     "id": "h4",
+     "title": "Homes and networks evolve",
+     "body": "New dwellers may access broadband, but old residents face exclusion—can homes be shared?",
+     "icon": "school",
+     "tone": "positive",
+     "anchor": "corridor",
+     "indicators": [
+      "IT.NET.BBND.P2",
+      "SP.URB.TOTL.IN.ZS"
+     ],
+     "who": [
+      "new apartment dwellers",
+      "long-time village residents",
+      "families"
+     ],
+     "right": "Can housing and connection be fair in the city?"
+    }
+   ],
+   "briefing": "**Big picture**  \nMakarba reflects national and city trends in urban transformation—shifting patterns in population, energy, and mobility. The urban population share may rise to 38.45 % of the population, while net migration may decline to 0 people. Income per person (PPP) may increase to 18,720 international $, and fixed broadband may grow to 4.769 per 100 people.\n\n**Livelihoods**  \n- Street vendors, auto drivers, and new apartment dwellers may benefit from informal and formal employment.  \n- Long-time village residents and construction workers may face rising costs due to inflation (2.399→5.709 % per year).  \n- Self-employed (incl. street vending) may decline slightly, with self-employed representing 71.08 % of employment—neutral change.\n\n**Right to the city**  \n- Housing may become more constrained as air quality index may rise to 348.1 AQI, with road traffic deaths increasing to 16.09 per 100,000 people.  \n- Public space and voice may be challenged as PM2.5 may rise to 72.25 µg/m³, and ozone may increase to 42.72 µg/m³.\n\n**Questions for discussion**  \n- Who may gain access to housing and transport amid rising pollution and traffic?  \n- How might fairness in voice and opportunity shift as self-employment declines and migration halts?"
+  },
+  "2037": {
+   "headline": "Makarba: who gets voice in changing city",
+   "highlights": [
+    {
+     "id": "h1",
+     "title": "Street voices may fade",
+     "body": "Street vendors could lose ground as new rules push them out, while others gain access to tech tools. Livelihoods shift under pressure. Who speaks for the streets?",
+     "icon": "car",
+     "tone": "negative",
+     "anchor": "traffic",
+     "indicators": [
+      "FP.CPI.TOTL.ZG",
+      "SL.EMP.SELF.ZS"
+     ],
+     "who": [
+      "street vendors",
+      "domestic workers",
+      "new apartment dwellers"
+     ],
+     "right": "The right-to-the-city question: who controls access to space and voice in Makarba’s growth"
+    },
+    {
+     "id": "h2",
+     "title": "New jobs for some",
+     "body": "Self-employed may expand with internet reach, but not all can join. Some gain tools, others face exclusion. Who builds the new economy?",
+     "icon": "wifi",
+     "tone": "mixed",
+     "anchor": "solar",
+     "indicators": [
+      "IT.NET.USER.ZS",
+      "SL.EMP.SELF.ZS"
+     ],
+     "who": [
+      "self-employed",
+      "construction workers",
+      "auto drivers"
+     ],
+     "right": "The right-to-the-city question: who gets to shape work in Makarba’s future"
+    },
+    {
+     "id": "h3",
+     "title": "Air and health risks grow",
+     "body": "Pollution may harm families, especially those near water and markets. Some may move out, others stay. Who protects health in Makarba’s heat?",
+     "icon": "thermo",
+     "tone": "negative",
+     "anchor": "canal",
+     "indicators": [
+      "KAGGLE_AHD_AQI",
+      "KAGGLE_AHD_PM2.5"
+     ],
+     "who": [
+      "female labourers",
+      "children",
+      "long-time residents"
+     ],
+     "right": "The right-to-the-city question: who ensures clean air and safe living in Makarba’s expanding zones"
+    },
+    {
+     "id": "h4",
+     "title": "Migration shifts access",
+     "body": "Fewer people moving in may limit new homes, but migrants could bring skills. Who gets space, work, and voice in Makarba’s quiet growth?",
+     "icon": "school",
+     "tone": "positive",
+     "anchor": "junction",
+     "indicators": [
+      "SM.POP.NETM",
+      "IT.NET.BBND.P2"
+     ],
+     "who": [
+      "net migrants",
+      "new apartment dwellers",
+      "village residents"
+     ],
+     "right": "The right-to-the-city question: who controls entry and inclusion in Makarba’s evolving fabric"
+    }
+   ],
+   "briefing": "**Big picture**  \nMakarba reflects national and city trends in shifting population dynamics and resource stress. Urban share rises from 35.69 to 38.62% of population, while net migration drops from 4,95,800 to 0. Income per person (PPP) improves from 11,600 to 19,260 international $, but pollution and cost pressures grow.\n\n**Livelihoods**  \n- Street vendors and self-employed benefit from informal employment, now 70.73% of total jobs.  \n- Long-time village residents and new apartment dwellers face rising costs, with inflation at 5.724% per year.  \n- Work changes as unemployment rises to 4.612% of labour force, and female labour participation dips to 31.28% of women 15+.\n\n**Right to the city**  \n- Housing access may vary, with rising air quality index from 119 to 336.6 AQI and pollution markers worsening.  \n- Public space and voice may be constrained as road traffic deaths rise to 15.9 per 100,000 and emissions climb.\n\n**Questions for discussion**  \n- How might access to housing and clean air shape inclusion in Makarba’s evolving social fabric?  \n- What equity risks emerge as self-employment shifts and pollution impacts intersect?"
+  },
+  "2038": {
+   "headline": "Makarba: who lives, works, moves in 2038?",
+   "highlights": [
+    {
+     "id": "h1",
+     "title": "Street livelihoods under pressure",
+     "body": "Street vendors may face new rules as markets change, while others could lose access to space and voice in daily operations, raising questions about who controls the urban edge,",
+     "icon": "shop",
+     "tone": "negative",
+     "anchor": "market",
+     "indicators": [
+      "FP.CPI.TOTL.ZG",
+      "SL.EMP.SELF.ZS"
+     ],
+     "who": [
+      "street vendors",
+      "domestic workers",
+      "auto drivers"
+     ],
+     "right": "The right-to-the-city question"
+    },
+    {
+     "id": "h2",
+     "title": "New energy shifts for homes",
+     "body": "Home energy use may shift away from clean sources as costs rise, potentially limiting access for some while others adapt, sparking debate over fairness in living conditions,",
+     "icon": "home2",
+     "tone": "mixed",
+     "anchor": "canal",
+     "indicators": [
+      "EG.FEC.RNEW.ZS",
+      "KAGGLE_AHD_AQI"
+     ],
+     "who": [
+      "new apartment dwellers",
+      "long-time residents",
+      "construction workers"
+     ],
+     "right": "The right-to-the-city question"
+    },
+    {
+     "id": "h3",
+     "title": "Traffic and movement changes",
+     "body": "Increased traffic may slow access to jobs and homes, especially for those without vehicles, while new routes could create opportunities, raising concerns about mobility and inclusion,",
+     "icon": "bus",
+     "tone": "negative",
+     "anchor": "traffic",
+     "indicators": [
+      "SH.DYN.MORT",
+      "SH.STA.TRAF.P5"
+     ],
+     "who": [
+      "auto drivers",
+      "domestic workers",
+      "village residents"
+     ],
+     "right": "The right-to-the-city question"
+    },
+    {
+     "id": "h4",
+     "title": "Digital access expands",
+     "body": "Internet reach may bring new tools for work and connection, but not everyone may use them equally, creating gaps in opportunity and voice, challenging who gets to shape urban life,",
+     "icon": "wifi",
+     "tone": "positive",
+     "anchor": "junction",
+     "indicators": [
+      "IT.NET.USER.ZS",
+      "IT.NET.BBND.P2"
+     ],
+     "who": [
+      "students",
+      "new apartment dwellers",
+      "self-employed"
+     ],
+     "right": "The right-to-the-city question"
+    }
+   ],
+   "briefing": "**Big picture**  \nMakarba reflects national and city trends in urban transformation: rising population share, shifting migration, and uneven resource distribution. The area sits at a nexus of historical, infrastructural, and demographic change.\n\n**Livelihoods**  \n- **Benefit**: Self-employed (incl. street vending) still dominate employment at 70.37%, offering flexibility.  \n- **Cost**: Inflation (2.399→5.324 % per year) and rising pollution may strain daily livelihoods.  \n- **Change**: Unemployment rises to 4.632 % of labour force, while female labour participation dips to 31.2 % of women 15+, signaling shifts in work patterns.\n\n**Right to the city**  \n- **Housing**: Air quality index (119→321.1 AQI) and rising PM2.5 (37.63→81.12 µg/m³) may limit safe living conditions.  \n- **Voice**: Internet users reach 100 % of population, but road traffic deaths (15.6→15.74 per 100,000) may obscure safety concerns.\n\n**Questions for discussion**  \n- How might access to clean air and housing shape inclusion for new apartment dwellers?  \n- What equity risks emerge as self-employment declines and pollution rises?"
+  },
+  "2039": {
+   "headline": "Makarba: who gets to live, work and be heard",
+   "highlights": [
+    {
+     "id": "h1",
+     "title": "Street livelihoods under strain",
+     "body": "Street vendors may face pressure as rising costs and pollution affect daily survival, while new dwellers seek space and voice in shared streets.",
+     "icon": "bus",
+     "tone": "negative",
+     "anchor": "market",
+     "indicators": [
+      "FP.CPI.TOTL.ZG",
+      "KAGGLE_AHD_AQI"
+     ],
+     "who": [
+      "street vendors",
+      "new apartment dwellers",
+      "domestic workers"
+     ],
+     "right": "Can everyone keep their work and voice in the city?"
+    },
+    {
+     "id": "h2",
+     "title": "New arrivals reshaping access",
+     "body": "Migrants may gain housing and connectivity but could lose control over local rules as density changes the rhythm of daily life.",
+     "icon": "car",
+     "tone": "mixed",
+     "anchor": "corridor",
+     "indicators": [
+      "SM.POP.NETM",
+      "IT.NET.BBND.P2"
+     ],
+     "who": [
+      "net migrants",
+      "construction workers",
+      "auto drivers"
+     ],
+     "right": "Who decides the rules for living and moving in Makarba?"
+    },
+    {
+     "id": "h3",
+     "title": "Energy and health divide",
+     "body": "Poor air may limit outdoor work, while some may benefit from new tech—but access could widen gaps in health and work chances.",
+     "icon": "thermo",
+     "tone": "negative",
+     "anchor": "canal",
+     "indicators": [
+      "KAGGLE_AHD_NO",
+      "KAGGLE_AHD_PM2.5"
+     ],
+     "who": [
+      "self-employed",
+      "women",
+      "children"
+     ],
+     "right": "Can health and work stay fair in a polluted city?"
+    },
+    {
+     "id": "h4",
+     "title": "Work and access shifting",
+     "body": "Self-employment may grow but may not reach all—some may lose ground as jobs shift and spaces shrink around the lake.",
+     "icon": "shop",
+     "tone": "negative",
+     "anchor": "lake",
+     "indicators": [
+      "SL.EMP.SELF.ZS",
+      "SL.TLF.CACT.FE.ZS"
+     ],
+     "who": [
+      "domestic workers",
+      "construction staff",
+      "market traders"
+     ],
+     "right": "Will work and space still belong to all in Makarba?"
+    }
+   ],
+   "briefing": "**Big picture**  \nMakarba reflects national and city trends in urban transformation: rising income per person (11,600→20,120 international$), improving GDP per capita (2,702→3,524 US$), and expanding fixed broadband (3.151→5.019 per 100 people). Urban population share (35.69→38.95 %) remains neutral, while net migration (–4,95,800→0 people) is neutral.\n\n**Livelihoods**  \n- Street vendors and auto drivers may benefit from informal income streams.  \n- Long-time village residents may face costs from rising housing pressures.  \n- Self-employed (incl. street vending) may see a shift with 70.03 % of employment, down from 74.9 %.\n\n**Right to the city**  \n- Housing may become more accessible, but air quality (AQI 119→349.1) and pollution (PM2.5 37.63→94.08 µg/m³) may limit safe living.  \n- Public space and voice may be contested as traffic deaths (15.6→15.52 per 100,000) remain stable, yet ozone (42.47 µg/m³) and NO₂ (18.8 µg/m³) may restrict movement.\n\n**Questions for discussion**  \n- Who may be excluded from access to housing and public voice as pollution and traffic rise?  \n- How might shifting employment patterns affect fairness in city livelihoods?"
+  },
+  "2040": {
+   "headline": "Makarba: who gets heard in a changing city",
+   "highlights": [
+    {
+     "id": "h1",
+     "title": "Street livelihoods under pressure",
+     "body": "Street vendors may struggle as new rules limit access, while others gain tech tools—daily survival shifts in a crowded space",
+     "icon": "car",
+     "tone": "mixed",
+     "anchor": "canal",
+     "indicators": [
+      "FP.CPI.TOTL.ZG",
+      "SL.EMP.SELF.ZS"
+     ],
+     "who": [
+      "street vendors",
+      "domestic workers",
+      "auto drivers"
+     ],
+     "right": "Can everyone keep selling, moving, and speaking in Makarba’s new rhythm?"
+    },
+    {
+     "id": "h2",
+     "title": "New homes, old rules",
+     "body": "New apartment dwellers may face exclusion as access to space and services changes—some benefit, others fall behind",
+     "icon": "home2",
+     "tone": "negative",
+     "anchor": "market",
+     "indicators": [
+      "SL.UEM.TOTL.ZS",
+      "SP.URB.TOTL.IN.ZS"
+     ],
+     "who": [
+      "new apartment dwellers",
+      "long-time residents",
+      "construction workers"
+     ],
+     "right": "Who gets a place to live, work, and be seen in Makarba’s expanding zones?"
+    },
+    {
+     "id": "h3",
+     "title": "Air and access divide",
+     "body": "Poor air may block movement and health—some lose clean air, others gain new tech—fair access to breath and service",
+     "icon": "thermo",
+     "tone": "negative",
+     "anchor": "haze",
+     "indicators": [
+      "KAGGLE_AHD_AQI",
+      "KAGGLE_AHD_PM2.5"
+     ],
+     "who": [
+      "female labourers",
+      "children",
+      "self-employed"
+     ],
+     "right": "Can all breathe, move, and claim rights in Makarba’s polluted air?"
+    },
+    {
+     "id": "h4",
+     "title": "Tech and traffic shifts",
+     "body": "New broadband may open doors—but traffic deaths stay low—some gain connection, others risk harm on busy paths",
+     "icon": "bus",
+     "tone": "mixed",
+     "anchor": "junction",
+     "indicators": [
+      "IT.NET.BBND.P2",
+      "SH.DYN.MORT"
+     ],
+     "who": [
+      "students",
+      "auto drivers",
+      "vendors"
+     ],
+     "right": "Can speed, signal, and voice reach every corner of Makarba’s future?"
+    }
+   ],
+   "briefing": "**Big picture**  \nMakarba reflects national and city trends in urban transformation: rising population share, shifting migration patterns, and fluctuating economic indicators. The area sits at a nexus of historical, infrastructural, and demographic change.\n\n**Livelihoods**  \n- **Benefit**: Street vendors and self-employed workers may retain employment despite shifts.  \n- **Cost**: Auto drivers and domestic workers may face rising expenses due to inflation.  \n- **Change**: Construction work may expand, altering spatial demands and access to jobs.\n\n**Right to the city**  \n- **Housing**: Access to affordable units may vary, with new dwellers potentially excluded.  \n- **Voice**: Public spaces may become contested, limiting collective participation.\n\n**Questions for discussion**  \n- How might unequal access to clean air and transport shape social inclusion in Makarba?  \n- What implications do declining fertility and shifting migration for urban equity?"
+  },
+  "2041": {
+   "headline": "Makarba: who gets heard in a changing city",
+   "highlights": [
+    {
+     "id": "h1",
+     "title": "Street livelihoods under strain",
+     "body": "Street vendors may face pressure as rising costs and shifting rules affect their daily work, while new dwellers may struggle to access space and services.",
+     "icon": "car",
+     "tone": "negative",
+     "anchor": "canal",
+     "indicators": [
+      "FP.CPI.TOTL.ZG",
+      "SL.EMP.SELF.ZS"
+     ],
+     "who": [
+      "street vendors",
+      "new apartment dwellers",
+      "domestic workers"
+     ],
+     "right": "Can everyone keep selling, living, and moving in Makarba?"
+    },
+    {
+     "id": "h2",
+     "title": "New jobs, old patterns",
+     "body": "Self-employed workers may adapt to new demands as construction and transport grow, but some may lose ground as income shifts and access to tools changes.",
+     "icon": "car",
+     "tone": "mixed",
+     "anchor": "junction",
+     "indicators": [
+      "SL.EMP.SELF.ZS",
+      "IT.NET.BBND.P2"
+     ],
+     "who": [
+      "self-employed workers",
+      "construction workers",
+      "auto drivers"
+     ],
+     "right": "Will new work paths open for all in Makarba?"
+    },
+    {
+     "id": "h3",
+     "title": "Air and access divide",
+     "body": "Poor air quality may limit outdoor work and movement, affecting those who rely on open spaces, while new residents may face harder access to clean air and transport.",
+     "icon": "thermo",
+     "tone": "negative",
+     "anchor": "haze",
+     "indicators": [
+      "KAGGLE_AHD_AQI",
+      "KAGGLE_AHD_PM2.5"
+     ],
+     "who": [
+      "outdoor workers",
+      "new apartment dwellers",
+      "village residents"
+     ],
+     "right": "Can people breathe and move freely in Makarba?"
+    },
+    {
+     "id": "h4",
+     "title": "Energy and space shifts",
+     "body": "Declining renewable use may mean less clean power for homes, while dense growth could block movement—some may lose privacy, others gain stability.",
+     "icon": "home2",
+     "tone": "mixed",
+     "anchor": "market",
+     "indicators": [
+      "EG.FEC.RNEW.ZS",
+      "SP.URB.TOTL.IN.ZS"
+     ],
+     "who": [
+      "domestic workers",
+      "new dwellers",
+      "market vendors"
+     ],
+     "right": "Can homes and voices survive in a tighter Makarba?"
+    }
+   ],
+   "briefing": "**Big picture**  \nMakarba reflects national and city trends in urban transformation: rising population share, shifting energy use, and income growth. The ward sits at a nexus of historical, hydrological, and infrastructural change.\n\n**Livelihoods**  \n- **Benefit**: street vendors, auto drivers, and new apartment dwellers may gain access to informal economies and housing.  \n- **Face costs**: long-time village residents may bear rising pollution, traffic, and housing pressures.  \n- **Work changes**: self-employed employment may decline as self-employed (incl. street vending) share drops from 74.9% to 69.31%, while unemployment rises from 4.219% to 4.749%.\n\n**Right to the city**  \n- **Housing**: access to affordable space may shift as income per person (PPP) rises from 11,600 to 20,830 international $, but air quality and pollution may restrict livability.  \n- **Voice**: public space and participation may be constrained by rising traffic deaths (15.6 to 15.51 per 100,000) and declining mobile subscriptions (79.35 to 32.48 per 100).\n\n**Questions for discussion**  \n- How might fairness in access to housing and work evolve as self-employment declines?  \n- What implications do rising pollution levels and traffic fatalities hold for the right to public space and voice?"
+  },
+  "2042": {
+   "headline": "Makarba: who gets heard in a changing city",
+   "highlights": [
+    {
+     "id": "h1",
+     "title": "Street livelihoods under pressure",
+     "body": "Street vendors may face exclusion as new rules limit access to space and income, while others gain digital reach, but access to fair markets and services may shrink.",
+     "icon": "shop",
+     "tone": "mixed",
+     "anchor": "market",
+     "indicators": [
+      "FP.CPI.TOTL.ZG",
+      "SL.EMP.SELF.ZS"
+     ],
+     "who": [
+      "street vendors",
+      "domestic workers",
+      "new apartment dwellers"
+     ],
+     "right": "Can everyone keep selling their goods and living in the city?"
+    },
+    {
+     "id": "h2",
+     "title": "New energy demands reshape access",
+     "body": "Rising pollution may force shifts in housing and work, with some losing clean air and safe spaces while others gain power for homes and transport, but cost and health risks grow.",
+     "icon": "thermo",
+     "tone": "negative",
+     "anchor": "haze",
+     "indicators": [
+      "KAGGLE_AHD_AQI",
+      "KAGGLE_AHD_PM2.5"
+     ],
+     "who": [
+      "construction workers",
+      "women",
+      "auto drivers"
+     ],
+     "right": "Who can breathe and work in a city with worsening air?"
+    },
+    {
+     "id": "h3",
+     "title": "Migration shifts redefine daily movement",
+     "body": "Fewer people moving in may mean quieter streets but less diversity, with some losing jobs in transit and others gaining stability, yet traffic and access to services may strain new zones.",
+     "icon": "bus",
+     "tone": "mixed",
+     "anchor": "traffic",
+     "indicators": [
+      "SH.DYN.MORT",
+      "SM.POP.NETM"
+     ],
+     "who": [
+      "auto drivers",
+      "long-time residents",
+      "new migrants"
+     ],
+     "right": "Can people move, live, and be seen in a shrinking flow?"
+    },
+    {
+     "id": "h4",
+     "title": "Digital access opens new doors",
+     "body": "More internet may let some learn and connect, but others may be left behind as mobile use drops and broadband expands unevenly, affecting work and voice in shared spaces.",
+     "icon": "wifi",
+     "tone": "positive",
+     "anchor": "junction",
+     "indicators": [
+      "IT.NET.BBND.P2",
+      "IT.CEL.SETS.P2"
+     ],
+     "who": [
+      "students",
+      "self-employed",
+      "residents"
+     ],
+     "right": "Who can speak, learn, and earn in a digital divide?"
+    }
+   ],
+   "briefing": "**Big picture**  \nMakarba reflects national and city trends in urban transformation: rising population share, shifting migration patterns, and fluctuating economic indicators. The area sits at a nexus of historical, hydrological, and infrastructural change.\n\n**Livelihoods**  \n- **Benefit**: street vendors, auto drivers, and new apartment dwellers may access informal income streams.  \n- **Cost**: construction and domestic workers may face rising exposure to pollution and congestion.  \n- **Change**: self-employed employment may decline as self-employed (incl. street vending) share drops from 74.9 to 68.94 % of employment.\n\n**Right to the city**  \n- **Housing**: access to shelter may vary as income per person (PPP) rises from 11,600 to 21,220 international $, but affordability may strain.  \n- **Voice**: public space and representation may be contested as air quality and pollution metrics worsen—AQI rising from 119 to 336.8.\n\n**Questions for discussion**  \n- How might shifting self-employment patterns affect social equity in Makarba?  \n- What barriers may emerge for those with limited access to clean air and safe movement?"
+  },
+  "2043": {
+   "headline": "Makarba: city life shifting by 2043",
+   "highlights": [
+    {
+     "id": "h1",
+     "title": "Street livelihoods under pressure",
+     "body": "Street vendors may face tighter rules as new rules limit their presence, while others could gain access to tech tools, but access may be uneven, affecting daily survival and work",
+     "icon": "car",
+     "tone": "mixed",
+     "anchor": "market",
+     "indicators": [
+      "FP.CPI.TOTL.ZG",
+      "SL.EMP.SELF.ZS"
+     ],
+     "who": [
+      "street vendors",
+      "domestic workers",
+      "new apartment dwellers"
+     ],
+     "right": "Can everyone keep selling, moving, and speaking in Makarba’s changing streets?"
+    },
+    {
+     "id": "h2",
+     "title": "Home and heat in new zones",
+     "body": "New dwellers may enjoy better energy links, yet rising heat could strain older homes, pushing some out, while others seek safer spaces, altering how people live and move",
+     "icon": "haze",
+     "tone": "negative",
+     "anchor": "canal",
+     "indicators": [
+      "KAGGLE_AHD_PM2.5",
+      "WEATHER_AHD_HOTDAYS"
+     ],
+     "who": [
+      "new apartment dwellers",
+      "long-time village residents",
+      "construction workers"
+     ],
+     "right": "Will safe homes and cool air be shared equally in Makarba’s expanding edges?"
+    },
+    {
+     "id": "h3",
+     "title": "Work and air quality divide",
+     "body": "Self-employed may adapt with new tools, but poor air could limit outdoor work, while some jobs vanish, forcing others to shift, changing how work happens each day",
+     "icon": "thermo",
+     "tone": "mixed",
+     "anchor": "roza",
+     "indicators": [
+      "KAGGLE_AHD_AQI",
+      "SL.TLF.CACT.FE.ZS"
+     ],
+     "who": [
+      "self-employed (incl. street vend",
+      "auto drivers",
+      "domestic workers"
+     ],
+     "right": "Can work continue in clean air and open spaces across Makarba’s zones?"
+    },
+    {
+     "id": "h4",
+     "title": "Traffic and movement shifts",
+     "body": "Fewer deaths may mean safer paths, but new roads could block old routes, affecting how people travel, while some gain faster access, others lose connection, reshaping daily journeys",
+     "icon": "bus",
+     "tone": "negative",
+     "anchor": "junction",
+     "indicators": [
+      "SH.DYN.MORT",
+      "SH.STA.TRAF.P5"
+     ],
+     "who": [
+      "auto drivers",
+      "residents",
+      "construction crews"
+     ],
+     "right": "Will all voices reach new routes and places in Makarba’s evolving flow?"
+    }
+   ],
+   "briefing": "**Big picture**  \nMakarba reflects national and city trends in urban transformation: rising population share, shifting migration patterns, and evolving resource dynamics. The area sits at a crossroads of historical, economic, and environmental shifts.\n\n**Livelihoods**  \n- **Benefit**: Self-employed (incl. street vending) now represent 68.6% of employment, a neutral shift.  \n- **Face costs**: Inflation rising to 5.637% annually, with air quality worsening (AQI from 119 to 343.9), and pollution markers like benzene increasing (1.73 to 3.076 µg/m³).  \n- **Work changes**: Female labour participation declining to 31.24% of women 15+, while renewable energy share dropping to 14.36% of final energy use.\n\n**Right to the city**  \n- **Housing**: Income per person (PPP) rising to 21,530 international $, but road traffic deaths near 15.74 per 100,000 remain stable.  \n- **Voice**: Public space access may be constrained as mobile subscriptions fall to 11.38 per 100 people, and self-employment shifts may limit collective bargaining.\n\n**Questions for discussion**  \n- Who gains access to new housing and infrastructure, and who is excluded from mobility and voice?  \n- How might rising pollution and stagnant employment patterns affect the fairness of shared urban space?"
+  },
+  "2044": {
+   "headline": "Makarba: who moves, works, and breathes in 2044",
+   "highlights": [
+    {
+     "id": "h1",
+     "title": "Street livelihoods under strain",
+     "body": "Street vendors may face pressure as new rules affect access to space and income, while others struggle with rising costs and pollution. Who gets to sell, work, and survive in the city?",
+     "icon": "car",
+     "tone": "negative",
+     "anchor": "canal",
+     "indicators": [
+      "KAGGLE_AHD_PM2.5",
+      "SL.EMP.SELF.ZS"
+     ],
+     "who": [
+      "street vendors",
+      "domestic workers",
+      "auto drivers"
+     ],
+     "right": "The right-to-the-city question"
+    },
+    {
+     "id": "h2",
+     "title": "New dwellers seek fair access",
+     "body": "New apartment dwellers may gain stability but could face exclusion if rules block movement and voice, while others question inclusion in shared spaces. Can all live, work, and be heard here?",
+     "icon": "home2",
+     "tone": "mixed",
+     "anchor": "junction",
+     "indicators": [
+      "SL.UEM.TOTL.ZS",
+      "SP.URB.TOTL.IN.ZS"
+     ],
+     "who": [
+      "new apartment dwellers",
+      "long-time residents",
+      "construction workers"
+     ],
+     "right": "The right-to-the-city question"
+    },
+    {
+     "id": "h3",
+     "title": "Energy shifts threaten health",
+     "body": "Rising pollution may harm health for those near water and markets, while some may lose clean air and safe work spaces. Who breathes clean air and who pays the cost?",
+     "icon": "thermo",
+     "tone": "negative",
+     "anchor": "lake",
+     "indicators": [
+      "KAGGLE_AHD_AQI",
+      "KAGGLE_AHD_NOx"
+     ],
+     "who": [
+      "female labourers",
+      "residents near lake",
+      "market vendors"
+     ],
+     "right": "The right-to-the-city question"
+    },
+    {
+     "id": "h4",
+     "title": "Work and connectivity evolve",
+     "body": "Self-employment may shrink as new rules limit access to tools and networks, while some may lose income and others gain digital reach. Who controls the city’s economy and voice?",
+     "icon": "wifi",
+     "tone": "mixed",
+     "anchor": "market",
+     "indicators": [
+      "IT.NET.BBND.P2",
+      "IT.CEL.SETS.P2"
+     ],
+     "who": [
+      "self-employed",
+      "domestic workers",
+      "students"
+     ],
+     "right": "The right-to-the-city question"
+    }
+   ],
+   "briefing": "**Big picture**  \nMakarba reflects national and city trends in urban transformation: rising population share, shifting migration patterns, and evolving economic metrics. The area sits at a nexus of historical, environmental, and social change.\n\n**Livelihoods**  \n- **Benefit**: self-employed (incl. street vending) may retain a neutral share of employment at 68.27%.  \n- **Face costs**: inflation (2.399→5.735 % per year) and rising pollution may strain daily livelihoods.  \n- **Work changes**: unemployment (4.219→4.867 % of labour force) may grow, while female labour participation (32.43→31.32 %) may decline.\n\n**Right to the city**  \n- **Housing**: access may vary as income per person (11,600→21,840 international $) improves, but road traffic deaths (15.6→15.8 per 100,000) remain stable.  \n- **Voice**: public space may be contested as air quality (AQI rising from 119→374.1) and noise levels (NO rising from 4.42→19.16 µg/m³) may limit inclusion.\n\n**Questions for discussion**  \n- Who may be excluded from new mobility patterns as fixed broadband (5.476 per 100 people) declines?  \n- How might fair access to green space be shaped as renewable energy share (34.9→13.87 %) drops?"
+  },
+  "2045": {
+   "headline": "Makarba: who lives, works, moves in a changing city",
+   "highlights": [
+    {
+     "id": "h1",
+     "title": "Street livelihoods under pressure",
+     "body": "Street vendors may face harder access to space and fair pay as new developments grow, while others struggle with rising costs and pollution.",
+     "icon": "car",
+     "tone": "negative",
+     "anchor": "canal",
+     "indicators": [
+      "KAGGLE_AHD_PM2.5",
+      "FP.CPI.TOTL.ZG"
+     ],
+     "who": [
+      "street vendors",
+      "domestic workers",
+      "auto drivers"
+     ],
+     "right": "Can everyone keep earning in the city? Who gets to sell their goods?"
+    },
+    {
+     "id": "h2",
+     "title": "New dwellers seek fair access",
+     "body": "New apartment dwellers may find limited green space and transport, while long-time residents face displacement and unequal services.",
+     "icon": "home2",
+     "tone": "mixed",
+     "anchor": "market",
+     "indicators": [
+      "SL.EMP.SELF.ZS",
+      "SP.URB.TOTL.IN.ZS"
+     ],
+     "who": [
+      "new apartment dwellers",
+      "long-time village residents",
+      "construction workers"
+     ],
+     "right": "Can newcomers share the city’s resources fairly?"
+    },
+    {
+     "id": "h3",
+     "title": "Energy shifts threaten health",
+     "body": "Rising pollution may harm health for those near the lake and markets, while some may lose clean air and safe work spaces.",
+     "icon": "leaf",
+     "tone": "negative",
+     "anchor": "lake",
+     "indicators": [
+      "KAGGLE_AHD_AQI",
+      "KAGGLE_AHD_NOx"
+     ],
+     "who": [
+      "women workers",
+      "children",
+      "auto drivers"
+     ],
+     "right": "Who breathes cleaner air in this growing city?"
+    },
+    {
+     "id": "h4",
+     "title": "Connectivity and movement change",
+     "body": "Fewer mobile users may limit communication for some, while others gain digital access to jobs and services in the market.",
+     "icon": "wifi",
+     "tone": "positive",
+     "anchor": "junction",
+     "indicators": [
+      "IT.NET.BBND.P2",
+      "IT.CEL.SETS.P2"
+     ],
+     "who": [
+      "self-employed",
+      "students",
+      "vendors"
+     ],
+     "right": "Can everyone stay connected in this mobile city?"
+    }
+   ],
+   "briefing": "**Big picture**  \nMakarba, a peri-urban ward near Ahmedabad, reflects national and city trends in shifting population dynamics and resource stress. Urban share rises from 35.69 to 40.22% of population. Migration drops from 4,95,800 to 0 people. Income per person (PPP) improves from 11,600 to 22,180 international $.\n\n**Livelihoods**  \n- Street vendors, auto drivers, and new apartment dwellers may benefit from informal and residential opportunities.  \n- Long-time village residents and construction workers may face rising costs due to inflation (2.399→5.414% per year).  \n- Self-employed (incl. street vending) employment drops from 74.9% to 67.92%, while female labour participation declines from 32.43 to 31.22%.\n\n**Right to the city**  \n- Housing access may vary as household spending rises from 1,503 to 2,328 constant 2015 US$.  \n- Public space and voice may be constrained as air quality worsens (AQI from 119 to 383.2), with traffic deaths neutral at 15.6 to 15.89 per 100,000.\n\n**Questions for discussion**  \n- How might access to housing and public space differ for street vendors versus new apartment dwellers?  \n- What implications could rising pollution and cost trends have for the right to voice in Makarba?"
+  },
+  "2046": {
+   "headline": "Makarba: who gets heard in a changing city",
+   "highlights": [
+    {
+     "id": "h1",
+     "title": "Street voices may fade",
+     "body": "Street vendors could lose ground as new rules limit access, while others may gain digital reach, but fairness in voice remains uncertain",
+     "icon": "users",
+     "tone": "mixed",
+     "anchor": "junction",
+     "indicators": [
+      "KAGGLE_AHD_PM2.5",
+      "SL.EMP.SELF.ZS"
+     ],
+     "who": [
+      "street vendors",
+      "new apartment dwellers",
+      "domestic workers"
+     ],
+     "right": "Who gets to speak in the city's new layout?"
+    },
+    {
+     "id": "h2",
+     "title": "Jobs shifting under pressure",
+     "body": "Self-employed may shrink as costs rise, while some find new roles, but those without resources could be left behind in the shift",
+     "icon": "car",
+     "tone": "negative",
+     "anchor": "canal",
+     "indicators": [
+      "SL.UEM.TOTL.ZS",
+      "FP.CPI.TOTL.ZG"
+     ],
+     "who": [
+      "self-employed",
+      "construction workers",
+      "auto drivers"
+     ],
+     "right": "Who can keep their work as the city changes?"
+    },
+    {
+     "id": "h3",
+     "title": "Homes and heat in conflict",
+     "body": "New density may bring shelter, but rising heat could strain those without safe spaces, while others seek better conditions",
+     "icon": "haze",
+     "tone": "mixed",
+     "anchor": "lake",
+     "indicators": [
+      "KAGGLE_AHD_NOx",
+      "WEATHER_AHD_HOTDAYS"
+     ],
+     "who": [
+      "new apartment dwellers",
+      "long-time village residents",
+      "domestic workers"
+     ],
+     "right": "Who can live safely in a hotter city?"
+    },
+    {
+     "id": "h4",
+     "title": "Access to air and tech",
+     "body": "Poor air may limit movement, while tech access could open doors, but low broadband may exclude some from new opportunities",
+     "icon": "school",
+     "tone": "negative",
+     "anchor": "market",
+     "indicators": [
+      "KAGGLE_AHD_AQI",
+      "IT.NET.BBND.P2"
+     ],
+     "who": [
+      "female labourers",
+      "self-employed",
+      "students"
+     ],
+     "right": "Who can breathe and connect in the city?"
+    }
+   ],
+   "briefing": "**Big picture**  \nMakarba reflects national and city trends in urban transformation: rising population share, shifting migration patterns, and fluctuating economic indicators. The area intersects historic, natural, and infrastructural elements.\n\n**Livelihoods**  \n- **Benefit**: street vendors, auto drivers, and new apartment dwellers may access informal income streams.  \n- **Cost**: long-time village residents may face displacement and rising living expenses.  \n- **Change**: self-employed (incl. street vending) employment may decline as share drops from 74.9% to 67.57%.\n\n**Right to the city**  \n- **Housing**: access to shelter may vary, with rising traffic deaths and pollution affecting safety.  \n- **Voice**: public space and environmental voice may be constrained by worsening air quality and noise.\n\n**Questions for discussion**  \n- How might access to clean air and safe movement shape inclusion in Makarba’s evolving social fabric?  \n- Could equitable access to housing and public voice be achieved amid shifting employment and migration patterns?"
+  },
+  "2047": {
+   "headline": "Makarba: who gets to live, work and be heard by 2047?",
+   "highlights": [
+    {
+     "id": "h1",
+     "title": "Street voices may fade",
+     "body": "Street vendors could face pressure as new rules limit access to space and income, while others may gain from tech connectivity. Who will have voice in shaping their future?",
+     "icon": "home2",
+     "tone": "mixed",
+     "anchor": "market",
+     "indicators": [
+      "FP.CPI.TOTL.ZG",
+      "SL.EMP.SELF.ZS"
+     ],
+     "who": [
+      "street vendors",
+      "domestic workers",
+      "new apartment dwellers"
+     ],
+     "right": "The right-to-the-city question"
+    },
+    {
+     "id": "h2",
+     "title": "Livelihoods shifting under heat",
+     "body": "Auto drivers and construction workers may struggle as pollution rises and traffic grows, while some may find new roles in green tech. Who will bear the cost of change?",
+     "icon": "car",
+     "tone": "negative",
+     "anchor": "traffic",
+     "indicators": [
+      "KAGGLE_AHD_PM2.5",
+      "SH.DYN.MORT"
+     ],
+     "who": [
+      "auto drivers",
+      "construction workers",
+      "self-employed"
+     ],
+     "right": "The right-to-the-city question"
+    },
+    {
+     "id": "h3",
+     "title": "New homes, old rights questioned",
+     "body": "Applet dwellers may enjoy better services but could face exclusion if access to water and space is uneven. Who will control the new urban order?",
+     "icon": "water",
+     "tone": "mixed",
+     "anchor": "canal",
+     "indicators": [
+      "KAGGLE_AHD_AQI",
+      "SL.UEM.TOTL.ZS"
+     ],
+     "who": [
+      "new apartment dwellers",
+      "long-time village residents",
+      "domestic workers"
+     ],
+     "right": "The right-to-the-city question"
+    },
+    {
+     "id": "h4",
+     "title": "Energy and access divide",
+     "body": "Self-employed may adapt to new energy limits, but low-income groups could lose access to clean power and connectivity. Who will lead the shift?",
+     "icon": "bolt",
+     "tone": "negative",
+     "anchor": "solar",
+     "indicators": [
+      "EG.FEC.RNEW.ZS",
+      "IT.NET.BBND.P2"
+     ],
+     "who": [
+      "self-employed",
+      "low-income groups",
+      "female labourers"
+     ],
+     "right": "The right-to-the-city question"
+    }
+   ],
+   "briefing": "**Big picture**  \nMakarba sits at the intersection of national and city trends: urban population share rising from 35.69 to 40.79%, income per person improving from 11,600 to 22,810 international $, and household spending per person increasing from 1,503 to 2,369 constant 2015 US$. Unemployment rising from 4.219 to 5.119%, while renewable energy share dropping from 34.9 to 11.96%.\n\n**Livelihoods**  \n- Street vendors and auto drivers may benefit from mobile subscriptions declining from 79.35 to 2.179 per 100 people, limiting reach.  \n- Long-time village residents may face costs as road traffic deaths rise from 15.6 to 16.16 per 100,000, affecting mobility.  \n- Self-employed (incl. street vending) employment may shift as self-employed share drops from 74.9 to 67.23%, with construction and domestic work possibly adapting.\n\n**Right to the city**  \n- Housing may become more constrained as air quality index rising from 119 to 342 AQI and PM2.5 increasing from 37.63 to 62.13 µg/m³ may limit safe living zones.  \n- Public space and voice may erode as nitrogen oxides rising from 20.17 to 37.33 ppb and ozone from 9.69 to 43.67 µg/m³ may exclude vulnerable groups.\n\n**Questions for discussion**  \n- How might access to housing and public space vary across groups as pollution and traffic pressures grow?  \n- What equity risks could emerge if voice diminishes amid shifting employment and migration patterns?"
+  },
+  "2048": {
+   "headline": "Makarba: who gets heard in a changing city",
+   "highlights": [
+    {
+     "id": "h1",
+     "title": "Street voices may fade",
+     "body": "Street vendors could lose ground as new rules push them out, while others gain tech access—could fairness shift who speaks up in Makarba’s streets",
+     "icon": "users",
+     "tone": "mixed",
+     "anchor": "market",
+     "indicators": [
+      "FP.CPI.TOTL.ZG",
+      "SL.EMP.SELF.ZS"
+     ],
+     "who": [
+      "street vendors",
+      "domestic workers",
+      "new apartment dwellers"
+     ],
+     "right": "Who controls the voice in shared spaces?"
+    },
+    {
+     "id": "h2",
+     "title": "Jobs may shrink for some",
+     "body": "Self-employed roles could decline as automation grows, leaving some behind—may new roles emerge but at what cost to local livelihoods",
+     "icon": "car",
+     "tone": "negative",
+     "anchor": "canal",
+     "indicators": [
+      "SL.EMP.SELF.ZS",
+      "SL.UEM.TOTL.ZS"
+     ],
+     "who": [
+      "self-employed (incl. street vend",
+      "construction workers",
+      "auto drivers"
+     ],
+     "right": "Who keeps work in the hands of the many?"
+    },
+    {
+     "id": "h3",
+     "title": "Access to air may be unequal",
+     "body": "Poor air quality could force some to leave, while others benefit from new tech—may health risks grow for those near the lake",
+     "icon": "thermo",
+     "tone": "negative",
+     "anchor": "lake",
+     "indicators": [
+      "KAGGLE_AHD_AQI",
+      "KAGGLE_AHD_PM2.5"
+     ],
+     "who": [
+      "female labourers",
+      "children",
+      "long-time village residents"
+     ],
+     "right": "Who breathes clean air in Makarba’s crowded edges?"
+    },
+    {
+     "id": "h4",
+     "title": "Homes may change fast",
+     "body": "New apartments could rise fast, displacing some—may access to shelter grow but at the cost of old ways of living",
+     "icon": "home2",
+     "tone": "mixed",
+     "anchor": "junction",
+     "indicators": [
+      "SP.URB.TOTL.IN.ZS",
+      "IT.NET.BBND.P2"
+     ],
+     "who": [
+      "new apartment dwellers",
+      "village residents",
+      "domestic workers"
+     ],
+     "right": "Who owns the right to live in the city’s new zones?"
+    }
+   ],
+   "briefing": "**Big picture**  \nMakarba, a peri-urban ward on the south-west edge of Ahmedabad, may reflect national trends in urban transformation—shifting population dynamics, rising inequality, and strained environmental systems. The urban population share may increase from 35.69 to 41.1% of the population, while net migration may decline from 4,95,800 to 0 people.\n\n**Livelihoods**  \n- Street vendors and construction workers may benefit from informal market access.  \n- Long-time village residents and new apartment dwellers may face rising costs due to inflation (2.399→5.271% per year).  \n- Self-employed (incl. street vending) may see a neutral shift in employment share (74.9→66.88%).\n\n**Right to the city**  \n- Housing may become more constrained as income per person (PPP) may rise from 11,600 to 23,110 international $, but access may be uneven.  \n- Public space may be contested as road traffic deaths may rise from 15.6 to 16.22 per 100,000 people, and air quality may worsen (AQI rising from 119 to 382.3).\n\n**Questions for discussion**  \n- Could fairness in access to housing emerge as a challenge for new apartment dwellers?  \n- May voice in urban planning be limited for street vendors amid rising pollution and traffic risks?"
+  },
+  "2050": {
+   "headline": "Makarba: city life shifting by 2050",
+   "highlights": [
+    {
+     "id": "h1",
+     "title": "Street livelihoods under pressure",
+     "body": "Street vendors may face harder access to space and fair pay as new rules limit informal trade near dense zones, while others struggle with rising costs and pollution, making survival more complex for…",
+     "icon": "shop",
+     "tone": "negative",
+     "anchor": "market",
+     "indicators": [
+      "KAGGLE_AHD_PM2.5",
+      "SL.EMP.SELF.ZS"
+     ],
+     "who": [
+      "street vendors",
+      "domestic workers",
+      "auto drivers"
+     ],
+     "right": "Can everyone keep earning in the city when space and air grow more expensive?"
+    },
+    {
+     "id": "h2",
+     "title": "New homes, uncertain access",
+     "body": "New apartment dwellers may gain stability but could lose access to shared spaces and clean air as high-density zones expand, leaving long-time residents and low-income groups to compete for space…",
+     "icon": "home2",
+     "tone": "mixed",
+     "anchor": "canal",
+     "indicators": [
+      "SL.UEM.TOTL.ZS",
+      "SP.URB.TOTL.IN.ZS"
+     ],
+     "who": [
+      "new apartment dwellers",
+      "long-time village residents",
+      "domestic workers"
+     ],
+     "right": "Will new residents have the same rights to live, work, and speak as others in the city?"
+    },
+    {
+     "id": "h3",
+     "title": "Work in changing air and heat",
+     "body": "Self-employed workers may adapt to stricter rules on outdoor work as heat and pollution rise, affecting those who rely on open spaces near the roza, while others face new health risks from…",
+     "icon": "thermo",
+     "tone": "negative",
+     "anchor": "heat",
+     "indicators": [
+      "KAGGLE_AHD_AQI",
+      "SL.EMP.SELF.ZS"
+     ],
+     "who": [
+      "self-employed (incl. street vend",
+      "construction workers",
+      "auto drivers"
+     ],
+     "right": "Can people keep working safely when the air and weather grow more dangerous?"
+    },
+    {
+     "id": "h4",
+     "title": "Movement and voice in crowded streets",
+     "body": "Road use may grow tighter as traffic deaths rise, limiting how people move and speak out near the junction, while those with new tech may gain voice, but others lose space and safety in the corridor",
+     "icon": "bus",
+     "tone": "mixed",
+     "anchor": "junction",
+     "indicators": [
+      "SH.STA.TRAF.P5",
+      "SP.DYN.TFRT.IN"
+     ],
+     "who": [
+      "residents",
+      "students",
+      "road users"
+     ],
+     "right": "Can voices and movement still shape the city when space and safety shrink?"
+    }
+   ],
+   "briefing": "**Big picture**  \nMakarba, a peri-urban ward on the south-west edge of Ahmedabad, India, lies beside the Sarkhej–Gandhinagar Highway, the 15th-century Sarkhej Roza and its lake, and a canal. Urban population share may rise from 35.69 to 41.73 % of population. Income per person (PPP) may increase from 11,600 to 23,600 international $. Household spending per person may rise from 1,503 to 2,440 constant 2015 US$. Mobile subscriptions may fall from 79.35 to 0 per 100 people. These reflect national and city trends.\n\n**Livelihoods**  \n- Street vendors, auto drivers, construction and domestic workers may benefit from informal income streams.  \n- Long-time village residents and new apartment dwellers may face rising costs due to inflation (2.399 to 5.425 % per year).  \n- Self-employed (incl. street vending) may decline from 74.9 to 66.19 % of employment, while unemployment may rise from 4.219 to 5.34 % of labour force.\n\n**Right to the city**  \n- Housing may become more constrained as road traffic deaths may rise from 15.6 to 15.92 per 100,000 people.  \n- Public space, voice, and air quality may deteriorate—PM2.5 may rise from 37.63 to 53.07 µg/m³, and AQI may climb from 119 to 375.2.\n\n**Questions for discussion**  \n- Who may be excluded from access to housing and public space as pollution and traffic rise?  \n- How may voice and participation shift among groups as self-employment declines and migration neutralizes?"
+  }
+ }
+}

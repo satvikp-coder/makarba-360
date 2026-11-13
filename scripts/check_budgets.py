@@ -17,7 +17,8 @@ BUDGET_KB = {            # gzip kilobytes
     # Added with the v2 dashboard (2026-11-12): splitting work OUT of the entry bundle creates these chunks; each is fetched only
     # when its page is opened, and together they are still budgeted. The entry budgets above did not change.
     "map_css": 15,        # MapLibre's stylesheet plus map chrome, loaded with the explorer (was previously inside "css")
-    "page_js": 60,        # lazily loaded pages, summed: Outlook, Insights, Voices, place profile, panorama page, Then & Now, research
+    "page_js": 60,        # lazily loaded pages, summed: Overview, Outlook, Insights, Voices, place profile, panorama page, Then & Now, research,
+                          # the future panel, and the chunk they share (forecast data + AI store, named after one of its modules)
     "page_css": 5,        # Outlook-only styles
 }
 FIXTURE_MAX_KB = 200
@@ -28,12 +29,13 @@ def gz_kb(path: pathlib.Path) -> float:
     return len(gzip.compress(path.read_bytes(), 9)) / 1024
 
 def classify(name: str) -> str | None:
-    if re.match(r"MapView-.*\.js$", name): return "map_chunk_js"
+    # Stage = the always-on 3D map (MapView + time dock + lenses + AI dock), loaded after the first paint
+    if re.match(r"(MapView|Stage)-.*\.js$", name): return "map_chunk_js"
     if re.match(r"maplibre-gl-worker-.*\.mjs$", name): return "map_worker"
     if re.match(r"pannellum-.*\.js$", name): return "panorama_js"
     if re.match(r"pannellum-.*\.css$", name): return "panorama_css"
-    if re.match(r"MapView-.*\.css$", name): return "map_css"
-    if re.match(r"(Forecasts|Insights|Voices|Profile|Panorama|PanoramaPage|ThenNowPage|ThenNowView|ResearchPages|ComparisonIndex)-.*\.js$", name): return "page_js"
+    if re.match(r"(MapView|Stage)-.*\.css$", name): return "map_css"
+    if re.match(r"(Home|FuturePanel|MatrixOrb|Forecasts|Insights|Voices|Profile|Panorama|PanoramaPage|ThenNowPage|ThenNowView|ResearchPages|ComparisonIndex)-.*\.js$", name): return "page_js"
     if re.match(r"(Forecasts|Insights|Voices|Profile|ThenNowPage|ResearchPages|ComparisonIndex)-.*\.css$", name): return "page_css"
     if re.match(r"index-.*\.js$", name): return "initial_js"
     if re.match(r"index-.*\.css$", name): return "css"

@@ -22,25 +22,16 @@ export interface Scenario {
   /** Heat shimmer strength from Ahmedabad's forecast hot days, 0..1. */
   heat: number;
   /** Human-readable explanation of every change, in the order shown on the map. */
-  changes: { id: string; title: string; because: string; effect: string; at: [number, number] }[];
+  changes: { id: string; title: string; because: string; effect: string; at: [number, number]; people?: PeopleLens }[];
 }
 
-/** Fixed places on the 3D map that highlights (including AI-generated ones) may point at. */
-export const ANCHORS = {
-  corridor: { at: [72.5141, 22.9985] as [number, number], label: "highway-side commercial corridor" },
-  redevelop: { at: [72.509, 22.9978] as [number, number], label: "older plots north of the village" },
-  densify: { at: [72.4985, 22.9835] as [number, number], label: "residential neighbourhoods to the south-west" },
-  solar: { at: [72.4975, 22.9925] as [number, number], label: "rooftops of low-rise homes" },
-  haze: { at: [72.5055, 23.0015] as [number, number], label: "the sky over the ward (air quality)" },
-  traffic: { at: [72.5121, 22.9855], label: "Sarkhej–Gandhinagar Highway traffic" } as { at: [number, number]; label: string },
-  heat: { at: [72.5005, 22.9805] as [number, number], label: "streets and open ground in summer heat" },
-  roza: { at: [72.5045, 22.9923] as [number, number], label: "Sarkhej Roza heritage complex" },
-  lake: { at: [72.5035, 22.9897] as [number, number], label: "Sarkhej lake and its steps" },
-  canal: { at: [72.511, 22.9968] as [number, number], label: "canal bank" },
-  mill: { at: [72.5168, 22.992] as [number, number], label: "former mill compound" },
-  market: { at: [72.5155, 22.9975] as [number, number], label: "factory-road vending stretch" },
-  junction: { at: [72.5062, 22.9936] as [number, number], label: "junction by the shrine approach" },
-};
+// Named places on the 3D map that highlights may point at: data/content/anchors.json.
+import anchorsJson from "../../../data/content/anchors.json";
+// How each visible change affects people (gains, costs, right-to-the-city question): data/content/scenario.json.
+import peopleJson from "../../../data/content/scenario.json";
+export const ANCHORS = anchorsJson as unknown as Record<"corridor" | "redevelop" | "densify" | "solar" | "haze" | "traffic" | "heat" | "roza" | "lake" | "canal" | "mill" | "market" | "junction", { at: [number, number]; label: string }>;
+export interface PeopleLens { title: string; gains: string; costs: string; question: string }
+export const PEOPLE = peopleJson as unknown as Record<string, PeopleLens>;
 export type AnchorId = keyof typeof ANCHORS;
 
 const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v));
@@ -81,5 +72,6 @@ export function scenarioFor(doc: ForecastDoc, endYear: number): Scenario {
     effect: `Traffic on the highway moves ${traffic >= 1 ? `${Math.round((traffic - 1) * 100)}% busier` : "lighter"}: more vehicles unless public transport keeps pace.` });
   if (hot) changes.push({ id: "heat", at: ANCHORS.heat.at, title: hot.change > 0 ? "Hotter summers" : "Milder summers", because: `Ahmedabad days at or above 40 °C ${fmt(hot.from.value)} → ${fmt(hot.to.value)} a year`,
     effect: hot.change > 0 ? "Heat shimmer over open ground: shade, cool roofs and water points matter more." : "Less heat shimmer as very hot days become rarer." });
+  for (const c of changes) c.people = PEOPLE[c.id];
   return { year: endYear, corridorGrowth, densify, redevelop, solar, haze, traffic, heat, changes };
 }

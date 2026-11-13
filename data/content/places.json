@@ -1,0 +1,134 @@
+{
+  "junction-fruit-carts": {
+    "photo": {
+      "src": "images/places/ahmedabad2007-066.jpg",
+      "alt": "A roadside fruit stall under a blue tarpaulin, with crates of melons and fruit",
+      "title": "Fruit stall, Ahmedabad (2007)",
+      "credit": "Helfmann",
+      "licence": "CC BY-SA 4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Ahmedabad2007-066.JPG",
+      "representative": true
+    }
+  },
+  "mosque-lane-tea-corner": {
+    "photo": {
+      "src": "images/places/ahmedabad2007-101.jpg",
+      "alt": "A small kiosk under trees with a man sitting beside it on a quiet street",
+      "title": "Street kiosk, Ahmedabad (2007)",
+      "credit": "Helfmann",
+      "licence": "CC BY-SA 4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Ahmedabad2007-101.JPG",
+      "representative": true
+    }
+  },
+  "village-bus-stand": {
+    "photo": {
+      "src": "images/places/ahmedabad-amts-bus.jpg",
+      "alt": "A red AMTS city bus at a bus stop in Ahmedabad",
+      "title": "AMTS bus stop, Ahmedabad",
+      "credit": "Vrajesh jani",
+      "licence": "CC BY-SA 3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Ahmedabad_AMTS_Bus.JPG",
+      "representative": true
+    }
+  },
+  "highway-auto-stand": {
+    "photo": {
+      "src": "images/places/auto-rickshaws-in-ahmedabad.jpg",
+      "alt": "A line of green and yellow auto-rickshaws on an Ahmedabad street",
+      "title": "Auto-rickshaws, Ahmedabad",
+      "credit": "Bernard Gagnon",
+      "licence": "CC BY-SA 3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Auto_rickshaws_in_Ahmedabad.jpg",
+      "representative": true
+    }
+  },
+  "canal-bank-walk": {
+    "photo": {
+      "src": "images/places/tainter-gate-at-narmada-dholka-canal-01.jpg",
+      "alt": "A radial gate across the Narmada Dholka canal near Ahmedabad",
+      "title": "Narmada Dholka canal near Ahmedabad",
+      "credit": "Pravega",
+      "licence": "CC BY-SA 4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Tainter_gate_at_Narmada_Dholka_Canal_01.jpg",
+      "representative": true
+    }
+  },
+  "old-cotton-mill-site": {
+    "photo": {
+      "src": "images/landmarks/calico-mills-chimney.jpg",
+      "alt": "The tall chimney of the former Calico Mills in Ahmedabad",
+      "title": "Calico Mills chimney, Ahmedabad (2021)",
+      "credit": "Imfarhad7",
+      "licence": "CC BY-SA 4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Calico_Mills_3.jpg",
+      "representative": true
+    }
+  },
+  "factory-road-vending-stretch": {
+    "photo": {
+      "src": "images/places/ahmedabad2007-151.jpg",
+      "alt": "A food cart with a blue awning on a dusty open road, a scooter passing",
+      "title": "Roadside cart, Ahmedabad (2007)",
+      "credit": "Helfmann",
+      "licence": "CC BY-SA 4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Ahmedabad2007-151.JPG",
+      "representative": true
+    }
+  },
+  "weekend-mela-ground": {
+    "photo": {
+      "src": "images/places/ahmedabad2007-167.jpg",
+      "alt": "Families walking past a drinks stall on an open plaza with tall street lamps",
+      "title": "Open plaza with stalls, Ahmedabad (2007)",
+      "credit": "Helfmann",
+      "licence": "CC BY-SA 4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Ahmedabad2007-167.JPG",
+      "representative": true
+    }
+  },
+  "lake-edge-steps": {
+    "photo": {
+      "src": "images/places/sarkhej-roza-ahmed-sar-lake-jama-masjid-01.jpg",
+      "alt": "The long stone wall and domes of Sarkhej Roza seen across the grassy lake bed, with new high-rise flats behind",
+      "title": "Sarkhej Roza from the lake",
+      "credit": "WeHaKa",
+      "licence": "CC BY-SA 4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Sarkhej_Roza-Ahmed_Sar_Lake-Jama_Masjid-01.jpg",
+      "representative": false
+    }
+  },
+  "sarkhej-roza-area": {
+    "photo": {
+      "src": "images/landmarks/sarkhej-roza.jpg",
+      "alt": "The Sarkhej Roza mosque seen from its courtyard",
+      "title": "Sarkhej Roza (2011)",
+      "credit": "Museeb fakih",
+      "licence": "Public domain",
+      "source": "https://commons.wikimedia.org/wiki/File:Sarkhej.JPG",
+      "representative": false
+    }
+  },
+  "crowdfunded-snack-stall": {
+    "photo": {
+      "src": "images/places/ahmedabad2007-095.jpg",
+      "alt": "A dabeli snack cart with Gujarati signs on a street corner, an auto-rickshaw parked nearby",
+      "title": "Dabeli cart, Ahmedabad (2007)",
+      "credit": "Helfmann",
+      "licence": "CC BY-SA 4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Ahmedabad2007-095.JPG",
+      "representative": true
+    }
+  },
+  "visitor-drop-off": {
+    "photo": {
+      "src": "images/places/sarkhej-roza-ahmed-sar-lake-jama-masjid-05.jpg",
+      "alt": "Stone steps and a pillared pavilion of Sarkhej Roza by the lake, with apartment towers behind",
+      "title": "Sarkhej Roza steps and pavilion",
+      "credit": "WeHaKa",
+      "licence": "CC BY-SA 4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Sarkhej_Roza-Ahmed_Sar_Lake-Jama_Masjid-05.jpg",
+      "representative": false
+    }
+  }
+}

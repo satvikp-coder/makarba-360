@@ -11,10 +11,12 @@ import { categoryColor, categoryColorExpression, CATEGORY_STYLE, scenarioColors 
 import { makeVehicles, step as stepTraffic, toFeatures } from "./traffic.js";
 import { plainKey } from "../Shell.js";
 import { getPrefs } from "../prefs.js";
+import { AirParticles } from "./AirParticles.js";
 
 /** Fine detail costs a lot on software WebGL (SwiftShader, llvmpipe) and very weak devices; "auto" turns it down there. */
 const DETAIL_LAYERS = ["ledges", "shadows", "furniture", "tree-trunk", "zebra", "lane-marking", "ground-grain", "roofs"];
 /** Sources whose geometry is dropped (not just hidden) in low detail, so the worker does not parse and index it at all. */
+const preloading = () => typeof document !== "undefined" && document.documentElement.dataset.preloading === "1";
 const detailData = (): Record<string, unknown> => ({ ledges: city().ledges, shadows: city().shadows, furniture: furniture.solid, markings: furniture.flat, "tree-trunk": city().trees.trunks, roofs: city().roofs });
 const EMPTY = { type: "FeatureCollection", features: [] };
 export function lowDetail(canvas: HTMLCanvasElement | undefined, detail = getPrefs().detail): boolean {
@@ -30,9 +32,10 @@ export function lowDetail(canvas: HTMLCanvasElement | undefined, detail = getPre
 import { easeInOutSine as easeInOutCubic, useReducedMotion } from "../motion.js";
 import type { Scenario } from "../scenario.js";
 import { Icon, type IconName } from "../Icon.js";
-import { city, furniture, BASE_LABELS, BASEMAP_ATTRIBUTION, buildOfflineStyle, DASH_STEPS, MAKARBA_BOUNDS, MAKARBA_CENTER, THEMES, themedPaint, type Pos, type TimeOfDay } from "./basemap.js";
+import { city, furniture, canal, roads, water, CANAL, HIGHWAY, BASE_LABELS, BASEMAP_ATTRIBUTION, buildOfflineStyle, DASH_STEPS, MAKARBA_BOUNDS, MAKARBA_CENTER, THEMES, themedPaint, type Pos, type TimeOfDay } from "./basemap.js";
 import { Fallback2D } from "./Fallback2D.js";
 import { TOUR } from "./tour.js";
+import { footprintAt, footprintData, footprintOf, type Footprint } from "./highlight.js";
 
 const SRC = "places";
 /** Camera of the finished intro: Makarba seen from the south-west at a 3D angle. */
@@ -88,14 +91,23 @@ interface Props {
   highlights?: { id: string; title: string; at: [number, number]; tone?: string }[] | null;
   /** Called with the scenario change the guided camera is showing (null when it stops). */
   onFocusChange?: (id: string | null) => void;
+  /** Data lens: restyles the scene to show one kind of data in 3D. level is 0..1 for the chosen year. */
+  lens?: "places" | "heat" | "air" | "growth" | "mobility";
+  lensLevel?: number;
+  /** A panel asked the camera to fly here. */
+  flyTo?: [number, number] | null;
+  /** Width of the floating panel over the map's left edge: the camera centres in the visible part. */
+  padLeft?: number;
 }
 
 /** Overview that shows the highway corridor and the old village together, used when a scenario is first shown. */
 const SCENARIO_VIEW = { center: [72.5105, 22.9935] as Pos, zoom: 15.1, pitch: 64, bearing: -38 };
 
 const LIGHTS: { id: TimeOfDay; label: string; icon: IconName }[] = [{ id: "dawn", label: "Dawn", icon: "sunrise" }, { id: "day", label: "Day", icon: "sun" }, { id: "dusk", label: "Dusk", icon: "sunset" }, { id: "night", label: "Night", icon: "moon" }];
-interface TourStopView { id: string; placeId?: string; title: string; caption: string; source?: string; center: Pos; zoom: number; pitch: number; bearing: number }
-const ORBIT_MS = 30000;
+interface TourStopView { id: string; placeId?: string; title: string; caption: string; kicker?: string; source?: string; center: Pos; zoom: number; pitch: number; bearing: number }
+const metresBetween = (a: Pos, b: Pos) => Math.hypot((a[0] - b[0]) * 111_320 * Math.cos((23 * Math.PI) / 180), (a[1] - b[1]) * 111_320);
+const ORBIT_DEG_PER_MS = 360 / 150_000;   // one slow turn every 2.5 minutes
+const ORBIT_IDLE_MS = 3000;
 const GUIDE_FLY_MS = 3200, GUIDE_HOLD_MS = 4200;
 
 function el(className: string, text?: string): HTMLDivElement {
@@ -112,7 +124,7 @@ function el(className: string, text?: string): HTMLDivElement {
  * the same information. Motion (intro flight, flowing canal and traffic, pulsing selection) honours prefers-reduced-motion and can be
  * paused at any time (WCAG 2.2.2).
  */
-export function MapView({ features, sourceAttribution, selectedId, onSelect, onStatus, scenario = null, highlights = null, onFocusChange }: Props) {
+export function MapView({ features, sourceAttribution, selectedId, onSelect, onStatus, scenario = null, highlights = null, onFocusChange, lens = "places", lensLevel = 0, flyTo = null, padLeft = 0 }: Props) {
   const host = useRef<HTMLDivElement>(null);
   const mapRef = useRef<maplibregl.Map | null>(null);
   const labelsRef = useRef<maplibregl.Marker[]>([]);
@@ -126,6 +138,7 @@ export function MapView({ features, sourceAttribution, selectedId, onSelect, onS
   const [status, setStatus] = useState<MapStatus>("loading");
   const [rendered, setRendered] = useState(false);
   const [time, setTime] = useState<TimeOfDay>("day");
+  const compassRef = useRef<HTMLSpanElement>(null);
   const [cam, setCam] = useState<{ bearing: number; pitch: number; zoom: number; lat: number }>({ bearing: HOME_VIEW.bearing, pitch: HOME_VIEW.pitch, zoom: HOME_VIEW.zoom, lat: MAKARBA_CENTER[1] });
   const [full, setFull] = useState(false);
   const wrapRef = useRef<HTMLDivElement>(null);
@@ -134,14 +147,19 @@ export function MapView({ features, sourceAttribution, selectedId, onSelect, onS
   const [intro, setIntro] = useState<"pending" | "flying" | "done">("pending");
   const [tour, setTour] = useState<number | null>(null);
   // The tour visits the authored landmark stops, then every published place.
-  const tourStops: TourStopView[] = [
-    ...TOUR.map((t) => ({ id: t.id, title: t.title, caption: t.caption, source: t.source, center: t.center, zoom: t.zoom, pitch: t.pitch, bearing: t.bearing })),
-    ...features.flatMap((f, i) => {
-      const at = anchorOf(f);
-      const label = CATEGORY_STYLE[f.properties.category as keyof typeof CATEGORY_STYLE]?.label ?? f.properties.category;
-      return at ? [{ id: `place-${String(f.id)}`, placeId: String(f.id), title: nameOf(f), caption: `${label} · Makarba`, center: at, zoom: 17.3, pitch: 62, bearing: ((i * 67) % 360) - 180 }] : [];
-    }),
-  ];
+  // A place within ~150 m of an authored stop is part of that stop (its "Open details"), not a second stop at the same spot.
+  const authored: TourStopView[] = TOUR.map((t) => ({ id: t.id, title: t.title, caption: t.caption, source: t.source, center: t.center, zoom: t.zoom, pitch: t.pitch, bearing: t.bearing }));
+  const placeStops: TourStopView[] = [];
+  for (const f of features) {
+    const at = anchorOf(f);
+    if (!at) continue;
+    const near = authored.filter((t) => t.id !== "overview" && !t.placeId && metresBetween(t.center, at) < 150)
+      .sort((a, b) => metresBetween(a.center, at) - metresBetween(b.center, at))[0];
+    if (near) { near.placeId = String(f.id); continue; }
+    const label = CATEGORY_STYLE[f.properties.category as keyof typeof CATEGORY_STYLE]?.label ?? f.properties.category;
+    placeStops.push({ id: `place-${String(f.id)}`, placeId: String(f.id), title: nameOf(f), caption: "", kicker: label, center: at, zoom: 17.2, pitch: 62, bearing: NaN });
+  }
+  const tourStops: TourStopView[] = [...authored, ...placeStops];
   const stopsRef = useRef(tourStops);
   stopsRef.current = tourStops;
   const tourPanel = useRef<HTMLDivElement>(null);
@@ -151,8 +169,9 @@ export function MapView({ features, sourceAttribution, selectedId, onSelect, onS
   const flyHome = (animate: boolean) => {
     const map = mapRef.current;
     if (!map) return;
-    const view = { ...HOME_VIEW, pitch: is3d ? HOME_VIEW.pitch : 0 };
-    if (!animate || reducedRef.current) { map.jumpTo(view); setIntro("done"); return; }
+    const view = { ...HOME_VIEW, pitch: is3d ? HOME_VIEW.pitch : 0, padding: { left: padRef.current, right: 0, top: 0, bottom: 0 } };
+    // while the particle preloader plays, it is the intro: the map waits at home for the particles to land on its roads
+    if (!animate || reducedRef.current || preloading()) { map.jumpTo(view); setIntro("done"); return; }
     setIntro("flying");
     map.flyTo({ ...view, duration: 4200, curve: 1.25, essential: true, easing: easeInOutCubic });
     map.once("moveend", () => setIntro("done"));
@@ -164,7 +183,9 @@ export function MapView({ features, sourceAttribution, selectedId, onSelect, onS
     try {
       map = new maplibregl.Map({
         container: host.current, style: buildStyle("day"), ...(reducedRef.current ? HOME_VIEW : START_VIEW),
-        attributionControl: false, cooperativeGestures: true, maxPitch: 70,
+        // the map is the whole page now, so plain scroll/drag gestures belong to it; resolution is capped for smooth frames on
+        // high-density screens (the visual difference above 1.5x is small, the cost is large)
+        attributionControl: false, cooperativeGestures: false, maxPitch: 70, pixelRatio: Math.min(window.devicePixelRatio || 1, 1.5),
         maxBounds: [[MAKARBA_BOUNDS[0][0] - 0.03, MAKARBA_BOUNDS[0][1] - 0.03], [MAKARBA_BOUNDS[1][0] + 0.03, MAKARBA_BOUNDS[1][1] + 0.03]],
         canvasContextAttributes: { antialias: true },
       });
@@ -173,13 +194,12 @@ export function MapView({ features, sourceAttribution, selectedId, onSelect, onS
       return;
     }
     mapRef.current = map;
-    // Our own controls replace MapLibre's defaults; the camera is mirrored into state for the compass and the scale bar.
-    let camRaf = 0;
-    const syncCam = () => {
-      cancelAnimationFrame(camRaf);
-      camRaf = requestAnimationFrame(() => setCam({ bearing: map.getBearing(), pitch: map.getPitch(), zoom: map.getZoom(), lat: map.getCenter?.().lat ?? MAKARBA_CENTER[1] }));
-    };
-    map.on("move", syncCam);
+    // Our own controls replace MapLibre's defaults. During a move only the compass needle turns (straight on the DOM, no React
+    // render per frame: re-rendering the whole map UI 60 times a second was the main cause of stutter in flights and the 360° turn);
+    // the rest of the camera mirror (scale bar, tilt button, stars) updates when the move ends.
+    const syncCam = () => setCam({ bearing: map.getBearing(), pitch: map.getPitch(), zoom: map.getZoom(), lat: map.getCenter?.().lat ?? MAKARBA_CENTER[1] });
+    map.on("move", () => { const n = compassRef.current; if (n) n.style.transform = `rotate(${-map.getBearing()}deg)`; });
+    map.on("moveend", syncCam);
     const lost = () => report("unavailable");
     map.getCanvas().addEventListener("webglcontextlost", lost);
     map.on("error", (e: { error?: { message?: string } }) => {
@@ -209,6 +229,16 @@ export function MapView({ features, sourceAttribution, selectedId, onSelect, onS
       map.addLayer({ id: "places-line", type: "line", source: SRC, filter: ["==", ["geometry-type"], "LineString"], layout: { "line-cap": "round", "line-join": "round" }, paint: { "line-color": color, "line-width": ["interpolate", ["linear"], ["zoom"], 13, 3, 17, 9], "line-opacity": 0.85 } });
       map.addLayer({ id: "places-cluster", type: "circle", source: SRC, filter: ["has", "point_count"], paint: { "circle-color": "#E6BC6C", "circle-stroke-width": 2, "circle-stroke-color": "#163D3B", "circle-radius": ["step", ["get", "point_count"], 14, 5, 18, 20, 24] } });
       map.addLayer({ id: "places-point", type: "circle", source: SRC, filter: isPoint, paint: { "circle-radius": ["interpolate", ["linear"], ["zoom"], 13, 6, 17, 11], "circle-color": color, "circle-stroke-width": 2.5, "circle-stroke-color": "#ffffff", "circle-pitch-alignment": "map" } });
+      // selection highlight: the footprint under the place (see highlight.ts), drawn as a soft glow, a crisp edge and, for a
+      // building, the building itself lit in the place's colour
+      const none = { type: "FeatureCollection" as const, features: [] };
+      map.addSource("focus-lines", { type: "geojson", data: none });
+      map.addSource("focus-solid", { type: "geojson", data: none });
+      map.addLayer({ id: "focus-ground", type: "fill", source: "focus-solid", filter: ["==", ["get", "kind"], "area"], paint: { "fill-color": ["get", "c"], "fill-opacity": 0.14 } });
+      map.addLayer({ id: "focus-extrude", type: "fill-extrusion", source: "focus-solid", filter: ["==", ["get", "kind"], "building"], paint: { "fill-extrusion-color": ["get", "c"], "fill-extrusion-height": ["+", ["get", "h"], 0.6], "fill-extrusion-opacity": 0.92 } });
+      map.addLayer({ id: "focus-glow", type: "line", source: "focus-lines", layout: { "line-join": "round", "line-cap": "round" }, paint: { "line-color": ["get", "c"], "line-width": ["interpolate", ["linear"], ["zoom"], 14, 8, 18, 22], "line-blur": ["interpolate", ["linear"], ["zoom"], 14, 6, 18, 14], "line-opacity": 0.5 } });
+      map.addLayer({ id: "focus-edge", type: "line", source: "focus-lines", layout: { "line-join": "round", "line-cap": "round" }, paint: { "line-color": ["get", "c"], "line-width": ["interpolate", ["linear"], ["zoom"], 14, 2, 18, 4] } });
+      map.addLayer({ id: "focus-core", type: "line", source: "focus-lines", layout: { "line-join": "round", "line-cap": "round" }, paint: { "line-color": "#ffffff", "line-width": ["interpolate", ["linear"], ["zoom"], 14, 0.6, 18, 1.4], "line-opacity": 0.9 } });
       const pick = (e: { features?: { properties?: Record<string, unknown> }[] }) => {
         const id = e.features?.[0]?.properties?.["locationId"];
         if (typeof id === "string") onSelectRef.current?.(id);
@@ -245,7 +275,11 @@ export function MapView({ features, sourceAttribution, selectedId, onSelect, onS
   }, [sourceAttribution]);
 
   // Published places: data, HTML name labels, and the camera (intro flight on first data, gentle refit on later filter changes).
+  const padRef = useRef(padLeft);
+  padRef.current = padLeft;
   const placeLabels = useRef<maplibregl.Marker[]>([]);
+  const selectedRef = useRef<string | null>(null);
+  selectedRef.current = selectedId ?? null;
   // Parents rebuild the features array on every render; only a change in WHICH places are shown should move the camera.
   const featKey = features.map((f) => String(f.id)).join("|");
   useEffect(() => {
@@ -257,8 +291,12 @@ export function MapView({ features, sourceAttribution, selectedId, onSelect, onS
     placeLabels.current = features.flatMap((f) => {
       const at = anchorOf(f);
       if (!at) return [];
-      const d = el("map-label map-label--place", nameOf(f));
+      const d = el("map-label map-label--place");
+      const dot = document.createElement("i"); const txt = document.createElement("span"); txt.textContent = nameOf(f);
+      d.append(dot, txt);
       d.style.setProperty("--c", categoryColor(f.properties.category));
+      d.dataset.id = String(f.id);
+      d.classList.toggle("on", String(f.id) === selectedRef.current);
       d.addEventListener("click", () => onSelectRef.current?.(String(f.id)));
       return [new maplibregl.Marker({ element: d, anchor: "bottom", offset: [0, -12] }).setLngLat(at).addTo(map)];
     });
@@ -278,12 +316,13 @@ export function MapView({ features, sourceAttribution, selectedId, onSelect, onS
     const map = mapRef.current;
     if (!map || status !== "ready" || !map.getLayer("places-point")) return;
     const sel = (a: unknown, b: unknown) => (selectedId ? ["case", ["==", ["get", "locationId"], selectedId], a, b] : b) as never;
-    map.setPaintProperty("places-point", "circle-radius", sel(15, ["interpolate", ["linear"], ["zoom"], 13, 6, 17, 11]));
+    map.setPaintProperty("places-point", "circle-radius", sel(9, ["interpolate", ["linear"], ["zoom"], 13, 6, 17, 11]));
     map.setPaintProperty("places-point", "circle-stroke-color", sel("#163D3B", "#ffffff"));
-    map.setPaintProperty("places-fill", "fill-extrusion-height", sel(26, 3));
-    map.setPaintProperty("places-line", "line-width", sel(14, ["interpolate", ["linear"], ["zoom"], 13, 3, 17, 9]));
+    map.setPaintProperty("places-fill", "fill-extrusion-height", sel(4, 3));
+    map.setPaintProperty("places-line", "line-width", sel(["interpolate", ["linear"], ["zoom"], 13, 4, 17, 11], ["interpolate", ["linear"], ["zoom"], 13, 3, 17, 9]));
     pulseRef.current?.remove();
     pulseRef.current = null;
+    for (const m of placeLabels.current) m.getElement().classList.toggle("on", m.getElement().dataset.id === selectedId);
     const f = selectedId ? features.find((x) => String(x.id) === selectedId) : undefined;
     const at = f ? anchorOf(f) : null;
     if (!f || !at) return;
@@ -293,9 +332,63 @@ export function MapView({ features, sourceAttribution, selectedId, onSelect, onS
     pulseRef.current = new maplibregl.Marker({ element: ring, anchor: "center" }).setLngLat(at).addTo(map);
     const view = { center: at, zoom: Math.max(map.getZoom(), 16.2), pitch: is3d ? 62 : 0, bearing: map.getBearing() };
     if (reducedRef.current) map.jumpTo(view);
-    else map.flyTo({ ...view, duration: 1700, curve: 1.3, easing: easeInOutCubic, essential: true });
+    else map.flyTo({ ...view, speed: 0.9, curve: 1.35, maxDuration: 3000, easing: easeInOutCubic, essential: true });
     // the camera should move only when the selection changes, not when the 3D toggle does
   }, [selectedId, status, featKey]);
+
+  // The preloader's particles land on the roads as drawn: tell it where they are on screen once the first full frame is in.
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!rendered || !map || !preloading()) return;
+    const rect = map.getCanvas().getBoundingClientRect();
+    const lines = [...roads.features, ...canal.features, ...water.features].map((f) => (f.geometry.type === "Polygon" ? f.geometry.coordinates[0]! : f.geometry.coordinates) as Pos[]);
+    const px = lines.map((l) => l.map((p) => { const q = map.project(p); return [q.x + rect.left, q.y + rect.top] as [number, number]; }));
+    document.dispatchEvent(new CustomEvent("makarba:map-ready", { detail: px }));
+  }, [rendered]);
+
+  // Declutter: place labels that would overlap one already shown are hidden until there is room (the selected place's wins).
+  // Throttled, since the 360° turn moves the camera every frame.
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || status !== "ready") return;
+    let t = 0, last = 0;
+    const run = () => {
+      last = performance.now();
+      const els = placeLabels.current.map((m) => m.getElement()).sort((a, b) => Number(b.classList.contains("on")) - Number(a.classList.contains("on")));
+      for (const el of els) el.classList.remove("overlap");
+      const kept: DOMRect[] = [];
+      for (const el of els) {
+        const r = el.getBoundingClientRect();
+        if (!r.width) continue;
+        if (kept.some((k) => r.left < k.right + 6 && r.right > k.left - 6 && r.top < k.bottom + 3 && r.bottom > k.top - 3)) el.classList.add("overlap");
+        else kept.push(r);
+      }
+    };
+    const soon = () => { clearTimeout(t); const wait = Math.max(0, 250 - (performance.now() - last)); t = window.setTimeout(run, wait); };
+    map.on("moveend", soon);
+    soon();
+    return () => { clearTimeout(t); map.off("moveend", soon); };
+  }, [status, featKey, selectedId]);
+
+  // The outline: the current tour stop (its place, or the landmark area it looks at), else the selected place.
+  const focusKey = `${tour ?? ""}|${selectedId ?? ""}|${featKey}`;
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || status !== "ready" || !map.getSource("focus-lines")) return;
+    const stop = tour !== null ? stopsRef.current[Math.min(tour, stopsRef.current.length - 1)] : undefined;
+    const placeId = stop ? stop.placeId : selectedId ?? undefined;
+    const f = placeId ? features.find((x) => String(x.id) === placeId) : undefined;
+    let fp: Footprint | null = null, color = "#E6BC6C";
+    if (f) { fp = footprintOf(f, city().buildings); color = categoryColor(f.properties.category); }
+    else if (stop) {
+      const line = ({ highway: HIGHWAY, canal: CANAL } as Record<string, Pos[]>)[stop.id];
+      const a = footprintAt(stop.center, null);
+      fp = line ? { kind: "route", rings: [line], height: 0 } : a.kind === "area" ? a : null;   // never an arbitrary building
+    }
+    const d = footprintData(fp, color);
+    (map.getSource("focus-lines") as maplibregl.GeoJSONSource).setData(d.lines as never);
+    (map.getSource("focus-solid") as maplibregl.GeoJSONSource).setData(d.solid as never);
+  }, [focusKey, status]);
 
   // Colour-blind-safe palette: WebGL layers are recoloured when the display setting changes.
   const [paletteTick, setPaletteTick] = useState(0);
@@ -331,9 +424,11 @@ export function MapView({ features, sourceAttribution, selectedId, onSelect, onS
     const map = mapRef.current;
     if (tour === null || !map || status !== "ready") return;
     const s = stopsRef.current[Math.min(tour, stopsRef.current.length - 1)]!;
-    const view = { center: s.center, zoom: s.zoom, pitch: is3d ? s.pitch : 0, bearing: s.bearing };
+    // place stops keep roughly the current heading (a small turn, not a spin to a new bearing); flights are paced by distance
+    const bearing = Number.isNaN(s.bearing) ? map.getBearing() + 20 : s.bearing;
+    const view = { center: s.center, zoom: s.zoom, pitch: is3d ? s.pitch : 0, bearing };
     if (reducedRef.current) map.jumpTo(view);
-    else map.flyTo({ ...view, duration: 3200, curve: 1.4, easing: easeInOutCubic, essential: true });
+    else map.flyTo({ ...view, speed: 0.7, curve: 1.42, maxDuration: 4200, easing: easeInOutCubic, essential: true });
     tourPanel.current?.focus();
   }, [tour, status]);
 
@@ -357,7 +452,7 @@ export function MapView({ features, sourceAttribution, selectedId, onSelect, onS
     const n = DASH_STEPS.length;
     const tick = (now: number) => {
       raf = requestAnimationFrame(tick);
-      if (document.hidden || map.isMoving?.() || now - last < 85 / trafficRef.current) return;
+      if (document.hidden || (map.isMoving?.() && !spinRef.current) || now - last < 85 / trafficRef.current) return;
       last = now;
       step = (step + 1) % n;
       map.setPaintProperty("canal-flow", "line-dasharray", DASH_STEPS[step]);
@@ -402,7 +497,8 @@ export function MapView({ features, sourceAttribution, selectedId, onSelect, onS
     const tick = (now: number) => {
       raf = requestAnimationFrame(tick);
       // ~18 fps is smooth for small vehicles; frozen while the camera moves so flights keep the whole frame budget
-      if (document.hidden || map.isMoving?.() || now - last < (low ? 110 : 55)) { if (map.isMoving?.()) last = now; return; }
+      const flight = map.isMoving?.() && !spinRef.current;
+      if (document.hidden || flight || now - last < (low ? 110 : 55)) { if (flight) last = now; return; }
       const dt = last ? Math.min(0.1, (now - last) / 1000) : 0.04;
       last = now;
       stepTraffic(vehiclesRef.current, dt, scenario?.traffic ?? 1);
@@ -412,27 +508,51 @@ export function MapView({ features, sourceAttribution, selectedId, onSelect, onS
     return () => cancelAnimationFrame(raf);
   }, [status, paused, scenario?.traffic, rendered, flying, low]);
 
-  // 360° camera: a slow full turn around the current centre. Stops on any touch, scroll or drag, or after one revolution.
-  const [orbit, setOrbit] = useState(false);
+  // 360° camera, on by default: after a few seconds with no input (also at each tour stop) the camera starts a slow, continuous turn
+  // around what is in view, easing in. Any touch, scroll, drag or key stops it, and it re-arms itself; selections, tour stops and
+  // highlight flights take over the camera and it resumes once they have settled. Off under reduced motion.
+  const [orbit, setOrbitState] = useState(!reduced);
+  const orbitChosen = useRef(false);
+  const setOrbit = (on: boolean) => { orbitChosen.current = true; setOrbitState(on); };
+  // software-rendered maps (Low detail) start with it off: a camera that never rests costs every frame there
+  useEffect(() => { if (low && !orbitChosen.current) setOrbitState(false); }, [low]);
+  const spinRef = useRef(false);
   useEffect(() => {
     const map = mapRef.current;
     if (!orbit || !map || status !== "ready" || reducedRef.current || typeof requestAnimationFrame !== "function") return;
-    let raf = 0, t0 = 0;
-    const start = map.getBearing();
-    if (map.getPitch() < 45 && is3d) map.easeTo({ pitch: 60, duration: 900, easing: easeInOutCubic });
-    const tick = (now: number) => {
+    let raf = 0, idle = 0, t0 = 0, last = 0, ours = false;
+    const spin = (now: number) => {
+      raf = requestAnimationFrame(spin);
+      if (document.hidden) { last = 0; return; }
       t0 ||= now;
-      const p = Math.min(1, (now - t0) / ORBIT_MS);
-      map.setBearing(start + 360 * easeInOutCubic(p));   // sine in-out: no jolt at either end
-      if (p < 1) raf = requestAnimationFrame(tick); else setOrbit(false);
+      const dt = last ? Math.min(50, now - last) : 16;
+      last = now;
+      ours = true;
+      map.setBearing(map.getBearing() + dt * ORBIT_DEG_PER_MS * Math.min(1, (now - t0) / 2200) ** 2);   // eases in over ~2 s
+      ours = false;
     };
-    raf = requestAnimationFrame(tick);
-    const stop = () => setOrbit(false);
+    const start = () => {
+      if (spinRef.current) return;
+      if (map.isMoving()) { arm(); return; }   // a flight is still settling
+      spinRef.current = true; t0 = 0; last = 0; raf = requestAnimationFrame(spin);
+    };
+    const halt = () => { if (spinRef.current) { spinRef.current = false; cancelAnimationFrame(raf); } };
+    const arm = () => { clearTimeout(idle); idle = window.setTimeout(start, ORBIT_IDLE_MS); };
+    const input = () => { halt(); arm(); };
     const c = map.getCanvasContainer?.();
-    c?.addEventListener("pointerdown", stop); c?.addEventListener("wheel", stop, { passive: true });
-    return () => { cancelAnimationFrame(raf); c?.removeEventListener("pointerdown", stop); c?.removeEventListener("wheel", stop); };
+    c?.addEventListener("pointerdown", input); c?.addEventListener("wheel", input, { passive: true }); c?.addEventListener("touchstart", input, { passive: true });
+    window.addEventListener("keydown", input);
+    // any camera move the turn did not make (a selection, tour stop or highlight flight) takes over; the turn waits for it to settle
+    const other = () => { if (!ours) input(); };
+    map.on("movestart", other);
+    arm();
+    return () => {
+      halt(); clearTimeout(idle);
+      c?.removeEventListener("pointerdown", input); c?.removeEventListener("wheel", input); c?.removeEventListener("touchstart", input);
+      window.removeEventListener("keydown", input);
+      map.off("movestart", other);
+    };
   }, [orbit, status]);
-  useEffect(() => { if (tour !== null) setOrbit(false); }, [tour]);
 
 
   // Forecast scenario: building heights/colours animate via style transitions; haze is a CSS overlay; traffic speeds up.
@@ -511,7 +631,7 @@ export function MapView({ features, sourceAttribution, selectedId, onSelect, onS
       callouts.current.forEach((m, i) => m.getElement().classList.toggle("on", list[i]?.id === id));
       onFocusRef.current?.(id);
     };
-    if (!map || status !== "ready" || !calloutKey || !guide || reduced || tour !== null || orbit || !list.length) { mark(null); return; }
+    if (!map || status !== "ready" || !calloutKey || !guide || reduced || tour !== null || !list.length) { mark(null); return; }
     const c = list[gi % list.length]!;
     mark(c.id);
     map.flyTo({ center: c.at, zoom: 16.1, pitch: is3d ? 62 : 0, bearing: -50 + ((gi * 47) % 120), duration: GUIDE_FLY_MS, curve: 1.2, easing: easeInOutCubic, essential: true });
@@ -520,7 +640,7 @@ export function MapView({ features, sourceAttribution, selectedId, onSelect, onS
     const el2 = map.getCanvasContainer?.();
     el2?.addEventListener("pointerdown", stop); el2?.addEventListener("wheel", stop, { passive: true });
     return () => { clearTimeout(t); el2?.removeEventListener("pointerdown", stop); el2?.removeEventListener("wheel", stop); };
-  }, [gi, guide, calloutKey, status, tour, orbit, reduced]);
+  }, [gi, guide, calloutKey, status, tour, reduced]);
   useEffect(() => { if (calloutKey) { setGi(0); setGuide(true); } }, [calloutKey]);
 
   // Map shortcuts (see the shortcut list in Shell.tsx). Arrow keys pan only when the map itself has focus (MapLibre handles that).
@@ -536,7 +656,7 @@ export function MapView({ features, sourceAttribution, selectedId, onSelect, onS
       const dur = reducedRef.current ? 0 : 450;
       switch (key) {
         case "t": k.setTour(k.tour === null ? 0 : null); break;
-        case "c": if (!reducedRef.current) { k.setTour(null); k.setOrbit(!k.orbit); } break;
+        case "c": if (!reducedRef.current) k.setOrbit(!k.orbit); break;
         case "h": if (k.scenario) k.setGuide(!k.guide); break;
         case "l": k.setTime((t) => LIGHTS[(LIGHTS.findIndex((x) => x.id === t) + 1) % LIGHTS.length]!.id); break;
         case "b": k.setIs3d((v) => !v); break;
@@ -556,7 +676,7 @@ export function MapView({ features, sourceAttribution, selectedId, onSelect, onS
           else return;
           break;
         }
-        case "Escape": if (k.tour === null && !k.orbit && !(k.scenario && k.guide)) return; k.setTour(null); k.setOrbit(false); if (k.scenario) k.setGuide(false); break;
+        case "Escape": if (k.tour === null && !(k.scenario && k.guide)) return; k.setTour(null); if (k.scenario) k.setGuide(false); break;
         default: return;
       }
       e.preventDefault();
@@ -574,12 +694,44 @@ export function MapView({ features, sourceAttribution, selectedId, onSelect, onS
   const nice = [10, 20, 50, 100, 200, 300, 500, 1000, 2000, 5000].find((m) => m / mpp >= 60) ?? 5000;
   const scalePx = nice / mpp;
 
+  // Data lenses: Growth recolours buildings by height, Mobility colours the main roads by congestion; Heat and Air are overlays below.
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || status !== "ready" || !map.getLayer("buildings")) return;
+    const base = (themedPaint(THEMES[time])["buildings"] ?? {})["fill-extrusion-color"];
+    if (lens === "growth") map.setPaintProperty("buildings", "fill-extrusion-color", ["interpolate", ["linear"], ["get", "h"], 3, "#f2e6c9", 12, "#e9b872", 24, "#d27a55", 45, "#9b3d2e"] as never);
+    else if (!scenario) map.setPaintProperty("buildings", "fill-extrusion-color", base as never);
+    if (map.getLayer("road")) {
+      const roadBase = (themedPaint(THEMES[time])["road"] ?? {})["line-color"];
+      const heavy = `rgba(214, ${Math.round(110 - 70 * lensLevel)}, 60, 1)`;
+      map.setPaintProperty("road", "line-color", (lens === "mobility" ? ["match", ["get", "kind"], "highway", heavy, "arterial", "#e3a052", roadBase] : roadBase) as never);
+    }
+  }, [lens, lensLevel, status, time, scenario]);
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || status !== "ready") return;
+    const pad = () => map.easeTo({ padding: { left: padLeft, right: 0, top: 0, bottom: 0 }, duration: reducedRef.current ? 0 : 700, easing: easeInOutCubic });
+    // a camera move in progress (the intro flight, a fly-to) would be cancelled by easeTo: pad once it settles
+    if (!map.isMoving()) { pad(); return; }
+    map.once("moveend", pad);
+    return () => { map.off("moveend", pad); };
+  }, [padLeft, status]);
+
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!flyTo || !map || status !== "ready") return;
+    const view = { center: flyTo, zoom: Math.max(map.getZoom(), 16.2), pitch: is3d ? 62 : 0, bearing: map.getBearing() };
+    if (reducedRef.current) map.jumpTo(view); else map.flyTo({ ...view, duration: 1800, curve: 1.25, easing: easeInOutCubic, essential: true });
+  }, [flyTo, status]);
+  const haze = Math.max(scenario?.haze ?? 0, lens === "air" ? 0.12 + lensLevel * 0.5 : 0);
+  const heat = lens === "heat" ? 0.2 + lensLevel * 0.6 : scenario && scenario.heat > 0.05 ? 0.25 + scenario.heat * 0.55 : 0;
+
   const unavailable = status === "unavailable";
   return (
     <div className="map-wrap" ref={wrapRef} data-detail={low ? "low" : "high"} data-full={full ? "true" : "false"} data-map-status={status} data-rendered={rendered ? "true" : "false"} data-motion={reduced ? "reduced" : "full"} data-paused={paused ? "true" : "false"} data-time={time} data-intro={intro}>
       {!unavailable && (
         <div className="map-toolbar" role="group" aria-label="Map view">
-          <button type="button" className="tb tb-text" aria-pressed={orbit} disabled={reduced} onClick={() => { setTour(null); setOrbit(!orbit); }} data-tip={reduced ? "Off while reduced motion is on" : "Spin the camera 360° around the current spot"}><Icon name="camera" /><span>360° camera</span></button>
+          <button type="button" className="tb tb-text" aria-pressed={orbit} disabled={reduced} onClick={() => setOrbit(!orbit)} data-tip={reduced ? "Off while reduced motion is on" : orbit ? "On: the camera turns slowly when you stop interacting (C)" : "Turn the camera slowly when idle (C)"}><Icon name="camera" /><span>360° camera</span></button>
           <button type="button" className="tb tb-text tour-start" aria-pressed={tour !== null} onClick={() => setTour(tour === null ? 0 : null)} aria-label={tour === null ? "Start story tour" : "End story tour"} data-tip="Tour every landmark and place, stop by stop"><Icon name="route" /><span>Tour</span></button>
           {scenario && <button type="button" className="tb tb-text" aria-pressed={guide && !reduced} disabled={reduced} onClick={() => { setGuide(!guide); setTour(null); setOrbit(false); }} data-tip="Camera visits each forecast highlight in turn"><Icon name="spark" /><span>Highlights</span></button>}
           <span className="tb-sep" aria-hidden="true" />
@@ -597,9 +749,9 @@ export function MapView({ features, sourceAttribution, selectedId, onSelect, onS
         return (
           <div className="tour" role="region" aria-label="Story tour" ref={tourPanel} tabIndex={-1} key={s.id}>
             <span className="tour-line" aria-hidden="true" style={{ transform: `scaleX(${(tour + 1) / n})` }} />
-            <p className="tour-step">Stop {tour + 1} of {n}</p>
+            <p className="tour-step">Stop {tour + 1} of {n}{s.kicker ? ` · ${s.kicker}` : ""}</p>
             <h2>{s.title}{s.source && <button type="button" className="tour-src" data-tip={`Source: ${s.source}`} aria-label={`Source: ${s.source}`}><Icon name="info" size={14} /></button>}</h2>
-            <p>{s.caption}</p>
+            {s.caption && <p>{s.caption}</p>}
             <div className="tour-nav">
               <button type="button" disabled={tour === 0} onClick={() => setTour(tour - 1)}><Icon name="chevL" size={16} />Previous stop</button>
               {tour < n - 1 ? <button type="button" onClick={() => setTour(tour + 1)}>Next stop<Icon name="chevR" size={16} /></button> : <button type="button" onClick={() => { setTour(null); flyHome(true); }}>Finish tour</button>}
@@ -611,8 +763,9 @@ export function MapView({ features, sourceAttribution, selectedId, onSelect, onS
       })()}
       <div className="map-stage">
         {!unavailable && (time === "night" || time === "dusk") && <div className={`map-stars stars-${time}`} aria-hidden="true" style={{ opacity: Math.max(0, Math.min(1, (cam.pitch - 35) / 25)) }} />}
-        {scenario && <div className="map-haze" aria-hidden="true" style={{ opacity: scenario.haze }}><i /><i /><i /></div>}
-        {scenario && scenario.heat > 0.05 && <div className="map-heat" aria-hidden="true" style={{ opacity: 0.25 + scenario.heat * 0.55 }} />}
+        {haze > 0 && <div className="map-haze" aria-hidden="true" style={{ opacity: haze }}><i /><i /><i /></div>}
+        {heat > 0 && <div className="map-heat" aria-hidden="true" style={{ opacity: heat }} />}
+        {lens === "air" && !reduced && <AirParticles level={lensLevel} />}
         {scenario && (
           <div className="scen-hud" aria-hidden="true">
             <span className="scen-year" key={scenario.year}>{scenario.year}</span>
@@ -638,7 +791,7 @@ export function MapView({ features, sourceAttribution, selectedId, onSelect, onS
             <button type="button" aria-label="Zoom out" data-tip="Zoom out (−)" onClick={() => mapRef.current?.zoomOut?.({ duration: reduced ? 0 : 450 })}><Icon name="minus" /></button>
             <span className="mapctl-sep" aria-hidden="true" />
             <button type="button" aria-label={`Reset north (bearing ${Math.round(((cam.bearing % 360) + 360) % 360)}°)`} data-tip="Reset north" onClick={() => mapRef.current?.easeTo({ bearing: 0, duration: reduced ? 0 : 700 })}>
-              <span className="compass" style={{ transform: `rotate(${-cam.bearing}deg)` }}><Icon name="north" /></span>
+              <span className="compass" ref={compassRef} style={{ transform: `rotate(${-cam.bearing}deg)` }}><Icon name="north" /></span>
             </button>
             <button type="button" aria-label={cam.pitch > 5 ? "Look straight down" : "Tilt to 3D"} data-tip={cam.pitch > 5 ? "Look straight down (S)" : "Tilt (W)"} onClick={() => mapRef.current?.easeTo({ pitch: cam.pitch > 5 ? 0 : 60, duration: reduced ? 0 : 700 })}><Icon name="tilt" /></button>
             <button type="button" aria-label="Reset view" data-tip="Reset view (R)" onClick={() => { setOrbit(false); flyHome(true); }}><Icon name="locate" /></button>

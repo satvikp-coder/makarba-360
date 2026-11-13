@@ -115,10 +115,17 @@ class Budgets(unittest.TestCase):
         self.assertTrue(any("map_chunk_js" in x for x in B.check_dist(self.dist(f))))
 
     def test_lazy_pages_are_budgeted_together(self):
-        big = bytes(range(256)) * 400   # incompressible, ~100 KB gzip
+        big = os.urandom(100 * 1024)   # incompressible, ~100 KB gzip
         p = B.check_dist(self.dist(self.full(**{"Insights-a.js": big})))
         self.assertTrue(any("page_js" in x for x in p), p)
         self.assertFalse(any("unclassified" in x for x in p), p)
+
+    def test_stage_chunk_counts_as_the_map(self):
+        f = self.full()
+        f["Stage-a.js"], f["Stage-a.css"] = f.pop("MapView-a.js"), f.pop("MapView-a.css")
+        self.assertEqual(B.check_dist(self.dist(f)), [])
+        big = os.urandom(400 * 1024)
+        self.assertTrue(any(x.startswith("map_chunk_js") for x in B.check_dist(self.dist({**f, "Stage-a.js": big}))))
 
     def test_missing_dist_fails(self):
         self.assertTrue(B.check_dist(pathlib.Path(tempfile.mkdtemp()) / "nope"))

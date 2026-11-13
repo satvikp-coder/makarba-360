@@ -10,6 +10,7 @@ import { cleanQuery, localSource, type SearchSource } from "./searchSource.js";
 
 vi.mock("./map/MapView.js", () => ({ MapView: ({ features, selectedId }: { features: PublicFeature[]; selectedId: string | null }) => <div data-testid="map" data-count={features.length} data-selected={selectedId ?? ""} /> }));
 import { PlaceList } from "./App.js";
+import { WithMap } from "./testMap.js";
 
 const bundle = JSON.parse(readFileSync(resolve(process.cwd(), "../../docs/project/contracts/fixture-bundle.json"), "utf8"));
 const ID = { point: bundle.locations.features[0].id as string, route: bundle.locations.features[1].id as string, area: bundle.locations.features[2].id as string };
@@ -20,7 +21,7 @@ locations.features[1].properties.name = { en: "Café Étoile Route" };
 const fetcher = (() => Promise.resolve(new Response(JSON.stringify(locations), { status: 200 }))) as unknown as typeof fetch;
 const Where = () => { const l = useLocation(); return <output data-testid="url">{l.pathname + l.search}</output>; };
 const show = (url = "/explore", makeSource?: (f: PublicFeature[]) => SearchSource) =>
-  render(<MemoryRouter initialEntries={[url]}><PlaceList withMap fetcher={fetcher} {...(makeSource ? { makeSource } : {})} /><Where /></MemoryRouter>);
+  render(<MemoryRouter initialEntries={[url]}><WithMap><PlaceList withMap fetcher={fetcher} {...(makeSource ? { makeSource } : {})} /></WithMap><Where /></MemoryRouter>);
 afterEach(cleanup);
 const search = async (u: ReturnType<typeof userEvent.setup>, text: string) => {
   const box = await screen.findByRole("searchbox", { name: "Search places" });

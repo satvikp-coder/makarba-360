@@ -84,7 +84,7 @@ test.describe("offline 3D Makarba demo map (all non-local requests aborted)", ()
     expect(await running(page)).toBe(0);
   });
 
-  test("story tour: flies through landmarks then places; sources in a tooltip; 360 camera turns", async ({ page }) => {
+  test("story tour: landmarks then the remaining places, no place twice; sources in a tooltip; the 360° camera toggles", async ({ page }) => {
     test.slow();   // eight camera flights plus the 360° camera on software-rendered WebGL
     await offline(page);
     await page.goto("/explore");
@@ -92,17 +92,25 @@ test.describe("offline 3D Makarba demo map (all non-local requests aborted)", ()
     await page.getByRole("button", { name: "Start story tour" }).click();
     const tour = page.getByRole("region", { name: "Story tour" });
     await expect(tour).toBeFocused();
-    await expect(tour).toContainText("Stop 1 of 19");
+    // 7 authored stops + 12 places, of which 6 stand at an authored stop and become its "Open details": 13 stops
+    await expect(tour).toContainText("Stop 1 of 13");
     await expect(tour.getByLabel(/^Source: /)).toBeVisible();
     await page.getByRole("button", { name: "Next stop" }).click();
     await expect(tour).toContainText("Sarkhej Roza");
+    await expect(tour.getByRole("button", { name: "Open details" })).toBeVisible();   // the Roza stop carries its published place
     for (let i = 0; i < 6; i++) await page.getByRole("button", { name: "Next stop" }).click();
-    await expect(tour).toContainText("Stop 8 of 19");
-    await expect(tour.getByRole("button", { name: "Open details" })).toBeVisible();   // stop 8: the first published place
+    await expect(tour).toContainText("Stop 8 of 13");
+    await expect(tour.getByRole("button", { name: "Open details" })).toBeVisible();   // stop 8: the first place without a landmark stop
     await tour.getByRole("button", { name: "End story tour" }).click();
     await expect(tour).toHaveCount(0);
-    await page.getByRole("button", { name: "360° camera" }).click();
-    await expect(page.getByRole("button", { name: "360° camera" })).toHaveAttribute("aria-pressed", "true");
+    // on by default, except where the map runs in Low detail (software WebGL, as in this test browser)
+    const cam = page.getByRole("button", { name: "360° camera" });
+    const before = await cam.getAttribute("aria-pressed");
+    expect(before).toBe((await page.locator(".map-wrap").getAttribute("data-detail")) === "low" ? "false" : "true");
+    await cam.click();
+    await expect(cam).toHaveAttribute("aria-pressed", before === "true" ? "false" : "true");
+    await cam.click();
+    await expect(cam).toHaveAttribute("aria-pressed", before!);
   });
 
   test("WebGL unavailable: a flat 2D sketch and the full list replace the 3D map", async ({ page }) => {
@@ -122,11 +130,11 @@ test.describe("offline 3D Makarba demo map (all non-local requests aborted)", ()
 });
 
 test.describe("honest disclosure and sourced landmarks", () => {
-  test("every public page has the calm footer disclosure, which leads to the full explanation", async ({ page }) => {
+  test("every public page has the copyright footer, whose 'About the data' link leads to the full explanation", async ({ page }) => {
     await offline(page);
     for (const route of ["/", "/explore", "/places/junction-fruit-carts", "/voices", "/insights", "/research/sources"]) {
       await page.goto(route);
-      await expect(page.getByRole("contentinfo"), route).toContainText("Forecasts: Google TimesFM 3.0");
+      await expect(page.getByRole("contentinfo"), route).toContainText("© 2026 Varun Karthic and Satvik Patel");
       await expect(page.getByRole("contentinfo"), route).not.toContainText(/demo|example|prototype|fictional/i);
     }
     await page.getByRole("contentinfo").getByRole("link", { name: "About the data" }).click();
@@ -142,7 +150,7 @@ test.describe("honest disclosure and sourced landmarks", () => {
     // the Wikimedia Commons photo is bundled with the site: it decodes with every external request aborted, and its credit is visible
     const photo = roza.getByRole("img");
     await photo.scrollIntoViewIfNeeded();
-    await expect(photo).toHaveAttribute("src", "/media/landmarks/sarkhej-roza.jpg");
+    await expect(photo).toHaveAttribute("src", "/images/landmarks/sarkhej-roza.jpg");
     await expect.poll(() => photo.evaluate((i: HTMLImageElement) => i.complete && i.naturalWidth)).toBe(960);
     await expect(roza).toContainText("Photo: Museeb fakih, Public domain, via Wikimedia Commons");
     await expect(page.getByRole("article", { name: "Ahmed Shah I and Ahmedabad" })).toContainText("not a photograph");

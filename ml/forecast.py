@@ -1,7 +1,7 @@
 """Fetch public World Bank series for India plus Ahmedabad air-quality and weather data, and forecast them with Google TimesFM 3.0
 (falling back to TimesFM 2.5 when the 3.0 code is not installed).
 
-NATIONAL-LEVEL context only (not Makarba-specific, not a field finding). Output: apps/web/public/forecasts.json
+NATIONAL-LEVEL context only (not Makarba-specific, not a field finding). Output: data/forecasts.json
 Usage: python ml/forecast.py [--to 2050] [--naive]   (--naive = linear-trend fallback, no model download)
 
 Every series is forecast to --to in one pass. TimesFM decodes the whole horizon at once, so the value for a given
@@ -292,7 +292,7 @@ def main():
     ap.add_argument("--no-kaggle", action="store_true", help="skip the Kaggle Ahmedabad air-quality series")
     ap.add_argument("--cache", default="ml/.cache")
     ap.add_argument("--model", choices=["3", "2.5"], default="3", help="TimesFM 3.0 (non-commercial weights) or 2.5 (Apache-2.0)")
-    ap.add_argument("--out", default="apps/web/public/forecasts.json"); a = ap.parse_args()
+    ap.add_argument("--out", default="data/forecasts.json"); a = ap.parse_args()
     model = []
     if a.markets:
         series = run(MARKETS, fetch_markets(), a, model)

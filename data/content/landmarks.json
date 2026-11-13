@@ -1,0 +1,246 @@
+[
+  {
+    "id": "sarkhej-roza",
+    "title": "Sarkhej Roza",
+    "art": "roza",
+    "photos": [
+      {
+        "src": "images/landmarks/sarkhej-roza.jpg",
+        "width": 960,
+        "height": 720,
+        "alt": "The Sarkhej Roza mosque seen across its wide stone-paved courtyard: a long arcaded building with a row of small domes and one large central dome.",
+        "caption": "Sarkhej Roza, front view across the courtyard (photographed 2011).",
+        "author": "Museeb fakih",
+        "licence": "Public domain",
+        "commonsUrl": "https://commons.wikimedia.org/wiki/File:Sarkhej.JPG"
+      }
+    ],
+    "relatedSlugs": [
+      "sarkhej-roza-area"
+    ],
+    "sources": [
+      {
+        "title": "Wikipedia: Sarkhej Roza",
+        "url": "https://en.wikipedia.org/wiki/Sarkhej_Roza",
+        "retrieved": "2026-11-10"
+      }
+    ],
+    "facts": [
+      {
+        "text": "A complex of tombs and a mosque in Makarba, about 7 km south-west of central Ahmedabad.",
+        "source": 0
+      },
+      {
+        "text": "The tomb was begun in 1445 under Muhammad Shah II and completed in 1451 under his son Qutbuddin Ahmad Shah II.",
+        "source": 0
+      },
+      {
+        "text": "Sultan Mahmud Begada later expanded the complex greatly, adding a palace and a mausoleum for himself and his family.",
+        "source": 0
+      },
+      {
+        "text": "It is a Monument of National Importance on the Archaeological Survey of India's list; encroachment has reduced the complex from about 29 to about 14 hectares.",
+        "source": 0
+      },
+      {
+        "text": "Le Corbusier compared its design to the Acropolis of Athens, which is why it is sometimes called the \"Acropolis of Ahmedabad\".",
+        "source": 0
+      }
+    ],
+    "why": "It is the historic anchor of the area and a nationally protected monument, so it is the natural reference point for the streets, stalls and transport around it."
+  },
+  {
+    "id": "ahmed-khattu",
+    "title": "Shaikh Ahmed Khattu Ganj Bakhsh",
+    "art": "saint",
+    "relatedSlugs": [
+      "sarkhej-roza-area"
+    ],
+    "sources": [
+      {
+        "title": "Wikipedia: Sarkhej Roza",
+        "url": "https://en.wikipedia.org/wiki/Sarkhej_Roza",
+        "retrieved": "2026-11-10"
+      }
+    ],
+    "facts": [
+      {
+        "text": "The tomb at the heart of the Roza was built in honour of the Sufi saint Shaikh Ahmed Khattu Ganj Bakhsh, who died at Sarkhej in 1445.",
+        "source": 0
+      },
+      {
+        "text": "His mausoleum is described as the largest of its kind in Gujarat.",
+        "source": 0
+      }
+    ],
+    "why": "The saint's tomb is the reason the Roza was built, and it remains the heart of the complex that the rest of the area grew around."
+  },
+  {
+    "id": "sarkhej-lake",
+    "title": "Sarkhej Lake",
+    "art": "lake",
+    "photos": [
+      {
+        "src": "images/landmarks/sarkhej-tank-outlet-1855.jpg",
+        "width": 960,
+        "height": 802,
+        "alt": "Sepia albumen print of a carved stone wall with three round openings, the outlet of the Sarkhej tank, with a large tree behind it.",
+        "caption": "Outlet of the Sarkhej tank, photographed in 1855 by William Johnson.",
+        "author": "William Johnson (photographer); SMU Central University Libraries",
+        "licence": "No known copyright restrictions (public domain)",
+        "licenceUrl": "https://www.flickr.com/commons/usage/",
+        "commonsUrl": "https://commons.wikimedia.org/wiki/File:Outlet_of_Sarkhej_Roza_Tank_Ahmedabad_1855.jpg"
+      },
+      {
+        "src": "images/landmarks/sarkhej-queens-gallery-1878.jpg",
+        "width": 878,
+        "height": 581,
+        "alt": "Engraving of a two-storey colonnaded gallery with steps down to the water, an elephant at the left and small boats in front.",
+        "caption": "Engraving of the gallery leading to the queens' tombs at Sarkhej, from Louis Rousselet's book on India (1878).",
+        "author": "Louis Rousselet",
+        "licence": "Public domain",
+        "commonsUrl": "https://commons.wikimedia.org/wiki/File:Queen%27s_tomb.jpg"
+      }
+    ],
+    "relatedSlugs": [
+      "lake-edge-steps"
+    ],
+    "sources": [
+      {
+        "title": "Wikipedia: Sarkhej Roza",
+        "url": "https://en.wikipedia.org/wiki/Sarkhej_Roza",
+        "retrieved": "2026-11-10"
+      }
+    ],
+    "facts": [
+      {
+        "text": "A lake of about 6.9 hectares was dug under Mahmud Begada and surrounded with cut stone steps.",
+        "source": 0
+      },
+      {
+        "text": "Mahmud Begada built a palace, now in ruins, at the lake's south-west corner.",
+        "source": 0
+      }
+    ],
+    "why": "Water and stepped edges make the lake the complex's open public space, and it ties the monuments together."
+  },
+  {
+    "id": "ahmed-shah",
+    "title": "Ahmed Shah I and Ahmedabad",
+    "art": "city",
+    "relatedSlugs": [],
+    "sources": [
+      {
+        "title": "Wikipedia: Ahmedabad",
+        "url": "https://en.wikipedia.org/wiki/Ahmedabad",
+        "retrieved": "2026-11-10"
+      }
+    ],
+    "facts": [
+      {
+        "text": "Ahmed Shah I laid the foundation of Ahmedabad on 26 February 1411 and named the city after himself.",
+        "source": 0
+      }
+    ],
+    "why": "Sarkhej's monuments belong to the same Sultanate period that founded the city, which links this edge of Ahmedabad to its origins."
+  },
+  {
+    "id": "sg-highway",
+    "title": "Sarkhej–Gandhinagar Highway",
+    "art": "road",
+    "photos": [
+      {
+        "src": "images/landmarks/sg-highway-2012.jpg",
+        "width": 768,
+        "height": 576,
+        "alt": "A wide divided highway with light traffic, street lamps along the median and apartment blocks and power pylons on the left.",
+        "caption": "Sarkhej–Gandhinagar Highway, Ahmedabad (photographed 2012).",
+        "author": "Abhishek.ujoshi",
+        "licence": "CC BY-SA 3.0",
+        "licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+        "commonsUrl": "https://commons.wikimedia.org/wiki/File:SG._Highway.JPG"
+      }
+    ],
+    "relatedSlugs": [
+      "highway-auto-stand",
+      "village-bus-stand"
+    ],
+    "sources": [
+      {
+        "title": "Wikipedia: Sarkhej–Gandhinagar Highway",
+        "url": "https://en.wikipedia.org/wiki/Sarkhej%E2%80%93Gandhinagar_Highway",
+        "retrieved": "2026-11-10"
+      }
+    ],
+    "facts": [
+      {
+        "text": "A highway of about 44.5 km running from Sarkhej in the south-west to Gandhinagar in the north.",
+        "source": 0
+      },
+      {
+        "text": "It forms a major part of National Highway 147; in 2015 its administration passed from the NHAI to the Government of Gujarat.",
+        "source": 0
+      }
+    ],
+    "why": "It is the area's main link to the rest of the city, bringing buses, autos and visitors, and with them traffic pressure at the junctions."
+  },
+  {
+    "id": "makarba",
+    "title": "Makarba",
+    "art": "village",
+    "relatedSlugs": [],
+    "sources": [
+      {
+        "title": "Wikipedia: Makarba",
+        "url": "https://en.wikipedia.org/wiki/Makarba",
+        "retrieved": "2026-11-10"
+      }
+    ],
+    "facts": [
+      {
+        "text": "Recorded as a census town in Ahmedabad district, with a population of 18,090 at the 2001 census.",
+        "source": 0
+      }
+    ],
+    "why": "It is the setting for everything on this map: the Roza, the lake and the places and stories are all in and around Makarba."
+  },
+  {
+    "id": "textiles",
+    "title": "Ahmedabad's textile mills (city-wide context)",
+    "art": "mill",
+    "photos": [
+      {
+        "src": "images/landmarks/calico-mills-chimney.jpg",
+        "width": 960,
+        "height": 640,
+        "alt": "A tall brick mill chimney rising above trees, with the dome of a small stone mosque in the foreground.",
+        "caption": "The Calico Mills chimney in Ahmedabad, with Baba Lului's Mosque in front (photographed 2021). Not in Makarba.",
+        "author": "Imfarhad7",
+        "licence": "CC BY-SA 4.0",
+        "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+        "commonsUrl": "https://commons.wikimedia.org/wiki/File:Calico_Mills_3.jpg"
+      }
+    ],
+    "relatedSlugs": [
+      "old-cotton-mill-site"
+    ],
+    "sources": [
+      {
+        "title": "Wikipedia: Ahmedabad",
+        "url": "https://en.wikipedia.org/wiki/Ahmedabad",
+        "retrieved": "2026-11-10"
+      }
+    ],
+    "facts": [
+      {
+        "text": "Its textile industry earned Ahmedabad the nickname \"Manchester of India\".",
+        "source": 0
+      },
+      {
+        "text": "From the mid-1970s, facing competition from automation and specialised domestic looms, several mills closed, leaving tens of thousands of workers without income.",
+        "source": 0
+      }
+    ],
+    "why": "City-wide context: mill closures are part of how Ahmedabad's working neighbourhoods changed."
+  }
+]

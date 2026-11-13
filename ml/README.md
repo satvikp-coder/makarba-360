@@ -1,6 +1,6 @@
 # Forecasting pipeline
 
-`forecast.py` fetches public data, forecasts every series to 2050, and writes `apps/web/public/forecasts.json`. The web app reads that file on the Overview, Outlook and Explore → Future scenario screens.
+`forecast.py` fetches public data, forecasts every series to 2050, and writes `data/forecasts.json`. The web app reads that file on the Overview, Outlook and Explore → Future scenario screens.
 
 The default model is **Google TimesFM 3.0** (`google/timesfm-3.0-pytorch`), loaded through the `timesfm3` module that ships with the PyPI package `timesfm==3.0.2`. **TimesFM 2.5** (`google/timesfm-2.5-200m-pytorch`) is the fallback.
 

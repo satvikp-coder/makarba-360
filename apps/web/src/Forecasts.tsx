@@ -5,8 +5,8 @@ import { fmt, signals, upTo, type ForecastDoc, type Series, type Signal } from "
 import { scenarioFor } from "./scenario.js";
 import { useTween } from "./motion.js";
 import { ParticleLoader } from "./Particles.js";
-import { Orb } from "./Orb.js";
-import { ensureAi, getChoice, listModels, PROVIDERS, useAi, type Provider } from "./aiStore.js";
+import { MatrixOrb } from "./MatrixOrb.js";
+import { cancelAi, ensureAi, ensureBriefing, getChoice, listModels, PROVIDERS, useAi, type Provider } from "./aiStore.js";
 import { Icon, type IconName } from "./Icon.js";
 
 export type { ForecastDoc, Series } from "./outlook.js";
@@ -127,22 +127,31 @@ export function AiBriefing({ doc, endYear }: { doc: ForecastDoc; endYear: number
     listModels(provider).then((m) => { if (!live) return; setModels(m); setModel((cur) => (m.includes(cur) ? cur : m.find((x) => /gemma|llama-3\.3-70b|gpt-oss-120b|qwen/i.test(x)) ?? m[0] ?? "")); });
     return () => { live = false; };
   }, [provider]);
-  // start (or reuse the cache) as soon as this view is open for a year
+  // highlights start (or reuse the cache) as soon as this view is open for a year; the longer briefing streams only on request
   useEffect(() => { if (!navigator.webdriver) void ensureAi(doc, endYear, { background: true }); }, [doc, endYear]);
-  const running = ai.status === "running";
-  const run = () => { if (model) void ensureAi(doc, endYear, { force: true, choice: { provider, model } }); };
+  const running = ai.status === "running", writing = ai.briefingStatus === "running";
+  const [now, setNow] = useState(Date.now());
+  useEffect(() => { if (!running && !writing) return; const id = setInterval(() => setNow(Date.now()), 500); return () => clearInterval(id); }, [running, writing]);
+  const secs = ai.progress ? Math.max(0, Math.round((now - ai.progress.startedAt) / 1000)) : 0;
+  const choice = model ? { provider, model } : undefined;
+  const run = () => { if (choice) void ensureAi(doc, endYear, { force: true, choice }); };
+  const brief = () => void ensureBriefing(doc, endYear, { force: ai.briefingStatus === "done", ...(choice ? { choice } : {}) });
+  const label = PROVIDERS[ai.provider ?? provider].label;
   return (
-    <section className="panel briefing" aria-labelledby="ai-h">
+    <section className="panel briefing" aria-labelledby="ai-h" id="ai">
       <div className="briefing-head">
-        <Orb state={running ? "thinking" : ai.status === "done" ? "done" : "idle"} size={44} />
+        <MatrixOrb state={running || writing ? "thinking" : ai.status === "error" ? "error" : ai.status === "done" ? "done" : "idle"} size={48} />
         <div>
-          <h2 id="ai-h">What could this mean for Makarba?</h2>
-          <p className="hint">{running ? (ai.phase === "highlights" ? "Choosing the highlights…" : "Writing the briefing…") : ai.status === "done" ? `Ready · ${ai.model} · ${PROVIDERS[ai.provider ?? "ollama"].label}` : "Runs in the background and is cached."}</p>
+          <h2 id="ai-h">What could this mean for people in Makarba?</h2>
+          <p className="hint" role="status">{running || writing ? `${label} is ${writing ? "writing the briefing" : "choosing the highlights"} · ${secs}s${ai.progress?.chars ? ` · ${ai.progress.chars} chars` : ""}` : ai.status === "done" ? `Ready · ${ai.model} · ${label}` : "Runs in the background and is cached."}
+            {(running || writing) && <> <button type="button" className="link-btn" onClick={() => cancelAi(doc, endYear)}>Cancel</button></>}
+          </p>
+          {(running || writing) && <span className="ai-bar" style={{ width: `${Math.min(95, (secs / 60) * 100)}%` }} aria-hidden="true" />}
         </div>
       </div>
       <div role="radiogroup" aria-label="AI provider" className="seg-tabs">
         {(Object.keys(PROVIDERS) as Provider[]).map((k) => (
-          <button key={k} type="button" role="radio" aria-checked={provider === k} aria-pressed={provider === k} data-tip={PROVIDERS[k].note} onClick={() => setProvider(k)}>{PROVIDERS[k].label}</button>
+          <button key={k} type="button" role="radio" aria-checked={provider === k} data-tip={PROVIDERS[k].note} onClick={() => setProvider(k)}>{PROVIDERS[k].label}</button>
         ))}
       </div>
       {models && models.length === 0 ? (
@@ -155,27 +164,32 @@ export function AiBriefing({ doc, endYear }: { doc: ForecastDoc; endYear: number
         <div className="ai-controls">
           <label>Model <select value={model} onChange={(e) => setModel(e.target.value)} disabled={!models?.length}>{(models ?? []).map((m) => <option key={m}>{m}</option>)}</select></label>
           <button type="button" className="btn" onClick={run} disabled={!model || running}><Icon name="spark" /> {ai.status === "done" ? `Regenerate for ${endYear}` : `Generate for ${endYear}`}</button>
+          <button type="button" className="btn ghost" onClick={brief} disabled={writing}><Icon name="research" /> {ai.briefingStatus === "done" ? "Rewrite the briefing" : "Write the full briefing"}</button>
         </div>
       )}
-      {ai.status === "error" && <p role="alert">The model did not answer ({ai.error}). {ai.provider === "groq" ? "Check the Groq key and model." : "Check that Ollama is running."}</p>}
+      {ai.status === "error" && <p role="alert">The model did not answer ({ai.error}). <button type="button" className="link-btn" onClick={() => void ensureAi(doc, endYear, { force: true, ...(choice ? { choice } : {}) })}>Try again</button></p>}
       {ai.status === "offline" && <p role="status">No AI provider is available right now, so only the forecast figures are shown.</p>}
       {ai.highlights && ai.highlights.length > 0 && (
         <div className="ai-output">
           <p className="ai-badge"><Icon name="spark" size={14} /> AI-generated highlights</p>
           {ai.headline && <p className="ai-headline">{ai.headline}</p>}
           <ul className="ai-cards">{ai.highlights.map((h) => (
-            <li key={h.id} className={`tone-${h.tone}`}><span className="ai-ico"><Icon name={h.icon} size={18} /></span><div><b>{h.title}</b><p>{h.body}</p></div></li>
+            <li key={h.id} className={`tone-${h.tone}`}><span className="ai-ico"><Icon name={h.icon} size={18} /></span><div>
+              <b>{h.title}</b><p>{h.body}</p>
+              {h.who.length > 0 && <ul className="who-chips" aria-label="Most affected">{h.who.map((w) => <li key={w}>{w}</li>)}</ul>}
+              {h.right && <p className="ai-right"><Icon name="users" size={13} /> {h.right}</p>}
+            </div></li>
           ))}</ul>
         </div>
       )}
+      {ai.briefingStatus === "error" && <p role="alert">The briefing could not be finished. <button type="button" className="link-btn" onClick={brief}>Try again</button></p>}
       {ai.briefing && (
-        <div className="ai-output" aria-live="polite" aria-busy={running}>
+        <div className="ai-output" aria-live="polite" aria-busy={writing}>
           <p className="ai-badge"><Icon name="spark" size={14} /> AI-generated briefing</p>
           <Briefing text={ai.briefing} />
-          <p className="ai-foot"><small>AI-generated from TimesFM forecasts ({ai.model}, {PROVIDERS[ai.provider ?? "ollama"].label}{ai.at ? `, ${new Date(ai.at).toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short" })}` : ""}). It can be wrong or overconfident; national and city trends are not Makarba measurements. The Signals tab has the numbers.</small></p>
+          <p className="ai-foot"><small>AI-generated from TimesFM forecasts ({ai.model}, {label}{ai.at ? `, ${new Date(ai.at).toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short" })}` : ""}). It can be wrong or overconfident; national and city trends are not Makarba measurements. The Signals tab has the numbers.</small></p>
         </div>
       )}
-      {running && !ai.briefing && !ai.highlights && <ParticleLoader label="The model is reading the forecasts…" />}
     </section>
   );
 }

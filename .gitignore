@@ -17,8 +17,18 @@ __pycache__/
 test-results/
 playwright-report/
 
+# The public content folder at the root (site text, forecasts, OSM extracts, AI text, credited photos) is the one data/ directory
+# that is committed, file by file: anything else placed in it, and every other data/ directory, stays ignored (raw research data).
+!/data/
+/data/*
+!/data/README.md
+!/data/forecasts.json
+!/data/content/
+!/data/images/
+!/data/geo/
+!/data/ai/
 # Yahoo Finance data: personal-use terms, never committed
-apps/web/public/markets.json
+data/markets.json
 
 # Apple Foundation Models bridge build output
 tools/applefm/.build/

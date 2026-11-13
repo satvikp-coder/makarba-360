@@ -1,4 +1,6 @@
 import type * as maplibregl from "maplibre-gl";
+import osmJson from "../../../../data/geo/osm-landmarks.json";
+import osmRoads from "../../../../data/geo/osm-roads.json";
 
 /**
  * Self-contained, OFFLINE basemap for the Makarba demo map. Everything is authored here as GeoJSON: no tile server, no glyphs, no
@@ -16,16 +18,18 @@ export interface FC { type: "FeatureCollection"; features: F[] }
 export const MAKARBA_CENTER: Pos = [72.5078, 22.9928];
 /** [[west, south], [east, north]] of the demo area. The camera is kept near it. */
 export const MAKARBA_BOUNDS: [Pos, Pos] = [[72.49, 22.975], [72.52, 23.005]];
-export const BASEMAP_ATTRIBUTION = "Basemap: Makarba 360 sketch map (approximate)";
+export const BASEMAP_ATTRIBUTION = "Basemap: Makarba 360 sketch map; highway, main road, canal, Sarkhej Roza and lake © OpenStreetMap contributors (ODbL)";
 
 const poly = (ring: Pos[], properties: Props): F => ({ type: "Feature", properties, geometry: { type: "Polygon", coordinates: [[...ring, ring[0]!]] } });
 const box = (w: number, s: number, e: number, n: number): Pos[] => [[w, s], [e, s], [e, n], [w, n]];
 const line = (coordinates: Pos[], properties: Props): F => ({ type: "Feature", properties, geometry: { type: "LineString", coordinates } });
 
 // --- authored features --------------------------------------------------------------------------------------------------------
-export const HIGHWAY: Pos[] = [[72.511, 22.976], [72.5122, 22.988], [72.5138, 22.998], [72.5152, 23.005]];
-export const CANAL: Pos[] = [[72.49, 23.0025], [72.497, 23.001], [72.503, 22.9985], [72.509, 22.9972], [72.514, 22.9958], [72.52, 22.9945]];
-export const ARTERIAL: Pos[] = [[72.49, 22.9872], [72.501, 22.9878], [72.5121, 22.9883], [72.52, 22.9888]];
+// The S.G. Highway (NH147), the Sarkhej road (NH8A) and the canal follow OpenStreetMap (data/geo/osm-roads.json, ODbL).
+const OSM_ROADS = osmRoads as unknown as Record<"highway" | "arterial" | "canal", { coordinates: Pos[] }>;
+export const HIGHWAY: Pos[] = OSM_ROADS.highway.coordinates;
+export const CANAL: Pos[] = OSM_ROADS.canal.coordinates;
+export const ARTERIAL: Pos[] = OSM_ROADS.arterial.coordinates;
 export const FACTORY_ROAD: Pos[] = [[72.5137, 22.9966], [72.5168, 22.9981], [72.5198, 22.9996]];
 export const LOCAL: Pos[][] = [
   [[72.5058, 22.9934], [72.5121, 22.9938]],
@@ -42,10 +46,20 @@ export const LOCAL: Pos[][] = [
   [[72.493, 22.994], [72.4995, 22.9945]],
   [[72.5125, 22.9846], [72.52, 22.985]],
 ];
-export const LAKE: Pos[] = [[72.502, 22.9888], [72.5034, 22.9885], [72.505, 22.9888], [72.5052, 22.9897], [72.505, 22.9906], [72.5034, 22.9908], [72.502, 22.9906], [72.5018, 22.9897]];
-export const ROZA: Pos[] = box(72.5032, 22.9912, 72.5058, 22.9934);
-const MELA = box(72.506, 22.99, 72.5078, 22.9912);
-const MILL = box(72.515, 22.9905, 72.5185, 22.9935);
+// Sarkhej Roza and its tank follow OpenStreetMap (data/geo/osm-landmarks.json, © OpenStreetMap contributors, ODbL); the 3D model of
+// the complex below is an authored sketch, scaled and placed onto the real mosque and tomb footprint.
+const OSM = osmJson as unknown as { features: { properties: { key: string }; geometry: { coordinates: Pos[][] } }[] };
+const osmRing = (key: string): Pos[] => OSM.features.find((f) => f.properties.key === key)!.geometry.coordinates[0]!.slice(0, -1);
+export const LAKE: Pos[] = osmRing("lake");
+/** Real outlines for highlighting: the mosque and tomb buildings, and the whole complex with its tank. */
+export const ROZA_OUTLINE: Pos[] = osmRing("mosque");
+export const ROZA_COMPLEX: Pos[] = osmRing("complex");
+// sketch model coordinates -> real site: scale about the sketch centre, then move onto the mosque's centre
+const SKETCH_C: Pos = [72.5045, 22.9923], SITE_C: Pos = [72.50539, 22.99342], SITE_K = 0.6;
+const site = (p: Pos): Pos => [SITE_C[0] + (p[0] - SKETCH_C[0]) * SITE_K, SITE_C[1] + (p[1] - SKETCH_C[1]) * SITE_K];
+export const ROZA: Pos[] = box(72.5032, 22.9912, 72.5058, 22.9934).map(site);
+export const MELA = box(72.506, 22.99, 72.5078, 22.9912);
+export const MILL = box(72.515, 22.9905, 72.5185, 22.9935);
 const GREENS: Pos[][] = [box(72.5026, 22.9909, 72.5064, 22.9938), box(72.5025, 22.9955, 72.504, 22.9968), box(72.4935, 22.9958, 72.4975, 22.9985)];
 
 export const roads: FC = {
@@ -107,9 +121,6 @@ export const landmark: FC = (() => {
     poly(ngon([72.50352, 22.99273], 0.00004, 8), { h: 13, b: 0, part: "stone" }), poly(ngon([72.50408, 22.99273], 0.00004, 8), { h: 13, b: 0, part: "stone" }),
     // gateway
     poly(box(72.5036, 22.99155, 72.5041, 22.9919), { h: 8, b: 0, part: "stone" }), ...dome([72.503855, 22.991725], 0.00009, 8, 3),
-    // Begada's palace at the lake's south-west corner, with two chhatris
-    poly(box(72.50175, 22.98845, 72.50215, 22.98875), { h: 7, b: 0, part: "stone" }),
-    ...[[72.50185, 22.9886], [72.50205, 22.9886]].flatMap((c) => dome(c as Pos, 0.00006, 7, 2.6)),
   ];
   // inner colonnade: square pillars along each courtyard wall
   const pillars = [
@@ -117,6 +128,12 @@ export const landmark: FC = (() => {
     ...along([72.50422, 22.99165], [72.50422, 22.99198], 0.00011), ...along([72.50548, 22.99165], [72.50548, 22.99305], 0.00011),
   ];
   for (const c of pillars) f.push(poly(ngon(c, 0.000016, 4, Math.PI / 4), { h: 4.2, b: 0, part: "stone" }));
+  // the authored model was drawn at sketch coordinates: move every vertex onto the real site
+  for (const x of f) if (x.geometry.type === "Polygon") x.geometry.coordinates = x.geometry.coordinates.map((r) => r.map(site));
+  // Begada's palace at the tank's south-west corner, with two chhatris
+  const sw: Pos = [Math.min(...LAKE.map((p) => p[0])), Math.min(...LAKE.map((p) => p[1]))];
+  f.push(poly(box(sw[0] - 0.0003, sw[1] - 0.0002, sw[0] + 0.0001, sw[1] + 0.0001), { h: 7, b: 0, part: "stone" }));
+  f.push(...[[sw[0] - 0.0002, sw[1] - 0.00005], [sw[0], sw[1] - 0.00005]].flatMap((c) => dome(c as Pos, 0.00006, 7, 2.6)));
   // stone ghat steps around the lake
   [[1.1, 1.07, 0.9], [1.07, 1.035, 0.6], [1.035, 1.0, 0.3]].forEach(([o, i, h]) => f.push(ring(scaleRing(LAKE, o!), scaleRing(LAKE, i!), { h: h!, b: 0, part: "ghat" })));
   return { type: "FeatureCollection", features: f };
@@ -476,9 +493,9 @@ export function buildOfflineStyle(time: TimeOfDay = "day"): maplibregl.StyleSpec
 
 /** Static HTML labels for the basemap (rendered as aria-hidden markers; the page text carries the same information). */
 export const BASE_LABELS: { text: string; at: Pos; kind: "landmark" | "water" | "road" | "area" }[] = [
-  { text: "Sarkhej Roza", at: [72.5045, 22.99355], kind: "landmark" },
-  { text: "Sarkhej Lake", at: [72.5035, 22.9895], kind: "water" },
-  { text: "S.G. Highway (approx.)", at: [72.5132, 23.0], kind: "road" },
-  { text: "Canal (approx.)", at: [72.4985, 23.0011], kind: "water" },
+  { text: "Sarkhej Roza", at: [72.50539, 22.99418], kind: "landmark" },
+  { text: "Sarkhej Lake", at: [72.5048, 22.9918], kind: "water" },
+  { text: "S.G. Highway", at: [72.498, 22.9975], kind: "road" },
+  { text: "Canal", at: [72.5175, 22.9812], kind: "water" },
   { text: "Makarba", at: [72.5075, 22.9946], kind: "area" },
 ];

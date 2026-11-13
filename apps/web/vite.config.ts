@@ -16,6 +16,8 @@ export default defineConfig(({ mode }) => {
   const ai = { "/applefm": applefm, "/ollama": ollama, "/groq": groq };
   return defineTest({
     plugins: [react()],
+    // All site content lives in the repository's data/ folder (JSON + images); it is served as-is, so editing a file there updates the site.
+    publicDir: "../../data",
     // maplibre-gl 6 starts its worker from a URL relative to its own module; pre-bundling would move the module away from the worker file.
     optimizeDeps: { exclude: ["maplibre-gl"] },
     // MOCK_API_PORT lets a second checkout run its own mock without clashing (default 4010, as in CI).

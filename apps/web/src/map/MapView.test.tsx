@@ -30,6 +30,9 @@ class FakeMap {
     (this.handlers[n as string] ??= []).push(f as () => void);
   }
   once(ev: string, f: () => void) { this.on(ev, f); }
+  off(ev: string, f: () => void) { this.handlers[ev] = (this.handlers[ev] ?? []).filter((x) => x !== f); }
+  moving = false;
+  isMoving() { return this.moving; }
   fire(ev: string, e?: unknown) { (this.handlers[ev] ?? []).forEach((f) => f(e)); }
   addSource(id: string, o: Record<string, unknown>) { this.sources[id] = o; }
   fitBounds(...a: unknown[]) { this.fitted.push(a); }
@@ -52,6 +55,7 @@ class FakeMarker {
   el: HTMLElement; at: unknown = null; removed = false;
   constructor(o: { element: HTMLElement }) { this.el = o.element; (self as unknown as { markers: FakeMarker[] }).markers.push(this); }
   setLngLat(p: unknown) { this.at = p; return this; }
+  getElement() { return this.el; }
   addTo() { return this; }
   remove() { this.removed = true; }
 }
@@ -91,12 +95,12 @@ describe("MapView (offline 3D)", () => {
     const onStatus = vi.fn();
     render(<MapView features={feats} sourceAttribution="Places: prototype example data (fictional)" onStatus={onStatus} />);
     const m = h.maps[0]!;
-    expect(document.querySelector(".map-attrib")!.textContent).toMatch(/^Places: prototype example data \(fictional\) · Basemap: Makarba 360 sketch map \(approximate\)$/);
+    expect(document.querySelector(".map-attrib")!.textContent).toMatch(/^Places: prototype example data \(fictional\) · Basemap: Makarba 360 sketch map; highway, main road, canal, Sarkhej Roza and lake © OpenStreetMap contributors \(ODbL\)$/);
     expect(document.querySelector(".maplibregl-ctrl")).toBeNull();   // our own controls, not MapLibre's
     expect(JSON.stringify(m.opts.style)).not.toMatch(/openstreetmap|https?:/);
     m.fire("load");
     await waitFor(() => expect(onStatus).toHaveBeenCalledWith("ready"));
-    expect(m.layers.map((l) => l.id)).toEqual(["places-fill", "places-line", "places-cluster", "places-point"]);
+    expect(m.layers.map((l) => l.id)).toEqual(["places-fill", "places-line", "places-cluster", "places-point", "focus-ground", "focus-extrude", "focus-glow", "focus-edge", "focus-core"]);
     expect(m.layers[0]).toMatchObject({ type: "fill-extrusion" });
     expect(m.sources["places"]!.cluster).toBe(true);
     await waitFor(() => expect((m.data as { features: unknown[] }).features).toHaveLength(2));
@@ -156,8 +160,15 @@ describe("MapView (offline 3D)", () => {
     await waitFor(() => expect(m.flown.some((f) => JSON.stringify((f as { center: unknown }).center) === JSON.stringify([72.5062, 22.9936]))).toBe(true));
     expect(h.markers.some((x) => x.el.classList.contains("map-pulse") && !x.removed)).toBe(true);
     expect(m.paint.some(([l, k]) => l === "places-fill" && k === "fill-extrusion-height")).toBe(true);
+    // the outline traces the selected place's footprint in its category colour
+    await waitFor(() => expect(((m.other["focus-lines"] as { features: unknown[] } | undefined)?.features ?? []).length).toBeGreaterThan(0));
+    // only the selected place's label is lit
+    const labels = h.markers.filter((x) => x.el.classList.contains("map-label--place") && !x.removed);
+    expect(labels.filter((x) => x.el.classList.contains("on")).map((x) => x.el.dataset.id)).toEqual([String(feats[0]!.id)]);
     rerender(<MapView features={feats} sourceAttribution="x" selectedId={null} />);
     await waitFor(() => expect(h.markers.filter((x) => x.el.classList.contains("map-pulse")).every((x) => x.removed)).toBe(true));
+    expect(labels.some((x) => x.el.classList.contains("on"))).toBe(false);
+    await waitFor(() => expect((m.other["focus-lines"] as { features: unknown[] }).features).toHaveLength(0));
   });
   it("time-of-day lighting and the 3D toggle are buttons with pressed state", async () => {
     render(<MapView features={feats} sourceAttribution="x" />);
@@ -178,16 +189,21 @@ describe("MapView (offline 3D)", () => {
     act(() => m.fire("load"));
     fireEvent.click(screen.getByRole("button", { name: "Start story tour" }));
     const tour = await screen.findByRole("region", { name: "Story tour" });
-    const total = TOUR.length + feats.length;
+    // both places stand at authored stops (the cart corner at "junction", the area by the lake), so each is part of that stop
+    // rather than a second stop at the same spot
+    const total = TOUR.length;
     expect(tour.textContent).toContain(`Stop 1 of ${total}`);
     expect(tour.textContent).not.toMatch(/Sourced fact|Example narrative/);
     expect(screen.getByLabelText(`Source: ${TOUR[0]!.source}`)).toBeTruthy();
     expect(screen.getByRole("button", { name: "Previous stop" })).toHaveProperty("disabled", true);
-    for (let i = 1; i < total; i++) fireEvent.click(screen.getByRole("button", { name: "Next stop" }));
+    const junction = TOUR.findIndex((t) => t.id === "junction");
+    for (let i = 0; i < junction; i++) fireEvent.click(screen.getByRole("button", { name: "Next stop" }));
+    fireEvent.click(screen.getByRole("button", { name: "Open details" }));
+    expect(onSelect).toHaveBeenCalledWith(String(feats[0]!.id));
+    for (let i = junction + 1; i < total; i++) fireEvent.click(screen.getByRole("button", { name: "Next stop" }));
+    expect(new Set(screen.getByRole("region", { name: "Story tour" }).textContent!.match(/Stop \d+ of \d+/g))).toEqual(new Set([`Stop ${total} of ${total}`]));
     // jsdom has no matchMedia, so the calm path is used: every stop is a jump, never a timed flight
     await waitFor(() => expect(m.jumped.length).toBeGreaterThanOrEqual(total));
-    fireEvent.click(screen.getByRole("button", { name: "Open details" }));
-    expect(onSelect).toHaveBeenCalledWith(String(feats[feats.length - 1]!.id));
     expect(TOUR.every((s) => !/^Example narrative/.test(s.caption))).toBe(true);
     fireEvent.click(screen.getAllByRole("button", { name: "End story tour" })[0]!);
     expect(screen.queryByRole("region", { name: "Story tour" })).toBeNull();
@@ -219,6 +235,26 @@ describe("MapView (offline 3D)", () => {
     m.fire("load");
     m.fire("click:places-cluster", { features: [{ properties: { cluster_id: 7 } }], lngLat: { lng: 1, lat: 2 } });
     await waitFor(() => expect(m.eased).toContainEqual(expect.objectContaining({ center: [1, 2], zoom: 13 })));
+  });
+  it("pads the camera by the floating panel's width so places centre in the visible map", async () => {
+    const { rerender } = render(<MapView features={feats} sourceAttribution="x" padLeft={0} />);
+    const m = h.maps[0]!;
+    act(() => m.fire("load"));
+    rerender(<MapView features={feats} sourceAttribution="x" padLeft={384} />);
+    await waitFor(() => expect(m.eased).toContainEqual(expect.objectContaining({ padding: { left: 384, right: 0, top: 0, bottom: 0 } })));
+  });
+  it("padding never cancels a camera flight in progress: it waits for the flight to end", async () => {
+    const { rerender } = render(<MapView features={feats} sourceAttribution="x" padLeft={0} />);
+    const m = h.maps[0]!;
+    act(() => m.fire("load"));
+    m.moving = true;   // e.g. the intro fly-in
+    const padded = () => m.eased.some((e) => (e as { padding?: { left: number } }).padding?.left === 820);
+    rerender(<MapView features={feats} sourceAttribution="x" padLeft={820} />);
+    await new Promise((r) => setTimeout(r, 20));
+    expect(padded()).toBe(false);
+    m.moving = false;
+    act(() => m.fire("moveend"));
+    expect(padded()).toBe(true);
   });
   it("refits the camera when the published set changes (filters/search)", async () => {
     const { rerender } = render(<MapView features={feats} sourceAttribution="x" />);

@@ -1,0 +1,45 @@
+{
+  "_about": "People-centred reading of each visible change in the 3D future scene. 'gains' and 'costs' name who could benefit and who could bear the costs; 'question' is the right-to-the-city question it raises. Interpretations, not findings. The numbers shown alongside come from the forecasts.",
+  "corridor": {
+    "title": "Highway corridor grows",
+    "gains": "Office, mall and hotel jobs (guards, cleaners, drivers, delivery riders); landowners near the highway",
+    "costs": "Street vendors moved off widened footpaths; renters facing rising rents; older shops priced out",
+    "question": "Who captures the value of the highway: long-time residents and traders, or new developers?"
+  },
+  "redevelop": {
+    "title": "Old plots rebuilt",
+    "gains": "Owners who sell or rebuild; construction workers (often migrant, often short-term)",
+    "costs": "Tenants of older houses, home-based workers who lose ground-floor space, and neighbours living with dust and noise",
+    "question": "Does redevelopment include affordable homes for people already living here?"
+  },
+  "densify": {
+    "title": "Neighbourhoods fill up",
+    "gains": "More people within walking distance of shops and buses; more customers for local trade",
+    "costs": "Pressure on water, drains, schools and the little open space left; smaller homes for families",
+    "question": "Do services and public space grow as fast as the number of people?"
+  },
+  "solar": {
+    "title": "Solar on rooftops",
+    "gains": "Owners who control their roofs get lower bills; local installers and electricians find new work",
+    "costs": "Tenants and informal settlements rarely benefit; upfront costs exclude poorer households",
+    "question": "Can the green transition reach renters and the poor, through shared or community solar?"
+  },
+  "haze": {
+    "title": "Air quality",
+    "gains": "If air gets cleaner, everyone who lives and works outdoors breathes easier",
+    "costs": "If it gets worse, street vendors, auto drivers, traffic police and children by the highway are hit hardest",
+    "question": "Clean air is shared unequally: who gets protected first?"
+  },
+  "traffic": {
+    "title": "Busier highway",
+    "gains": "Auto and taxi drivers, delivery riders and roadside businesses see more customers",
+    "costs": "Pedestrians, cyclists and children face more danger and longer, hotter waits to cross",
+    "question": "Is road space shared fairly between cars and the many people who walk, cycle or take the bus?"
+  },
+  "heat": {
+    "title": "Summer heat",
+    "gains": "If very hot days become rarer, outdoor work and travel get safer",
+    "costs": "If they become common, vendors, construction workers, delivery riders and older people in tin-roofed homes lose income and health",
+    "question": "Shade, drinking water and cooling centres decide who can safely use the city in summer."
+  }
+}

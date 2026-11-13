@@ -8,6 +8,7 @@ import { MemoryRouter } from "react-router-dom";
 import { afterEach, describe, expect, it } from "vitest";
 import { publicRoutes } from "@makarba/public-ia";
 import { App, PlaceList } from "./App.js";
+import { WithMap } from "./testMap.js";
 import { vi } from "vitest";
 vi.mock("./map/MapView.js", () => ({ MapView: () => <div data-testid="map" /> }));
 
@@ -19,12 +20,12 @@ const at = (path: string) => render(<MemoryRouter initialEntries={[path]}><App /
 afterEach(cleanup);
 
 describe("public shell", () => {
-  it("the rail has three destinations; the reading pages are in the footer; there is no language picker", () => {
+  it("the top bar has three destinations; the reading pages are in its Library menu; there is no language picker", () => {
     at("/");
     const nav = within(screen.getByRole("navigation", { name: "Main navigation" }));
     for (const n of ["Overview", "Explore", "Outlook"]) expect(nav.getByRole("link", { name: n })).toBeTruthy();
     expect(nav.queryByRole("link", { name: "Then & Now" })).toBeNull();
-    const footer = within(screen.getByRole("navigation", { name: "Site information" }));
+    const footer = within(screen.getByRole("navigation", { name: "Library" }));
     for (const n of ["Then & Now", "Community Voices", "Urban Insights", "Research"]) expect(footer.getByRole("link", { name: n })).toBeTruthy();
     expect(screen.queryByRole("combobox", { name: /language/i })).toBeNull();
     expect(screen.getByRole("link", { name: "Sources and credits" })).toBeTruthy();
@@ -119,7 +120,7 @@ describe("place list alternative", () => {
 
 describe("explore page with map", () => {
   it("keeps the full list when the map is present and lets the list select a place", async () => {
-    wrap(<PlaceList fetcher={okFetch} withMap />);
+    wrap(<WithMap><PlaceList fetcher={okFetch} withMap /></WithMap>);
     expect(await screen.findByTestId("map")).toBeTruthy();
     const btn = await screen.findByRole("button", { name: "Synthetic Atlas Point" });
     await userEvent.click(btn);
@@ -132,7 +133,7 @@ describe("map explorer URL state and network privacy", () => {
   const calls: string[] = [];
   const spyFetch = ((url: string) => { calls.push(String(url)); return json(bundle.locations); }) as unknown as typeof fetch;
   const first = bundle.locations.features[0];
-  const explore = (entry: string) => render(<MemoryRouter initialEntries={[entry]}><PlaceList fetcher={spyFetch} withMap /></MemoryRouter>);
+  const explore = (entry: string) => render(<MemoryRouter initialEntries={[entry]}><WithMap><PlaceList fetcher={spyFetch} withMap /></WithMap></MemoryRouter>);
 
   it("selecting a place writes ?place= and restoring that URL shows the same details", async () => {
     calls.length = 0;

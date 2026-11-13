@@ -12,11 +12,11 @@ afterEach(cleanup);
 const WEB = process.cwd();   // vitest runs from apps/web
 
 describe("one calm, honest disclosure of the prototype dataset", () => {
-  it("every page footer credits the forecasts, photos and sources and links to 'About the data'", () => {
+  it("every page footer carries the copyright and links to 'About the data', and nothing else", () => {
     for (const path of ["/", "/explore", "/voices", "/insights", "/places/x", "/research/sources"]) {
       at(path);
       const footer = screen.getByRole("contentinfo");
-      expect(footer.textContent, path).toMatch(/Forecasts: Google TimesFM 3\.0 .* Photos: Wikimedia Commons · Landmark facts are sourced\./);
+      expect(footer.textContent, path).toBe("© 2026 Varun Karthic and Satvik PatelAbout the data");
       expect(footer.textContent, path).not.toMatch(/demo|example|prototype|fictional/i);
       expect(within(footer).getByRole("link", { name: "About the data" }).getAttribute("href")).toBe("/research/methodology#prototype-data");
       cleanup();
@@ -56,7 +56,7 @@ describe("sourced landmark notes", () => {
     expect(card.textContent).toMatch(/Why it matters/);
     expect(within(card).getByRole("link", { name: "Wikipedia: Sarkhej Roza" }).getAttribute("href")).toBe("https://en.wikipedia.org/wiki/Sarkhej_Roza");
     const img = within(card).getByRole("img");
-    expect(img.getAttribute("src")).toBe("/media/landmarks/sarkhej-roza.jpg");
+    expect(img.getAttribute("src")).toBe("/images/landmarks/sarkhej-roza.jpg");
     expect(img.getAttribute("alt")!.length).toBeGreaterThan(30);
     expect(card.textContent).toMatch(/Photo: Museeb fakih, Public domain, via Wikimedia Commons; resized and recompressed\./);
     expect(within(card).getByRole("link", { name: "Wikimedia Commons" }).getAttribute("href")).toBe("https://commons.wikimedia.org/wiki/File:Sarkhej.JPG");
@@ -74,14 +74,14 @@ describe("sourced landmark notes", () => {
     expect(photos.length).toBeGreaterThan(0);
     expect(photos.length).toBeLessThanOrEqual(6);
     for (const p of photos) {
-      expect(p.src, p.src).toMatch(/^\/media\/landmarks\/[a-z0-9-]+\.jpg$/);
+      expect(p.src, p.src).toMatch(/^\/images\/landmarks\/[a-z0-9-]+\.jpg$/);
       expect(p.commonsUrl).toMatch(/^https:\/\/commons\.wikimedia\.org\/wiki\/File:/);
       expect(p.licence).toMatch(/^(Public domain|No known copyright restrictions|CC0|CC BY 4\.0|CC BY-SA [34]\.0)/);
       if (/^CC/.test(p.licence)) expect(p.licenceUrl).toMatch(/^https:\/\/creativecommons\.org\//);
       expect(p.alt.length).toBeGreaterThan(30);
       expect(credits, p.src).toContain(p.src.split("/").pop()!);
       expect(credits, p.commonsUrl).toContain(p.commonsUrl);
-      const file = resolve(WEB, `public${p.src}`);
+      const file = resolve(WEB, `../../data${p.src}`);
       expect(existsSync(file), p.src).toBe(true);
       expect(statSync(file).size, p.src).toBeLessThanOrEqual(150 * 1024);
     }
@@ -96,11 +96,11 @@ describe("place photographs", () => {
     for (const s of slugs) {
       const p = photoFor(s)!;
       expect(p, s).toBeDefined();
-      expect(p.src).toMatch(/^\/media\/(places|landmarks)\/[a-z0-9-]+\.jpg$/);
+      expect(p.src).toMatch(/^\/images\/(places|landmarks)\/[a-z0-9-]+\.jpg$/);
       expect(p.source).toMatch(/^https:\/\/commons\.wikimedia\.org\/wiki\/File:/);
       expect(p.licence).toMatch(/^(Public domain|CC BY-SA [34]\.0|CC BY 4\.0|CC0)/);
       expect(p.alt.length).toBeGreaterThan(30);
-      const file = resolve(WEB, `public${p.src}`);
+      const file = resolve(WEB, `../../data${p.src}`);
       expect(existsSync(file), p.src).toBe(true);
       expect(statSync(file).size, p.src).toBeLessThanOrEqual(150 * 1024);
       expect(credits, p.src).toContain(p.src.split("/").pop()!);

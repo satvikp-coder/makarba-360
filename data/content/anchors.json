@@ -1,0 +1,93 @@
+{
+  "corridor": {
+    "at": [
+      72.4985,
+      22.9985
+    ],
+    "label": "highway-side commercial corridor"
+  },
+  "redevelop": {
+    "at": [
+      72.509,
+      22.9978
+    ],
+    "label": "older plots north of the village"
+  },
+  "densify": {
+    "at": [
+      72.5075,
+      22.9835
+    ],
+    "label": "residential neighbourhoods to the south-west"
+  },
+  "solar": {
+    "at": [
+      72.5025,
+      22.9965
+    ],
+    "label": "rooftops of low-rise homes"
+  },
+  "haze": {
+    "at": [
+      72.5055,
+      23.0015
+    ],
+    "label": "the sky over the ward (air quality)"
+  },
+  "traffic": {
+    "at": [
+      72.4967,
+      22.9934
+    ],
+    "label": "Sarkhej–Gandhinagar Highway traffic"
+  },
+  "heat": {
+    "at": [
+      72.5005,
+      22.9805
+    ],
+    "label": "streets and open ground in summer heat"
+  },
+  "roza": {
+    "at": [
+      72.50539,
+      22.99342
+    ],
+    "label": "Sarkhej Roza heritage complex"
+  },
+  "lake": {
+    "at": [
+      72.5048,
+      22.9918
+    ],
+    "label": "Sarkhej lake and its steps"
+  },
+  "canal": {
+    "at": [
+      72.5144,
+      22.9796
+    ],
+    "label": "canal bank"
+  },
+  "mill": {
+    "at": [
+      72.5168,
+      22.992
+    ],
+    "label": "former mill compound"
+  },
+  "market": {
+    "at": [
+      72.5155,
+      22.9975
+    ],
+    "label": "factory-road vending stretch"
+  },
+  "junction": {
+    "at": [
+      72.5062,
+      22.9936
+    ],
+    "label": "junction by the shrine approach"
+  }
+}

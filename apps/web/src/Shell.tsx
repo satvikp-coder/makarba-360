@@ -1,12 +1,16 @@
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { Suspense, lazy, useEffect, useRef, useState, type ReactNode } from "react";
 import { Link, NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { publicRoutes } from "@makarba/public-ia";
 import { Icon, type IconName } from "./Icon.js";
 import { strings } from "./i18n.js";
 import { DEFAULT_PREFS, usePrefs, type Prefs } from "./prefs.js";
-import { ensureAi, useAiBusy } from "./aiStore.js";
-import { DEFAULT_END_YEAR, loadForecasts } from "./forecastData.js";
-import { Orb } from "./Orb.js";
+import { MapProvider } from "./mapCtx.js";
+import { PageTransition } from "./Transition.js";
+import { Preloader } from "./Preloader.js";
+
+// The 3D stage (map, time dock, lenses, AI dock) loads after the first paint and then stays mounted across pages.
+const Stage = lazy(() => import("./Stage.js"));
+const IN_TESTS = typeof navigator !== "undefined" && /jsdom/i.test(navigator.userAgent);
 
 /** True while the visitor is typing, so single-key shortcuts never steal letters from a form field. */
 export const isTyping = (e: KeyboardEvent) => {
@@ -79,7 +83,7 @@ function Choice<T extends string | number>({ label, icon, value, options, onChan
     <fieldset className="pref">
       <legend><Icon name={icon} size={16} /> {label}</legend>
       <div className="seg-tabs" role="radiogroup" aria-label={label}>
-        {options.map((o) => <button key={String(o.v)} type="button" role="radio" aria-checked={value === o.v} aria-pressed={value === o.v} onClick={() => onChange(o.v)}>{o.label}</button>)}
+        {options.map((o) => <button key={String(o.v)} type="button" role="radio" aria-checked={value === o.v} onClick={() => onChange(o.v)}>{o.label}</button>)}
       </div>
     </fieldset>
   );
@@ -125,6 +129,7 @@ export function ShortcutList() {
 
 function titleFor(path: string): string {
   if (path === "/forecasts") return "Outlook";
+  if (path === "/stories/index") return "Then & Now";
   const route = publicRoutes.find((r) => !r.path.includes(":") && r.path === path);
   return route?.title ?? "Makarba 360°";
 }
@@ -136,40 +141,45 @@ export function Layout() {
   const nav = useNavigate();
   const [prefs, setPrefs] = usePrefs();
   const [dlg, setDlg] = useState<null | "prefs" | "keys">(null);
-  const busy = useAiBusy();
-  // Publish the header height so the full-height sheet starts below it and navigation is never covered.
+  const libRef = useRef<HTMLDetailsElement>(null);
+  // the Library menu closes on navigation, on Escape and on a click elsewhere
+  useEffect(() => { if (libRef.current) libRef.current.open = false; }, [loc.pathname]);
+  useEffect(() => {
+    const close = (e: Event) => { const d = libRef.current; if (d?.open && (e.type === "keydown" ? (e as KeyboardEvent).key === "Escape" : !d.contains(e.target as Node))) d.open = false; };
+    document.addEventListener("click", close); document.addEventListener("keydown", close);
+    return () => { document.removeEventListener("click", close); document.removeEventListener("keydown", close); };
+  }, []);
+  // Publish where the floating top bar ends so a full-height sheet never covers navigation.
   useEffect(() => {
     const el = headerRef.current;
     if (!el) return;
-    // On wide screens the header is a vertical side rail and covers nothing above the content.
-    const set = () => document.documentElement.style.setProperty("--header-h", `${el.offsetWidth > el.offsetHeight ? el.offsetHeight : 0}px`);
+    const set = () => document.documentElement.style.setProperty("--header-h", `${Math.round(el.getBoundingClientRect().bottom)}px`);
     set();
     if (typeof ResizeObserver === "undefined") return;
     const ro = new ResizeObserver(set);
     ro.observe(el);
     return () => ro.disconnect();
   }, []);
-  const [rail, setRail] = useState(() => { try { return localStorage.getItem("rail") === "min"; } catch { return false; } });
-  useEffect(() => { document.documentElement.classList.toggle("rail-min", rail); try { localStorage.setItem("rail", rail ? "min" : "full"); } catch { /* private mode */ } }, [rail]);
   useEffect(() => { document.documentElement.lang = "en"; }, []);
-  // A page change starts at the top with focus on the main region (from #227); in-page links land on their section.
+  // A page change focuses the main region; in-page links land on their section.
   const previousPath = useRef(loc.pathname);
   useEffect(() => {
-    if (loc.hash) { document.getElementById(decodeURIComponent(loc.hash.slice(1)))?.scrollIntoView?.(); return; }
+    if (loc.hash) {
+      // the target may live in a page that is still loading: look for it for up to ~3 s
+      const id = decodeURIComponent(loc.hash.slice(1));
+      let raf = 0, tries = 0;
+      const find = () => { const el = document.getElementById(id); if (el) el.scrollIntoView?.(); else if (tries++ < 180) raf = requestAnimationFrame(find); };
+      find();
+      return () => cancelAnimationFrame(raf);
+    }
     if (previousPath.current !== loc.pathname) {
       previousPath.current = loc.pathname;
-      window.scrollTo?.(0, 0);
+      document.getElementById("main")?.scrollTo?.(0, 0);
       document.getElementById("main")?.focus({ preventScroll: true });
     }
   }, [loc.pathname, loc.hash]);
-  useEffect(() => { document.title = `${titleFor(loc.pathname)} – ${t.siteName}`; }, [loc.pathname, t.siteName]);
-  // Background AI insights for the default year, started once the page has settled; cached results make this a no-op.
-  useEffect(() => {
-    // not in tests/automation (each run would start a fresh model generation), and not when the visitor asked to save data
-    if (typeof window === "undefined" || /jsdom/i.test(navigator.userAgent) || navigator.webdriver || (navigator as { connection?: { saveData?: boolean } }).connection?.saveData) return;
-    const id = window.setTimeout(() => { loadForecasts().then((doc) => ensureAi(doc, DEFAULT_END_YEAR, { background: true })).catch(() => undefined); }, 2500);
-    return () => clearTimeout(id);
-  }, []);
+  // place pages name the place in their own titles once loaded
+  useEffect(() => { if (!loc.pathname.startsWith("/places/")) document.title = `${titleFor(loc.pathname)} – ${t.siteName}`; }, [loc.pathname, t.siteName]);
   // Global shortcuts.
   useEffect(() => {
     const on = (e: KeyboardEvent) => {
@@ -181,43 +191,48 @@ export function Layout() {
     window.addEventListener("keydown", on);
     return () => window.removeEventListener("keydown", on);
   }, [nav]);
+  const page = loc.pathname === "/" ? "home" : loc.pathname === "/explore" ? "explore" : loc.pathname === "/forecasts" ? "outlook" : "reader";
   return (
-    <>
+    <MapProvider>
       <a className="skip" href="#main">{t.skip}</a>
-      <header ref={headerRef}>
-        <Link to="/" className="brand"><span className="brand-mark" aria-hidden="true"><Icon name="orbit" size={18} /></span><span className="lbl">{t.siteName}</span></Link>
-        <button type="button" className="rail-toggle tb" aria-pressed={rail} aria-label={rail ? "Expand menu" : "Collapse menu"} data-tip={rail ? "Expand menu" : "Collapse menu"} onClick={() => setRail(!rail)}><Icon name={rail ? "chevR" : "chevL"} size={16} /></button>
+      <PageTransition />
+      <Preloader />
+      <header ref={headerRef} className="topbar glass">
+        <Link to="/" className="brand" data-tip="Makarba 360° home"><span className="brand-mark" aria-hidden="true"><Icon name="orbit" size={17} /></span><span className="lbl">{t.siteName}</span></Link>
         <nav aria-label={t.navLabel}>
           <ul>
-            {NAV.map((n) => <li key={n.to}><NavLink to={n.to} end={n.end} data-tip={n.tip}><span className="ico" aria-hidden="true"><Icon name={n.icon} /></span><span className="lbl">{n.label}</span></NavLink></li>)}
+            {NAV.map((n) => <li key={n.to}><NavLink to={n.to} end={n.end} data-tip={n.tip}><Icon name={n.icon} size={16} /><span className="lbl">{n.label}</span></NavLink></li>)}
           </ul>
         </nav>
-        <div className="rail-tools">
-          <Link to="/forecasts" className="ai-status" data-tip={busy ? "AI insights are being generated in the background" : "AI insights"} aria-label={busy ? "AI insights: generating" : "AI insights"}>
-            <Orb state={busy ? "thinking" : "idle"} size={22} /><span className="lbl">{busy ? "Thinking…" : "AI insights"}</span>
-          </Link>
-          <button type="button" className="rail-btn" onClick={() => setDlg("prefs")} data-tip="Display and accessibility (,)" aria-label="Display and accessibility settings"><Icon name="settings" /><span className="lbl">Display</span></button>
-          <button type="button" className="rail-btn" onClick={() => setDlg("keys")} data-tip="Keyboard shortcuts (?)" aria-label="Keyboard shortcuts"><Icon name="keyboard" /><span className="lbl">Shortcuts</span></button>
+        <details className="tb-menu" ref={libRef}>
+          <summary data-tip="Then & Now, Voices, Insights, Research"><Icon name="layers" size={16} /><span className="lbl">Library</span></summary>
+          <nav aria-label={t.footerLabel} className="tb-menu-list glass">
+            <ul>
+              {LIBRARY.map((l) => <li key={l.to}><Link to={l.to}><Icon name={l.icon} size={16} />{l.label}</Link></li>)}
+              {publicRoutes.filter((r) => r.nav === "footer").map((r) => <li key={r.id}><Link to={r.path}><Icon name={r.path.includes("access") ? "eye" : "link"} size={16} />{r.title}</Link></li>)}
+            </ul>
+          </nav>
+        </details>
+        <div className="tb-tools">
+          <button type="button" className="icon-btn" onClick={() => setDlg("prefs")} data-tip="Display and accessibility (,)" aria-label="Display and accessibility settings"><Icon name="settings" size={17} /></button>
+          <button type="button" className="icon-btn" onClick={() => setDlg("keys")} data-tip="Keyboard shortcuts (?)" aria-label="Keyboard shortcuts"><Icon name="keyboard" size={17} /></button>
         </div>
       </header>
-      <main id="main" tabIndex={-1} className={loc.pathname === "/explore" ? "main-explore" : "main-content"}>
+      <main id="main" tabIndex={page === "reader" ? 0 : -1} className={`main main-${page}`} key={page === "reader" ? loc.pathname : page}>
         <Outlet />
       </main>
-      <footer>
-        <nav aria-label={t.footerLabel}>
-          <ul>
-            {LIBRARY.map((l) => <li key={l.to}><Link to={l.to}>{l.label}</Link></li>)}
-            {publicRoutes.filter((r) => r.nav === "footer").map((r) => <li key={r.id}><Link to={r.path}>{r.title}</Link></li>)}
-          </ul>
-        </nav>
-        <p className="footer-note">{t.footerNote} <Link to="/research/methodology#prototype-data">About the data</Link></p>
+      <footer className="credits">
+        <p>© 2026 Varun Karthic and Satvik Patel</p>
+        <Link to="/research/methodology#prototype-data">About the data</Link>
       </footer>
+      {/* after the page in the DOM so keyboard users reach the page first; it sits behind everything visually */}
+      {!IN_TESTS && <Suspense fallback={<div className="stage stage-loading" aria-hidden="true" />}><Stage /></Suspense>}
       <Dialog id="prefs" title="Display and accessibility" icon="eye" open={dlg === "prefs"} onClose={() => setDlg(null)}>
         <DisplaySettings prefs={prefs} set={setPrefs} />
       </Dialog>
       <Dialog id="keys" title="Keyboard shortcuts" icon="keyboard" open={dlg === "keys"} onClose={() => setDlg(null)}>
         <ShortcutList />
       </Dialog>
-    </>
+    </MapProvider>
   );
 }

@@ -30,50 +30,36 @@ All place data is **synthetic**: nothing here is a verified field result, and no
 
 **Groq:** create `apps/web/.env.local` (git-ignored) containing `GROQ_API_KEY=…`, then restart `demo`. The dev server adds the key to requests, so it is never sent to the browser.
 
-## 3. The dashboard
+## 3. The app
 
-The side rail has three destinations: **Overview**, **Explore** and **Outlook**. Its foot holds:
-- **AI insights**, with an orb that moves while a model is thinking.
-- **Display** (accessibility settings).
-- **Shortcuts**.
+**Start-up:** particles gather into the name while the 3D city loads, then fly onto the map's own roads (centre outward) as the map fades in. Skipped with reduced motion.
 
-Collapse the rail to icons with the round button at its edge. On phones it becomes a row of tabs. Then & Now, Community Voices, Urban Insights and Research are reached from the Overview cards and the footer; the footer also links to **About the data** on the Methodology page. Hover or focus any icon for a tooltip.
+**Layout:** the 3D map fills the whole screen and never reloads between pages; everything else floats over it.
+- **Top bar:** **Overview**, **Explore**, **Outlook**; **Library** (Then & Now, Community Voices, Urban Insights, Research, Sources, Accessibility); **Display** settings; **Shortcuts**.
+- **Map controls** (right edge): zoom, a compass (click for north), tilt, reset view, full screen.
+- **View toolbar** (top right): **360° camera**, **Tour**, **Highlights** (future scene), 3D buildings, light (dawn, day, dusk, night), pause motion, replay.
+- **Time dock** (bottom): **Today / Future**, **Play**, the year scrubber and the data lenses (**Places, Heat, Air, Growth, Mobility**). Choosing a year animates the city to it one year at a time, forwards or back (2040 runs 2027 → 2040; then 2030 runs back 2040 → 2030).
+- **Lens legend** (right): the number behind the lens, its trend, and who it affects most.
+- **AI dock** (bottom right): an orb, the year's AI highlights (who is affected and a right-to-the-city question), each with a button that flies the map to where it happens.
+- **Footer:** © 2026 Varun Karthic and Satvik Patel, and **About the data**.
 
-- **Overview:**
-  - **Hero:** the particle "360°".
-  - **Outlook for 2034:** four headline forecasts, plus the AI headline and top highlights once they are ready.
-  - **Featured places:** cards with photos.
-  - **Library:** cards for the reading pages.
-  - **Landmark notes:** each with its sources.
-- **Explore:** the 3D map fills the page; the title, mode switch, search, filters and place list float over it in a glass panel (the **‹** handle hides it). On phones the map sits on top with the list in a bottom sheet.
-  - **Today** (default): the current city.
-    - **City detail:** ground shadows cast by every building and tree, balcony and floor ledges on mid- and high-rise blocks, parapets, rooftop rooms and water tanks, two-tier tree crowns, grey asphalt with footpaths and lane markings, stepped domes, colonnade and gateway at Sarkhej Roza, Begada's palace, ghat steps, market stalls with awnings, bus shelters, parked autos and a zebra crossing.
-    - **Traffic:** moving vehicles drive on the left. Cars have glass cabins, buses have window bands, CNG autos have their yellow canopy, bikes have riders, and trucks have a cab and cargo box. Headlights and street lamps glow at dawn, dusk and night, and there are stars at night.
-    - **Tour** visits every landmark, then every place. Use Previous / Next or ← / →. Place stops have **Open details**; the ⓘ button shows a landmark's source.
-    - **360° camera** turns the view once around the current spot. Drag or scroll the map to take over.
-    - **Places panel:** photo cards with a category icon. Select one to fly there and open its card (photo, category, Open profile, ‹ › to step through places, Sourced notes for landmarks). Use the search box, or the category chips and layer filters.
-  - **Future scenario** (press F): choose an end year (2027–2050, default 2034), or press **Play** (P) to watch the city grow year by year. A large year badge and a legend sit on the map.
-    - **What changes:** the highway corridor grows, old plots are rebuilt (orange), rooftops get solar panels (blue), haze drifts over the ward following Ahmedabad PM2.5, heat shimmer follows Ahmedabad's hot days, and traffic gets denser and slower.
-    - **Highlights are generative UI:** when a model is available, it chooses the most important things to show, their icons, tone and where on the map they belong. The panel and map callouts render whatever it returns, labelled **AI-generated**. The numbers beside each highlight come from the forecast file, never from the model. Without a model, the rule-based changes are shown.
-    - **Highlights camera** (H, on by default) visits each highlight in turn and lights up its callout and card. Drag the map, press Esc, or use the toolbar button to stop it.
-  - **Map controls** (top right): zoom, a compass that turns with the map (click for north), tilt, reset view and full screen, plus a scale bar. The toolbar adds 360° camera, Tour, Highlights, 3D buildings, the Dawn / Day / Dusk / Night presets, pause motion and replay fly-in.
-  - The **‹** handle at the map's left edge hides the side panel for a full-width map.
-- **Outlook:** choose the end year with the slider.
-  - **Theme tiles** count how many indicators in each theme are improving or worsening. Click a tile to filter.
-  - **Signals** shows one chart per indicator with the 80% range, before → after values with units, and tags (hover them for an explanation). Two dropdowns under each chart: **Why it matters** (the interpretation) and **Data** (the forecast table and how many observations it is based on).
-  - **AI insights:** highlights plus a written briefing on what the trends could mean for Makarba.
-    - **Background start:** generation begins quietly when the site opens (default year) and when you change the year, then is cached per year. You see an orb while it thinks.
-    - **Providers:** Apple Intelligence (Apple's on-device Foundation Model) is used first whenever it's available, then on-device Ollama. Groq is used only when you choose it.
-    - **Labelling:** everything is marked **AI-generated**, with the model and time.
-  - **Model & data:** TimesFM 3.0 and its licence, the data sources, preparation, the 3D mappings and the limits.
-- **Then & Now, Community Voices, Urban Insights, Research, place pages:** the same calm reading layout. Place pages open with a credited Wikimedia Commons photograph.
+**Map accuracy:** Sarkhej Roza, its tank, the S.G. Highway (NH147), the Sarkhej road (NH8A) and the canal follow OpenStreetMap (`data/geo/`). Streets, buildings and the places are a sketch; the places are illustrative and labelled so.
+
+- **Overview:** a column of cards: the title, the outlook for 2034 with the AI headline, featured places, the Library and landmark notes.
+- **Explore:** one card with search, category and layer filters over the place list (‹ hides it). Selecting a place flies to it, lights its label and traces its footprint: the building it stands on, its area, or its route, and for Sarkhej Roza and the lake their real OpenStreetMap outlines. The place card shows a photo, **Open profile**, ‹ › to step through places, and related landmarks (labelled as context, not facts about the place).
+  - **Tour:** the landmark stops, then the places that don't already stand at one (no place appears twice). Use Previous / Next or ← / →; the ⓘ button shows a stop's source.
+  - **360° camera** (C), on by default: after a few seconds with no input, including at each tour stop, the camera starts a slow turn around what is in view. Touch, scroll, drag or any key stops it; it resumes when you stop. It starts off on software-rendered (Low detail) maps and with reduced motion.
+  - **Future scene** (F): the highway corridor grows, old plots are rebuilt (orange), rooftops get solar (blue), haze and heat follow Ahmedabad's forecasts, traffic thickens. The panel explains every change through people: **who gains**, **who bears the cost**, and the **right to the city** question it raises. **Highlights** (H) moves the camera through them in turn.
+- **Outlook:** a wide panel beside the map. Theme tiles, one chart per indicator (80% range, units, **Why it matters** and **Data** dropdowns), **AI insights** with the full briefing, and **Model & data**.
+- **AI insights:** every forecast year's highlights and briefing are pre-generated on device with Apple's Foundation Model (`data/ai/insights.json`), so they appear at once. Years without one are generated live (Apple Intelligence first, then Ollama; Groq only if you choose it), with live progress and Cancel; **Regenerate** always asks a model afresh. Everything is labelled **AI-generated** with the model.
+- **Reading pages** (Library): one centred card over a dimmed map.
 
 ### Keyboard shortcuts (press ? in the app)
 
 | Where | Keys |
 |---|---|
 | Anywhere | `1` Overview · `2` Explore · `3` Outlook · `,` display settings · `?` shortcuts |
-| Explore | `/` search · `[` `]` previous / next place · `F` Today / Future · `P` play · `T` tour · `←` `→` tour stop or highlight · `H` highlights · `C` 360° camera · `L` cycle light · `B` 3D buildings · `M` motion · `R` reset view · `+` `−` zoom · `Q` `E` rotate · `W` `S` tilt · `Esc` stop |
+| Explore | `/` search · `[` `]` previous / next place · `F` Today / Future · `P` play · `T` tour · `←` `→` tour stop or highlight · `H` highlights · `C` 360° camera on/off · `L` cycle light · `B` 3D buildings · `M` motion · `R` reset view · `+` `−` zoom · `Q` `E` rotate · `W` `S` tilt · `Esc` stop |
 | Map focused | arrow keys pan |
 
 Shortcuts are ignored while you type in a field and when Ctrl, ⌘ or Alt is held.
@@ -97,5 +83,6 @@ Settings are remembered in this browser.
 - **Forecasts are unavailable:** run `./run.sh forecast`. Use `--naive` for an offline fallback.
 - **Port 4010 is busy:** stop the old mock process or set `MOCK_API_PORT`.
 - **The 3D map does not appear:** WebGL is unavailable, so a 2D sketch and the list take its place.
-- **Reduced motion:** with the device setting or the site's **Reduce motion** option on, flights become cuts, particles are drawn already settled, vehicles stand still, and the 360° camera and Highlights camera are off.
-- **AI insights never start:** they don't run automatically in automated browsers or with Save-Data on. Open the AI insights tab and press Generate.
+- **Reduced motion:** with the device setting or the site's **Reduce motion** option on, there is no start-up film, flights become cuts, years jump instead of animating, vehicles stand still, and the 360° camera and Highlights camera are off.
+- **AI insights never start:** pre-generated years appear anyway; live generation doesn't run automatically in automated browsers or with Save-Data on. Open the AI dock and press Generate.
+- **Refresh the pre-generated AI text** (after new forecasts): with the Apple bridge running, `cd apps/web && npx vitest run -c tools/vitest.pregen.config.ts` (about 30–40 s per year).

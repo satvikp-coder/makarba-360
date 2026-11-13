@@ -9,7 +9,7 @@ Last updated 2026-11-10. This covers the offline 3D map, the landmark notes and 
 | Places, timelines, stories, insight figures | **Composite, fictional examples** (prototype dataset). They draw on general themes from the team's field notes (street vending at a busy junction by a shrine, permission to vend, traffic, weekend crowds and a yearly fair, a bus and auto stand, a canal bank, a former mill site, a small pooled-money start). No participant, quote, name, amount, photo or interview is reproduced. Not survey results. | `apps/api/src/demo-makarba.ts` |
 | Landmark notes | **Sourced facts**, paraphrased (no copied paragraphs), each with source URL and retrieval date. Unverifiable claims were left out. | `apps/web/src/landmarks.tsx` |
 | Basemap (roads, lake, canal, greens, Roza massing, buildings) | **Approximate sketch** drawn for this prototype, not surveyed. Building footprints and heights are generated from dummy attributes. | `apps/web/src/map/basemap.ts` |
-| Photographs on landmark cards | **Openly licensed Wikimedia Commons files** (public domain, CC BY-SA), bundled locally so the site needs no network. Credited next to each image and below. | `apps/web/public/media/landmarks/` |
+| Photographs on landmark cards | **Openly licensed Wikimedia Commons files** (public domain, CC BY-SA), bundled locally so the site needs no network. Credited next to each image and below. | `data/images/landmarks/` |
 | Illustrations on the other landmark cards | **Original SVG drawings** made for this project (project-own), used where no suitable licensed photo was found. They are not photographs. | `apps/web/src/landmarks.tsx` |
 
 The public site shows one disclosure line in the footer of every page, linking to "About this prototype dataset" on the methodology page.
@@ -31,7 +31,7 @@ Checked but **not used**: a separate article on Shaikh Ahmed Khattu (no Wikipedi
 
 Retrieved 2026-11-10 through the Wikimedia API (metadata via `en.wikipedia.org/w/api.php`, files from `upload.wikimedia.org`). No Google Images, no scraping of other sites, and **nothing from the team's private DATA folder**. Modifications for every file: downscaled to at most 960 px wide, re-encoded as progressive JPEG (quality 72–78) to stay under 150 KB, and embedded metadata stripped. No cropping, retouching or colour change. Each image is shown with its caption, author, licence and a link to its Commons page, and has descriptive alt text. None shows an identifiable person in close-up.
 
-| File in `apps/web/public/media/landmarks/` | Shows | Author | Licence | Source | Size |
+| File in `data/images/landmarks/` | Shows | Author | Licence | Source | Size |
 |---|---|---|---|---|---|
 | `sarkhej-roza.jpg` | Sarkhej Roza mosque from the courtyard (2011) | Museeb fakih (own work) | Public domain (released by the author) | https://commons.wikimedia.org/wiki/File:Sarkhej.JPG | 145 KB |
 | `sarkhej-tank-outlet-1855.jpg` | Outlet of the Sarkhej tank, albumen print, 1855 | William Johnson; SMU Central University Libraries (Flickr Commons) | No known copyright restrictions (public domain, 1855) — https://www.flickr.com/commons/usage/ | https://commons.wikimedia.org/wiki/File:Outlet_of_Sarkhej_Roza_Tank_Ahmedabad_1855.jpg | 105 KB |
@@ -48,7 +48,7 @@ Cards without a suitable licensed photo (Shaikh Ahmed Khattu, Ahmed Shah I, Maka
 
 Retrieved through the Commons API (`commons.wikimedia.org/w/api.php`, 960 px thumbnails from `upload.wikimedia.org`, then resized to at most 820 px and recompressed to stay under the 150 KB per-photo budget), same rules as above: Commons only, open licences, bundled so the site needs no network, credited on screen. The demo places are not real businesses, so most photos are **representative** Ahmedabad scenes of the same kind of place and are captioned "Representative photo" in the app; the two Sarkhej Roza lake photos show the real place. Synthetic panorama and photo placeholders are no longer shown.
 
-| File in `apps/web/public/media/places/` | Shows / used for | Author | Licence | Source | Size |
+| File in `data/images/places/` | Shows / used for | Author | Licence | Source | Size |
 |---|---|---|---|---|---|
 | `ahmedabad2007-066.jpg` | Fruit stall (representative for Junction fruit and sugarcane carts) | Helfmann | CC BY-SA 4.0 — https://creativecommons.org/licenses/by-sa/4.0 | https://commons.wikimedia.org/wiki/File:Ahmedabad2007-066.JPG | 112 KB |
 | `ahmedabad2007-095.jpg` | Dabeli snack cart (representative for Crowd-funded snack stall) | Helfmann | CC BY-SA 4.0 — https://creativecommons.org/licenses/by-sa/4.0 | https://commons.wikimedia.org/wiki/File:Ahmedabad2007-095.JPG | 118 KB |

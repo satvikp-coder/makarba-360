@@ -12,7 +12,7 @@ import { LIBRARY } from "./Shell.js";
 import { CATEGORY_ICON, categoryColor, categoryLabel } from "./categories.js";
 import { photoFor } from "./placePhotos.js";
 import { useAi } from "./aiStore.js";
-import { Orb } from "./Orb.js";
+import { MatrixOrb } from "./MatrixOrb.js";
 
 /** An approved, rights-cleared hero image. None is configured yet, so the typographic particle panel is shown. */
 export interface HeroMediaInfo { src: string; alt: string; date: string; credit: string; licence: string }
@@ -76,7 +76,7 @@ function OutlookStrip() {
               <ul className="ai-mini">{ai.highlights.slice(0, 3).map((h) => <li key={h.id} className={`tone-${h.tone}`}><Icon name={h.icon} size={16} /> {h.title}</li>)}</ul>
               <Link to="/explore?future=1">See them on the 3D map <Icon name="arrowUR" size={14} /></Link>
             </>
-          ) : <p role="status" className="ai-thinking"><Orb state="thinking" size={20} /> Generating AI insights in the background…</p>}
+          ) : <p role="status" className="ai-thinking"><MatrixOrb state="thinking" size={22} /> Generating AI insights in the background…</p>}
         </div>
       )}
       <p className="kpi-note"><small>TimesFM forecasts of national and Ahmedabad data; not Makarba measurements.</small></p>

@@ -4,7 +4,7 @@
 
 Explore the neighbourhood as a living 3D city, follow a guided tour of its landmarks, and see an illustrative picture of how it could change by 2034 (or any year to 2050), driven by Google TimesFM forecasts of real public data.
 
-![Future scenario: the 3D city with numbered forecast highlights](docs/project/screenshots/v2-future-scenario.png)
+![The 3D city in 2040: the time dock, the future scene explained through people, and pre-generated AI highlights](docs/project/screenshots/v3-future-2040.png)
 
 ---
 
@@ -30,15 +30,20 @@ Full guide: **[How to use](docs/operations/how-to-use.md)**.
 
 | | |
 |---|---|
-| **Explore: Today** | An offline 3D model of Makarba with domes, a colonnade, ghat steps, trees, rooftop tanks, lane markings and street lamps that glow at dusk and night. **Tour** visits every landmark and place, stop by stop. **360° camera** circles the current spot. Lighting switches between day, dusk and night. Click any place for its details. |
-| **Explore: Future scenario** | Pick a year and press **Play** to watch the city change year by year. The highway corridor grows, old plots are rebuilt (orange), rooftops gain solar (blue), haze follows Ahmedabad PM2.5, and traffic picks up. **Highlights** moves the camera through each change in turn, and every change says which forecast drives it. |
-| **Outlook** | 35 indicators in six themes (city, economic, development, social, political, plus optional markets) with charts, an 80% range, units and plain-language tags. Set the end year with a slider (default 2034). |
-| **AI insights** | Generative highlights and a briefing on "What could this mean for Makarba?". They come from **Apple Intelligence** (Apple's on-device Foundation Model, used first whenever available), Ollama, or Groq on request. They're generated in the background, cached, and always labelled **AI-generated**. |
+| **One live 3D map** | The map fills the screen and stays loaded between pages; everything else floats over it as cards. A particle start-up film lands on the map's own roads. Sarkhej Roza, its tank, the S.G. Highway, the Sarkhej road and the canal follow **OpenStreetMap**. |
+| **Explore** | Search and filter the places; selecting one flies there and traces its footprint. **Tour** visits each landmark (places at a landmark are part of its stop). The **360° camera** is on by default: when you stop interacting, the view turns slowly around what is in front of you. |
+| **Future scene and timeline** | A Cesium-style time dock: pick a year and the city animates to it year by year, forwards or back, or press **Play**. Data lenses (Heat, Air, Growth, Mobility) recolour the map and show the number behind the colour. Every change is explained through people: who gains, who bears the cost, and the right-to-the-city question it raises. |
+| **Outlook** | 78 indicators in five themes (85 in six with the optional markets file) with charts, an 80% range, units and plain-language tags, from 2027 to 2050 (default 2034). |
+| **AI insights** | Highlights and a briefing for every forecast year, **pre-generated on device** with Apple's Foundation Model so they appear instantly; anything missing is generated live (Apple Intelligence, then Ollama; Groq only on request). Always labelled **AI-generated**. |
 | **Then & Now, Voices, Insights, Research** | Evidence-led history, community stories, privacy-safe aggregates and the research method, all in one calm reading layout. |
 
-![Outlook](docs/project/screenshots/v2-outlook.png)
+![Start-up: particles gather into the name, then land on the map's roads](docs/project/screenshots/v3-preloader.png)
 
-![Story tour at Sarkhej Roza](docs/project/screenshots/v2-tour-roza.png)
+![Outlook beside the live map](docs/project/screenshots/v3-outlook.png)
+
+![Story tour at Sarkhej Roza, on its OpenStreetMap site beside the tank](docs/project/screenshots/v3-tour-roza.png)
+
+<img src="docs/project/screenshots/v3-phone-explore.png" alt="Explore on a phone" width="300">
 
 ## Forecasting
 
@@ -49,7 +54,7 @@ Full guide: **[How to use](docs/operations/how-to-use.md)**.
 | Kaggle, CPCB air quality | Ahmedabad PM2.5, NO₂, AQI (monthly) | CC0 |
 | Yahoo Finance (optional) | NIFTY indices, USD/INR, oil, gold; git-ignored, personal use | Yahoo terms |
 
-**Model:** Google **TimesFM 2.5** (200M, zero-shot). Every series is forecast once to 2050 with a 10th–90th percentile band. The year slider reads a prefix of that forecast, which is identical to re-running with a shorter horizon.
+**Model:** Google **TimesFM 3.0** (zero-shot). Every series is forecast once to 2050 with a 10th–90th percentile band. The year slider reads a prefix of that forecast, which is identical to re-running with a shorter horizon.
 **Details:** [ml/README.md](ml/README.md), and the *Model & data* tab in the app.
 
 **AI providers:** Apple Intelligence runs through a small local Swift bridge (`tools/applefm/server.swift`, 127.0.0.1 only), which `./run.sh` builds and starts on macOS 26+. Ollama needs no setup beyond a model. For Groq, add `GROQ_API_KEY=…` to `apps/web/.env.local` (git-ignored); the dev server attaches the key to requests, so it never reaches the browser.

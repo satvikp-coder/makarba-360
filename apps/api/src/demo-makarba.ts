@@ -54,7 +54,7 @@ const PLACES: DemoPlace[] = [
   },
   {
     n: 3, slug: "village-bus-stand", name: "Village bus stand", category: "transport",
-    geometry: { type: "Point", coordinates: [72.5117, 22.9937] },
+    geometry: { type: "Point", coordinates: [72.5058, 22.9886] },
     timeline: [
       ["2021", "City buses stop beside the highway service lane; visitors walk in to the shrine."],
       ["2024", "A shaded waiting area is added; weekend queues are longest on Fridays."],
@@ -62,7 +62,7 @@ const PLACES: DemoPlace[] = [
   },
   {
     n: 4, slug: "highway-auto-stand", name: "Highway auto-rickshaw stand", category: "transport",
-    geometry: { type: "Point", coordinates: [72.5126, 22.9905] },
+    geometry: { type: "Point", coordinates: [72.4974, 22.9940] },
     timeline: [
       ["2022", "Shared autos gather where the arterial road meets the highway."],
       ["2025", "Drivers report visitors arriving from across the city and from other cities such as Surat."],
@@ -70,7 +70,7 @@ const PLACES: DemoPlace[] = [
   },
   {
     n: 5, slug: "canal-bank-walk", name: "Canal bank walk", category: "open_space",
-    geometry: { type: "MultiLineString", coordinates: [[[72.4975, 23.0013], [72.5031, 22.9989], [72.5090, 22.9976], [72.5136, 22.9963]]] },
+    geometry: { type: "MultiLineString", coordinates: [[[72.5195, 22.9816], [72.5147, 22.9798], [72.5142, 22.9794], [72.5112, 22.9758]]] },
     timeline: [
       ["2021", "An unpaved path along the canal bank is used as a shortcut to the bus stand."],
       ["2023", "Evening walkers and snack carts appear along the bank on weekends."],
@@ -103,12 +103,12 @@ const PLACES: DemoPlace[] = [
   },
   {
     n: 9, slug: "lake-edge-steps", name: "Lake-edge viewing steps", category: "open_space",
-    geometry: { type: "Point", coordinates: [72.5036, 22.9908] },
+    geometry: { type: "Point", coordinates: [72.5046, 22.9931] },
     timeline: [["2023", "Visitors stop on the steps at sunset; a photo spot during the fair."]],
   },
   {
     n: 10, slug: "sarkhej-roza-area", name: "Sarkhej Roza (landmark area)", category: "heritage",
-    geometry: { type: "MultiPolygon", coordinates: rect(72.5032, 22.9912, 72.5058, 22.9934) },
+    geometry: { type: "MultiPolygon", coordinates: rect(72.5045, 22.9928, 72.5063, 22.9940) },
     timeline: [["2026", "The sourced landmark notes for Sarkhej Roza are shown separately; no history is claimed here."]],
   },
   {

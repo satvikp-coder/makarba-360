@@ -13,11 +13,12 @@ vi.mock("./map/MapView.js", () => ({
   MapView: ({ features }: { features: PublicFeature[] }) => { seen.push({ ids: features.map((f) => String(f.id)) }); return <div data-testid="map" data-count={features.length}>attribution kept</div>; },
 }));
 import { PlaceList } from "./App.js";
+import { WithMap } from "./testMap.js";
 
 const bundle = JSON.parse(readFileSync(resolve(process.cwd(), "../../docs/project/contracts/fixture-bundle.json"), "utf8"));
 const okFetch = (() => Promise.resolve(new Response(JSON.stringify(bundle.locations), { status: 200 }))) as unknown as typeof fetch;
 const Where = () => { const l = useLocation(); return <output data-testid="url">{l.pathname + l.search}</output>; };
-const show = (url = "/explore") => render(<MemoryRouter initialEntries={[url]}><PlaceList withMap fetcher={okFetch} /><Where /></MemoryRouter>);
+const show = (url = "/explore") => render(<MemoryRouter initialEntries={[url]}><WithMap><PlaceList withMap fetcher={okFetch} /></WithMap><Where /></MemoryRouter>);
 afterEach(() => { cleanup(); seen.length = 0; });
 
 const places = [

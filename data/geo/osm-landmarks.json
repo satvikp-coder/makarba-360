@@ -1,0 +1,231 @@
+{
+ "type": "FeatureCollection",
+ "_about": "Real outlines of Sarkhej Roza and its tank from OpenStreetMap, used to draw the lake and to outline these landmarks when they are selected or toured. \u00a9 OpenStreetMap contributors, ODbL 1.0 (https://www.openstreetmap.org/copyright). Retrieved 2026-11-13 via the Overpass API. To refresh, re-run the query in data/README.md.",
+ "features": [
+  {
+   "type": "Feature",
+   "id": "way/85209269",
+   "properties": {
+    "key": "lake",
+    "name": "Sarkhej Roza tank (Ahmed Sar)",
+    "osm": "https://www.openstreetmap.org/way/85209269",
+    "tags": {
+     "name": "Sarkej Roza",
+     "natural": "water"
+    }
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       72.503829,
+       22.993209
+      ],
+      [
+       72.504493,
+       22.993188
+      ],
+      [
+       72.505339,
+       22.993162
+      ],
+      [
+       72.505334,
+       22.992837
+      ],
+      [
+       72.505968,
+       22.99282
+      ],
+      [
+       72.505996,
+       22.990795
+      ],
+      [
+       72.503719,
+       22.990819
+      ],
+      [
+       72.503722,
+       22.990894
+      ],
+      [
+       72.503829,
+       22.993209
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "way/499625055",
+   "properties": {
+    "key": "mosque",
+    "name": "Sarkhej Roza mosque",
+    "osm": "https://www.openstreetmap.org/way/499625055",
+    "tags": {
+     "amenity": "place_of_worship",
+     "name": "Sarkhej Roza",
+     "religion": "muslim"
+    }
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       72.504493,
+       22.993188
+      ],
+      [
+       72.504499,
+       22.993413
+      ],
+      [
+       72.504514,
+       22.994045
+      ],
+      [
+       72.506287,
+       22.993946
+      ],
+      [
+       72.506265,
+       22.992954
+      ],
+      [
+       72.506261,
+       22.992786
+      ],
+      [
+       72.505968,
+       22.99282
+      ],
+      [
+       72.505334,
+       22.992837
+      ],
+      [
+       72.505339,
+       22.993162
+      ],
+      [
+       72.504493,
+       22.993188
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "way/499625062",
+   "properties": {
+    "key": "complex",
+    "name": "Sarkhej Roza complex",
+    "osm": "https://www.openstreetmap.org/way/499625062",
+    "tags": {
+     "historic": "tomb",
+     "name": "Sarkhej Roza"
+    }
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       72.503078,
+       22.993434
+      ],
+      [
+       72.50275,
+       22.991308
+      ],
+      [
+       72.50304,
+       22.991294
+      ],
+      [
+       72.50304,
+       22.991102
+      ],
+      [
+       72.504188,
+       22.990094
+      ],
+      [
+       72.504419,
+       22.990128
+      ],
+      [
+       72.506897,
+       22.991664
+      ],
+      [
+       72.507488,
+       22.992405
+      ],
+      [
+       72.507407,
+       22.992437
+      ],
+      [
+       72.50747,
+       22.992554
+      ],
+      [
+       72.506799,
+       22.992602
+      ],
+      [
+       72.506781,
+       22.992687
+      ],
+      [
+       72.506486,
+       22.992693
+      ],
+      [
+       72.506486,
+       22.992789
+      ],
+      [
+       72.50649,
+       22.99292
+      ],
+      [
+       72.506265,
+       22.992954
+      ],
+      [
+       72.506287,
+       22.993946
+      ],
+      [
+       72.504514,
+       22.994045
+      ],
+      [
+       72.504499,
+       22.993413
+      ],
+      [
+       72.503954,
+       22.993421
+      ],
+      [
+       72.503677,
+       22.993425
+      ],
+      [
+       72.503078,
+       22.993434
+      ]
+     ]
+    ]
+   }
+  }
+ ]
+}
