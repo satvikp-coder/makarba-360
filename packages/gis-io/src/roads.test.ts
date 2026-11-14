@@ -176,3 +176,4 @@ describe("road corridor validation (#28 negative contracts)", () => {
     expect(report.features[0]!.reasons.some((r) => r.includes("restricted field"))).toBe(true);
   });
 });
+
