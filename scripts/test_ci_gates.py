@@ -120,6 +120,11 @@ class Budgets(unittest.TestCase):
         self.assertTrue(any("page_js" in x for x in p), p)
         self.assertFalse(any("unclassified" in x for x in p), p)
 
+    def test_shared_ai_chunk_counts_toward_lazy_page_budget(self):
+        p = B.check_dist(self.dist(self.full(**{"aiStore-a.js": os.urandom(100 * 1024)})))
+        self.assertTrue(any(x.startswith("page_js") for x in p), p)
+        self.assertFalse(any("unclassified" in x for x in p), p)
+
     def test_stage_chunk_counts_as_the_map(self):
         f = self.full()
         f["Stage-a.js"], f["Stage-a.css"] = f.pop("MapView-a.js"), f.pop("MapView-a.css")
