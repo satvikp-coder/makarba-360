@@ -130,16 +130,16 @@ test.describe("offline 3D Makarba demo map (all non-local requests aborted)", ()
 });
 
 test.describe("honest disclosure and sourced landmarks", () => {
-  test("every public page has the copyright footer, whose 'About the data' link leads to the full explanation", async ({ page }) => {
+  test("every public page has a copyright footer and the methodology remains readable", async ({ page }) => {
     await offline(page);
     for (const route of ["/", "/explore", "/places/junction-fruit-carts", "/voices", "/insights", "/research/sources"]) {
       await page.goto(route);
       await expect(page.getByRole("contentinfo"), route).toContainText("© 2026 Varun Karthic and Satvik Patel");
       await expect(page.getByRole("contentinfo"), route).not.toContainText(/demo|example|prototype|fictional/i);
+      await expect(page.getByRole("contentinfo").getByRole("link", { name: "About the data" })).toHaveCount(0);
     }
-    await page.getByRole("contentinfo").getByRole("link", { name: "About the data" }).click();
-    await expect(page).toHaveURL(/\/research\/methodology#prototype-data$/);
-    await expect(page.getByRole("heading", { level: 2, name: "About the data" })).toBeInViewport();
+    await page.goto("/research/methodology#prototype-data");
+    await expect(page.getByRole("heading", { level: 2, name: "About the data" })).toBeVisible();
   });
   test("landmark notes are marked as sourced, list their sources and are kept apart from demo places", async ({ page }) => {
     const { external } = await offline(page);

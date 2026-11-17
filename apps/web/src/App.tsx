@@ -143,6 +143,7 @@ export function PlaceList({ fetcher, withMap = false, makeSource = localSource }
     return () => window.removeEventListener("keydown", on);
   }, [withMap]);
   const [panel, setPanel] = useState(true);
+  useEffect(() => { if (m.selectedInsightId) setPanel(true); }, [m.selectedInsightId]);
   const ok = r !== "loading" && r.status === "ok" && r.places.length > 0 ? r : null;
 
   return (

@@ -91,6 +91,8 @@ interface Props {
   highlights?: { id: string; title: string; at: [number, number]; tone?: string }[] | null;
   /** Called with the scenario change the guided camera is showing (null when it stops). */
   onFocusChange?: (id: string | null) => void;
+  manualHighlightId?: string | null;
+  onClearManualHighlight?: () => void;
   /** Data lens: restyles the scene to show one kind of data in 3D. level is 0..1 for the chosen year. */
   lens?: "places" | "heat" | "air" | "growth" | "mobility";
   lensLevel?: number;
@@ -124,7 +126,7 @@ function el(className: string, text?: string): HTMLDivElement {
  * the same information. Motion (intro flight, flowing canal and traffic, pulsing selection) honours prefers-reduced-motion and can be
  * paused at any time (WCAG 2.2.2).
  */
-export function MapView({ features, sourceAttribution, selectedId, onSelect, onStatus, scenario = null, highlights = null, onFocusChange, lens = "places", lensLevel = 0, flyTo = null, padLeft = 0 }: Props) {
+export function MapView({ features, sourceAttribution, selectedId, onSelect, onStatus, scenario = null, highlights = null, onFocusChange, manualHighlightId = null, onClearManualHighlight, lens = "places", lensLevel = 0, flyTo = null, padLeft = 0 }: Props) {
   const host = useRef<HTMLDivElement>(null);
   const mapRef = useRef<maplibregl.Map | null>(null);
   const labelsRef = useRef<maplibregl.Marker[]>([]);
@@ -641,7 +643,12 @@ export function MapView({ features, sourceAttribution, selectedId, onSelect, onS
     el2?.addEventListener("pointerdown", stop); el2?.addEventListener("wheel", stop, { passive: true });
     return () => { clearTimeout(t); el2?.removeEventListener("pointerdown", stop); el2?.removeEventListener("wheel", stop); };
   }, [gi, guide, calloutKey, status, tour, reduced]);
-  useEffect(() => { if (calloutKey) { setGi(0); setGuide(true); } }, [calloutKey]);
+  useEffect(() => { if (calloutKey && !manualHighlightId) { setGi(0); setGuide(true); } }, [calloutKey, manualHighlightId]);
+  useEffect(() => { if (manualHighlightId) setGuide(false); }, [manualHighlightId]);
+  useEffect(() => {
+    if (!manualHighlightId) return;
+    callouts.current.forEach((marker, i) => marker.getElement().classList.toggle("on", hl[i]?.id === manualHighlightId));
+  }, [manualHighlightId, calloutKey, status]);
 
   // Map shortcuts (see the shortcut list in Shell.tsx). Arrow keys pan only when the map itself has focus (MapLibre handles that).
   const keys = useRef({ tour, setTour, orbit, setOrbit, guide, setGuide, setGi, setIs3d, setTime, setPaused, flyHome, scenario, n: 0 });
@@ -733,7 +740,7 @@ export function MapView({ features, sourceAttribution, selectedId, onSelect, onS
         <div className="map-toolbar" role="group" aria-label="Map view">
           <button type="button" className="tb tb-text" aria-pressed={orbit} disabled={reduced} onClick={() => setOrbit(!orbit)} data-tip={reduced ? "Off while reduced motion is on" : orbit ? "On: the camera turns slowly when you stop interacting (C)" : "Turn the camera slowly when idle (C)"}><Icon name="camera" /><span>360° camera</span></button>
           <button type="button" className="tb tb-text tour-start" aria-pressed={tour !== null} onClick={() => setTour(tour === null ? 0 : null)} aria-label={tour === null ? "Start story tour" : "End story tour"} data-tip="Tour every landmark and place, stop by stop"><Icon name="route" /><span>Tour</span></button>
-          {scenario && <button type="button" className="tb tb-text" aria-pressed={guide && !reduced} disabled={reduced} onClick={() => { setGuide(!guide); setTour(null); setOrbit(false); }} data-tip="Camera visits each forecast highlight in turn"><Icon name="spark" /><span>Highlights</span></button>}
+          {scenario && <button type="button" className="tb tb-text" aria-pressed={guide && !reduced} disabled={reduced} onClick={() => { if (manualHighlightId) onClearManualHighlight?.(); setGuide(!guide); setTour(null); setOrbit(false); }} data-tip="Camera visits each forecast highlight in turn"><Icon name="spark" /><span>Highlights</span></button>}
           <span className="tb-sep" aria-hidden="true" />
           <button type="button" className="tb" aria-pressed={is3d} onClick={() => setIs3d(!is3d)} aria-label="3D buildings" data-tip="3D buildings"><Icon name="cube" /></button>
           <span className="seg" role="group" aria-label="Lighting">

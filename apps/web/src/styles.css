@@ -465,3 +465,9 @@ html[data-underline="on"] a { text-decoration: underline !important; text-decora
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
 html[data-motion="reduce"] *, html[data-motion="reduce"] *::before, html[data-motion="reduce"] *::after { animation: none !important; transition: none !important; }
+@media (prefers-reduced-motion: reduce) {
+  :where(main, dialog, .float-panel) button:active:not(:disabled), .featured-cards li:hover, :where(main) .place-card:hover, .place-card:hover .pc-go, :is(.map-toolbar, .mapctl, .time-dock, .ai-dock, .lens-legend, .tour) button:active:not(:disabled) { translate: none !important; }
+  .map-label--place:hover:not(.on) { scale: none; }
+}
+html[data-motion="reduce"] :where(main, dialog, .float-panel) button:active:not(:disabled), html[data-motion="reduce"] .featured-cards li:hover, html[data-motion="reduce"] :where(main) .place-card:hover, html[data-motion="reduce"] .place-card:hover .pc-go, html[data-motion="reduce"] :is(.map-toolbar, .mapctl, .time-dock, .ai-dock, .lens-legend, .tour) button:active:not(:disabled) { translate: none !important; }
+html[data-motion="reduce"] .map-label--place:hover:not(.on) { scale: none; }

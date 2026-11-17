@@ -223,7 +223,6 @@ export function Layout() {
       </main>
       <footer className="credits">
         <p>© 2026 Varun Karthic and Satvik Patel</p>
-        <Link to="/research/methodology#prototype-data">About the data</Link>
       </footer>
       {/* after the page in the DOM so keyboard users reach the page first; it sits behind everything visually */}
       {!IN_TESTS && <Suspense fallback={<div className="stage stage-loading" aria-hidden="true" />}><Stage /></Suspense>}

@@ -20,9 +20,11 @@
 
 /* small glass chrome shared by every floating control */
 .map-toolbar, .mapctl, .time-dock, .ai-dock, .lens-legend, .stage .tour, .scen-legend, .map-legend { background: var(--glass); border: 1px solid var(--glass-line); box-shadow: var(--shadow); }
-:is(.map-toolbar, .mapctl, .time-dock, .ai-dock, .lens-legend, .tour) button { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 36px; padding: 0 12px; border: 0; border-radius: var(--r-sm); background: transparent; color: var(--teal); font: 600 .84rem/1 var(--font); cursor: pointer; transition: background .2s, color .2s; }
+:is(.map-toolbar, .mapctl, .time-dock, .ai-dock, .lens-legend, .tour) button { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 36px; padding: 0 12px; border: 0; border-radius: var(--r-sm); background: transparent; color: var(--teal); font: 600 .84rem/1 var(--font); cursor: pointer; transition: background .2s, color .2s, translate .15s ease; }
 :is(.map-toolbar, .mapctl, .time-dock, .ai-dock, .lens-legend) button:hover:not(:disabled) { background: rgba(22, 61, 59, .08); }
+:is(.map-toolbar, .mapctl, .time-dock, .ai-dock, .lens-legend, .tour) button:active:not(:disabled) { translate: 0 1px; }
 :is(.map-toolbar, .mapctl, .time-dock) button[aria-pressed="true"] { background: var(--teal); color: var(--on-teal); }
+:is(.map-toolbar, .mapctl, .time-dock) button[aria-pressed="true"]:hover:not(:disabled) { background: var(--teal-2); color: var(--on-teal); }
 
 /* view toolbar: 360° camera, tour, highlights, 3D, light, motion */
 .map-toolbar { position: absolute; z-index: 5; top: calc(var(--header-h) + var(--gap)); right: calc(var(--gap) * 2 + 46px); display: flex; align-items: center; gap: 2px; padding: 4px; border-radius: var(--r-bar); max-width: calc(100vw - var(--lw) - 96px); overflow-x: auto; scrollbar-width: none; }
@@ -184,6 +186,13 @@ html[data-contrast="high"] .map-label { background: #fff !important; color: #000
 .tone-positive .ai-ico { background: var(--good-bg); color: var(--good); }
 .tone-negative .ai-ico { background: var(--bad-bg); color: var(--bad); }
 .ai-dock .ai-headline { font-size: .95rem; }
+.ai-hl-nav { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 8px; }
+.ai-hl-nav button { border: 1px solid var(--hair-strong) !important; border-radius: 999px !important; }
+.ai-hl-nav button:disabled { opacity: .5; cursor: default; }
+.ai-hl-nav span { color: var(--muted); font-size: .78rem; font-weight: 600; }
+.future-insight { margin: 16px 0; padding: 14px; border: 1px solid var(--hair-strong); border-radius: var(--r); background: var(--surface); }
+.future-insight h3 { margin: 6px 0; }
+.future-insight p { margin: 6px 0; }
 
 /* ---------- small screens ---------- */
 @media (max-width: 899px) {

@@ -40,7 +40,7 @@ All place data is **synthetic**: nothing here is a verified field result, and no
 - **View toolbar** (top right): **360° camera**, **Tour**, **Highlights** (future scene), 3D buildings, light (dawn, day, dusk, night), pause motion, replay.
 - **Time dock** (bottom): **Today / Future**, **Play**, the year scrubber and the data lenses (**Places, Heat, Air, Growth, Mobility**). Choosing a year animates the city to it one year at a time, forwards or back (2040 runs 2027 → 2040; then 2030 runs back 2040 → 2030).
 - **Lens legend** (right): the number behind the lens, its trend, and who it affects most.
-- **AI dock** (bottom right): an orb, the year's AI highlights (who is affected and a right-to-the-city question), each with a button that flies the map to where it happens.
+- **AI dock** (bottom right): browse the year's AI highlights with Previous and Next. Selecting a highlight opens its labelled details in the future-scene side panel and moves the map to its illustrative anchor. The map's Highlights control resumes the automatic tour.
 - **Footer:** © 2026 Varun Karthic and Satvik Patel, and **About the data**.
 
 **Map accuracy:** Sarkhej Roza, its tank, the S.G. Highway (NH147), the Sarkhej road (NH8A) and the canal follow OpenStreetMap (`data/geo/`). Streets, buildings and the places are a sketch; the places are illustrative and labelled so.

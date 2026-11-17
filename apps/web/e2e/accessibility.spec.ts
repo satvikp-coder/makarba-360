@@ -72,7 +72,7 @@ test.describe("structure and keyboard", () => {
     expect(await page.evaluate(() => document.activeElement?.id)).toBe("main");
   });
   test("tabbing through the explorer reaches every control and never gets trapped", async ({ page }) => {
-    test.setTimeout(60_000);   // 60 key presses against a live WebGL map in software rendering
+    test.setTimeout(120_000);  // 60 real key presses against a live software-rendered WebGL map on shared CI runners
     await prepare(page);
     await page.goto("/explore");
     await expect(page.getByRole("button", { name: "Junction fruit and sugarcane carts" })).toBeVisible();

@@ -1,4 +1,5 @@
 import { useEffect, useLayoutEffect, useMemo, useState, type CSSProperties } from "react";
+import { createPortal } from "react-dom";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { fetchPlaces } from "./api.js";
 import { useForecasts } from "./forecastData.js";
@@ -137,8 +138,21 @@ const TONE_ICON = { positive: "trend", negative: "haze", mixed: "spark" } as con
 function AiDock({ doc }: { doc: ForecastDoc | null }) {
   const m = useMapState();
   const nav = useNavigate();
+  const loc = useLocation();
   const year = m.future ? m.year : 2034;
   const ai = useAi(doc, year);
+  const highlights = ai.highlights ?? [];
+  const currentIndex = Math.max(0, highlights.findIndex((h) => h.id === (m.selectedInsightId ?? m.focusId)));
+  const selectHighlight = (index: number) => {
+    const h = highlights[index];
+    if (!h) return;
+    m.setPlaying(false);
+    m.setYear(year);
+    m.setFuture(true);
+    m.setSelectedInsightId(h.id);
+    m.setFlyTo([...ANCHORS[h.anchor].at]);
+    if (loc.pathname !== "/explore") nav(`/explore?future=1&year=${year}`);
+  };
   const [open, setOpen] = useState(false);
   const [now, setNow] = useState(Date.now());
   const running = ai.status === "running";
@@ -164,10 +178,15 @@ function AiDock({ doc }: { doc: ForecastDoc | null }) {
             <>
               <p className="ai-badge"><Icon name="spark" size={13} /> AI-generated · {ai.model}</p>
               {ai.headline && <p className="ai-headline">{ai.headline}</p>}
-              <ol className="ai-hl">
-                {ai.highlights.map((h) => (
+              <div className="ai-hl-nav" aria-label="Highlight navigation">
+                <button type="button" onClick={() => selectHighlight(currentIndex - 1)} disabled={currentIndex === 0}><Icon name="chevL" size={14} /> Previous</button>
+                <span aria-live="polite">{currentIndex + 1} / {highlights.length}</span>
+                <button type="button" onClick={() => selectHighlight(currentIndex + 1)} disabled={currentIndex >= highlights.length - 1}>Next <Icon name="chevR" size={14} /></button>
+              </div>
+              <ol className="ai-hl" start={currentIndex + 1}>
+                {highlights.slice(currentIndex, currentIndex + 1).map((h) => (
                   <li key={h.id} className={`tone-${h.tone}`}>
-                    <button type="button" className="ai-hl-btn" onClick={() => { m.setFuture(true); m.setFlyTo(ANCHORS[h.anchor]?.at ?? null); }} data-tip="Show on the map">
+                    <button type="button" className="ai-hl-btn" onClick={() => selectHighlight(currentIndex)} data-tip="Show on the map and in the side panel">
                       <span className="ai-ico"><Icon name={h.icon ?? TONE_ICON[h.tone]} size={16} /></span>
                       <span><b>{h.title}</b><small>{h.body}</small></span>
                     </button>
@@ -254,12 +273,12 @@ export default function Stage() {
         {features && (
           <MapView features={features} sourceAttribution="Places: Makarba 360" selectedId={m.selectedId}
             onSelect={select} scenario={scenario} highlights={m.highlights}
-            onFocusChange={m.setFocusId} lens={m.lens} lensLevel={lensLevel} flyTo={m.flyTo} padLeft={reader ? 0 : padLeft} />
+            onFocusChange={m.setFocusId} manualHighlightId={m.selectedInsightId} onClearManualHighlight={() => m.setSelectedInsightId(null)} lens={m.lens} lensLevel={lensLevel} flyTo={m.flyTo} padLeft={reader ? 0 : padLeft} />
         )}
       </div>
       {!reader && !outlook && <TimeDock doc={doc} />}
       {!reader && !outlook && <LensLegend doc={doc} />}
-      {!reader && !outlook && <AiDock doc={doc} />}
+      {!reader && !outlook && createPortal(<AiDock doc={doc} />, document.body)}
     </section>
   );
 }

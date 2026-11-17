@@ -12,13 +12,13 @@ afterEach(cleanup);
 const WEB = process.cwd();   // vitest runs from apps/web
 
 describe("one calm, honest disclosure of the prototype dataset", () => {
-  it("every page footer carries the copyright and links to 'About the data', and nothing else", () => {
+  it("every page footer carries the copyright without a data link", () => {
     for (const path of ["/", "/explore", "/voices", "/insights", "/places/x", "/research/sources"]) {
       at(path);
       const footer = screen.getByRole("contentinfo");
-      expect(footer.textContent, path).toBe("© 2026 Varun Karthic and Satvik PatelAbout the data");
+      expect(footer.textContent, path).toBe("© 2026 Varun Karthic and Satvik Patel");
       expect(footer.textContent, path).not.toMatch(/demo|example|prototype|fictional/i);
-      expect(within(footer).getByRole("link", { name: "About the data" }).getAttribute("href")).toBe("/research/methodology#prototype-data");
+      expect(within(footer).queryByRole("link", { name: "About the data" })).toBeNull();
       cleanup();
     }
   });
