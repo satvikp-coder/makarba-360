@@ -1,5 +1,7 @@
 # Makarba 360°
 
+[![CI](https://github.com/satvikp-coder/makarba-360/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/satvikp-coder/makarba-360/actions/workflows/ci.yml) [![Planning integrity](https://github.com/satvikp-coder/makarba-360/actions/workflows/planning.yml/badge.svg?branch=main)](https://github.com/satvikp-coder/makarba-360/actions/workflows/planning.yml) ![Node 22 or newer](https://img.shields.io/badge/Node.js-22%2B-339933?logo=nodedotjs&logoColor=white) ![pnpm 10](https://img.shields.io/badge/pnpm-10-F69220?logo=pnpm&logoColor=white)
+
 **A participatory urban atlas of Makarba, Ahmedabad: places, history, community voices and where the trends point.**
 
 Explore the neighbourhood as a living 3D city, follow a guided tour of its landmarks, and see an illustrative picture of how it could change by 2034 (or any year to 2050), driven by Google TimesFM forecasts of real public data.
@@ -15,7 +17,7 @@ Explore the neighbourhood as a living 3D city, follow a guided tour of its landm
 run.bat             # Windows
 ```
 
-Open the URL Vite prints (usually http://localhost:5173). You need Node 22+ and pnpm (`corepack enable`). The launcher installs dependencies on first run.
+Open [http://localhost:5173](http://localhost:5173). You need Node 22+ and pnpm (`corepack enable`). The launcher installs dependencies on first run. The mock API root redirects to the app. Set `WEB_PORT` or `MOCK_API_PORT` if the default ports are busy.
 
 | Command | What it does |
 |---|---|
@@ -34,7 +36,7 @@ Full guide: **[How to use](docs/operations/how-to-use.md)**.
 | **Explore** | Search and filter the places; selecting one flies there and traces its footprint. **Tour** visits each landmark (places at a landmark are part of its stop). The **360° camera** is on by default: when you stop interacting, the view turns slowly around what is in front of you. |
 | **Future scene and timeline** | A Cesium-style time dock: pick a year and the city animates to it year by year, forwards or back, or press **Play**. Data lenses (Heat, Air, Growth, Mobility) recolour the map and show the number behind the colour. Every change is explained through people: who gains, who bears the cost, and the right-to-the-city question it raises. |
 | **Outlook** | 78 indicators in five themes (85 in six with the optional markets file) with charts, an 80% range, units and plain-language tags, from 2027 to 2050 (default 2034). |
-| **AI insights** | Highlights and a briefing for every forecast year, **pre-generated on device** with Apple's Foundation Model so they appear instantly; anything missing is generated live (Apple Intelligence, then Ollama; Groq only on request). Always labelled **AI-generated**. |
+| **AI insights** | Browse pre-generated highlights with Previous and Next; the selected insight appears beside its map anchor. Missing years can be generated live (Apple Intelligence, then Ollama; Groq only on request). Answers are labelled **AI-generated**, and cached answers are tied to the forecast contents. The bundled file currently has no 2049 entry. |
 | **Then & Now, Voices, Insights, Research** | Evidence-led history, community stories, privacy-safe aggregates and the research method, all in one calm reading layout. |
 
 ![Start-up: particles gather into the name, then land on the map's roads](docs/project/screenshots/v3-preloader.png)
@@ -45,17 +47,50 @@ Full guide: **[How to use](docs/operations/how-to-use.md)**.
 
 <img src="docs/project/screenshots/v3-phone-explore.png" alt="Explore on a phone" width="300">
 
+### Around Makarba
+
+![Sarkhej Roza mosque seen from its courtyard](data/images/landmarks/sarkhej-roza.jpg)
+
+Sarkhej Roza, 2011. Photo by [Museeb fakih, via Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Sarkhej.JPG), public domain; resized for the atlas. See [media credits](docs/project/media-credits.md) for the other photographs and their licences.
+
+## How the pieces fit
+
+```mermaid
+flowchart LR
+  visitor[Visitor] --> web[Web app and 3D map]
+  web -->|public requests| api[Local synthetic API]
+  api --> fixtures[Synthetic public fixtures]
+  web --> forecasts[Forecast JSON]
+  web --> insights[Pre-generated AI insights]
+  web -. optional live generation .-> local[Apple Intelligence or Ollama]
+  web -. visitor-selected cloud option .-> groq[Groq proxy]
+```
+
+The default launcher uses synthetic public fixtures. The real API and private research workflow have separate operational and approval gates; the diagram does not imply that fieldwork or publication has been approved.
+
 ## Forecasting
 
 | Source | What | Licence |
 |---|---|---|
-| World Bank Open Data | 26 India indicators (GDP, inflation, jobs, urbanisation, energy, health, education, …) | CC BY 4.0 |
-| Worldwide Governance Indicators | 6 political indicators | CC BY 4.0 |
-| Kaggle, CPCB air quality | Ahmedabad PM2.5, NO₂, AQI (monthly) | CC0 |
+| World Bank Open Data | India economic, development, social and political indicators | CC BY 4.0 |
+| Worldwide Governance Indicators | India governance indicators | CC BY 4.0 |
+| Kaggle, CPCB air quality | Ahmedabad air-quality series (monthly) | CC0 |
+| Kaggle, India weather | Ahmedabad heat and rainfall series (annual) | MIT |
 | Yahoo Finance (optional) | NIFTY indices, USD/INR, oil, gold; git-ignored, personal use | Yahoo terms |
 
 **Model:** Google **TimesFM 3.0** (zero-shot). Every series is forecast once to 2050 with a 10th–90th percentile band. The year slider reads a prefix of that forecast, which is identical to re-running with a shorter horizon.
 **Details:** [ml/README.md](ml/README.md), and the *Model & data* tab in the app.
+
+```mermaid
+flowchart LR
+  data[Public time series] --> prepare[Clean and interpolate]
+  prepare --> model[TimesFM or labelled fallback]
+  model --> file[Forecasts through 2050]
+  file --> charts[Outlook charts and map lenses]
+  file --> pregen[Optional on-device AI pre-generation]
+  pregen --> cache[Matching bundled insights]
+  cache --> charts
+```
 
 **AI providers:** Apple Intelligence runs through a small local Swift bridge (`tools/applefm/server.swift`, 127.0.0.1 only), which `./run.sh` builds and starts on macOS 26+. Ollama needs no setup beyond a model. For Groq, add `GROQ_API_KEY=…` to `apps/web/.env.local` (git-ignored); the dev server attaches the key to requests, so it never reaches the browser.
 
