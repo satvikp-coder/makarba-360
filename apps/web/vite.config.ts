@@ -14,6 +14,7 @@ export default defineConfig(({ mode }) => {
   const applefm = { target: env.APPLEFM_HOST ?? "http://127.0.0.1:11535", changeOrigin: true, rewrite: (p: string) => p.replace(/^\/applefm/, "") };
   // /applefm, /ollama and /groq are same-origin paths, so the page's CSP stays connect-src 'self'.
   const ai = { "/applefm": applefm, "/ollama": ollama, "/groq": groq };
+  const proxy = { "/api": `http://127.0.0.1:${env.MOCK_API_PORT ?? "4010"}`, ...ai };
   return defineTest({
     plugins: [react()],
     // All site content lives in the repository's data/ folder (JSON + images); it is served as-is, so editing a file there updates the site.
@@ -21,8 +22,8 @@ export default defineConfig(({ mode }) => {
     // maplibre-gl 6 starts its worker from a URL relative to its own module; pre-bundling would move the module away from the worker file.
     optimizeDeps: { exclude: ["maplibre-gl"] },
     // MOCK_API_PORT lets a second checkout run its own mock without clashing (default 4010, as in CI).
-    server: { proxy: { "/api": `http://127.0.0.1:${env.MOCK_API_PORT ?? "4010"}`, ...ai } },
-    preview: { proxy: ai },
+    server: { proxy },
+    preview: { proxy },
     test: { environment: "jsdom", globals: false, include: ["src/**/*.test.{ts,tsx}"] },
   });
 });

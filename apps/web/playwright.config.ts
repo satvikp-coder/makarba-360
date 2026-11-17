@@ -11,7 +11,7 @@ export default defineConfig({
   reporter: [["list"]],
   use: { baseURL: `http://127.0.0.1:${WEB}`, trace: "retain-on-failure" },
   webServer: [
-    { command: "pnpm --filter @makarba/api dev:mock", url: `http://127.0.0.1:${API}/health`, env: { API_PORT: API }, reuseExistingServer: !process.env.CI, timeout: 60_000 },
+    { command: "pnpm --filter @makarba/api dev:mock", url: `http://127.0.0.1:${API}/health`, env: { API_PORT: API, WEB_PORT: WEB }, reuseExistingServer: !process.env.CI, timeout: 60_000 },
     // E2E_TARGET=preview serves the production build (run `pnpm build` first), which is what visitors get; the default is the dev server.
     process.env.E2E_TARGET === "preview"
       ? { command: `pnpm exec vite preview --host 127.0.0.1 --port ${WEB} --strictPort`, url: `http://127.0.0.1:${WEB}`, env: { MOCK_API_PORT: API }, reuseExistingServer: false, timeout: 60_000 }

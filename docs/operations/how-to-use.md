@@ -23,7 +23,7 @@ All place data is **synthetic**: nothing here is a verified field result, and no
 
 | Mode | What it does |
 |---|---|
-| `demo` (default) | Starts the local API, the web app (Vite, usually http://localhost:5173), the Apple Foundation Models bridge on macOS (built once from `tools/applefm/server.swift`) and Ollama if installed. |
+| `demo` (default) | Starts the local API, the web app (http://localhost:5173), the Apple Foundation Models bridge on macOS (built once from `tools/applefm/server.swift`) and Ollama if installed. Opening the mock API root redirects to the web app. Set `WEB_PORT` or `MOCK_API_PORT` to change the ports; the launcher reports an error if the web port is busy. |
 | `forecast` | Builds `ml/.venv` and regenerates the forecasts with TimesFM (see [ml/README.md](../../ml/README.md)). |
 | `check` | Runs typecheck, lint and all unit tests. |
 | `db` / `api` | Runs the PostGIS container, or the real API with a `.env` file. |

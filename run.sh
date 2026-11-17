@@ -17,9 +17,11 @@ case "$cmd" in
       [ tools/applefm/.build/applefm-server -nt tools/applefm/server.swift ] || { mkdir -p tools/applefm/.build && swiftc -O tools/applefm/server.swift -o tools/applefm/.build/applefm-server 2>/dev/null; }
       [ -x tools/applefm/.build/applefm-server ] && { tools/applefm/.build/applefm-server 11535 >/dev/null 2>&1 & }
     fi
+    export WEB_PORT="${WEB_PORT:-5173}"
+    export API_PORT="${MOCK_API_PORT:-4010}"
     pnpm dev:mock & api=$!
     trap 'kill $api 2>/dev/null' EXIT INT TERM
-    pnpm --filter @makarba/web dev ;;
+    pnpm --filter @makarba/web dev --port "$WEB_PORT" --strictPort ;;
   api)   # real API; needs Docker DB + .env (copy .env.example)
     need docker
     [ -f .env ] || { cp .env.example .env; echo "Created .env from .env.example - edit secrets, then rerun."; exit 1; }

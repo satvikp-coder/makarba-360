@@ -8,12 +8,15 @@ if "%CMD%"=="" set CMD=demo
 where node >nul 2>&1 || (echo Missing node. See docs\operations\how-to-use.md & exit /b 1)
 where pnpm >nul 2>&1 || (echo Missing pnpm. Run: corepack enable & exit /b 1)
 if not exist node_modules call pnpm install || exit /b 1
+if not defined WEB_PORT set WEB_PORT=5173
+if not defined MOCK_API_PORT set MOCK_API_PORT=4010
+set API_PORT=%MOCK_API_PORT%
 
 if /i "%CMD%"=="demo" (
   rem Mock API in its own window (close it to stop), web app in this one. Ollama (if installed) powers the AI briefing.
   where ollama >nul 2>&1 && start "Ollama" /min ollama serve
   start "Makarba mock API" cmd /c pnpm dev:mock
-  call pnpm --filter @makarba/web dev
+  call pnpm --filter @makarba/web dev --port %WEB_PORT% --strictPort
   exit /b
 )
 if /i "%CMD%"=="forecast" (
