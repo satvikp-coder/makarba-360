@@ -1,14 +1,14 @@
 // Apple Foundation Models bridge for Makarba 360's AI insights.
 //
-// A tiny local HTTP server (127.0.0.1 only, no dependencies) that exposes the on-device Apple Intelligence model to the web app
-// through the Vite proxy at /applefm. Nothing leaves the Mac.
+// A tiny local HTTP server (127.0.0.1 only, no dependencies) that exposes the on-device Apple Intelligence model to
+// apps/web/tools/pregen-ai.ts, which writes data/ai/insights.json. Nothing leaves the Mac.
 //
 //   GET  /health    -> {"available": true|false, "reason": "...", "model": "apple-foundation-model"}
 //   POST /generate  {"prompt": "...", "json": false, "stream": true}
 //                   -> stream: NDJSON lines {"response": "<new text>"} then {"done": true}   (same shape as Ollama)
 //                      no stream: {"response": "<full text>"}
 //
-// Build and run (macOS 26+ with Apple Intelligence enabled):  ./run.sh  (does this automatically)  or
+// Build and run (macOS 26+ with Apple Intelligence enabled):  ./run.sh insights  (does this automatically)  or
 //   swiftc -O tools/applefm/server.swift -o tools/applefm/.build/applefm-server && tools/applefm/.build/applefm-server [port]
 import Foundation
 import FoundationModels

@@ -174,9 +174,11 @@ html[data-contrast="high"] .map-label { background: #fff !important; color: #000
 .ai-dock.open .ai-dock-head small { white-space: normal; overflow: visible; }
 .ai-dock-body { max-height: min(520px, max(180px, calc(100dvh - 470px))); overflow: auto; overscroll-behavior: contain; padding: 12px 14px 14px; border-top: 1px solid var(--hair); font-size: .86rem; overflow-wrap: anywhere; animation: fade .3s ease both; }
 .ai-dock .btn { min-height: 36px; }
-.ai-progress { position: relative; margin: 8px 0; padding-bottom: 6px; color: var(--muted); }
-.ai-progress .ai-bar { position: absolute; left: 0; bottom: 0; margin: 0; }
-.ai-error { color: var(--error); }
+.ai-brief { margin-top: 10px; padding: 8px 10px; border-radius: var(--r-sm); background: var(--surface); border: 1px solid var(--hair); }
+.ai-brief summary { cursor: pointer; color: var(--teal); font-weight: 650; }
+.briefing-text { line-height: 1.6; }
+.briefing-text h4 { margin: .9em 0 .25em; color: var(--teal); font-size: .9rem; }
+.briefing-text ul { margin: 0; padding-left: 1.1em; }
 .ai-hl { display: grid; gap: 8px; margin: 6px 0 0; padding: 0; list-style: none; }
 .ai-hl > li { padding: 10px; border-radius: var(--r); background: var(--surface); border: 1px solid var(--hair); animation: rise .45s var(--ease) both; }
 .ai-hl-btn { width: 100%; justify-content: flex-start !important; align-items: flex-start !important; gap: 10px !important; min-height: 0 !important; padding: 0 !important; text-align: left; font-weight: 500 !important; }

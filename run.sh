@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Makarba 360 launcher (macOS/Linux). Usage: ./run.sh [demo|forecast|api|check|db|help]
+# Makarba 360 launcher (macOS/Linux). Usage: ./run.sh [demo|forecast|insights|api|check|db|help]
 set -euo pipefail
 cd "$(dirname "$0")"
 cmd="${1:-demo}"
@@ -10,13 +10,7 @@ need node; need pnpm
 [ -d node_modules ] || pnpm install
 
 case "$cmd" in
-  demo) # synthetic mock API (4010) + web app (Vite); Ctrl+C stops both. Start Ollama for the AI briefing.
-    command -v ollama >/dev/null && ! curl -s -m 1 127.0.0.1:11434 >/dev/null && { ollama serve >/dev/null 2>&1 & }
-    # Apple Intelligence (macOS 26+): build the local Foundation Models bridge once, then start it; preferred for AI insights
-    if [ "$(uname)" = Darwin ] && command -v swiftc >/dev/null && ! curl -s -m 1 127.0.0.1:11535/health >/dev/null; then
-      [ tools/applefm/.build/applefm-server -nt tools/applefm/server.swift ] || { mkdir -p tools/applefm/.build && swiftc -O tools/applefm/server.swift -o tools/applefm/.build/applefm-server 2>/dev/null; }
-      [ -x tools/applefm/.build/applefm-server ] && { tools/applefm/.build/applefm-server 11535 >/dev/null 2>&1 & }
-    fi
+  demo) # synthetic mock API (4010) + web app (Vite); Ctrl+C stops both.
     export WEB_PORT="${WEB_PORT:-5173}"
     export API_PORT="${MOCK_API_PORT:-4010}"
     pnpm dev:mock & api=$!
@@ -32,6 +26,13 @@ case "$cmd" in
     py=$(command -v python3.11 || command -v python3.12 || command -v python3)
     [ -d ml/.venv ] || { "$py" -m venv ml/.venv && ml/.venv/bin/pip install -q -r ml/requirements.txt; }
     ml/.venv/bin/python ml/forecast.py "${@:2}" && ml/.venv/bin/python ml/forecast.py --markets "${@:2}" ;;
+  insights) # rewrites data/ai/insights.json with Apple's on-device model (macOS 26+, Apple Intelligence on); run after `forecast`
+    [ "$(uname)" = Darwin ] && command -v swiftc >/dev/null || { echo "Needs macOS 26+ with Xcode command line tools." >&2; exit 1; }
+    if ! curl -s -m 1 127.0.0.1:11535/health >/dev/null; then
+      [ tools/applefm/.build/applefm-server -nt tools/applefm/server.swift ] || { mkdir -p tools/applefm/.build && swiftc -O tools/applefm/server.swift -o tools/applefm/.build/applefm-server; }
+      tools/applefm/.build/applefm-server 11535 >/dev/null 2>&1 & bridge=$!; trap 'kill $bridge 2>/dev/null' EXIT INT TERM; sleep 2
+    fi
+    pnpm --filter @makarba/web exec vitest run -c tools/vitest.pregen.config.ts ;;
   check) pnpm typecheck && pnpm lint && pnpm test ;;
   db)    need docker; pnpm dev:services ;;
   *)     sed -n '2p' "$0"; exit 0 ;;

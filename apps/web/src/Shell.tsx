@@ -8,7 +8,7 @@ import { MapProvider } from "./mapCtx.js";
 import { PageTransition } from "./Transition.js";
 import { Preloader } from "./Preloader.js";
 
-// The 3D stage (map, time dock, lenses, AI dock) loads after the first paint and then stays mounted across pages.
+// The 3D stage (map, time dock, lenses, AI insights) loads after the first paint and then stays mounted across pages.
 const Stage = lazy(() => import("./Stage.js"));
 const IN_TESTS = typeof navigator !== "undefined" && /jsdom/i.test(navigator.userAgent);
 
@@ -23,7 +23,7 @@ export const plainKey = (e: KeyboardEvent) => !e.ctrlKey && !e.metaKey && !e.alt
 export const SHORTCUTS: { group: string; keys: string[]; what: string }[] = [
   { group: "Anywhere", keys: ["1"], what: "Overview" },
   { group: "Anywhere", keys: ["2"], what: "Explore the 3D map" },
-  { group: "Anywhere", keys: ["3"], what: "Outlook (forecasts and AI insights)" },
+  { group: "Anywhere", keys: ["3"], what: "Outlook (forecasts)" },
   { group: "Anywhere", keys: [","], what: "Display and accessibility settings" },
   { group: "Anywhere", keys: ["?"], what: "This list of shortcuts" },
   { group: "Explore", keys: ["/"], what: "Search places" },
@@ -48,7 +48,7 @@ export const SHORTCUTS: { group: string; keys: string[]; what: string }[] = [
 const NAV: { to: string; label: string; icon: IconName; tip: string; end?: boolean }[] = [
   { to: "/", label: "Overview", icon: "home", tip: "Overview (1)", end: true },
   { to: "/explore", label: "Explore", icon: "map", tip: "Explore the 3D map (2)" },
-  { to: "/forecasts", label: "Outlook", icon: "trend", tip: "Outlook: forecasts and AI insights (3)" },
+  { to: "/forecasts", label: "Outlook", icon: "trend", tip: "Outlook: forecasts (3)" },
 ];
 /** Reading-page links appear on the Overview. */
 export const LIBRARY: { to: string; label: string; icon: IconName; blurb: string }[] = [

@@ -9,9 +9,7 @@ All place data is **synthetic**: nothing here is a verified field result, and no
 | Node.js | 22+ | everything |
 | pnpm | 10.x (`corepack enable`) | everything |
 | Python | 3.11 recommended | `forecast` mode only |
-| macOS 26+ with Apple Intelligence on, and Xcode command-line tools (`swiftc`) | Apple Foundation Models for AI insights: used first whenever available (optional) |
-| Ollama | any recent version, plus a model (`ollama pull gemma3n`) | on-device AI insights when Apple Intelligence isn't available (optional) |
-| Groq API key | – | cloud AI briefing (optional) |
+| macOS 26+ with Apple Intelligence on, and Xcode command-line tools (`swiftc`) | – | `insights` mode only |
 | Docker Desktop | recent | `api` / `db` modes only |
 
 ## 2. Launchers
@@ -23,12 +21,11 @@ All place data is **synthetic**: nothing here is a verified field result, and no
 
 | Mode | What it does |
 |---|---|
-| `demo` (default) | Starts the local API, the web app (http://localhost:5173), the Apple Foundation Models bridge on macOS (built once from `tools/applefm/server.swift`) and Ollama if installed. Opening the mock API root redirects to the web app. Set `WEB_PORT` or `MOCK_API_PORT` to change the ports; the launcher reports an error if the web port is busy. |
+| `demo` (default) | Starts the local API and the web app (http://localhost:5173). Opening the mock API root redirects to the web app. Set `WEB_PORT` or `MOCK_API_PORT` to change the ports; the launcher reports an error if the web port is busy. |
 | `forecast` | Builds `ml/.venv` and regenerates the forecasts with TimesFM (see [ml/README.md](../../ml/README.md)). |
+| `insights` | Rewrites `data/ai/insights.json` for the current forecasts with Apple's on-device model (builds and starts the bridge in `tools/applefm`). Years already in the file for the same forecasts are kept; delete the file to redo all. Takes a few minutes per year. |
 | `check` | Runs typecheck, lint and all unit tests. |
 | `db` / `api` | Runs the PostGIS container, or the real API with a `.env` file. |
-
-**Groq:** create `apps/web/.env.local` (git-ignored) containing `GROQ_API_KEY=…`, then restart `demo`. The dev server adds the key to requests, so it is never sent to the browser.
 
 ## 3. The app
 
@@ -51,8 +48,8 @@ All place data is **synthetic**: nothing here is a verified field result, and no
   - **Tour:** the landmark stops, then the places that don't already stand at one (no place appears twice). Use Previous / Next or ← / →; the current stop and source appear in the side panel. The panel can be collapsed and reopened without stopping the tour.
   - **360° camera** (C), on by default: after a few seconds with no input, including at each tour stop, the camera starts a slow turn around what is in view. Touch, scroll, drag or any key stops it; it resumes when you stop. It starts off on software-rendered (Low detail) maps and with reduced motion.
   - **Future scene** (F): the highway corridor grows, old plots are rebuilt (orange), rooftops get solar (blue), haze and heat follow Ahmedabad's forecasts, traffic thickens. The panel explains every change through people: **who gains**, **who bears the cost**, and the **right to the city** question it raises. **Highlights** (H) moves the camera through them in turn.
-- **Outlook:** a wide panel beside the map. Theme tiles, one chart per indicator (80% range, units, **Why it matters** and **Data** dropdowns), **AI insights** with the full briefing, and **Model & data**.
-- **AI insights:** every forecast year's highlights and briefing are pre-generated on device with Apple's Foundation Model (`data/ai/insights.json`), so they appear at once. Years without one are generated live (Apple Intelligence first, then Ollama; Groq only if you choose it), with live progress and Cancel; **Regenerate** always asks a model afresh. Everything is labelled **AI-generated** with the model.
+- **Outlook:** a wide panel beside the map. Theme tiles, one chart per indicator (80% range, units, **Why it matters** and **Data** dropdowns), and **Model & data**.
+- **AI insights** (the dock on the map): each year's highlights, one at a time beside its map anchor, and a short briefing. They come from `data/ai/insights.json` (no model runs in the browser) and are labelled **AI-generated**.
 - **Reading pages:** one centred card over a dimmed map.
 
 ### Keyboard shortcuts (press ? in the app)
@@ -78,13 +75,8 @@ Settings are remembered in this browser.
 
 ## 4. Troubleshooting
 
-- **AI insights say Apple Intelligence isn't reachable:** you need macOS 26+ with Apple Intelligence on. `./run.sh` builds and starts the bridge; to start it by hand, run `swiftc -O tools/applefm/server.swift -o tools/applefm/.build/applefm-server && tools/applefm/.build/applefm-server`.
-- **AI briefing says "No local model found" (Ollama):** start Ollama (`ollama serve`) and pull a model.
-- **Groq not configured:** add the key to `apps/web/.env.local` and restart.
 - **Forecasts are unavailable:** run `./run.sh forecast`. Use `--naive` for an offline fallback.
 - **Port 4010 is busy:** stop the old mock process or set `MOCK_API_PORT`.
 - **The 3D map does not appear:** WebGL is unavailable, so a 2D sketch and the list take its place.
 - **Reduced motion:** with the device setting or the site's **Reduce motion** option on, there is no start-up film, flights become cuts, years jump instead of animating, vehicles stand still, and the 360° camera and Highlights camera are off.
-- **AI insights never start:** pre-generated years appear anyway; live generation doesn't run automatically in automated browsers or with Save-Data on. Open the AI dock and press Generate.
-- **Refresh the pre-generated AI text** (after new forecasts): with the Apple bridge running, `cd apps/web && npx vitest run -c tools/vitest.pregen.config.ts` (about 30–40 s per year).
-- Pre-generated and browser-cached insights are tied to the forecast series contents. If forecasts change, old insights are ignored; rerun pre-generation to restore instant answers. Optional market series do not affect the AI prompts or this match.
+- **No AI insights dock on the map:** `data/ai/insights.json` was made from different forecasts. Run `./run.sh insights` (the unit tests flag this too).

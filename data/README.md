@@ -14,7 +14,7 @@ Everything the site shows that isn't code lives here. Edit a file, reload the pa
 | `content/anchors.json` | Named places on the 3D map that highlights (including AI ones) can point to | 3D highlights, AI |
 | `geo/osm-landmarks.json` | Real outlines of Sarkhej Roza (mosque and tomb, whole complex) and its tank, from OpenStreetMap | The lake on the 3D map, where the Roza model stands, landmark outlines when selected or toured |
 | `geo/osm-roads.json` | The S.G. Highway (NH147), the Sarkhej road (NH8A) and the canal, from OpenStreetMap, clipped to the map | Road and canal lines, highway traffic, the growth corridor |
-| `ai/insights.json` | AI highlights and briefings for every forecast year, pre-generated on device (`apps/web/tools/pregen-ai.ts`). Tied to the forecast file it was made from; ignored if the forecasts change. | AI dock, Outlook briefing (instant) |
+| `ai/insights.json` | AI highlights and briefings for every forecast year, written on device by `./run.sh insights`. Tied to the forecast file it was made from; ignored if the forecasts change. | AI insights dock on the map |
 | `images/landmarks/`, `images/places/` | Photographs (Wikimedia Commons, credited in `docs/project/media-credits.md`) | everywhere photos appear |
 
 ## Rules for new content

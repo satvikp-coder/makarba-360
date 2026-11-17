@@ -38,13 +38,11 @@ describe("Outlook", () => {
     page("/forecasts?year=1999");
     expect(await screen.findByRole("heading", { level: 1, name: /by 2034/ })).toBeTruthy();
   });
-  it("AI tab says how to get a local model when Ollama is not running; model tab names TimesFM", async () => {
-    vi.stubGlobal("fetch", vi.fn().mockRejectedValue(new Error("offline")));
+  it("has no AI tab or model picker (insights live on the map); the model tab names TimesFM", async () => {
     page();
-    await userEvent.click(await screen.findByRole("tab", { name: "AI insights" }));
-    expect(await screen.findByText(/Apple Intelligence isn't reachable/)).toBeTruthy();   // on-device Apple model is tried first
-    await userEvent.click(screen.getByRole("radio", { name: "On-device (Ollama)" }));
-    expect(await screen.findByText(/No local model found/)).toBeTruthy();
+    await screen.findAllByRole("img");
+    expect(screen.getAllByRole("tab").map((t) => t.textContent)).toEqual(["Signals", "Model & data"]);
+    expect(screen.queryByRole("radiogroup", { name: "AI provider" })).toBeNull();
     await userEvent.click(screen.getByRole("tab", { name: "Model & data" }));
     expect(screen.getByText(/TimesFM 2.5/)).toBeTruthy();
   });

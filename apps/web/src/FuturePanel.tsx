@@ -50,7 +50,7 @@ export function FuturePanel() {
         ))}
       </ol>
       <p className="hint"><Icon name="info" size={14} /> Illustrative: each change follows national or Ahmedabad forecasts. Not a plan.</p>
-      <p><Link to={`/forecasts${s.year === 2034 ? "" : `?year=${s.year}`}`}>All indicators and the AI briefing →</Link></p>
+      <p><Link to={`/forecasts${s.year === 2034 ? "" : `?year=${s.year}`}`}>All indicators →</Link></p>
     </section>
   );
 }

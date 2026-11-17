@@ -8,7 +8,7 @@
 
 Explore the neighbourhood as a living 3D city, follow a guided tour of its landmarks, and see an illustrative picture of how it could change by 2034 (or any year to 2050), driven by Google TimesFM forecasts of real public data.
 
-![The 3D city in 2040: the time dock, the future scene explained through people, and pre-generated AI highlights](docs/project/screenshots/v3-future-2040.png)
+![The 3D city in 2040: the time dock, the future scene explained through people, and AI-generated highlights](docs/project/screenshots/v3-future-2040.png)
 
 ---
 
@@ -23,8 +23,9 @@ Open [http://localhost:5173](http://localhost:5173). You need Node 22+ and pnpm 
 
 | Command | What it does |
 |---|---|
-| `./run.sh` / `run.bat` | The app: local API, web app, the Apple Intelligence bridge (macOS) and Ollama if installed |
+| `./run.sh` / `run.bat` | The app: local API and web app |
 | `./run.sh forecast` | Regenerates the forecasts with TimesFM (Python 3.11; downloads the model on first run) |
+| `./run.sh insights` | Rewrites the stored AI insights for the current forecasts (macOS 26+ with Apple Intelligence) |
 | `./run.sh check` | Runs typecheck, lint and all unit tests |
 | `./run.sh db` / `api` | Runs the PostGIS container or the real API (Docker and a `.env` file) |
 
@@ -38,7 +39,7 @@ Full guide: **[How to use](docs/operations/how-to-use.md)**.
 | **Explore** | Search and filter the places; selecting one flies there and traces its footprint. **Tour** visits each landmark (places at a landmark are part of its stop). The **360° camera** is on by default: when you stop interacting, the view turns slowly around what is in front of you. |
 | **Future scene and timeline** | A Cesium-style time dock: pick a year and the city animates to it year by year, forwards or back, or press **Play**. Data lenses (Heat, Air, Growth, Mobility) recolour the map and show the number behind the colour. Every change is explained through people: who gains, who bears the cost, and the right-to-the-city question it raises. |
 | **Outlook** | 78 indicators in five themes (85 in six with the optional markets file) with charts, an 80% range, units and plain-language tags, from 2027 to 2050 (default 2034). |
-| **AI insights** | Browse pre-generated highlights with Previous and Next; the selected insight appears beside its map anchor. Missing years can be generated live (Apple Intelligence, then Ollama; Groq only on request). Answers are labelled **AI-generated**, and cached answers are tied to the forecast contents. The bundled file currently has no 2049 entry. |
+| **AI insights** | On the map, browse each year's highlights with Previous and Next; the selected insight appears beside its map anchor, with a short briefing below. They are stored with the site (no model runs while you browse) and labelled **AI-generated**. |
 | **Then & Now, Voices, Insights, Research** | Evidence-led history, community stories, privacy-safe aggregates and the research method, all in one calm reading layout. |
 
 ![Start-up: particles gather into the name, then land on the map's roads](docs/project/screenshots/v3-preloader.png)
@@ -63,9 +64,7 @@ flowchart LR
   web -->|public requests| api[Local synthetic API]
   api --> fixtures[Synthetic public fixtures]
   web --> forecasts[Forecast JSON]
-  web --> insights[Pre-generated AI insights]
-  web -. optional live generation .-> local[Apple Intelligence or Ollama]
-  web -. visitor-selected cloud option .-> groq[Groq proxy]
+  web --> insights[Stored AI insights]
 ```
 
 The default launcher uses synthetic public fixtures. The real API and private research workflow have separate operational and approval gates; the diagram does not imply that fieldwork or publication has been approved.
@@ -89,12 +88,12 @@ flowchart LR
   prepare --> model[TimesFM or labelled fallback]
   model --> file[Forecasts through 2050]
   file --> charts[Outlook charts and map lenses]
-  file --> pregen[Optional on-device AI pre-generation]
-  pregen --> cache[Matching bundled insights]
+  file --> pregen[On-device AI, run by the maintainers]
+  pregen --> cache[data/ai/insights.json]
   cache --> charts
 ```
 
-**AI providers:** Apple Intelligence runs through a small local Swift bridge (`tools/applefm/server.swift`, 127.0.0.1 only), which `./run.sh` builds and starts on macOS 26+. Ollama needs no setup beyond a model. For Groq, add `GROQ_API_KEY=…` to `apps/web/.env.local` (git-ignored); the dev server attaches the key to requests, so it never reaches the browser.
+**AI insights:** `./run.sh insights` writes `data/ai/insights.json` with Apple's on-device model through a small local Swift bridge (`tools/applefm/server.swift`, 127.0.0.1 only). The file is tied to the forecast contents, and `pnpm test` fails if any forecast year is missing or the file is stale, so rerun it after `./run.sh forecast`. The hosted site only reads the file.
 
 ## Repository
 

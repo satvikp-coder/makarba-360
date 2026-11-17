@@ -1,15 +1,15 @@
 import { useEffect, useLayoutEffect, useMemo, useState, type CSSProperties } from "react";
 import { createPortal } from "react-dom";
-import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { fetchPlaces } from "./api.js";
 import { useForecasts } from "./forecastData.js";
 import { scenarioFor, ANCHORS } from "./scenario.js";
 import { fmt, signal, type ForecastDoc, type Series } from "./outlook.js";
-import { cancelAi, ensureAi, useAi, PROVIDERS } from "./aiStore.js";
+import { useAi } from "./aiStore.js";
 import { useMapState, type Lens } from "./mapCtx.js";
 import { MapView } from "./map/MapView.js";
 import { MatrixOrb } from "./MatrixOrb.js";
-import { HighlightText } from "./HighlightText.js";
+import { Briefing, HighlightText } from "./HighlightText.js";
 import { Icon, type IconName } from "./Icon.js";
 import { plainKey } from "./Shell.js";
 import { prefersReducedMotion } from "./motion.js";
@@ -82,7 +82,7 @@ function TimeDock({ doc }: { doc: ForecastDoc | null }) {
     if (prefersReducedMotion()) { m.setYear(y); return; }
     setGoal(y);
   };
-  const ticks = [THIS_YEAR + 1, 2030, 2035, 2040, 2045, max].filter((y, i, a) => y <= max && a.indexOf(y) === i);
+  const ticks = [2030, 2035, 2040, 2045, max].filter((y, i, a) => y <= max && a.indexOf(y) === i);
   const pct = ((m.year - (THIS_YEAR + 1)) / (max - THIS_YEAR - 1)) * 100;
   return (
     <section className="time-dock glass" aria-label="Time and data lens">
@@ -135,7 +135,7 @@ function LensLegend({ doc }: { doc: ForecastDoc | null }) {
 
 const TONE_ICON = { positive: "trend", negative: "haze", mixed: "spark" } as const;
 
-/** AI insights dock: matrix orb, live progress, cancel, and the people-centred highlights for the chosen year. */
+/** AI insights dock: the people-centred highlights (and briefing) for the chosen year, one at a time beside its map anchor. */
 function AiDock({ doc }: { doc: ForecastDoc | null }) {
   const m = useMapState();
   const nav = useNavigate();
@@ -155,51 +155,39 @@ function AiDock({ doc }: { doc: ForecastDoc | null }) {
     if (loc.pathname !== "/explore") nav(`/explore?future=1&year=${year}`);
   };
   const [open, setOpen] = useState(false);
-  const [now, setNow] = useState(Date.now());
-  const running = ai.status === "running";
-  useEffect(() => { if (!running) return; const id = setInterval(() => setNow(Date.now()), 500); return () => clearInterval(id); }, [running]);
-  const secs = ai.progress ? Math.max(0, Math.round((now - ai.progress.startedAt) / 1000)) : 0;
-  const state = running ? "thinking" : ai.status === "error" ? "error" : ai.status === "done" ? "done" : "idle";
-  const status = running ? `Thinking · ${secs}s${ai.progress?.chars ? ` · ${ai.progress.chars} chars` : ""}` : ai.status === "done" ? `${ai.highlights?.length ?? 0} highlights · ${year}` : ai.status === "error" ? "Couldn't finish" : ai.status === "offline" ? "No AI model available" : "Ready when you are";
+  if (ai.status === "none") return null;
+  const status = ai.status === "done" ? `${highlights.length} highlights · ${year}` : "Loading…";
   return (
     <section className={`ai-dock glass ${open ? "open" : ""}`} aria-label="AI insights">
       <button type="button" className="ai-dock-head" aria-expanded={open} onClick={() => setOpen(!open)}>
-        <MatrixOrb state={state} size={34} />
+        <MatrixOrb state={ai.status === "done" ? "done" : "idle"} size={34} />
         <span><b>AI insights</b> <small>{status}</small></span>
         <Icon name={open ? "chevD" : "chevR"} size={16} />
       </button>
-      <p className="visually-hidden" role="status">{ai.status === "done" || ai.status === "error" ? `AI insights: ${status}` : ""}</p>
-      {open && (
+      {open && highlights.length > 0 && (
         <div className="ai-dock-body">
-          {running && <p className="ai-progress"><span className="ai-bar" style={{ width: `${Math.min(95, (secs / 60) * 100)}%` }} />{ai.provider ? `${PROVIDERS[ai.provider].label} is reading ${year} forecasts…` : "Starting…"} <button type="button" className="link-btn" onClick={() => doc && cancelAi(doc, year)}>Cancel</button></p>}
-          {ai.status === "error" && <p role="alert" className="ai-error">{ai.error} <button type="button" className="link-btn" onClick={() => doc && void ensureAi(doc, year, { force: true })}>Try again</button></p>}
-          {ai.status === "offline" && <p>Start Apple Intelligence (macOS) or Ollama with <code>./run.sh</code>, then try again.</p>}
-          {(ai.status === "idle" || ai.status === "offline") && doc && <button type="button" className="btn" onClick={() => void ensureAi(doc, year)}><Icon name="spark" size={15} /> Generate for {year}</button>}
-          {ai.highlights && ai.highlights.length > 0 && (
-            <>
-              <p className="ai-badge"><Icon name="spark" size={13} /> AI-generated · {ai.model}</p>
-              {ai.headline && <p className="ai-headline">{ai.headline}</p>}
-              <div className="ai-hl-nav" aria-label="Highlight navigation">
-                <button type="button" onClick={() => selectHighlight(currentIndex - 1)} disabled={currentIndex === 0}><Icon name="chevL" size={14} /> Previous</button>
-                <span aria-live="polite">{currentIndex + 1} / {highlights.length}</span>
-                <button type="button" onClick={() => selectHighlight(currentIndex + 1)} disabled={currentIndex >= highlights.length - 1}>Next <Icon name="chevR" size={14} /></button>
-              </div>
-              <ol className="ai-hl" start={currentIndex + 1}>
-                {highlights.slice(currentIndex, currentIndex + 1).map((h) => (
-                  <li key={h.id} className={`tone-${h.tone}`}>
-                    <button type="button" className="ai-hl-btn" onClick={() => selectHighlight(currentIndex)} data-tip="Show on the map and in the side panel">
-                      <span className="ai-ico"><Icon name={h.icon ?? TONE_ICON[h.tone]} size={16} /></span>
-                      <span><b>{h.title}</b><small>Show on map</small></span>
-                    </button>
-                    <HighlightText body={h.body} fullBody={h.fullBody} />
-                    {h.who.length > 0 && <ul className="who-chips" aria-label="Most affected">{h.who.map((w) => <li key={w}>{w}</li>)}</ul>}
-                    {h.right && <p className="ai-right"><Icon name="users" size={13} /> {h.right}</p>}
-                  </li>
-                ))}
-              </ol>
-              <p className="ai-foot"><button type="button" className="link-btn" onClick={() => nav(`/forecasts${year === 2034 ? "" : `?year=${year}`}#ai`)}>Read the full briefing</button> · AI-generated; check the numbers in Outlook.</p>
-            </>
-          )}
+          <p className="ai-badge"><Icon name="spark" size={13} /> AI-generated</p>
+          {ai.headline && <p className="ai-headline">{ai.headline}</p>}
+          <div className="ai-hl-nav" aria-label="Highlight navigation">
+            <button type="button" onClick={() => selectHighlight(currentIndex - 1)} disabled={currentIndex === 0}><Icon name="chevL" size={14} /> Previous</button>
+            <span aria-live="polite">{currentIndex + 1} / {highlights.length}</span>
+            <button type="button" onClick={() => selectHighlight(currentIndex + 1)} disabled={currentIndex >= highlights.length - 1}>Next <Icon name="chevR" size={14} /></button>
+          </div>
+          <ol className="ai-hl" start={currentIndex + 1}>
+            {highlights.slice(currentIndex, currentIndex + 1).map((h) => (
+              <li key={h.id} className={`tone-${h.tone}`}>
+                <button type="button" className="ai-hl-btn" onClick={() => selectHighlight(currentIndex)} data-tip="Show on the map and in the side panel">
+                  <span className="ai-ico"><Icon name={h.icon ?? TONE_ICON[h.tone]} size={16} /></span>
+                  <span><b>{h.title}</b><small>Show on map</small></span>
+                </button>
+                <HighlightText body={h.body} fullBody={h.fullBody} />
+                {h.who.length > 0 && <ul className="who-chips" aria-label="Most affected">{h.who.map((w) => <li key={w}>{w}</li>)}</ul>}
+                {h.right && <p className="ai-right"><Icon name="users" size={13} /> {h.right}</p>}
+              </li>
+            ))}
+          </ol>
+          {ai.briefing && <details className="ai-brief"><summary>Briefing for {year}</summary><Briefing text={ai.briefing} /></details>}
+          <p className="ai-foot">AI-generated from the forecasts and can be wrong. <Link to={`/forecasts${year === 2034 ? "" : `?year=${year}`}`}>Check the numbers in Outlook</Link>.</p>
         </div>
       )}
     </section>
@@ -233,7 +221,7 @@ export default function Stage() {
   // the forecast scene for the chosen year
   const scenario = useMemo(() => (doc && m.future ? scenarioFor(doc, m.year) : null), [doc, m.future, m.year]);
   useEffect(() => { m.setScenario(scenario); }, [scenario]);
-  // heavy follow-ups (AI highlights, map pins) wait until the year has settled, so stepping through years stays smooth
+  // heavy follow-ups (map pins) wait until the year has settled, so stepping through years stays smooth
   const [settled, setSettled] = useState(m.year);
   useEffect(() => { const id = window.setTimeout(() => setSettled(m.year), m.playing ? 900 : 350); return () => clearTimeout(id); }, [m.year, m.playing]);
   const settledScenario = useMemo(() => (doc && m.future ? scenarioFor(doc, settled) : null), [doc, m.future, settled]);
@@ -244,12 +232,6 @@ export default function Stage() {
     if (!sc) { m.setHighlights(null); return; }
     m.setHighlights(ai.highlights?.length ? ai.highlights.map((h) => ({ id: h.id, title: h.title, at: ANCHORS[h.anchor]?.at ?? sc.changes[0]!.at, tone: h.tone })) : sc.changes.map((c) => ({ id: c.id, title: c.title, at: c.at, tone: "mixed" })));
   }, [settledScenario, ai.highlights]);
-  // background AI highlights: default year at start, then whenever the year settles (never in automated browsers or on Save-Data)
-  useEffect(() => {
-    if (!doc || m.playing || navigator.webdriver || (navigator as { connection?: { saveData?: boolean } }).connection?.saveData) return;
-    const id = window.setTimeout(() => { void ensureAi(doc, m.future ? settled : 2034, { background: true }); }, m.future ? 1200 : 2500);
-    return () => clearTimeout(id);
-  }, [doc, m.future, settled, m.playing]);
   // F toggles today/future, P plays, anywhere the stage is visible
   useEffect(() => {
     const on = (e: KeyboardEvent) => {

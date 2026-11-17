@@ -4,17 +4,8 @@ import react from "@vitejs/plugin-react";
 
 // Dev: run `pnpm dev:mock` (synthetic API on :4010) and `pnpm --filter @makarba/web dev`.
 export default defineConfig(({ mode }) => {
-  // GROQ_API_KEY / OLLAMA_HOST come from the shell or apps/web/.env.local (git-ignored). The key is added by this proxy on the
-  // server side and is never shipped to the browser (it has no VITE_ prefix).
   const env = { ...loadEnv(mode, process.cwd(), ""), ...process.env };
-  const ollama = { target: env.OLLAMA_HOST ?? "http://127.0.0.1:11434", changeOrigin: true, rewrite: (p: string) => p.replace(/^\/ollama/, "") };
-  const groq = { target: "https://api.groq.com", changeOrigin: true, rewrite: (p: string) => p.replace(/^\/groq/, "/openai/v1"),
-    headers: (env.GROQ_API_KEY ? { Authorization: `Bearer ${env.GROQ_API_KEY}` } : {}) as Record<string, string> };
-  // Apple Foundation Models through the local Swift bridge (tools/applefm), started by ./run.sh on macOS.
-  const applefm = { target: env.APPLEFM_HOST ?? "http://127.0.0.1:11535", changeOrigin: true, rewrite: (p: string) => p.replace(/^\/applefm/, "") };
-  // /applefm, /ollama and /groq are same-origin paths, so the page's CSP stays connect-src 'self'.
-  const ai = { "/applefm": applefm, "/ollama": ollama, "/groq": groq };
-  const proxy = { "/api": `http://127.0.0.1:${env.MOCK_API_PORT ?? "4010"}`, ...ai };
+  const proxy = { "/api": `http://127.0.0.1:${env.MOCK_API_PORT ?? "4010"}` };
   return defineTest({
     plugins: [react()],
     // All site content lives in the repository's data/ folder (JSON + images); it is served as-is, so editing a file there updates the site.

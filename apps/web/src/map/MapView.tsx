@@ -213,8 +213,9 @@ export function MapView({ features, sourceAttribution, selectedId, onSelect, onT
     const zoomClass = () => host.current?.parentElement?.classList.toggle("labels-far", map.getZoom() < LABEL_MIN_ZOOM);
     map.on("zoom", zoomClass);
     // Ground grain for the "ground-grain" layer, generated on the fly (no image file, nothing fetched).
-    map.on("styleimagemissing", (e: { id?: string }) => {
-      if (e.id !== "grain" || map.hasImage?.("grain")) return;
+    // MapLibre 6 only accepts generated images through the resolver (an event listener is too late for the current request).
+    map.setMissingStyleImageResolver?.(async (id) => {
+      if (id !== "grain" || map.hasImage?.("grain")) return;
       const n = 96, px = new Uint8Array(n * n * 4);
       let seed = 1337;
       for (let i = 0; i < n * n; i++) {

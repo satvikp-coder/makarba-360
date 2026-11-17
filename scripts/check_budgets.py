@@ -35,7 +35,7 @@ def classify(name: str) -> str | None:
     if re.match(r"pannellum-.*\.js$", name): return "panorama_js"
     if re.match(r"pannellum-.*\.css$", name): return "panorama_css"
     if re.match(r"(MapView|Stage)-.*\.css$", name): return "map_css"
-    if re.match(r"(Home|FuturePanel|MatrixOrb|Forecasts|aiStore|HighlightText|Insights|Voices|Profile|Panorama|PanoramaPage|ThenNowPage|ThenNowView|ResearchPages|ComparisonIndex)-.*\.js$", name): return "page_js"
+    if re.match(r"(Home|FuturePanel|MatrixOrb|Forecasts|aiStore|scenario|HighlightText|Insights|Voices|Profile|Panorama|PanoramaPage|ThenNowPage|ThenNowView|ResearchPages|ComparisonIndex)-.*\.js$", name): return "page_js"
     if re.match(r"(Forecasts|Insights|Voices|Profile|ThenNowPage|ResearchPages|ComparisonIndex)-.*\.css$", name): return "page_css"
     if re.match(r"index-.*\.js$", name): return "initial_js"
     if re.match(r"index-.*\.css$", name): return "css"

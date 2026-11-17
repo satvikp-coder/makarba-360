@@ -1,8 +1,5 @@
 /* Outlook-only styles: loaded with the lazy Outlook page. */
 .outlook-top{display:grid;gap:16px 32px;align-items:end;grid-template-columns:1fr}
-@media (min-width:900px) {
-  .outlook-top{grid-template-columns:1fr minmax(280px,360px)}
-}
 .outlook h1{margin-bottom:.4em}
 .scenario-cta{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin:0 0 16px;color:var(--muted)}
 .tabs{display:flex;gap:4px;border-bottom:1px solid var(--hair);margin-bottom:16px;overflow-x:auto}
@@ -39,19 +36,14 @@
 .sig-impl{margin:6px 0;padding:8px 10px;border-radius:10px;background:#f4efe3;font-size:.92rem}
 .panel{background:var(--surface);border:1px solid var(--hair);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow-sm)}
 .panel h2{margin-top:0}
-.ai-controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:12px 0}
-.ai-controls label{display:flex;gap:8px;align-items:center;font-weight:600}
-.briefing-text{line-height:1.7;max-width:75ch}
-.briefing-text h4{margin:1em 0 .3em;color:var(--teal)}
-.briefing-text > *{animation:rise .4s var(--ease) both}
 .tech-grid{display:grid;grid-template-columns:1fr;gap:4px 20px;margin:0}
 @media (min-width:700px) {
   .tech-grid{grid-template-columns:180px 1fr}
 }
 .tech-grid dt{font-weight:700;color:var(--teal)}
 .tech-grid dd{margin:0 0 10px;color:var(--ink)}
-.scoreboard{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;list-style:none;padding:0;margin:22px 0}
-.sb{display:grid!important;gap:6px;width:100%;min-height:auto!important;padding:14px 16px!important;border-radius:16px!important;text-align:left;align-items:start!important}
+.scoreboard{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;list-style:none;padding:0;margin:22px 0}
+.sb{display:grid!important;justify-content:stretch!important;gap:6px;width:100%;min-height:auto!important;padding:14px 16px!important;border-radius:16px!important;text-align:left;align-items:start!important}
 .sb[aria-pressed="true"]{background:var(--surface)!important;color:var(--teal)!important;border-color:var(--teal)!important;box-shadow:0 0 0 1px var(--teal)}
 .sb-label{display:flex;align-items:center;gap:6px;text-transform:capitalize;font-weight:600;color:var(--muted);font-size:.85rem}
 .sb-val b{font-size:1.6rem;font-weight:800;color:var(--teal);font-variant-numeric:tabular-nums}
@@ -65,30 +57,8 @@
 .sig-num .yr{font-size:.75rem;color:var(--muted);font-variant-numeric:tabular-nums}
 .sig-num .unit{color:var(--muted)}
 .tag{cursor:help}
-.briefing h2{display:flex;align-items:center;gap:8px}
-.briefing-head { display: flex; align-items: center; gap: 14px; margin-bottom: 8px; }
-.briefing-head h2 { margin: 0; }
-.ai-cards { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); }
-.ai-cards > li { display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 10px; padding: 14px; min-width: 0; border-radius: 14px; background: var(--surface); border: 1px solid var(--hair); animation: rise .5s var(--ease) both; }
-.ai-cards p { margin: 4px 0 0; font-size: .9rem; color: var(--muted); }
-.ai-ico { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 10px; background: #f2ede1; color: var(--teal); }
-.ai-cards .tone-positive .ai-ico { color: var(--good); background: var(--good-bg); }
-.ai-cards .tone-negative .ai-ico { color: var(--bad); background: var(--bad-bg); }
-.briefing { min-width: 0; overflow-wrap: anywhere; }
-.briefing-head { align-items: flex-start; }
-.briefing-head > div { min-width: 0; }
-.briefing .seg-tabs { display: flex; flex-wrap: wrap; gap: 6px; margin: 16px 0; }
-.ai-controls { align-items: end; }
-.ai-controls label { flex-wrap: wrap; min-width: 0; }
-.ai-controls select { max-width: 100%; }
-.ai-cards .who-chips { margin: 10px 0 0; }
-.ai-cards .ai-right { margin-top: 10px; }
-@media (max-width: 600px) {
-  .briefing { padding: 14px; }
-  .briefing-head { gap: 10px; }
-  .briefing .ai-output { padding: 12px; }
-  .ai-controls label, .ai-controls select, .ai-controls .btn { width: 100%; }
-}
 .sig-more { display: grid; gap: 0; margin-top: 6px; border-top: 1px solid var(--hair); }
 .sig-more details.more { margin: 0; padding: 4px 0; border-top: 0; }
 .sig-more details.more + details.more { border-top: 1px dashed var(--hair); }
+
+@media (min-width:900px) { .scoreboard{grid-template-columns:repeat(3,minmax(0,1fr))} }
