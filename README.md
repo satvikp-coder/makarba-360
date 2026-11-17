@@ -2,6 +2,8 @@
 
 [![CI](https://github.com/satvikp-coder/makarba-360/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/satvikp-coder/makarba-360/actions/workflows/ci.yml) [![Planning integrity](https://github.com/satvikp-coder/makarba-360/actions/workflows/planning.yml/badge.svg?branch=main)](https://github.com/satvikp-coder/makarba-360/actions/workflows/planning.yml) ![Node 22 or newer](https://img.shields.io/badge/Node.js-22%2B-339933?logo=nodedotjs&logoColor=white) ![pnpm 10](https://img.shields.io/badge/pnpm-10-F69220?logo=pnpm&logoColor=white)
 
+**Live demo (synthetic data): https://makarba-360.onrender.com** · deployed from [`render.yaml`](render.yaml) (free tier: the first load after idle can take about a minute while the mock API wakes).
+
 **A participatory urban atlas of Makarba, Ahmedabad: places, history, community voices and where the trends point.**
 
 Explore the neighbourhood as a living 3D city, follow a guided tour of its landmarks, and see an illustrative picture of how it could change by 2034 (or any year to 2050), driven by Google TimesFM forecasts of real public data.

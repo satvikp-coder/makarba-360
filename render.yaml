@@ -1,0 +1,21 @@
+# Render Blueprint: synthetic public demo only (mock API serving the built web app). No database, no real data, no secrets.
+services:
+  - type: web
+    name: makarba-360
+    runtime: node
+    plan: free
+    buildCommand: corepack enable && pnpm install --frozen-lockfile && pnpm build
+    startCommand: pnpm dev:mock
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_VERSION
+        value: 22
+      # The mock refuses NODE_ENV=production on purpose (it must never serve real data).
+      - key: NODE_ENV
+        value: development
+      - key: API_PORT
+        value: 10000
+      - key: MOCK_API_HOST
+        value: 0.0.0.0
+      - key: WEB_DIST
+        value: ../web/dist
