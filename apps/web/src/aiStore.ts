@@ -18,7 +18,7 @@ import { ANCHORS } from "./scenario.js";
 
 export type Provider = "applefm" | "ollama" | "groq";
 export type Tone = "positive" | "negative" | "mixed";
-export interface Highlight { id: string; title: string; body: string; icon: IconName; tone: Tone; anchor: keyof typeof ANCHORS; indicators: string[]; who: string[]; right: string }
+export interface Highlight { id: string; title: string; body: string; fullBody?: string; icon: IconName; tone: Tone; anchor: keyof typeof ANCHORS; indicators: string[]; who: string[]; right: string }
 export interface Progress { startedAt: number; chars: number }
 export interface AiEntry {
   status: "idle" | "running" | "done" | "error" | "offline";
@@ -268,23 +268,23 @@ export function parseHighlights(raw: string, validIds: Set<string>): { headline:
     if (!h || typeof h !== "object") continue;
     const anchor = String(h["anchor"] ?? "") as keyof typeof ANCHORS;
     const icon = String(h["icon"] ?? "") as IconName;
-    const title = clip(h["title"], 48), body = sentences(noNums(clip(h["body"], 600).replace(RIGHT_LEAD_IN, "")), 200);
+    const title = clip(h["title"], 400), fullBody = noNums(clip(h["fullBody"] ?? h["body"], 4000).replace(RIGHT_LEAD_IN, "")), body = sentences(fullBody, 200);
     if (!title || !body || !(anchor in ANCHORS)) continue;
     const key = `${anchor}:${title.toLowerCase()}`;
     if (seen.has(key)) continue;
     seen.add(key);
     list.push({
-      id: `h${list.length + 1}`, title, body,
+      id: `h${list.length + 1}`, title, body, ...(fullBody !== body ? { fullBody } : {}),
       icon: ICON_NAMES.includes(icon) ? icon : "spark",
       tone: h["tone"] === "positive" || h["tone"] === "negative" ? h["tone"] : "mixed",
       anchor,
       indicators: (Array.isArray(h["indicators"]) ? h["indicators"] : []).map(String).filter((id) => validIds.has(id)).slice(0, 3),
-      who: (Array.isArray(h["who"]) ? h["who"] : []).map((w) => clip(w, 32)).filter(Boolean).slice(0, 3),
-      right: question(noNums(clip(h["right"], 160))),
+      who: (Array.isArray(h["who"]) ? h["who"] : []).map((w) => clip(w, 400)).filter(Boolean).slice(0, 3),
+      right: question(noNums(clip(h["right"], 1000))),
     });
     if (list.length === 6) break;
   }
-  return list.length >= 2 ? { headline: clip(o.headline, 110), highlights: list } : null;
+  return list.length >= 2 ? { headline: clip(o.headline, 1000), highlights: list } : null;
 }
 
 // --- orchestration ----------------------------------------------------------------------------------------------------------

@@ -12,6 +12,7 @@ import { makeVehicles, step as stepTraffic, toFeatures } from "./traffic.js";
 import { plainKey } from "../Shell.js";
 import { getPrefs } from "../prefs.js";
 import { AirParticles } from "./AirParticles.js";
+import type { TourPanelStop } from "../mapCtx.js";
 
 /** Fine detail costs a lot on software WebGL (SwiftShader, llvmpipe) and very weak devices; "auto" turns it down there. */
 const DETAIL_LAYERS = ["ledges", "shadows", "furniture", "tree-trunk", "zebra", "lane-marking", "ground-grain", "roofs"];
@@ -84,6 +85,7 @@ interface Props {
   sourceAttribution: string;
   selectedId?: string | null;
   onSelect?: (id: string) => void;
+  onTourChange?: (stop: TourPanelStop | null) => void;
   onStatus?: (s: MapStatus) => void;
   /** Forecast scene: restyles buildings, haze and traffic. null = today's sketch. */
   scenario?: Scenario | null;
@@ -126,7 +128,7 @@ function el(className: string, text?: string): HTMLDivElement {
  * the same information. Motion (intro flight, flowing canal and traffic, pulsing selection) honours prefers-reduced-motion and can be
  * paused at any time (WCAG 2.2.2).
  */
-export function MapView({ features, sourceAttribution, selectedId, onSelect, onStatus, scenario = null, highlights = null, onFocusChange, manualHighlightId = null, onClearManualHighlight, lens = "places", lensLevel = 0, flyTo = null, padLeft = 0 }: Props) {
+export function MapView({ features, sourceAttribution, selectedId, onSelect, onTourChange, onStatus, scenario = null, highlights = null, onFocusChange, manualHighlightId = null, onClearManualHighlight, lens = "places", lensLevel = 0, flyTo = null, padLeft = 0 }: Props) {
   const host = useRef<HTMLDivElement>(null);
   const mapRef = useRef<maplibregl.Map | null>(null);
   const labelsRef = useRef<maplibregl.Marker[]>([]);
@@ -422,6 +424,16 @@ export function MapView({ features, sourceAttribution, selectedId, onSelect, onS
   }, [time, status]);
 
   // Guided story tour: one flight per stop, advanced only by the visitor.
+  const onTourChangeRef = useRef(onTourChange);
+  onTourChangeRef.current = onTourChange;
+  useEffect(() => {
+    if (tour === null) { onTourChangeRef.current?.(null); return; }
+    const list = stopsRef.current;
+    const index = Math.min(tour, list.length - 1);
+    const s = list[index];
+    if (s) onTourChangeRef.current?.({ id: s.id, title: s.title, caption: s.caption, source: s.source, kicker: s.kicker, placeId: s.placeId, index, total: list.length });
+  }, [tour, featKey]);
+  useEffect(() => () => { onTourChangeRef.current?.(null); }, []);
   useEffect(() => {
     const map = mapRef.current;
     if (tour === null || !map || status !== "ready") return;

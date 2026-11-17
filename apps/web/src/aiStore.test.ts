@@ -164,5 +164,6 @@ describe("highlight text cleanup", () => {
     const b = parseHighlights(raw, new Set())!.highlights[0]!.body;
     expect(b.length).toBeLessThanOrEqual(200);
     expect(b.endsWith("highway.")).toBe(true);
+    expect(parseHighlights(raw, new Set())!.highlights[0]!.fullBody).toBe(long);
   });
 });

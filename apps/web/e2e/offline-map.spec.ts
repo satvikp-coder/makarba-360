@@ -94,14 +94,22 @@ test.describe("offline 3D Makarba demo map (all non-local requests aborted)", ()
     await expect(tour).toBeFocused();
     // 7 authored stops + 12 places, of which 6 stand at an authored stop and become its "Open details": 13 stops
     await expect(tour).toContainText("Stop 1 of 13");
+    const side = page.getByRole("region", { name: "Current tour stop" });
+    await expect(side).toContainText("Stop 1 of 13");
     await expect(tour.getByLabel(/^Source: /)).toBeVisible();
     await page.getByRole("button", { name: "Next stop" }).click();
     await expect(tour).toContainText("Sarkhej Roza");
+    await expect(side).toContainText("Sarkhej Roza");
+    await page.getByRole("button", { name: "Hide side panel" }).click();
+    await expect(side).toBeHidden();
+    await page.getByRole("button", { name: "Show side panel" }).click();
+    await expect(side).toContainText("Sarkhej Roza");
     await expect(tour.getByRole("button", { name: "Open details" })).toBeVisible();   // the Roza stop carries its published place
     for (let i = 0; i < 6; i++) await page.getByRole("button", { name: "Next stop" }).click();
     await expect(tour).toContainText("Stop 8 of 13");
     await expect(tour.getByRole("button", { name: "Open details" })).toBeVisible();   // stop 8: the first place without a landmark stop
     await tour.getByRole("button", { name: "End story tour" }).click();
+    await expect(side).toHaveCount(0);
     await expect(tour).toHaveCount(0);
     // on by default, except where the map runs in Low detail (software WebGL, as in this test browser)
     const cam = page.getByRole("button", { name: "360° camera" });

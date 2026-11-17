@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import type { ForecastDoc } from "./outlook.js";
+import { useMapState } from "./mapCtx.js";
 
 /**
  * Forecast data access shared by the Overview, Explore and Outlook. Kept apart from the Outlook page so that page (charts,
@@ -43,11 +44,12 @@ export function useForecasts(fetcher?: typeof fetch, enabled = true) {
 
 /** End year lives in the URL (?year=) so the map and Outlook agree and a view can be shared. */
 export function useEndYear(max = 2050): [number, (y: number) => void] {
+  const m = useMapState();
   const [params, setParams] = useSearchParams();
   const raw = Number(params.get("year"));
-  const defaultYear = Math.min(Math.max(DEFAULT_END_YEAR, THIS_YEAR + 1), max);
+  const defaultYear = m.future && m.year > THIS_YEAR && m.year <= max ? m.year : Math.min(Math.max(DEFAULT_END_YEAR, THIS_YEAR + 1), max);
   const year = Number.isInteger(raw) && raw > THIS_YEAR && raw <= max ? raw : defaultYear;
-  const set = (y: number) => { const p = new URLSearchParams(params); if (y === DEFAULT_END_YEAR) p.delete("year"); else p.set("year", String(y)); setParams(p, { replace: true }); };
+  const set = (y: number) => { m.setYear(y); m.setFuture(true); const p = new URLSearchParams(params); p.set("year", String(y)); setParams(p, { replace: true }); };
   return [year, set];
 }
 

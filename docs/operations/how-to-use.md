@@ -35,7 +35,7 @@ All place data is **synthetic**: nothing here is a verified field result, and no
 **Start-up:** particles gather into the name while the 3D city loads, then fly onto the map's own roads (centre outward) as the map fades in. Skipped with reduced motion.
 
 **Layout:** the 3D map fills the whole screen and never reloads between pages; everything else floats over it.
-- **Top bar:** **Overview**, **Explore**, **Outlook**; **Library** (Then & Now, Community Voices, Urban Insights, Research, Sources, Accessibility); **Display** settings; **Shortcuts**.
+- **Top bar:** **Overview**, **Explore**, **Outlook**, **Display** settings and **Shortcuts**. Reading pages are linked from the Overview.
 - **Map controls** (right edge): zoom, a compass (click for north), tilt, reset view, full screen.
 - **View toolbar** (top right): **360° camera**, **Tour**, **Highlights** (future scene), 3D buildings, light (dawn, day, dusk, night), pause motion, replay.
 - **Time dock** (bottom): **Today / Future**, **Play**, the year scrubber and the data lenses (**Places, Heat, Air, Growth, Mobility**). Choosing a year animates the city to it one year at a time, forwards or back (2040 runs 2027 → 2040; then 2030 runs back 2040 → 2030).
@@ -46,13 +46,14 @@ All place data is **synthetic**: nothing here is a verified field result, and no
 **Map accuracy:** Sarkhej Roza, its tank, the S.G. Highway (NH147), the Sarkhej road (NH8A) and the canal follow OpenStreetMap (`data/geo/`). Streets, buildings and the places are a sketch; the places are illustrative and labelled so.
 
 - **Overview:** a column of cards: the title, the outlook for 2034 with the AI headline, featured places, the Library and landmark notes.
+  The outlook cards follow the selected timeline year in Future mode; opening Outlook carries that year forward.
 - **Explore:** one card with search, category and layer filters over the place list (‹ hides it). Selecting a place flies to it, lights its label and traces its footprint: the building it stands on, its area, or its route, and for Sarkhej Roza and the lake their real OpenStreetMap outlines. The place card shows a photo, **Open profile**, ‹ › to step through places, and related landmarks (labelled as context, not facts about the place).
-  - **Tour:** the landmark stops, then the places that don't already stand at one (no place appears twice). Use Previous / Next or ← / →; the ⓘ button shows a stop's source.
+  - **Tour:** the landmark stops, then the places that don't already stand at one (no place appears twice). Use Previous / Next or ← / →; the current stop and source appear in the side panel. The panel can be collapsed and reopened without stopping the tour.
   - **360° camera** (C), on by default: after a few seconds with no input, including at each tour stop, the camera starts a slow turn around what is in view. Touch, scroll, drag or any key stops it; it resumes when you stop. It starts off on software-rendered (Low detail) maps and with reduced motion.
   - **Future scene** (F): the highway corridor grows, old plots are rebuilt (orange), rooftops get solar (blue), haze and heat follow Ahmedabad's forecasts, traffic thickens. The panel explains every change through people: **who gains**, **who bears the cost**, and the **right to the city** question it raises. **Highlights** (H) moves the camera through them in turn.
 - **Outlook:** a wide panel beside the map. Theme tiles, one chart per indicator (80% range, units, **Why it matters** and **Data** dropdowns), **AI insights** with the full briefing, and **Model & data**.
 - **AI insights:** every forecast year's highlights and briefing are pre-generated on device with Apple's Foundation Model (`data/ai/insights.json`), so they appear at once. Years without one are generated live (Apple Intelligence first, then Ollama; Groq only if you choose it), with live progress and Cancel; **Regenerate** always asks a model afresh. Everything is labelled **AI-generated** with the model.
-- **Reading pages** (Library): one centred card over a dimmed map.
+- **Reading pages:** one centred card over a dimmed map.
 
 ### Keyboard shortcuts (press ? in the app)
 

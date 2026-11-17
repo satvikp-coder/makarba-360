@@ -69,11 +69,26 @@
 .briefing-head { display: flex; align-items: center; gap: 14px; margin-bottom: 8px; }
 .briefing-head h2 { margin: 0; }
 .ai-cards { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); }
-.ai-cards li { display: grid; grid-template-columns: 34px 1fr; gap: 10px; padding: 12px; border-radius: 14px; background: var(--surface); border: 1px solid var(--hair); animation: rise .5s var(--ease) both; }
+.ai-cards > li { display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 10px; padding: 14px; min-width: 0; border-radius: 14px; background: var(--surface); border: 1px solid var(--hair); animation: rise .5s var(--ease) both; }
 .ai-cards p { margin: 4px 0 0; font-size: .9rem; color: var(--muted); }
 .ai-ico { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 10px; background: #f2ede1; color: var(--teal); }
 .ai-cards .tone-positive .ai-ico { color: var(--good); background: var(--good-bg); }
 .ai-cards .tone-negative .ai-ico { color: var(--bad); background: var(--bad-bg); }
+.briefing { min-width: 0; overflow-wrap: anywhere; }
+.briefing-head { align-items: flex-start; }
+.briefing-head > div { min-width: 0; }
+.briefing .seg-tabs { display: flex; flex-wrap: wrap; gap: 6px; margin: 16px 0; }
+.ai-controls { align-items: end; }
+.ai-controls label { flex-wrap: wrap; min-width: 0; }
+.ai-controls select { max-width: 100%; }
+.ai-cards .who-chips { margin: 10px 0 0; }
+.ai-cards .ai-right { margin-top: 10px; }
+@media (max-width: 600px) {
+  .briefing { padding: 14px; }
+  .briefing-head { gap: 10px; }
+  .briefing .ai-output { padding: 12px; }
+  .ai-controls label, .ai-controls select, .ai-controls .btn { width: 100%; }
+}
 .sig-more { display: grid; gap: 0; margin-top: 6px; border-top: 1px solid var(--hair); }
 .sig-more details.more { margin: 0; padding: 4px 0; border-top: 0; }
 .sig-more details.more + details.more { border-top: 1px dashed var(--hair); }

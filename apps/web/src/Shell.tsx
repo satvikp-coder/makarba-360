@@ -50,7 +50,7 @@ const NAV: { to: string; label: string; icon: IconName; tip: string; end?: boole
   { to: "/explore", label: "Explore", icon: "map", tip: "Explore the 3D map (2)" },
   { to: "/forecasts", label: "Outlook", icon: "trend", tip: "Outlook: forecasts and AI insights (3)" },
 ];
-/** The reading pages live on the Overview and in the footer rather than in the rail. */
+/** Reading-page links appear on the Overview. */
 export const LIBRARY: { to: string; label: string; icon: IconName; blurb: string }[] = [
   { to: "/stories/index", label: "Then & Now", icon: "history", blurb: "Places compared across time, with dates and sources." },
   { to: "/voices", label: "Community Voices", icon: "voices", blurb: "Stories from people who use Makarba's streets and spaces." },
@@ -141,14 +141,6 @@ export function Layout() {
   const nav = useNavigate();
   const [prefs, setPrefs] = usePrefs();
   const [dlg, setDlg] = useState<null | "prefs" | "keys">(null);
-  const libRef = useRef<HTMLDetailsElement>(null);
-  // the Library menu closes on navigation, on Escape and on a click elsewhere
-  useEffect(() => { if (libRef.current) libRef.current.open = false; }, [loc.pathname]);
-  useEffect(() => {
-    const close = (e: Event) => { const d = libRef.current; if (d?.open && (e.type === "keydown" ? (e as KeyboardEvent).key === "Escape" : !d.contains(e.target as Node))) d.open = false; };
-    document.addEventListener("click", close); document.addEventListener("keydown", close);
-    return () => { document.removeEventListener("click", close); document.removeEventListener("keydown", close); };
-  }, []);
   // Publish where the floating top bar ends so a full-height sheet never covers navigation.
   useEffect(() => {
     const el = headerRef.current;
@@ -204,15 +196,6 @@ export function Layout() {
             {NAV.map((n) => <li key={n.to}><NavLink to={n.to} end={n.end} data-tip={n.tip}><Icon name={n.icon} size={16} /><span className="lbl">{n.label}</span></NavLink></li>)}
           </ul>
         </nav>
-        <details className="tb-menu" ref={libRef}>
-          <summary data-tip="Then & Now, Voices, Insights, Research"><Icon name="layers" size={16} /><span className="lbl">Library</span></summary>
-          <nav aria-label={t.footerLabel} className="tb-menu-list glass">
-            <ul>
-              {LIBRARY.map((l) => <li key={l.to}><Link to={l.to}><Icon name={l.icon} size={16} />{l.label}</Link></li>)}
-              {publicRoutes.filter((r) => r.nav === "footer").map((r) => <li key={r.id}><Link to={r.path}><Icon name={r.path.includes("access") ? "eye" : "link"} size={16} />{r.title}</Link></li>)}
-            </ul>
-          </nav>
-        </details>
         <div className="tb-tools">
           <button type="button" className="icon-btn" onClick={() => setDlg("prefs")} data-tip="Display and accessibility (,)" aria-label="Display and accessibility settings"><Icon name="settings" size={17} /></button>
           <button type="button" className="icon-btn" onClick={() => setDlg("keys")} data-tip="Keyboard shortcuts (?)" aria-label="Keyboard shortcuts"><Icon name="keyboard" size={17} /></button>

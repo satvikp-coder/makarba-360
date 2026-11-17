@@ -8,6 +8,7 @@ import type { Scenario } from "./scenario.js";
  */
 export type Lens = "places" | "heat" | "air" | "growth" | "mobility";
 export interface MapHighlight { id: string; title: string; at: [number, number]; tone?: string }
+export interface TourPanelStop { id: string; title: string; caption: string; source?: string; kicker?: string; placeId?: string; index: number; total: number }
 
 interface MapState {
   /** Places drawn on the map: all published places, or the explore panel's filtered/searched view. */
@@ -25,6 +26,7 @@ interface MapState {
   highlights: MapHighlight[] | null; setHighlights: (h: MapHighlight[] | null) => void;
   focusId: string | null; setFocusId: (id: string | null) => void;
   selectedInsightId: string | null; setSelectedInsightId: (id: string | null) => void;
+  tourStop: TourPanelStop | null; setTourStop: (stop: TourPanelStop | null) => void;
   /** Panels can ask the map to fly somewhere (e.g. a highlight card click). */
   flyTo: [number, number] | null; setFlyTo: (p: [number, number] | null) => void;
 }
@@ -44,9 +46,10 @@ export function MapProvider({ children }: { children: ReactNode }) {
   const [highlights, setHighlights] = useState<MapHighlight[] | null>(null);
   const [focusId, setFocusId] = useState<string | null>(null);
   const [selectedInsightId, setSelectedInsightId] = useState<string | null>(null);
+  const [tourStop, setTourStop] = useState<TourPanelStop | null>(null);
   const [flyTo, setFlyTo] = useState<[number, number] | null>(null);
-  const v = useMemo<MapState>(() => ({ features, setFeatures, view, setView, selectedId, setSelectedId, future, setFuture, year, setYear, playing, setPlaying, lens, setLens, scenario, setScenario, highlights, setHighlights, focusId, setFocusId, selectedInsightId, setSelectedInsightId, flyTo, setFlyTo }),
-    [features, view, selectedId, future, year, playing, lens, scenario, highlights, focusId, selectedInsightId, flyTo]);
+  const v = useMemo<MapState>(() => ({ features, setFeatures, view, setView, selectedId, setSelectedId, future, setFuture, year, setYear, playing, setPlaying, lens, setLens, scenario, setScenario, highlights, setHighlights, focusId, setFocusId, selectedInsightId, setSelectedInsightId, tourStop, setTourStop, flyTo, setFlyTo }),
+    [features, view, selectedId, future, year, playing, lens, scenario, highlights, focusId, selectedInsightId, tourStop, flyTo]);
   return <Ctx.Provider value={v}>{children}</Ctx.Provider>;
 }
 
@@ -55,5 +58,5 @@ export function useMapState(): MapState {
   const c = useContext(Ctx);
   if (c) return c;
   const noop = () => undefined;
-  return { features: null, setFeatures: noop, view: null, setView: noop, selectedId: null, setSelectedId: noop, future: false, setFuture: noop, year: DEFAULT_YEAR, setYear: noop, playing: false, setPlaying: noop, lens: "places", setLens: noop, scenario: null, setScenario: noop, highlights: null, setHighlights: noop, focusId: null, setFocusId: noop, selectedInsightId: null, setSelectedInsightId: noop, flyTo: null, setFlyTo: noop };
+  return { features: null, setFeatures: noop, view: null, setView: noop, selectedId: null, setSelectedId: noop, future: false, setFuture: noop, year: DEFAULT_YEAR, setYear: noop, playing: false, setPlaying: noop, lens: "places", setLens: noop, scenario: null, setScenario: noop, highlights: null, setHighlights: noop, focusId: null, setFocusId: noop, selectedInsightId: null, setSelectedInsightId: noop, tourStop: null, setTourStop: noop, flyTo: null, setFlyTo: noop };
 }

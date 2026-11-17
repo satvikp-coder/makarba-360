@@ -27,6 +27,28 @@ test("the shipped forecast and pre-generated insights load when changing years",
   await expect(page.getByText("AI-generated highlights")).toBeVisible();
 });
 
+test("the timeline updates Overview figures and the Outlook year", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/");
+  await page.getByRole("slider", { name: "Year on the map" }).fill("2040");
+  await expect(page.getByRole("heading", { name: "Outlook for 2040" })).toBeVisible();
+  await page.getByRole("navigation", { name: "Main navigation" }).getByRole("link", { name: "Outlook" }).click();
+  await expect(page.getByRole("heading", { name: "Where the trends point by 2040" })).toBeVisible();
+});
+
+for (const width of [375, 1280]) {
+  test(`AI insight cards and controls fit at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 850 });
+    await page.goto("/forecasts?year=2040");
+    await page.getByRole("tab", { name: "AI insights" }).click();
+    const chip = page.locator(".ai-cards > li .who-chips li").first();
+    await expect(chip).toBeVisible();
+    expect(await chip.evaluate((el) => getComputedStyle(el).display)).not.toBe("grid");
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
+    await expect(page.getByRole("radiogroup", { name: "AI provider" })).toBeVisible();
+  });
+}
+
 test("AI highlights navigate in both directions and show their details in the side panel", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/explore?future=1&year=2040");
@@ -56,6 +78,19 @@ test("AI highlight selection is available on a narrow screen", async ({ page }) 
   await dock.getByRole("button", { name: /Next/ }).click();
   const title = await dock.locator(".ai-hl-btn b").innerText();
   await expect(page.getByRole("region", { name: "Selected AI highlight" }).getByRole("heading", { name: title })).toBeVisible();
+});
+
+test("the tour side panel can be closed and reopened on a narrow screen", async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 812 });
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/explore");
+  await page.getByRole("button", { name: "Start story tour" }).click();
+  const side = page.getByRole("region", { name: "Current tour stop" });
+  await expect(side).toContainText("Stop 1 of");
+  await page.getByRole("button", { name: "Hide side panel" }).click();
+  await expect(side).toBeHidden();
+  await page.getByRole("button", { name: "Show side panel" }).click();
+  await expect(side).toBeVisible();
 });
 
 test("map controls give pointer feedback and respect reduced motion", async ({ page }) => {

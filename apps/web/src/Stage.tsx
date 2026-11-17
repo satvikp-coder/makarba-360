@@ -9,6 +9,7 @@ import { cancelAi, ensureAi, useAi, PROVIDERS } from "./aiStore.js";
 import { useMapState, type Lens } from "./mapCtx.js";
 import { MapView } from "./map/MapView.js";
 import { MatrixOrb } from "./MatrixOrb.js";
+import { HighlightText } from "./HighlightText.js";
 import { Icon, type IconName } from "./Icon.js";
 import { plainKey } from "./Shell.js";
 import { prefersReducedMotion } from "./motion.js";
@@ -188,8 +189,9 @@ function AiDock({ doc }: { doc: ForecastDoc | null }) {
                   <li key={h.id} className={`tone-${h.tone}`}>
                     <button type="button" className="ai-hl-btn" onClick={() => selectHighlight(currentIndex)} data-tip="Show on the map and in the side panel">
                       <span className="ai-ico"><Icon name={h.icon ?? TONE_ICON[h.tone]} size={16} /></span>
-                      <span><b>{h.title}</b><small>{h.body}</small></span>
+                      <span><b>{h.title}</b><small>Show on map</small></span>
                     </button>
+                    <HighlightText body={h.body} fullBody={h.fullBody} />
                     {h.who.length > 0 && <ul className="who-chips" aria-label="Most affected">{h.who.map((w) => <li key={w}>{w}</li>)}</ul>}
                     {h.right && <p className="ai-right"><Icon name="users" size={13} /> {h.right}</p>}
                   </li>
@@ -272,7 +274,7 @@ export default function Stage() {
       <div className="stage-map">
         {features && (
           <MapView features={features} sourceAttribution="Places: Makarba 360" selectedId={m.selectedId}
-            onSelect={select} scenario={scenario} highlights={m.highlights}
+            onSelect={select} onTourChange={(stop) => { m.setTourStop(stop); if (stop) { m.setFuture(false); m.setPlaying(false); if (loc.pathname !== "/explore") nav("/explore"); } }} scenario={scenario} highlights={m.highlights}
             onFocusChange={m.setFocusId} manualHighlightId={m.selectedInsightId} onClearManualHighlight={() => m.setSelectedInsightId(null)} lens={m.lens} lensLevel={lensLevel} flyTo={m.flyTo} padLeft={reader ? 0 : padLeft} />
         )}
       </div>

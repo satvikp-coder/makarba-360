@@ -13,6 +13,7 @@ import { CATEGORY_ICON, categoryColor, categoryLabel } from "./categories.js";
 import { photoFor } from "./placePhotos.js";
 import { useAi } from "./aiStore.js";
 import { MatrixOrb } from "./MatrixOrb.js";
+import { useMapState } from "./mapCtx.js";
 
 /** An approved, rights-cleared hero image. None is configured yet, so the typographic particle panel is shown. */
 export interface HeroMediaInfo { src: string; alt: string; date: string; credit: string; licence: string }
@@ -53,18 +54,20 @@ function Kpi({ icon, label, from, to, unit, pct, verdict }: { icon: IconName; la
   );
 }
 
-/** Headline forecasts for the default end year plus the AI headline; hidden if the forecast file is absent. */
+/** Headline forecasts follow the selected future year, or the default when viewing today. */
 function OutlookStrip() {
   const { doc } = useForecasts();
-  const ai = useAi(doc, DEFAULT_END_YEAR);
+  const m = useMapState();
+  const year = m.future ? m.year : DEFAULT_END_YEAR;
+  const ai = useAi(doc, year);
   if (!doc) return null;
-  const sig = KPIS.flatMap(({ id, icon, label }) => { const s = doc.series.find((x) => x.id === id); const g = s && signal(s, DEFAULT_END_YEAR); return g ? [{ g, icon, label }] : []; });
+  const sig = KPIS.flatMap(({ id, icon, label }) => { const s = doc.series.find((x) => x.id === id); const g = s && signal(s, year); return g ? [{ g, icon, label }] : []; });
   if (!sig.length) return null;
   return (
     <section aria-labelledby="kpi-h" className="kpi-wrap">
       <div className="kpi-head">
-        <h2 id="kpi-h">Outlook for {DEFAULT_END_YEAR}</h2>
-        <Link to="/forecasts">All {doc.series.length} indicators <Icon name="arrowUR" size={14} /></Link>
+        <h2 id="kpi-h">Outlook for {year}</h2>
+        <Link to={`/forecasts?year=${year}`}>All {doc.series.length} indicators <Icon name="arrowUR" size={14} /></Link>
       </div>
       <ul className="kpis">{sig.map(({ g, icon, label }) => <Kpi key={g.s.id} icon={icon} label={label} from={g.from.value} to={g.to.value} unit={g.s.unit} pct={g.pct} verdict={g.verdict} />)}</ul>
       {(ai.highlights?.length || ai.status === "running") && (
@@ -74,7 +77,7 @@ function OutlookStrip() {
               <p className="ai-badge"><Icon name="spark" size={13} /> AI-generated</p>
               {ai.headline && <p className="ai-headline">{ai.headline}</p>}
               <ul className="ai-mini">{ai.highlights.slice(0, 3).map((h) => <li key={h.id} className={`tone-${h.tone}`}><Icon name={h.icon} size={16} /> {h.title}</li>)}</ul>
-              <Link to="/explore?future=1">See them on the 3D map <Icon name="arrowUR" size={14} /></Link>
+              <Link to={`/explore?future=1&year=${year}`}>See them on the 3D map <Icon name="arrowUR" size={14} /></Link>
             </>
           ) : <p role="status" className="ai-thinking"><MatrixOrb state="thinking" size={22} /> Generating AI insights in the background…</p>}
         </div>

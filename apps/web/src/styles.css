@@ -116,9 +116,8 @@ kbd { display: inline-grid; place-items: center; min-width: 24px; height: 24px; 
 .tb-tools { display: flex; gap: 2px; }
 @media (max-width: 719px) {
   .topbar { gap: 4px; padding: 4px 6px; }
-  .brand .lbl, .topbar nav .lbl, .tb-menu .lbl { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .brand .lbl, .topbar nav .lbl { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
   .topbar nav a { padding: 0 12px; }
-  .tb-menu > summary { padding: 0 11px; }
   .tb-tools [aria-label="Keyboard shortcuts"] { display: none; }
 }
 main { position: fixed; inset: 0; z-index: 10; pointer-events: none; }
@@ -127,17 +126,6 @@ main > * { pointer-events: auto; }
 .credits p { margin: 0; }
 .credits a { color: var(--teal); font-weight: 600; text-decoration: none; }
 .credits a:hover { text-decoration: underline; }
-/* Library menu (reading pages) in the top bar */
-.tb-menu { position: relative; }
-.tb-menu > summary { display: inline-flex; align-items: center; gap: 7px; min-height: 38px; padding: 0 12px; border-radius: 999px; color: var(--teal); font-weight: 600; font-size: .9rem; list-style: none; cursor: pointer; transition: background .2s; }
-.tb-menu > summary::-webkit-details-marker { display: none; }
-.tb-menu > summary::before { display: none; }
-.tb-menu > summary:hover, .tb-menu[open] > summary { background: rgba(22, 61, 59, .08); }
-.tb-menu-list { position: absolute; z-index: 40; right: 0; top: calc(100% + var(--gap)); width: 250px; padding: 6px; animation: rise .3s var(--ease) both; }
-.tb-menu-list ul { display: grid; gap: 2px; margin: 0; padding: 0; list-style: none; }
-.tb-menu-list a { display: flex; align-items: center; gap: 10px; min-height: 40px; padding: 0 10px; border-radius: var(--r-sm); color: var(--teal); font-weight: 600; font-size: .88rem; text-decoration: none; }
-.tb-menu-list a:hover { background: rgba(22, 61, 59, .07); }
-.tb-menu-list li + li:nth-child(5) { margin-top: 4px; padding-top: 4px; border-top: 1px solid var(--hair); }
 @media (max-width: 899px) { .credits { max-width: calc(100vw - var(--gap) * 2); } .credits p { overflow: hidden; text-overflow: ellipsis; } }
 
 /* page transition: a hairline sweeps the top edge while a particle band crosses the map (Transition.tsx) */
@@ -156,7 +144,7 @@ main > * { pointer-events: auto; }
 /* ---------- page layouts over the map ---------- */
 body:has(.main-home) { --lw: 432px; }
 body:has(.main-explore) { --lw: 384px; }
-body:has(.main-explore .panel-closed) { --lw: 230px; }
+body:has(.main-explore .panel-closed) { --lw: 72px; }
 body:has(.main-outlook) { --lw: min(820px, 60vw); }
 .home-page, .explore-page, .main-outlook > .outlook { position: fixed; top: calc(var(--header-h) + var(--gap)); left: var(--gap); bottom: var(--dock-b); width: calc(var(--lw) - var(--gap)); }
 /* Overview: a column of floating cards */
@@ -226,6 +214,11 @@ body:has(.main-outlook) { --lw: min(820px, 60vw); }
 .panel-head h1 { margin: 0; font-size: 1.4rem; }
 .float-panel .lead { font-size: .88rem; margin: 4px 0 10px; }
 .panel-closed .float-panel > :not(.panel-head), .panel-closed .sheet { display: none; }
+.panel-closed .panel-head h1 { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.panel-closed .panel-head { justify-content: center; }
+.tour-detail { margin: 12px 0; padding: 14px; border: 1px solid var(--hair-strong); border-radius: var(--r); background: var(--surface); overflow-wrap: anywhere; }
+.tour-detail h2 { margin: 4px 0 8px; font-size: 1.1rem; }
+.tour-detail p { margin: 6px 0; }
 @media (min-width: 900px) {
   /* one card: search and filters on top, the list scrolling below a hairline */
   .explore-page { gap: 0; overflow: hidden; pointer-events: auto; background: var(--glass-solid); border: 1px solid var(--glass-line); border-radius: var(--r-lg); box-shadow: var(--shadow); animation: rise .5s var(--ease) both; }
@@ -234,6 +227,7 @@ body:has(.main-outlook) { --lw: min(820px, 60vw); }
   .explore-page .sheet { flex: 1 1 auto; min-height: 0; padding: 8px; }
   .explore-page.future-on .float-panel { flex: 1 1 auto; overflow: auto; border-bottom: 0; }
   .explore-page.panel-closed { bottom: auto; }
+  .explore-page.panel-closed .float-panel { padding: 8px; }
   .explore-page.panel-closed .float-panel { border-bottom: 0; }
 }
 .panel-closed .float-panel { flex: none; padding-block: 10px; }
@@ -261,7 +255,7 @@ body:has(.main-outlook) { --lw: min(820px, 60vw); }
 :where(main) .place-card[aria-pressed="true"] { background: var(--surface); border-color: var(--c); color: var(--ink); box-shadow: inset 3px 0 0 var(--c); }
 .pc-thumb { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 10px; overflow: hidden; background: color-mix(in srgb, var(--c) 14%, #fff); color: var(--c); }
 .pc-thumb img { width: 100%; height: 100%; object-fit: cover; }
-.pc-name { padding-top: 4px; font-weight: 650; color: var(--teal); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pc-name { padding-top: 4px; font-weight: 650; color: var(--teal); min-width: 0; overflow-wrap: anywhere; }
 .place-cards .pc-cat { position: absolute; left: 64px; bottom: 9px; pointer-events: none; font-size: .62rem; }
 .pc-go { align-self: center; color: var(--muted); opacity: .5; transition: translate .3s var(--spring), opacity .2s; }
 .place-card:hover .pc-go { translate: 3px 0; opacity: 1; }
@@ -269,7 +263,7 @@ body:has(.main-outlook) { --lw: min(820px, 60vw); }
 .sp-photo { position: relative; }
 .sp-photo img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; animation: ken 1s var(--ease) both; }
 @keyframes ken { from { scale: 1.06; opacity: .4; } }
-.sp-photo figcaption { position: absolute; left: 8px; bottom: 8px; max-width: calc(100% - 16px); padding: 2px 8px; border-radius: 999px; background: rgba(19, 32, 31, .72); color: #fff; font-size: .68rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sp-photo figcaption { position: absolute; left: 8px; bottom: 8px; max-width: calc(100% - 16px); padding: 2px 8px; border-radius: 10px; background: rgba(19, 32, 31, .82); color: #fff; font-size: .68rem; overflow-wrap: anywhere; }
 .sp-body { padding: 10px 12px 12px; }
 .selected-place h2 { margin: 3px 0 4px; font-size: 1.15rem; }
 .sp-note { margin: 0 0 6px; color: var(--muted); font-size: .86rem; }
@@ -335,7 +329,7 @@ section[aria-labelledby="nf"] > h1::after { left: calc(50% - 32px) !important; }
   .sheet[data-state="half"] { height: 50dvh; }
   .sheet[data-state="full"] { height: calc(100dvh - var(--header-h, 0px)); }
   .sheet .sheet-body { height: calc(100% - 66px); overflow: auto; }
-  .panel-toggle { display: none !important; }
+  .explore-page.panel-closed { right: auto; width: auto; }
   /* filters: one swipeable row each, so the list keeps its room */
   .explore-page .filters fieldset { flex-wrap: nowrap; align-items: center; overflow-x: auto; scrollbar-width: none; margin-inline: -12px; padding-inline: 12px; }
   .explore-page .filters fieldset::-webkit-scrollbar { display: none; }

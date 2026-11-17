@@ -5,6 +5,7 @@ import { ParticleLoader } from "./Particles.js";
 import { Icon } from "./Icon.js";
 import { useForecasts } from "./forecastData.js";
 import { useAi } from "./aiStore.js";
+import { HighlightText } from "./HighlightText.js";
 
 /**
  * The future scene, read through people: every change drawn on the 3D map with who gains, who bears the cost, and the
@@ -24,7 +25,7 @@ export function FuturePanel() {
       {active && <section className="future-insight" aria-label="Selected AI highlight" aria-live="polite">
         <p className="ai-badge"><Icon name="spark" size={13} /> AI-generated · {s.year}</p>
         <h3>{active.title}</h3>
-        <p>{active.body}</p>
+        <HighlightText body={active.body} fullBody={active.fullBody} />
         {active.who.length > 0 && <p><b>Who may be affected:</b> {active.who.join(", ")}</p>}
         {active.right && <p><b>Question:</b> {active.right}</p>}
         <p className="hint">Interpretation of national and city forecasts, not a local finding.</p>

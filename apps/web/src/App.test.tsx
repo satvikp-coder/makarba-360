@@ -20,16 +20,14 @@ const at = (path: string) => render(<MemoryRouter initialEntries={[path]}><App /
 afterEach(cleanup);
 
 describe("public shell", () => {
-  it("the top bar has three destinations; the reading pages are in its Library menu; there is no language picker", () => {
+  it("the top bar has three destinations and reading pages remain on the overview", async () => {
     at("/");
     const nav = within(screen.getByRole("navigation", { name: "Main navigation" }));
     for (const n of ["Overview", "Explore", "Outlook"]) expect(nav.getByRole("link", { name: n })).toBeTruthy();
     expect(nav.queryByRole("link", { name: "Then & Now" })).toBeNull();
-    const footer = within(screen.getByRole("navigation", { name: "Library" }));
-    for (const n of ["Then & Now", "Community Voices", "Urban Insights", "Research"]) expect(footer.getByRole("link", { name: n })).toBeTruthy();
+    expect(screen.queryByRole("navigation", { name: "Library" })).toBeNull();
+    for (const n of ["Then & Now", "Community Voices", "Urban Insights", "Research"]) expect(await screen.findByRole("link", { name: n }, { timeout: 10000 })).toBeTruthy();
     expect(screen.queryByRole("combobox", { name: /language/i })).toBeNull();
-    expect(screen.getByRole("link", { name: "Sources and credits" })).toBeTruthy();
-    expect(screen.getByRole("link", { name: "Accessibility and language" })).toBeTruthy();
     expect(screen.getByRole("link", { name: "Skip to main content" })).toBeTruthy();
   });
   it("display settings change contrast, palette, text size and motion, and are remembered", async () => {

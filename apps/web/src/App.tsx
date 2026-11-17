@@ -144,6 +144,8 @@ export function PlaceList({ fetcher, withMap = false, makeSource = localSource }
   }, [withMap]);
   const [panel, setPanel] = useState(true);
   useEffect(() => { if (m.selectedInsightId) setPanel(true); }, [m.selectedInsightId]);
+  const touring = !!m.tourStop;
+  useEffect(() => { if (touring) setPanel(true); }, [touring]);
   const ok = r !== "loading" && r.status === "ok" && r.places.length > 0 ? r : null;
 
   return (
@@ -154,6 +156,13 @@ export function PlaceList({ fetcher, withMap = false, makeSource = localSource }
           {withMap && <button type="button" className="icon-btn panel-toggle" aria-expanded={panel} aria-label={panel ? "Hide side panel" : "Show side panel"} data-tip={panel ? "Hide panel (full map)" : "Show panel"} onClick={() => setPanel(!panel)}><Icon name={panel ? "chevL" : "chevR"} size={16} /></button>}
         </div>
         <p className="lead">{t.listIntro}</p>
+        {withMap && m.tourStop && <section className="tour-detail" aria-label="Current tour stop" aria-live="polite">
+          <p className="eyebrow">Stop {m.tourStop.index + 1} of {m.tourStop.total}{m.tourStop.kicker ? ` · ${m.tourStop.kicker}` : ""}</p>
+          <h2>{m.tourStop.title}</h2>
+          {m.tourStop.caption && <p>{m.tourStop.caption}</p>}
+          {m.tourStop.source && <p className="hint">Source: {m.tourStop.source}</p>}
+          {m.tourStop.placeId && <button type="button" className="btn" onClick={() => setSelected(m.tourStop!.placeId!)}>Open place details</button>}
+        </section>}
         {withMap && m.future && <Suspense fallback={<ParticleLoader label="Loading the forecast scene…" />}><FuturePanel /></Suspense>}
         <div role="status" aria-live="polite">
           {r === "loading" && t.loading}

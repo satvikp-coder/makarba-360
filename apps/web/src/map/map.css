@@ -171,7 +171,8 @@ html[data-contrast="high"] .map-label { background: #fff !important; color: #000
 .ai-dock-head > span { display: grid; flex: 1; gap: 1px; min-width: 0; }
 .ai-dock-head b { color: var(--teal); font-size: .9rem; }
 .ai-dock-head small { overflow: hidden; color: var(--muted); font-weight: 500; font-size: .74rem; white-space: nowrap; text-overflow: ellipsis; }
-.ai-dock-body { max-height: min(520px, calc(100dvh - 470px));   /* keeps the open dock below the map control column */ overflow: auto; overscroll-behavior: contain; padding: 4px 14px 14px; border-top: 1px solid var(--hair); font-size: .86rem; animation: fade .3s ease both; }
+.ai-dock.open .ai-dock-head small { white-space: normal; overflow: visible; }
+.ai-dock-body { max-height: min(520px, max(180px, calc(100dvh - 470px))); overflow: auto; overscroll-behavior: contain; padding: 12px 14px 14px; border-top: 1px solid var(--hair); font-size: .86rem; overflow-wrap: anywhere; animation: fade .3s ease both; }
 .ai-dock .btn { min-height: 36px; }
 .ai-progress { position: relative; margin: 8px 0; padding-bottom: 6px; color: var(--muted); }
 .ai-progress .ai-bar { position: absolute; left: 0; bottom: 0; margin: 0; }
@@ -179,9 +180,10 @@ html[data-contrast="high"] .map-label { background: #fff !important; color: #000
 .ai-hl { display: grid; gap: 8px; margin: 6px 0 0; padding: 0; list-style: none; }
 .ai-hl > li { padding: 10px; border-radius: var(--r); background: var(--surface); border: 1px solid var(--hair); animation: rise .45s var(--ease) both; }
 .ai-hl-btn { width: 100%; justify-content: flex-start !important; align-items: flex-start !important; gap: 10px !important; min-height: 0 !important; padding: 0 !important; text-align: left; font-weight: 500 !important; }
-.ai-hl-btn > span:last-child { display: grid; gap: 2px; }
+.ai-hl-btn > span:last-child { display: grid; gap: 4px; min-width: 0; }
 .ai-hl-btn b { color: var(--teal); font-size: .88rem; }
 .ai-hl-btn small { color: var(--muted); font-size: .8rem; line-height: 1.45; }
+.ai-hl > li > p { margin: 10px 0 0; line-height: 1.5; }
 .ai-ico { display: grid; flex: none; place-items: center; width: 30px; height: 30px; border-radius: 10px; background: var(--mixed-bg); color: var(--mixed); }
 .tone-positive .ai-ico { background: var(--good-bg); color: var(--good); }
 .tone-negative .ai-ico { background: var(--bad-bg); color: var(--bad); }
@@ -190,9 +192,9 @@ html[data-contrast="high"] .map-label { background: #fff !important; color: #000
 .ai-hl-nav button { border: 1px solid var(--hair-strong) !important; border-radius: 999px !important; }
 .ai-hl-nav button:disabled { opacity: .5; cursor: default; }
 .ai-hl-nav span { color: var(--muted); font-size: .78rem; font-weight: 600; }
-.future-insight { margin: 16px 0; padding: 14px; border: 1px solid var(--hair-strong); border-radius: var(--r); background: var(--surface); }
+.future-insight { display: grid; gap: 8px; min-width: 0; margin: 16px 0; padding: 16px; border: 1px solid var(--hair-strong); border-radius: var(--r); background: var(--surface); overflow-wrap: anywhere; }
 .future-insight h3 { margin: 6px 0; }
-.future-insight p { margin: 6px 0; }
+.future-insight p { margin: 0; line-height: 1.5; }
 
 /* ---------- small screens ---------- */
 @media (max-width: 899px) {

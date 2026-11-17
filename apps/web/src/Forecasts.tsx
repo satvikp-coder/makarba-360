@@ -11,6 +11,7 @@ import { Icon, type IconName } from "./Icon.js";
 
 export type { ForecastDoc, Series } from "./outlook.js";
 import { DEFAULT_END_YEAR, useEndYear, useForecasts, YearSlider } from "./forecastData.js";
+import { HighlightText } from "./HighlightText.js";
 export { DEFAULT_END_YEAR, loadForecasts, useEndYear, useForecasts, YearSlider } from "./forecastData.js";
 
 const THEME_ICON: Record<string, IconName> = { city: "building", economic: "coins", development: "bolt", social: "users", political: "shield", markets: "chart" };
@@ -175,7 +176,7 @@ export function AiBriefing({ doc, endYear }: { doc: ForecastDoc; endYear: number
           {ai.headline && <p className="ai-headline">{ai.headline}</p>}
           <ul className="ai-cards">{ai.highlights.map((h) => (
             <li key={h.id} className={`tone-${h.tone}`}><span className="ai-ico"><Icon name={h.icon} size={18} /></span><div>
-              <b>{h.title}</b><p>{h.body}</p>
+              <b>{h.title}</b><HighlightText body={h.body} fullBody={h.fullBody} />
               {h.who.length > 0 && <ul className="who-chips" aria-label="Most affected">{h.who.map((w) => <li key={w}>{w}</li>)}</ul>}
               {h.right && <p className="ai-right"><Icon name="users" size={13} /> {h.right}</p>}
             </div></li>
