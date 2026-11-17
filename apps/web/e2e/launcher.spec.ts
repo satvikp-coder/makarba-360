@@ -13,3 +13,16 @@ test("the mock API root opens the web app and the web server proxies public data
   expect(response.ok()).toBe(true);
   expect(response.headers()["content-type"]).toContain("json");
 });
+
+test("the shipped forecast and pre-generated insights load when changing years", async ({ page }) => {
+  await page.goto("/forecasts?year=2040");
+  await expect(page.getByRole("heading", { level: 1, name: "Where the trends point by 2040" })).toBeVisible();
+  await expect(page.getByRole("img", { name: /forecast to 2040/ }).first()).toBeVisible();
+  await page.getByRole("tab", { name: "AI insights" }).click();
+  await expect(page.getByText("AI-generated highlights")).toBeVisible();
+  await expect(page.getByText(/pre-generated/).first()).toBeVisible();
+  await page.getByRole("slider", { name: /Forecast to/ }).fill("2041");
+  await expect(page).toHaveURL(/year=2041/);
+  await expect(page.getByRole("heading", { level: 1, name: "Where the trends point by 2041" })).toBeVisible();
+  await expect(page.getByText("AI-generated highlights")).toBeVisible();
+});
