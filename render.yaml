@@ -4,7 +4,7 @@ services:
     name: makarba-360
     runtime: node
     plan: free
-    buildCommand: corepack enable && pnpm install --frozen-lockfile && pnpm --filter @makarba/web build
+    buildCommand: corepack enable && pnpm install --frozen-lockfile && pnpm build
     startCommand: pnpm dev:mock
     healthCheckPath: /health
     envVars:
