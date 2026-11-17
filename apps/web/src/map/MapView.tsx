@@ -445,6 +445,7 @@ export function MapView({ features, sourceAttribution, selectedId, onSelect, onS
   // Ambient motion: flowing canal and traffic. Stopped when paused, under reduced motion and while the tab is hidden, and held until
   // the intro flight has finished so the fly-in gets the full frame budget.
   const flying = intro === "flying";
+  const [low, setLow] = useState(false);
   useEffect(() => {
     const map = mapRef.current;
     if (!map || status !== "ready" || paused || flying || typeof requestAnimationFrame !== "function") return;
@@ -452,7 +453,7 @@ export function MapView({ features, sourceAttribution, selectedId, onSelect, onS
     const n = DASH_STEPS.length;
     const tick = (now: number) => {
       raf = requestAnimationFrame(tick);
-      if (document.hidden || (map.isMoving?.() && !spinRef.current) || now - last < 85 / trafficRef.current) return;
+      if (document.hidden || (map.isMoving?.() && !spinRef.current) || now - last < (low ? 500 : 85) / trafficRef.current) return;
       last = now;
       step = (step + 1) % n;
       map.setPaintProperty("canal-flow", "line-dasharray", DASH_STEPS[step]);
@@ -461,11 +462,10 @@ export function MapView({ features, sourceAttribution, selectedId, onSelect, onS
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [status, paused, flying]);
+  }, [status, paused, flying, low]);
 
   // Moving 3D traffic: vehicles drive on the left along the sketch roads; the forecast's traffic factor adds vehicles and slows them.
   const vehiclesRef = useRef(makeVehicles(56));
-  const [low, setLow] = useState(false);
   useEffect(() => {
     const map = mapRef.current;
     if (!map || status !== "ready") return;
@@ -498,8 +498,8 @@ export function MapView({ features, sourceAttribution, selectedId, onSelect, onS
       raf = requestAnimationFrame(tick);
       // ~18 fps is smooth for small vehicles; frozen while the camera moves so flights keep the whole frame budget
       const flight = map.isMoving?.() && !spinRef.current;
-      if (document.hidden || flight || now - last < (low ? 110 : 55)) { if (flight) last = now; return; }
-      const dt = last ? Math.min(0.1, (now - last) / 1000) : 0.04;
+      if (document.hidden || flight || now - last < (low ? 400 : 55)) { if (flight) last = now; return; }
+      const dt = last ? Math.min(low ? 0.4 : 0.1, (now - last) / 1000) : 0.04;
       last = now;
       stepTraffic(vehiclesRef.current, dt, scenario?.traffic ?? 1);
       draw();
