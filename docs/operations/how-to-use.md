@@ -86,3 +86,4 @@ Settings are remembered in this browser.
 - **Reduced motion:** with the device setting or the site's **Reduce motion** option on, there is no start-up film, flights become cuts, years jump instead of animating, vehicles stand still, and the 360° camera and Highlights camera are off.
 - **AI insights never start:** pre-generated years appear anyway; live generation doesn't run automatically in automated browsers or with Save-Data on. Open the AI dock and press Generate.
 - **Refresh the pre-generated AI text** (after new forecasts): with the Apple bridge running, `cd apps/web && npx vitest run -c tools/vitest.pregen.config.ts` (about 30–40 s per year).
+- Pre-generated and browser-cached insights are tied to the forecast series contents. If forecasts change, old insights are ignored; rerun pre-generation to restore instant answers. Optional market series do not affect the AI prompts or this match.

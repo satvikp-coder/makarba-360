@@ -7,7 +7,7 @@
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { it } from "vitest";
-import { briefingPrompt, compactSignals, highlightsPrompt, parseHighlights } from "../src/aiStore.js";
+import { briefingPrompt, compactSignals, forecastFingerprint, highlightsPrompt, parseHighlights } from "../src/aiStore.js";
 import { signals, type ForecastDoc } from "../src/outlook.js";
 
 const ROOT = resolve(process.cwd(), "../..");
@@ -32,8 +32,9 @@ it("pre-generates AI insights for every forecast year", async () => {
   const first = new Date().getFullYear() + 1, last = doc.maxYear ?? 2050;
   const prev = existsSync(OUT) ? JSON.parse(readFileSync(OUT, "utf8")) : null;
   const series = doc.series.filter((x) => x.theme !== "markets").length;
-  const same = prev && prev.forecast === doc.generated && prev.series === series;
-  const out = { _about: "AI-generated (Apple Foundation Model, on device) from the TimesFM forecasts; may be wrong. Regenerate with apps/web/tools/pregen-ai.ts.", forecast: doc.generated, series, provider: "applefm", model: "apple-foundation-model", at: new Date().toISOString(), years: (same ? prev.years : {}) as Record<string, unknown> };
+  const fingerprint = forecastFingerprint(doc);
+  const same = prev && prev.fingerprint === fingerprint;
+  const out = { _about: "AI-generated (Apple Foundation Model, on device) from the TimesFM forecasts; may be wrong. Regenerate with apps/web/tools/pregen-ai.ts.", forecast: doc.generated, series, fingerprint, provider: "applefm", model: "apple-foundation-model", at: new Date().toISOString(), years: (same ? prev.years : {}) as Record<string, unknown> };
   for (let year = first; year <= last; year++) {
     if (out.years[year]) continue;
     const t = Date.now();

@@ -45,7 +45,8 @@ export function useForecasts(fetcher?: typeof fetch, enabled = true) {
 export function useEndYear(max = 2050): [number, (y: number) => void] {
   const [params, setParams] = useSearchParams();
   const raw = Number(params.get("year"));
-  const year = Number.isInteger(raw) && raw > THIS_YEAR && raw <= max ? raw : Math.min(DEFAULT_END_YEAR, max);
+  const defaultYear = Math.min(Math.max(DEFAULT_END_YEAR, THIS_YEAR + 1), max);
+  const year = Number.isInteger(raw) && raw > THIS_YEAR && raw <= max ? raw : defaultYear;
   const set = (y: number) => { const p = new URLSearchParams(params); if (y === DEFAULT_END_YEAR) p.delete("year"); else p.set("year", String(y)); setParams(p, { replace: true }); };
   return [year, set];
 }

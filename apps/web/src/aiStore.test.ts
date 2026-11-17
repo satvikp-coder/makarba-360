@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { ensureAi, ensureBriefing, getAi, highlightsPrompt, parseHighlights, resetBundled } from "./aiStore.js";
+import { ensureAi, ensureBriefing, forecastFingerprint, getAi, highlightsPrompt, parseHighlights, resetBundled } from "./aiStore.js";
 import { signal, type ForecastDoc, type Series } from "./outlook.js";
 
 const ids = new Set(["NY.GDP.PCAP.CD", "WEATHER_AHD_HOTDAYS"]);
@@ -100,7 +100,7 @@ describe("provider calls and time limits", () => {
 describe("pre-generated insights (data/ai/insights.json)", () => {
   const doc = JSON.parse(readFileSync(resolve(process.cwd(), "../../data/forecasts.json"), "utf8")) as ForecastDoc;
   const hl = (i: number) => ({ title: `Change ${i}`, body: "Streets could feel hotter", who: ["street vendors"], right: "Who keeps shade?", icon: "thermo", tone: "negative", anchor: "heat", indicators: ["WEATHER_AHD_HOTDAYS"] });
-  const file = (forecast: string) => ({ forecast, series: doc.series.length, provider: "applefm", model: "apple-foundation-model", at: "2026-11-13T00:00:00Z", years: { 2043: { headline: "Hotter streets", highlights: [0, 1, 2, 3].map(hl), briefing: "**Big picture** ..." } } });
+  const file = (forecast: string) => ({ fingerprint: forecast === doc.generated ? forecastFingerprint(doc) : "stale", forecast, series: doc.series.length, provider: "applefm", model: "apple-foundation-model", at: "2026-11-13T00:00:00Z", years: { 2043: { headline: "Hotter streets", highlights: [0, 1, 2, 3].map(hl), briefing: "**Big picture** ..." } } });
   const calls: string[] = [];
   const stub = (body: unknown) => vi.stubGlobal("fetch", vi.fn((url: string) => {
     calls.push(url);
@@ -130,6 +130,22 @@ describe("pre-generated insights (data/ai/insights.json)", () => {
     stub(file("2020-01-01T00:00:00Z"));
     await ensureAi(doc, 2044);
     expect(getAi(doc, 2044).status).toBe("offline");
+  });
+  it("rejects stale insights when forecast values change on the same date", async () => {
+    stub(file(doc.generated));
+    const changed = structuredClone(doc);
+    changed.series[0]!.forecast[0]!.value += 1;
+    expect(forecastFingerprint(changed)).not.toBe(forecastFingerprint(doc));
+    await ensureAi(changed, 2043);
+    expect(getAi(changed, 2043).status).toBe("offline");
+  });
+  it("ignores malformed model items", () => {
+    expect(parseHighlights('{"highlights":[null, 3]}', new Set())).toBeNull();
+  });
+  it("ships pre-generated insights for the current forecast contents", () => {
+    const shipped = JSON.parse(readFileSync(resolve(process.cwd(), "../../data/ai/insights.json"), "utf8"));
+    expect(shipped.fingerprint).toBe(forecastFingerprint(doc));
+    expect(Object.keys(shipped.years).length).toBeGreaterThan(0);
   });
 });
 

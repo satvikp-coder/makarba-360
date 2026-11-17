@@ -34,7 +34,7 @@ export interface AiEntry {
 }
 
 const PREF_KEY = "makarba.ai.choice.v1";
-const CACHE_PREFIX = "makarba.ai.v3:";
+const CACHE_PREFIX = "makarba.ai.v4:";
 const HIGHLIGHT_ICONS: IconName[] = ["building", "home2", "car", "bus", "thermo", "drop", "leaf", "bolt", "users", "coins", "shield", "heart", "wifi", "school", "factory", "haze", "shop", "landmark", "water", "trend", "chart"];
 const TIMEOUT_MS = { highlights: 90_000, briefing: 150_000 };
 const STALL_MS = 30_000;   // no new text for this long = give up
@@ -85,7 +85,22 @@ const entries = new Map<string, AiEntry>();
 const subs = new Set<() => void>();
 const aborts = new Map<string, AbortController>();
 const notify = () => subs.forEach((f) => f());
-const keyOf = (doc: ForecastDoc, year: number) => `${doc.generated}:${doc.series.length}:${year}`;
+// Include the actual prompt inputs, not just the date and count: forecasts can be regenerated on the same day.
+const fingerprints = new WeakMap<ForecastDoc, string>();
+export function forecastFingerprint(doc: ForecastDoc): string {
+  const existing = fingerprints.get(doc);
+  if (existing) return existing;
+  const input = JSON.stringify(doc.series.filter((s) => s.theme !== "markets"));
+  let a = 2166136261, b = 0x9e3779b9;
+  for (let i = 0; i < input.length; i++) {
+    a = Math.imul(a ^ input.charCodeAt(i), 16777619);
+    b = Math.imul(b ^ input.charCodeAt(i), 2246822519);
+  }
+  const result = `${(a >>> 0).toString(16)}-${(b >>> 0).toString(16)}`;
+  fingerprints.set(doc, result);
+  return result;
+}
+const keyOf = (doc: ForecastDoc, year: number) => `${forecastFingerprint(doc)}:${year}`;
 
 function readCache(k: string): AiEntry | null {
   try { const v = JSON.parse(localStorage.getItem(CACHE_PREFIX + k) ?? "null") as AiEntry | null; return v?.highlights?.length ? { ...v, status: "done", progress: undefined } : null; } catch { return null; }
@@ -240,6 +255,7 @@ export function parseHighlights(raw: string, validIds: Set<string>): { headline:
     // small models sometimes drop the opening quote of a key (`,icon":`): repair that once before giving up
     try { j = JSON.parse(body.replace(/([,{]\s*)([A-Za-z_]+)":/g, '$1"$2":')); } catch { return null; }
   }
+  if (!j || typeof j !== "object") return null;
   const o = j as { headline?: unknown; highlights?: unknown };
   if (!Array.isArray(o.highlights)) return null;
   const clip = (v: unknown, n: number) => (typeof v === "string" ? v.replace(/\s+/g, " ").trim().slice(0, n) : "");
@@ -249,6 +265,7 @@ export function parseHighlights(raw: string, validIds: Set<string>): { headline:
   const seen = new Set<string>();
   const list: Highlight[] = [];
   for (const h of o.highlights as Record<string, unknown>[]) {
+    if (!h || typeof h !== "object") continue;
     const anchor = String(h["anchor"] ?? "") as keyof typeof ANCHORS;
     const icon = String(h["icon"] ?? "") as IconName;
     const title = clip(h["title"], 48), body = sentences(noNums(clip(h["body"], 600).replace(RIGHT_LEAD_IN, "")), 200);
@@ -346,13 +363,15 @@ function runBriefing(doc: ForecastDoc, year: number, opts: { force?: boolean; ch
 // The forecast years are fixed, so tools/pregen-ai.ts writes every year's highlights and briefing ahead of time (data/ai/insights.json,
 // Apple's on-device model). They are used at once when they were made from the same forecast file; anything missing is generated
 // live, and "Regenerate" always asks a model afresh. They are still AI-generated and labelled so.
-interface Bundled { forecast: string; series: number; provider: Provider; model: string; at: string; years: Record<string, { headline: string; highlights: unknown[]; briefing?: string }> }
-let bundled: Promise<void> | null = null;
+interface Bundled { fingerprint: string; provider: Provider; model: string; at: string; years: Record<string, { headline: string; highlights: unknown[]; briefing?: string }> }
+const bundled = new Map<string, Promise<void>>();
 export function loadBundled(doc: ForecastDoc, url = "/ai/insights.json"): Promise<void> {
-  return (bundled ??= fetch(url).then((r) => (r.ok ? r.json() as Promise<Bundled> : null)).then((j) => {
-    // the optional markets file adds series locally, but markets never reach the prompts: compare the forecast series only
-    const forecastSeries = doc.series.filter((x) => x.theme !== "markets").length;
-    if (!j || j.forecast !== doc.generated || j.series !== forecastSeries || !j.years) return;
+  const fingerprint = forecastFingerprint(doc);
+  const cacheKey = `${url}:${fingerprint}`;
+  const previous = bundled.get(cacheKey);
+  if (previous) return previous;
+  const job = fetch(url).then((r) => { if (!r.ok) throw new Error("insights unavailable"); return r.json() as Promise<Bundled>; }).then((j) => {
+    if (!j || j.fingerprint !== fingerprint || !j.years) return;
     const ids = new Set(doc.series.map((x) => x.id));
     for (const [y, v] of Object.entries(j.years)) {
       const k = keyOf(doc, Number(y));
@@ -362,10 +381,12 @@ export function loadBundled(doc: ForecastDoc, url = "/ai/insights.json"): Promis
       entries.set(k, { status: "done", headline: p.headline, highlights: p.highlights, briefing: v.briefing, briefingStatus: v.briefing ? "done" : "idle", provider: j.provider, model: `${PROVIDERS[j.provider]?.label ?? j.model}, pre-generated`, at: j.at });
     }
     notify();
-  }).catch(() => undefined));
+  }).catch(() => { bundled.delete(cacheKey); });
+  bundled.set(cacheKey, job);
+  return job;
 }
 /** For tests: forget the loaded file. */
-export function resetBundled() { bundled = null; }
+export function resetBundled() { bundled.clear(); }
 
 /** Highlights for this year (short, background-friendly): pre-generated ones at once, cached ones at once, otherwise generated. */
 export function ensureAi(doc: ForecastDoc, year: number, opts: { force?: boolean; background?: boolean; choice?: { provider: Provider; model: string } } = {}): Promise<void> {
