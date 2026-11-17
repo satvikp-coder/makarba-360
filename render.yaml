@@ -1,0 +1,35 @@
+# Render Blueprint: synthetic public demo only (mock API + static web). No database, no real data, no secrets.
+services:
+  - type: web
+    name: makarba-mock-api
+    runtime: node
+    plan: free
+    buildCommand: corepack enable && pnpm install --frozen-lockfile
+    startCommand: pnpm dev:mock
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_VERSION
+        value: 22
+      # The mock refuses NODE_ENV=production on purpose (it must never serve real data).
+      - key: NODE_ENV
+        value: development
+      - key: API_PORT
+        value: 10000
+      - key: MOCK_API_HOST
+        value: 0.0.0.0
+  - type: web
+    name: makarba-360
+    runtime: static
+    buildCommand: corepack enable && pnpm install --frozen-lockfile && pnpm --filter @makarba/web build
+    staticPublishPath: apps/web/dist
+    envVars:
+      - key: NODE_VERSION
+        value: 22
+    routes:
+      # Same-origin proxy keeps the page's CSP at connect-src 'self'.
+      - type: rewrite
+        source: /api/*
+        destination: https://makarba-mock-api.onrender.com/api/*
+      - type: rewrite
+        source: /*
+        destination: /index.html
