@@ -70,7 +70,7 @@ describe("illustrative Makarba demo dataset", () => {
     expect(JSON.stringify(body)).not.toContain("[10,10]");
     expect(new Set(body.features.map((f: { geometry: { type: string } }) => f.geometry.type))).toEqual(new Set(["Point", "MultiLineString", "MultiPolygon"]));
   });
-  it("every place has a contract-valid history whose every event cites the demo-dataset source", async () => {
+  it("every place has a contract-valid history; events cite the demo source, or the team's observation for observed places", async () => {
     expect(demoSlugs.length).toBeGreaterThanOrEqual(10);
     for (const slug of demoSlugs) {
       const r = await get(`/locations/${slug}/history`);
@@ -79,8 +79,18 @@ describe("illustrative Makarba demo dataset", () => {
       expect(r.body.events.length, slug).toBeGreaterThan(0);
       expect(r.body.meta.datasetKind, slug).toBe("synthetic");
       for (const e of r.body.events) expect(r.body.sources.map((s: { id: string }) => s.id), slug).toContain(e.sourceId);
-      for (const s of r.body.sources) expect(s.citation).toBe("Makarba 360 dataset");
+      for (const s of r.body.sources) expect(s.citation).toMatch(/^Makarba 360 (dataset|team, field observation)$/);
     }
+  });
+  it("observed places are undated observations that name no person", async () => {
+    for (const slug of ["roza-baradari-courtyard", "roza-food-waiting-edge", "sarkhej-roza-road-fruit-seller"]) {
+      const r = await get(`/locations/${slug}/history`);
+      expect(r.body.sources.map((s: { citation: string }) => s.citation), slug).toEqual(["Makarba 360 team, field observation"]);
+      for (const e of r.body.events) expect(e, slug).toMatchObject({ date: { value: null, precision: "unknown" }, evidenceType: "observation" });
+    }
+    const loc = await get("/locations");
+    const seller = loc.body.features.find((f: { properties: { slug: string } }) => f.properties.slug === "sarkhej-roza-road-fruit-seller");
+    expect(seller.geometry).toEqual({ type: "Point", coordinates: [72.50756, 22.99306] });   // plus code XGV5+62
   });
   it("insights: ready groups meet k5 and denominators; the hidden group carries no counts (never zero)", async () => {
     const { body } = await get("/insights");

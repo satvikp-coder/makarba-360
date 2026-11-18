@@ -24,4 +24,4 @@ if (dist && existsSync(dist)) {
   // client-side routes only: a missing file or API path is a real 404, never the app page
   app.get(/^(?!\/api\/)[^.]*$/, (_req, res) => res.sendFile(resolve(dist, "index.html")));
 }
-app.listen(env.API_PORT, process.env.MOCK_API_HOST ?? "127.0.0.1", () => console.log(`SYNTHETIC mock API listening on port ${env.API_PORT}; open the web app at http://localhost:${webPort}/`));
+app.listen(env.API_PORT, process.env.MOCK_API_HOST ?? "127.0.0.1", () => console.log(`SYNTHETIC mock API listening on port ${env.API_PORT}; open the web app at http://localhost:${dist ? env.API_PORT : webPort}/`));

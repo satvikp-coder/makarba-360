@@ -130,6 +130,18 @@ export const landmark: FC = (() => {
   for (const c of pillars) f.push(poly(ngon(c, 0.000016, 4, Math.PI / 4), { h: 4.2, b: 0, part: "stone" }));
   // the authored model was drawn at sketch coordinates: move every vertex onto the real site
   for (const x of f) if (x.geometry.type === "Polygon") x.geometry.coordinates = x.geometry.coordinates.map((r) => r.map(site));
+  // the Baradari: an open twelve-pillared pavilion south of the tomb (placed from aerial imagery; its form is a sketch)
+  const BC: Pos = [72.50552, 22.99313], bx = 0.0000978, by = 0.000104;   // about 20 m by 23 m
+  f.push(poly(box(BC[0] - bx, BC[1] - by, BC[0] + bx, BC[1] + by), { h: 1.2, b: 0, part: "plinth" }));
+  for (const i of [-1, -1 / 3, 1 / 3, 1]) for (const j of [-1, -1 / 3, 1 / 3, 1]) {
+    if (Math.abs(i) < 1 && Math.abs(j) < 1) continue;   // twelve pillars on the perimeter, open inside
+    f.push(poly(ngon([BC[0] + i * bx * 0.86, BC[1] + j * by * 0.86], 0.000011, 4, Math.PI / 4), { h: 5.4, b: 1.2, part: "stone" }));
+  }
+  f.push(poly(box(BC[0] - bx * 0.94, BC[1] - by * 0.94, BC[0] + bx * 0.94, BC[1] + by * 0.94), { h: 6.2, b: 5.4, part: "parapet" }));
+  for (const [i, j] of [[-1, -1], [1, -1], [-1, 1], [1, 1]]) {
+    const c: Pos = [BC[0] + i! * bx * 0.72, BC[1] + j! * by * 0.72];
+    f.push(poly(ngon(c, 0.000022, 8), { h: 7.2, b: 6.2, part: "stone" }), ...dome(c, 0.000024, 7.2, 1.8));
+  }
   // Begada's palace at the tank's south-west corner, with two chhatris
   const sw: Pos = [Math.min(...LAKE.map((p) => p[0])), Math.min(...LAKE.map((p) => p[1]))];
   f.push(poly(box(sw[0] - 0.0003, sw[1] - 0.0002, sw[0] + 0.0001, sw[1] + 0.0001), { h: 7, b: 0, part: "stone" }));
@@ -319,6 +331,19 @@ export const furniture: { solid: FC; flat: FC } = (() => {
     solid.push(poly(rect(c, 1.2, 0.9, 0), { b: 0, h: 1.0, c: "#7a5a3a" }));
     solid.push(poly(rect(c, 1.5, 1.3, 0), { b: 2.0, h: 2.25, c: AWN[solid.length % AWN.length]! }));
   }
+  // observed places: the fruit seller's cart and umbrella on Sarkhej Roza Road (plus code XGV5+62), and floor mats along the
+  // edge in the Roza premises where people sit waiting for the food offered there
+  const SELLER: Pos = [72.50756, 22.99306];
+  solid.push(poly(rect(SELLER, 1.3, 0.8, 0), { b: 0.5, h: 1.0, c: "#7a5a3a" }));
+  solid.push(poly(rect(SELLER, 1.2, 0.7, 0), { b: 1.0, h: 1.25, c: "#e8a33a" }));
+  solid.push(poly(ngon([SELLER[0], SELLER[1]], 0.000012, 4, Math.PI / 4), { b: 0, h: 2.6, c: "#5a4a3a" }));
+  solid.push(poly(ngon(SELLER, 0.000026, 10), { b: 2.6, h: 2.8, c: "#d9534f" }));
+  const WAIT: Pos[] = [[72.50576, 22.99332], [72.50578, 22.99341], [72.50583, 22.99349], [72.50595, 22.99352], [72.5062, 22.9935]];
+  const MATS = ["#b5522f", "#2f6f8c", "#c99a3a", "#7a3f5e"];
+  WAIT.slice(1).forEach((b, i) => {
+    const a = WAIT[i]!, ang = heading(a, b);
+    for (const p of along(a, b, 0.00003)) solid.push(poly(rect(p, 1.1, 0.55, ang), { b: 0, h: 0.12, c: MATS[solid.length % MATS.length]! }));
+  });
   // bus shelters on the highway service lane
   HIGHWAY.slice(1).forEach((b, i) => {
     const a = HIGHWAY[i]!, ang = heading(a, b);

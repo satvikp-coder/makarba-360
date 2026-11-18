@@ -21,7 +21,8 @@ All place data is **synthetic**: nothing here is a verified field result, and no
 
 | Mode | What it does |
 |---|---|
-| `demo` (default) | Starts the local API and the web app (http://localhost:5173). Opening the mock API root redirects to the web app. Set `WEB_PORT` or `MOCK_API_PORT` to change the ports; the launcher reports an error if the web port is busy. |
+| `demo` (default) | Checks Node, pnpm and the ports, starts the local API and the web app, waits until both answer, then opens http://localhost:5173. Opening the mock API root redirects to the web app. Set `WEB_PORT` or `MOCK_API_PORT` to change the ports and `NO_OPEN=1` to skip the browser. |
+| `preview` | Builds everything and serves the production build from the mock API on one port (`PORT`, default 10000), exactly as the Render service does. |
 | `forecast` | Builds `ml/.venv` and regenerates the forecasts with TimesFM (see [ml/README.md](../../ml/README.md)). |
 | `insights` | Rewrites `data/ai/insights.json` for the current forecasts with Apple's on-device model (builds and starts the bridge in `tools/applefm`). Years already in the file for the same forecasts are kept; delete the file to redo all. Takes a few minutes per year. |
 | `check` | Runs typecheck, lint and all unit tests. |
@@ -32,7 +33,9 @@ All place data is **synthetic**: nothing here is a verified field result, and no
 **Start-up:** particles gather into the name while the 3D city loads, then fly onto the map's own roads (centre outward) as the map fades in. Skipped with reduced motion.
 
 **Layout:** the 3D map fills the whole screen and never reloads between pages; everything else floats over it.
-- **Top bar:** **Overview**, **Explore**, **Outlook**, **Display** settings and **Shortcuts**. Reading pages are linked from the Overview.
+- **Look and feel:** everything floats over the map on a mild liquid-glass material (a frosted blur; Chromium also refracts the map slightly through it). Low map detail, reduced transparency and high contrast switch to solid surfaces. Icons are one family (Lucide outlines).
+- **Top bar:** **Overview**, **Explore**, **Outlook**, **Display** settings and **Shortcuts**. Reading pages are linked from the Overview; the footer links to **Photo credits**.
+- **Observed places:** three places come from the team's own observation in and beside the Sarkhej Roza premises: the courtyard around the Baradari (children play, people sit), the edge where people wait for the food offered in the premises, and a fruit seller on Sarkhej Roza Road (plus code XGV5+62). They are undated and name no one; the map models the Baradari pavilion, the seller's cart and the floor mats.
 - **Map controls** (right edge): zoom, a compass (click for north), tilt, reset view, full screen.
 - **View toolbar** (top right): **360° camera**, **Tour**, **Highlights** (future scene), 3D buildings, light (dawn, day, dusk, night), pause motion, replay.
 - **Time dock** (bottom): **Today / Future**, **Play**, the year scrubber and the data lenses (**Places, Heat, Air, Growth, Mobility**). Choosing a year animates the city to it one year at a time, forwards or back (2040 runs 2027 → 2040; then 2030 runs back 2040 → 2030).

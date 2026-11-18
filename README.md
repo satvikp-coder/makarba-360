@@ -19,11 +19,12 @@ Explore the neighbourhood as a living 3D city, follow a guided tour of its landm
 run.bat             # Windows
 ```
 
-Open [http://localhost:5173](http://localhost:5173). You need Node 22+ and pnpm (`corepack enable`). The launcher installs dependencies on first run. The mock API root redirects to the app. Set `WEB_PORT` or `MOCK_API_PORT` if the default ports are busy.
+You need Node 22+ and pnpm (`corepack enable`). The launcher checks both, installs dependencies on first run, checks the ports, waits until the app is up and opens [http://localhost:5173](http://localhost:5173). Set `WEB_PORT` or `MOCK_API_PORT` if the default ports are busy, and `NO_OPEN=1` to skip the browser.
 
 | Command | What it does |
 |---|---|
-| `./run.sh` / `run.bat` | The app: local API and web app |
+| `./run.sh` / `run.bat` | The app with hot reload: local API and web app |
+| `./run.sh preview` | The production build served exactly as on Render (one server, port 10000) |
 | `./run.sh forecast` | Regenerates the forecasts with TimesFM (Python 3.11; downloads the model on first run) |
 | `./run.sh insights` | Rewrites the stored AI insights for the current forecasts (macOS 26+ with Apple Intelligence) |
 | `./run.sh check` | Runs typecheck, lint and all unit tests |

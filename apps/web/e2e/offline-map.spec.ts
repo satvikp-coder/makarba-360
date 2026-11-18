@@ -29,7 +29,7 @@ test.describe("offline 3D Makarba demo map (all non-local requests aborted)", ()
     expect(shot.length).toBeGreaterThan(30_000);
     await page.getByRole("button", { name: FIRST }).click();
     const sel = page.getByRole("complementary", { name: "Selected place" });
-    await expect(sel).toContainText("Helfmann, CC BY-SA 4.0");
+    await expect(sel).not.toContainText("Helfmann");   // credited on Sources and credits, not over the photo
     await expect(sel.getByRole("link", { name: /Open profile/ })).toBeVisible();
     await expect(page.locator(".map-pulse")).toHaveCount(1);
     expect(external, external.join("\n")).toEqual([]);
@@ -92,10 +92,10 @@ test.describe("offline 3D Makarba demo map (all non-local requests aborted)", ()
     await page.getByRole("button", { name: "Start story tour" }).click();
     const tour = page.getByRole("region", { name: "Story tour" });
     await expect(tour).toBeFocused();
-    // 7 authored stops + 12 places, of which 6 stand at an authored stop and become its "Open details": 13 stops
-    await expect(tour).toContainText("Stop 1 of 13");
+    // 7 authored stops + 15 places, of which 6 stand at an authored stop and become its "Open details": 16 stops
+    await expect(tour).toContainText("Stop 1 of 16");
     const side = page.getByRole("region", { name: "Current tour stop" });
-    await expect(side).toContainText("Stop 1 of 13");
+    await expect(side).toContainText("Stop 1 of 16");
     await expect(tour.getByLabel(/^Source: /)).toBeVisible();
     await page.getByRole("button", { name: "Next stop" }).click();
     await expect(tour).toContainText("Sarkhej Roza");
@@ -106,7 +106,7 @@ test.describe("offline 3D Makarba demo map (all non-local requests aborted)", ()
     await expect(side).toContainText("Sarkhej Roza");
     await expect(tour.getByRole("button", { name: "Open details" })).toBeVisible();   // the Roza stop carries its published place
     for (let i = 0; i < 6; i++) await page.getByRole("button", { name: "Next stop" }).click();
-    await expect(tour).toContainText("Stop 8 of 13");
+    await expect(tour).toContainText("Stop 8 of 16");
     await expect(tour.getByRole("button", { name: "Open details" })).toBeVisible();   // stop 8: the first place without a landmark stop
     await tour.getByRole("button", { name: "End story tour" }).click();
     await expect(side).toHaveCount(0);
@@ -132,7 +132,7 @@ test.describe("offline 3D Makarba demo map (all non-local requests aborted)", ()
     });
     await page.goto("/explore");
     await expect(page.getByRole("img", { name: /Flat 2D sketch/ })).toBeVisible();
-    await expect(page.getByText("Showing all 12 places.")).toBeVisible();
+    await expect(page.getByText("Showing all 15 places.")).toBeVisible();
     expect(external).toEqual([]);
   });
 });
@@ -155,12 +155,11 @@ test.describe("honest disclosure and sourced landmarks", () => {
     const roza = page.getByRole("article", { name: "Sarkhej Roza" });
     await expect(roza).toContainText("Why it matters");
     await expect(roza.getByRole("link", { name: "Wikipedia: Sarkhej Roza" })).toHaveAttribute("href", "https://en.wikipedia.org/wiki/Sarkhej_Roza");
-    // the Wikimedia Commons photo is bundled with the site: it decodes with every external request aborted, and its credit is visible
+    // the Wikimedia Commons photo is bundled with the site: it decodes with every external request aborted
     const photo = roza.getByRole("img");
     await photo.scrollIntoViewIfNeeded();
     await expect(photo).toHaveAttribute("src", "/images/landmarks/sarkhej-roza.jpg");
     await expect.poll(() => photo.evaluate((i: HTMLImageElement) => i.complete && i.naturalWidth)).toBe(960);
-    await expect(roza).toContainText("Photo: Museeb fakih, Public domain, via Wikimedia Commons");
     await expect(page.getByRole("article", { name: "Ahmed Shah I and Ahmedabad" })).toContainText("not a photograph");
     await page.goto("/explore?place=00000000-0000-4000-8000-000000000010");
     const aside = page.getByRole("complementary", { name: "Selected place" });

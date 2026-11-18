@@ -152,7 +152,11 @@ export function Layout() {
     ro.observe(el);
     return () => ro.disconnect();
   }, []);
-  useEffect(() => { document.documentElement.lang = "en"; }, []);
+  useEffect(() => {
+    document.documentElement.lang = "en";
+    // Chromium can refract the backdrop through an SVG filter (the "liquid" in liquid glass); other engines get the plain frosted blur
+    document.documentElement.dataset["glass"] = /Chrome\//.test(navigator.userAgent) ? "liquid" : "blur";
+  }, []);
   // A page change focuses the main region; in-page links land on their section.
   const previousPath = useRef(loc.pathname);
   useEffect(() => {
@@ -187,10 +191,18 @@ export function Layout() {
   return (
     <MapProvider>
       <a className="skip" href="#main">{t.skip}</a>
+      {/* mild liquid glass: a slow, low-amplitude displacement of what shows through the glass (used by .glass in Chromium) */}
+      <svg className="lg-defs" aria-hidden="true" focusable="false">
+        <filter id="lg-refract" x="0" y="0" width="100%" height="100%" colorInterpolationFilters="sRGB">
+          <feTurbulence type="fractalNoise" baseFrequency="0.008 0.012" numOctaves="2" seed="11" result="noise" />
+          <feGaussianBlur in="noise" stdDeviation="3" result="soft" />
+          <feDisplacementMap in="SourceGraphic" in2="soft" scale="16" xChannelSelector="R" yChannelSelector="G" />
+        </filter>
+      </svg>
       <PageTransition />
       <Preloader />
       <header ref={headerRef} className="topbar glass">
-        <Link to="/" className="brand" data-tip="Makarba 360° home"><span className="brand-mark" aria-hidden="true"><Icon name="orbit" size={17} /></span><span className="lbl">{t.siteName}</span></Link>
+        <Link to="/" className="brand" data-tip="Makarba 360° home"><span className="brand-mark" aria-hidden="true"><Icon name="landmark" size={18} stroke={2} /></span><span className="lbl">{t.siteName}</span></Link>
         <nav aria-label={t.navLabel}>
           <ul>
             {NAV.map((n) => <li key={n.to}><NavLink to={n.to} end={n.end} data-tip={n.tip}><Icon name={n.icon} size={16} /><span className="lbl">{n.label}</span></NavLink></li>)}
@@ -206,6 +218,7 @@ export function Layout() {
       </main>
       <footer className="credits">
         <p>© 2026 Varun Karthic and Satvik Patel</p>
+        <Link to="/research/sources#photo-credits">Photo credits</Link>
       </footer>
       {/* after the page in the DOM so keyboard users reach the page first; it sits behind everything visually */}
       {!IN_TESTS && <Suspense fallback={<div className="stage stage-loading" aria-hidden="true" />}><Stage /></Suspense>}

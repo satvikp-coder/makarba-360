@@ -266,7 +266,6 @@ function SelectedPlace({ p, index, total, onStep, onClear }: { p: PlaceSummary; 
       {ph && (
         <figure className="sp-photo">
           <img src={ph.src} alt={ph.alt} />
-          <figcaption data-tip={`${ph.title} · ${ph.credit} · ${ph.licence}`}>{ph.title} · {ph.credit}, {ph.licence}</figcaption>
         </figure>
       )}
       <div className="sp-body">
