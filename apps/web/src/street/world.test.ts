@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { along, buildingsGeometry, furnitureGeometry, landmarkGeometry, roadsGeometry, toLocal, TOUR, trees, vehicles, walkers, RADIUS } from "./world.js";
+import { along, rooftopGeometry, buildingsGeometry, furnitureGeometry, landmarkGeometry, roadsGeometry, toLocal, TOUR, trees, vehicles, walkers, RADIUS } from "./world.js";
 
 describe("street-level world (built from the map's own sketch data)", () => {
   it("puts the Roza tomb at the origin, east on +x and north on -z", () => {
@@ -18,6 +18,7 @@ describe("street-level world (built from the map's own sketch data)", () => {
     const asphalt = roadsGeometry().asphalt, n = asphalt.getAttribute("normal");
     expect(asphalt.getAttribute("position").count).toBeGreaterThan(20);
     for (let i = 0; i < n.count; i += 7) expect(n.getY(i)).toBeGreaterThan(0.9);   // ribbons face the sky, so they are not culled
+    expect(rooftopGeometry().getAttribute("position").count).toBeGreaterThan(1000);
     expect(furnitureGeometry().getAttribute("position").count).toBeGreaterThan(100);
     const t = trees();
     expect(t.length).toBeGreaterThan(30);

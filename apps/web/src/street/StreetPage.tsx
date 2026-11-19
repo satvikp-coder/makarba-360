@@ -32,7 +32,7 @@ function detectQuality(): "high" | "low" {
     return /swiftshader|llvmpipe|software|basic render/i.test(r) || !gl ? "low" : "high";
   } catch { return "low"; }
 }
-const shotAt = (u: number) => { const e = u * u * (3 - 2 * u) * 0.12 + u * 0.88; return e * (TOUR.length - 1); };
+const shotAt = (u: number) => u * (TOUR.length - 1);
 
 export function StreetPage() {
   const [params] = useSearchParams();

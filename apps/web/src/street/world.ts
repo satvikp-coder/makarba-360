@@ -36,6 +36,24 @@ const merge = (gs: THREE.BufferGeometry[]) => {
   return g;
 };
 
+/** Rooftops: parapets, stair rooms on taller blocks and the black water tanks of Ahmedabad roofs (from the map's generator). */
+const ROOF_TONE: Record<string, string> = { parapet: "#e4d8c5", room: "#d6c9b4", tank: "#262626" };
+export function rooftopGeometry(): THREE.BufferGeometry {
+  const gs: THREE.BufferGeometry[] = [];
+  for (const f of city().roofs.features) {
+    const ring = ringOf(f);
+    if (!ring.length || !near(centroid(ring)) || f.geometry.type !== "Polygon") continue;
+    const base = Number(f.properties["h"]), top = base + Number(f.properties["extra"] ?? 1), kind = String(f.properties["kind"]);
+    const toV = (p: Pos) => { const [x, z] = toLocal(p); return new THREE.Vector2(x, -z); };
+    const shape = new THREE.Shape(f.geometry.coordinates[0]!.map(toV));
+    for (const hole of f.geometry.coordinates.slice(1)) shape.holes.push(new THREE.Path(hole.map(toV)));
+    const g = new THREE.ExtrudeGeometry(shape, { depth: top - base, bevelEnabled: false, curveSegments: 6 });
+    g.rotateX(-Math.PI / 2); g.translate(0, base, 0);
+    gs.push(paint(g, new THREE.Color(ROOF_TONE[kind] ?? "#d6c9b4")));
+  }
+  return merge(gs);
+}
+
 /** An extrusion's caps (group 0) and sides (group 1) as two separate, non-indexed geometries. */
 function splitCapsAndSides(g: THREE.BufferGeometry): [THREE.BufferGeometry, THREE.BufferGeometry] {
   const src = g.index ? g.toNonIndexed() : g;

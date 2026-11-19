@@ -4,7 +4,7 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Environment, Lightformer, MeshReflectorMaterial, OrbitControls, PerformanceMonitor, Sky } from "@react-three/drei";
 import { Bloom, EffectComposer, N8AO, SMAA, ToneMapping, Vignette } from "@react-three/postprocessing";
 import { ToneMappingMode } from "postprocessing";
-import { along, buildingsGeometry, furnitureGeometry, greensGeometry, lakeShape, landmarkGeometry, pavingGeometry, roadsGeometry, TOUR, trees, vehicles, walkers, type Shot } from "./world.js";
+import { along, rooftopGeometry, buildingsGeometry, furnitureGeometry, greensGeometry, lakeShape, landmarkGeometry, pavingGeometry, roadsGeometry, TOUR, trees, vehicles, walkers, type Shot } from "./world.js";
 
 export type Mode = "tour" | "walk" | "drone";
 export type Light = "morning" | "noon" | "golden";
@@ -55,7 +55,7 @@ const windowsTexture = () => canvasTexture(128, (g, s) => {
 function World({ quality }: { quality: "high" | "low" }) {
   const data = useMemo(() => {
     const b = buildingsGeometry(), l = landmarkGeometry(), r = roadsGeometry();
-    return { b, l, r, greens: greensGeometry(), paving: pavingGeometry(), furniture: furnitureGeometry(), lake: new THREE.ShapeGeometry(lakeShape()), trees: trees() };
+    return { b, l, r, greens: greensGeometry(), paving: pavingGeometry(), rooftops: rooftopGeometry(), furniture: furnitureGeometry(), lake: new THREE.ShapeGeometry(lakeShape()), trees: trees() };
   }, []);
   const tex = useMemo(() => {
     const walls = windowsTexture(); walls.repeat.set(1 / 3.2, 1 / 3.2);
@@ -95,6 +95,7 @@ function World({ quality }: { quality: "high" | "low" }) {
       <mesh geometry={data.r.lines}><meshStandardMaterial color="#f2efe6" roughness={0.6} /></mesh>
       <mesh geometry={data.b.roofs} castShadow={shadows} receiveShadow><meshStandardMaterial map={tex.roof} vertexColors roughness={0.95} /></mesh>
       <mesh geometry={data.b.walls} castShadow={shadows} receiveShadow><meshStandardMaterial map={tex.walls} vertexColors roughness={0.85} /></mesh>
+      <mesh geometry={data.rooftops} castShadow={shadows} receiveShadow><meshStandardMaterial vertexColors roughness={0.85} /></mesh>
       <mesh geometry={data.l.geometry} castShadow={shadows} receiveShadow><meshStandardMaterial map={tex.stone} vertexColors roughness={0.8} /></mesh>
       {data.l.domes.map((d, i) => (
         <group key={i} position={[d.x, d.base, d.z]}>
@@ -232,9 +233,10 @@ function TourCamera({ playing, progress, seek }: { playing: boolean; progress: M
   useFrame((_, dt) => {
     if (seek.current !== null) { progress.current = seek.current; seek.current = null; smooth.current = null; }
     if (playing) progress.current = Math.min(1, progress.current + Math.min(dt, 0.05) / (TOUR_SECONDS_PER_SHOT * (TOUR.length - 1)));
-    // ease in and out of the whole flight, so it starts and lands gently
-    const u = progress.current, e = u * u * (3 - 2 * u) * 0.12 + u * 0.88;
+    // one shot per equal slice of the timeline (so the chapter markers line up); never below eye level between low shots
+    const e = progress.current;
     camera.position.copy(curves.pos.getPoint(e));
+    camera.position.y = Math.max(1.5, camera.position.y);
     curves.look.getPoint(Math.min(1, e + 0.004), look);
     smooth.current = smooth.current ? smooth.current.lerp(look, 0.06) : look.clone();
     camera.lookAt(smooth.current);
@@ -244,7 +246,8 @@ function TourCamera({ playing, progress, seek }: { playing: boolean; progress: M
 /** Eye-level walking: drag to look, W A S D or arrow keys to move, Shift to hurry. */
 function WalkCamera({ start }: { start?: [number, number] }) {
   const { camera, gl } = useThree();
-  const state = useRef({ yaw: 0, pitch: 0.05, keys: new Set<string>(), drag: false, x: start?.[0] ?? 2, z: start?.[1] ?? 48, bob: 0 });
+  // default: the south-west of the courtyard, facing the tomb
+  const state = useRef({ yaw: start ? 0 : -0.57, pitch: 0.1, keys: new Set<string>(), drag: false, x: start?.[0] ?? -45, z: start?.[1] ?? 70, bob: 0 });
   useEffect(() => {
     const el = gl.domElement, s = state.current;
     const down = (e: PointerEvent) => { s.drag = true; el.setPointerCapture(e.pointerId); };
