@@ -26,7 +26,6 @@ const TAG_TIP: Record<string, string> = {
 };
 const THEMES = ["city", "economic", "development", "social", "political", "markets"] as const;
 
-const W = 560, H = 200, P = 30;
 
 /** A compact fan chart for one indicator (see ForecastChart): the last 30 years, the forecast to the end year and its 80% range. */
 export function Chart({ s, endYear }: { s: Series; endYear: number }) {
