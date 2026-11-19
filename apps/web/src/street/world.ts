@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { mergeGeometries } from "three/examples/jsm/utils/BufferGeometryUtils.js";
-import { ARTERIAL, FACTORY_ROAD, HIGHWAY, LAKE, LOCAL, city, furniture, greens, landmark, type FC, type Pos } from "../map/basemap.js";
+import { ARTERIAL, FACTORY_ROAD, HIGHWAY, LAKE, LOCAL, ROZA, city, furniture, greens, landmark, type FC, type Pos } from "../map/basemap.js";
 
 /**
  * The street-level world, built from exactly the same sketch data as the 3D map (roads, lake, Roza model, generated blocks, trees,
@@ -111,7 +111,7 @@ export function ribbon(line: Pos[], width: number, y = 0): THREE.BufferGeometry 
     if (i > 0) run += Math.hypot(p[i]![0] - p[i - 1]![0], p[i]![1] - p[i - 1]![1]);
     pos.push(p[i]![0] - dz * half, y, p[i]![1] + dx * half, p[i]![0] + dz * half, y, p[i]![1] - dx * half);
     uv.push(0, run / width, 1, run / width);
-    if (i > 0) { const k = i * 2; idx.push(k - 2, k - 1, k, k - 1, k + 1, k); }
+    if (i > 0) { const k = i * 2; idx.push(k - 2, k, k - 1, k - 1, k, k + 1); }   // counter-clockwise from above: faces up
   }
   const g = new THREE.BufferGeometry();
   g.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3));
@@ -129,6 +129,12 @@ export function roadsGeometry() {
   const kerb = merge(roads.map((r) => ribbon(r.l, r.w + 3.2, 0.02)));
   const lines = merge(roads.filter((r) => r.w > 10).map((r) => ribbon(r.l, 0.25, 0.06)));
   return { asphalt, kerb, lines, roads };
+}
+/** The paved floor of the Roza premises (inside the courtyard walls). */
+export function pavingGeometry() {
+  const g = new THREE.ShapeGeometry(new THREE.Shape(ROZA.map((p) => { const [x, z] = toLocal(p); return new THREE.Vector2(x, -z); })));
+  g.rotateX(-Math.PI / 2); g.translate(0, 0.08, 0);
+  return g;
 }
 export const lakeShape = () => new THREE.Shape(LAKE.map((p) => { const [x, z] = toLocal(p); return new THREE.Vector2(x, -z); }));
 export function greensGeometry() {

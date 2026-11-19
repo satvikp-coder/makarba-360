@@ -4,7 +4,7 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Environment, Lightformer, MeshReflectorMaterial, OrbitControls, PerformanceMonitor, Sky } from "@react-three/drei";
 import { Bloom, EffectComposer, N8AO, SMAA, ToneMapping, Vignette } from "@react-three/postprocessing";
 import { ToneMappingMode } from "postprocessing";
-import { along, buildingsGeometry, furnitureGeometry, greensGeometry, lakeShape, landmarkGeometry, roadsGeometry, TOUR, trees, vehicles, walkers, type Shot } from "./world.js";
+import { along, buildingsGeometry, furnitureGeometry, greensGeometry, lakeShape, landmarkGeometry, pavingGeometry, roadsGeometry, TOUR, trees, vehicles, walkers, type Shot } from "./world.js";
 
 export type Mode = "tour" | "walk" | "drone";
 export type Light = "morning" | "noon" | "golden";
@@ -22,7 +22,7 @@ export interface SceneProps {
 const SUN: Record<Light, { pos: [number, number, number]; color: string; intensity: number; sky: { turbidity: number; rayleigh: number; mie: number }; fog: string; hemi: [string, string] }> = {
   morning: { pos: [-260, 120, 160], color: "#ffe2c4", intensity: 2.6, sky: { turbidity: 6, rayleigh: 1.4, mie: 0.006 }, fog: "#e9e2d6", hemi: ["#cfe0f0", "#b49a7a"] },
   noon: { pos: [80, 420, 140], color: "#fff8ee", intensity: 3.2, sky: { turbidity: 4, rayleigh: 0.9, mie: 0.004 }, fog: "#e6e9ea", hemi: ["#d8e7f5", "#b9a284"] },
-  golden: { pos: [320, 70, 40], color: "#ffb877", intensity: 2.8, sky: { turbidity: 9, rayleigh: 2.6, mie: 0.012 }, fog: "#f0d6bd", hemi: ["#f2cfb2", "#8d6c50"] },
+  golden: { pos: [320, 70, 40], color: "#ffbf85", intensity: 2.9, sky: { turbidity: 5, rayleigh: 2, mie: 0.006 }, fog: "#e9d6c2", hemi: ["#f2cfb2", "#8d6c50"] },
 };
 
 // --- procedural textures (no image files, nothing fetched) --------------------------------------------------------------------
@@ -55,7 +55,7 @@ const windowsTexture = () => canvasTexture(128, (g, s) => {
 function World({ quality }: { quality: "high" | "low" }) {
   const data = useMemo(() => {
     const b = buildingsGeometry(), l = landmarkGeometry(), r = roadsGeometry();
-    return { b, l, r, greens: greensGeometry(), furniture: furnitureGeometry(), lake: new THREE.ShapeGeometry(lakeShape()), trees: trees() };
+    return { b, l, r, greens: greensGeometry(), paving: pavingGeometry(), furniture: furnitureGeometry(), lake: new THREE.ShapeGeometry(lakeShape()), trees: trees() };
   }, []);
   const tex = useMemo(() => {
     const walls = windowsTexture(); walls.repeat.set(1 / 3.2, 1 / 3.2);
@@ -89,6 +89,7 @@ function World({ quality }: { quality: "high" | "low" }) {
         <meshStandardMaterial map={tex.ground} roughness={1} />
       </mesh>
       <mesh geometry={data.greens} receiveShadow><meshStandardMaterial color="#7d9a52" roughness={1} /></mesh>
+      <mesh geometry={data.paving} receiveShadow><meshStandardMaterial map={tex.stone} color="#d9c2a2" roughness={0.9} /></mesh>
       <mesh geometry={data.r.kerb} receiveShadow><meshStandardMaterial color="#b7ab96" roughness={0.95} /></mesh>
       <mesh geometry={data.r.asphalt} receiveShadow><meshStandardMaterial map={tex.asphalt} roughness={0.88} /></mesh>
       <mesh geometry={data.r.lines}><meshStandardMaterial color="#f2efe6" roughness={0.6} /></mesh>
@@ -105,7 +106,7 @@ function World({ quality }: { quality: "high" | "low" }) {
         </group>
       ))}
       <mesh geometry={data.furniture} castShadow={shadows} receiveShadow><meshStandardMaterial vertexColors roughness={0.7} /></mesh>
-      <mesh geometry={data.lake} rotation-x={-Math.PI / 2} position-y={-0.35}>
+      <mesh geometry={data.lake} rotation-x={-Math.PI / 2} position-y={0.12}>
         {quality === "high"
           ? <MeshReflectorMaterial resolution={512} mirror={0.6} blur={[300, 80]} mixBlur={1} mixStrength={1.4} roughness={0.9} depthScale={0.6} minDepthThreshold={0.4} maxDepthThreshold={1.2} color="#5f8a93" metalness={0.3} />
           : <meshStandardMaterial color="#5f8a93" roughness={0.15} metalness={0.3} />}
@@ -243,7 +244,7 @@ function TourCamera({ playing, progress, seek }: { playing: boolean; progress: M
 /** Eye-level walking: drag to look, W A S D or arrow keys to move, Shift to hurry. */
 function WalkCamera({ start }: { start?: [number, number] }) {
   const { camera, gl } = useThree();
-  const state = useRef({ yaw: Math.PI * 0.75, pitch: 0, keys: new Set<string>(), drag: false, x: start?.[0] ?? -10, z: start?.[1] ?? 40, bob: 0 });
+  const state = useRef({ yaw: 0, pitch: 0.05, keys: new Set<string>(), drag: false, x: start?.[0] ?? 2, z: start?.[1] ?? 48, bob: 0 });
   useEffect(() => {
     const el = gl.domElement, s = state.current;
     const down = (e: PointerEvent) => { s.drag = true; el.setPointerCapture(e.pointerId); };
@@ -268,12 +269,19 @@ function WalkCamera({ start }: { start?: [number, number] }) {
   return null;
 }
 
+/** Drone mode always opens on the same framed view of the Roza and the tank. */
+function DroneStart() {
+  const { camera } = useThree();
+  useEffect(() => { camera.position.set(-150, 95, 190); camera.lookAt(0, 8, 0); }, [camera]);
+  return null;
+}
+
 function Effects({ quality }: { quality: "high" | "low" }) {
   if (quality === "low") return <EffectComposer multisampling={0}><ToneMapping mode={ToneMappingMode.ACES_FILMIC} /><Vignette offset={0.3} darkness={0.45} /></EffectComposer>;
   return (
     <EffectComposer multisampling={0}>
       <N8AO aoRadius={2.2} intensity={2.4} distanceFalloff={1.2} quality="medium" halfRes />
-      <Bloom luminanceThreshold={0.86} luminanceSmoothing={0.2} intensity={0.45} mipmapBlur />
+      <Bloom luminanceThreshold={0.95} luminanceSmoothing={0.15} intensity={0.3} mipmapBlur />
       <ToneMapping mode={ToneMappingMode.ACES_FILMIC} />
       <SMAA />
       <Vignette offset={0.28} darkness={0.5} />
@@ -296,7 +304,7 @@ export default function StreetScene({ mode, light, quality, playing, progress, s
       onCreated={({ gl }) => { gl.toneMapping = THREE.NoToneMapping; }}>
       <PerformanceMonitor onDecline={() => onQuality?.("low")} />
       <color attach="background" args={[s.fog]} />
-      <fog attach="fog" args={[s.fog, 420, 2400]} />
+      <fog attach="fog" args={[s.fog, 650, 3200]} />
       <Sky distance={4500} sunPosition={s.pos} turbidity={s.sky.turbidity} rayleigh={s.sky.rayleigh} mieCoefficient={s.sky.mie} mieDirectionalG={0.85} />
       <Environment resolution={128} frames={1}>
         <Lightformer form="rect" intensity={2} color={s.color} position={[s.pos[0] / 40, s.pos[1] / 40, s.pos[2] / 40]} scale={[10, 4, 1]} />
@@ -308,6 +316,7 @@ export default function StreetScene({ mode, light, quality, playing, progress, s
       <Traffic />
       {mode === "tour" && <TourCamera playing={playing} progress={progress} seek={seek} />}
       {mode === "walk" && <WalkCamera start={start} />}
+      {mode === "drone" && <DroneStart />}
       {mode === "drone" && <OrbitControls makeDefault enableDamping dampingFactor={0.06} target={[0, 8, 0]} minDistance={18} maxDistance={900} maxPolarAngle={Math.PI * 0.47} autoRotate={playing} autoRotateSpeed={0.35} />}
       <Effects quality={quality} />
       <Ready onReady={onReady} />

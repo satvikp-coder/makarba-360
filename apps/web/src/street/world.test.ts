@@ -15,7 +15,9 @@ describe("street-level world (built from the map's own sketch data)", () => {
     const l = landmarkGeometry();
     expect(l.domes.length).toBeGreaterThan(10);
     expect(Math.max(...l.domes.map((d) => d.r))).toBeGreaterThan(8);   // the tomb's main dome
-    expect(roadsGeometry().asphalt.getAttribute("position").count).toBeGreaterThan(20);
+    const asphalt = roadsGeometry().asphalt, n = asphalt.getAttribute("normal");
+    expect(asphalt.getAttribute("position").count).toBeGreaterThan(20);
+    for (let i = 0; i < n.count; i += 7) expect(n.getY(i)).toBeGreaterThan(0.9);   // ribbons face the sky, so they are not culled
     expect(furnitureGeometry().getAttribute("position").count).toBeGreaterThan(100);
     const t = trees();
     expect(t.length).toBeGreaterThan(30);
