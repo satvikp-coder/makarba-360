@@ -3,6 +3,7 @@ import { Link, useSearchParams } from "react-router-dom";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { Camera, Footprints, Pause, Play, Plane, Sun, Sunrise, Sunset, X } from "lucide-react";
 import { TOUR, toLocal } from "./tour.js";
+import { fetchPlaces, type PublicFeature } from "../api.js";
 import type { Light, Mode } from "./StreetScene.js";
 import "./street.css";
 
@@ -32,6 +33,14 @@ function detectQuality(): "high" | "low" {
     return /swiftshader|llvmpipe|software|basic render/i.test(r) || !gl ? "low" : "high";
   } catch { return "low"; }
 }
+/** The first coordinate of any published geometry (point, line or area), as a walking start a few metres back from the place. */
+export function startFor(f: PublicFeature): [number, number] | undefined {
+  let c: unknown = f.geometry.coordinates;
+  while (Array.isArray(c) && Array.isArray(c[0])) c = c[0];
+  if (!Array.isArray(c) || typeof c[0] !== "number") return undefined;
+  const [x, z] = toLocal([c[0] as number, c[1] as number]);
+  return [x, z + 12];   // 12 m south of the place, looking north at it
+}
 const shotAt = (u: number) => u * (TOUR.length - 1);
 
 export function StreetPage() {
@@ -44,8 +53,16 @@ export function StreetPage() {
   const [ready, setReady] = useState(false);
   const [caption, setCaption] = useState<number | null>(null);
   const progress = useRef(0), seek = useRef<number | null>(null), bar = useRef<HTMLDivElement>(null);
-  const start = STARTS[params.get("at") ?? ""];
-  useEffect(() => { if (start) setMode("walk"); }, [start]);
+  const at = params.get("at") ?? "";
+  const [found, setFound] = useState<[number, number] | undefined>();
+  useEffect(() => {
+    if (!at || STARTS[at]) return;
+    const ac = new AbortController();
+    fetchPlaces(ac.signal).then((r) => { if (r.status === "ok") { const f = r.features.find((x) => x.properties.slug === at); if (f) setFound(startFor(f)); } });
+    return () => ac.abort();
+  }, [at]);
+  const start = STARTS[at] ?? found;
+  useEffect(() => { if (params.get("at")) setMode("walk"); }, [params]);
   // the timeline and captions follow the scene without re-rendering every frame: the bar is styled directly, and React only hears
   // about a caption when it changes
   useEffect(() => {

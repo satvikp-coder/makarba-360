@@ -276,6 +276,7 @@ function SelectedPlace({ p, index, total, onStep, onClear }: { p: PlaceSummary; 
         {notes.map((l) => <p key={l.id} className="sp-note"><span className="kicker">Related landmark</span> <b>{l.title}.</b> {l.why}</p>)}
         <div className="sp-actions">
           <Link className="btn" to={`/places/${p.slug}`}>Open profile <Icon name="arrowUR" size={15} /></Link>
+          <Link className="btn ghost" to={`/street?at=${encodeURIComponent(p.slug)}`}><Icon name="footprints" size={15} /> Walk here in 3D</Link>
           <span className="sp-step" role="group" aria-label="Step through places">
             <button type="button" className="icon-btn" aria-label="Previous place" data-tip="Previous place ([)" onClick={() => onStep(-1)}><Icon name="chevL" /></button>
             <span>{index + 1} / {total}</span>

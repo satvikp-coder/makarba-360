@@ -259,6 +259,7 @@ function WalkCamera({ start }: { start?: [number, number] }) {
     window.addEventListener("keydown", kd); window.addEventListener("keyup", ku);
     return () => { el.removeEventListener("pointerdown", down); window.removeEventListener("pointerup", up); window.removeEventListener("pointermove", move); window.removeEventListener("keydown", kd); window.removeEventListener("keyup", ku); };
   }, [gl]);
+  useEffect(() => { if (start) { state.current.x = start[0]; state.current.z = start[1]; state.current.yaw = 0; } }, [start?.[0], start?.[1]]);
   useEffect(() => { (window as unknown as { __walk?: (f: number, r: number) => void }).__walk = (f, r) => { const s = state.current; s.x += (Math.sin(s.yaw) * f + Math.cos(s.yaw) * r); s.z += (Math.cos(s.yaw) * f - Math.sin(s.yaw) * r); }; }, []);
   useFrame((_, dt) => {
     const s = state.current, k = s.keys, speed = (k.has("ShiftLeft") || k.has("ShiftRight") ? 7 : 3.2) * Math.min(dt, 0.05);

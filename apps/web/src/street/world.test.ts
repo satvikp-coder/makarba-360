@@ -41,3 +41,14 @@ describe("street-level world (built from the map's own sketch data)", () => {
     expect(TOUR.filter((s) => s.caption).length).toBeGreaterThanOrEqual(5);
   });
 });
+
+describe("walking starts", () => {
+  it("start a few metres south of any published point, line or area", async () => {
+    const { startFor } = await import("./StreetPage.js");
+    const at = (geometry: { type: string; coordinates: unknown }) => startFor({ type: "Feature", id: "x", geometry, properties: { slug: "x", name: "x", category: "market" } });
+    const p = at({ type: "Point", coordinates: [72.50547, 22.99351] })!;
+    expect(p[0]).toBeCloseTo(0); expect(p[1]).toBeCloseTo(12);
+    expect(at({ type: "MultiPolygon", coordinates: [[[[72.50547, 22.99351], [72.5, 22.99]]]] })![1]).toBeCloseTo(12);
+    expect(at({ type: "Point", coordinates: "bad" })).toBeUndefined();
+  });
+});
