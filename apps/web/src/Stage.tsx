@@ -194,6 +194,8 @@ function AiDock({ doc }: { doc: ForecastDoc | null }) {
   );
 }
 
+const NO_FEATURES: never[] = [];
+
 /** Pages that read best without the stage's docks over them. */
 const READER = /^\/(voices|insights|research|accessibility|places\/|stories)/;
 
@@ -211,12 +213,22 @@ export default function Stage() {
     const p = new URLSearchParams(params); p.set("place", id); setParams(p);
   };
   // all published places, once, and only when the map is in view (reading pages make no extra requests); Explore can narrow them
+  // If the places service is down the 3D city still loads (with no place markers) and the request is retried with backoff, so
+  // the places appear as soon as it answers; Explore shows its own error and Try again.
   const needPlaces = !reader && !m.features;
+  const [placesDown, setPlacesDown] = useState(false);
   useEffect(() => {
     if (!needPlaces) return;
     const ac = new AbortController();
-    fetchPlaces(ac.signal).then((r) => { if (!ac.signal.aborted && r.status === "ok") m.setFeatures(r.features); });
-    return () => ac.abort();
+    let timer = 0;
+    const load = (attempt: number) => fetchPlaces(ac.signal).then((r) => {
+      if (ac.signal.aborted) return;
+      if (r.status === "ok") { setPlacesDown(false); m.setFeatures(r.features); return; }
+      setPlacesDown(true);
+      if (r.retryable) timer = window.setTimeout(() => void load(attempt + 1), Math.min(30_000, 2000 * 2 ** attempt));
+    });
+    void load(0);
+    return () => { ac.abort(); clearTimeout(timer); };
   }, [needPlaces]);
   // the forecast scene for the chosen year
   const scenario = useMemo(() => (doc && m.future ? scenarioFor(doc, m.year) : null), [doc, m.future, m.year]);
@@ -247,7 +259,7 @@ export default function Stage() {
   const lens = LENSES.find((l) => l.id === m.lens);
   const lensSeries = lens?.series ? doc?.series.find((s) => s.id === lens.series) : undefined;
   const lensLevel = lensSeries && lens?.scale ? Math.max(0, Math.min(1, valueAt(lensSeries, m.future ? m.year : null) / lens.scale)) : 0.5;
-  const features = m.view ?? m.features;
+  const features = m.view ?? m.features ?? (placesDown ? NO_FEATURES : null);
   // the left floating panel's width (CSS --lw, which follows the page and the panel toggle) pads the camera
   const [padLeft, setPadLeft] = useState(0);
   useLayoutEffect(() => { const w = parseFloat(getComputedStyle(document.body).getPropertyValue("--lw")) || 0; if (w !== padLeft) setPadLeft(w); });

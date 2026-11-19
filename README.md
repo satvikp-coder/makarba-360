@@ -19,7 +19,7 @@ Explore the neighbourhood as a living 3D city, follow a guided tour of its landm
 run.bat             # Windows
 ```
 
-You need Node 22+ and pnpm (`corepack enable`). The launcher checks both, installs dependencies on first run, checks the ports, waits until the app is up and opens [http://localhost:5173](http://localhost:5173). Set `WEB_PORT` or `MOCK_API_PORT` if the default ports are busy, and `NO_OPEN=1` to skip the browser.
+You need Node 22+ and pnpm (`corepack enable`). The launcher checks both, installs dependencies on first run, stops anything already listening on its ports (so a stale server never answers in place of the new one), waits until the app is up and opens [http://localhost:5173](http://localhost:5173). If either server dies, the launcher stops the other and says so. Set `WEB_PORT` or `MOCK_API_PORT` if the default ports are busy, and `NO_OPEN=1` to skip the browser.
 
 | Command | What it does |
 |---|---|

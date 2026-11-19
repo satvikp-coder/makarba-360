@@ -37,7 +37,8 @@ test("the timeline updates Overview figures and the Outlook year", async ({ page
   await page.getByRole("slider", { name: "Year on the map" }).fill("2040");
   await expect(page.getByRole("heading", { name: "Outlook for 2040" })).toBeVisible();
   await page.getByRole("navigation", { name: "Main navigation" }).getByRole("link", { name: "Outlook" }).click();
-  await expect(page.getByRole("heading", { name: "Where the trends point by 2040" })).toBeVisible();
+  // Outlook is a lazy page: on a busy dev server its first compile can take longer than the default 5 s
+  await expect(page.getByRole("heading", { name: "Where the trends point by 2040" })).toBeVisible({ timeout: 20_000 });
 });
 
 for (const width of [375, 1280]) {
@@ -119,4 +120,14 @@ test("map controls give pointer feedback and respect reduced motion", async ({ p
   await page.mouse.down();
   expect(await reducedButton.evaluate((el) => getComputedStyle(el).translate)).toBe("none");
   await page.mouse.up();
+});
+
+test("the 3D city loads even when the places service is down, and the places appear once it recovers", async ({ page }) => {
+  let down = true;
+  await page.route("**/api/v1/public/locations**", (r) => (down ? r.fulfill({ status: 503, contentType: "application/json", body: "{}" }) : r.continue()));
+  await page.goto("/explore");
+  await expect(page.locator('.map-wrap[data-map-status="ready"]')).toBeVisible({ timeout: 25_000 });
+  await expect(page.locator(".map-label--place")).toHaveCount(0);
+  down = false;
+  await expect(page.locator(".map-label--place").first()).toBeAttached({ timeout: 20_000 });
 });

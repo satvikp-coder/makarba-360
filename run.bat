@@ -21,7 +21,10 @@ if not defined MOCK_API_PORT set MOCK_API_PORT=4010
 set API_PORT=%MOCK_API_PORT%
 
 if /i "%CMD%"=="demo" (
-  rem Mock API in its own minimised window (close it to stop); the web app runs here.
+  rem Anything already listening on the two ports is stopped first, so a stale server never answers instead of the new one.
+  call :claim %WEB_PORT%
+  call :claim %API_PORT%
+  rem The local API runs in its own minimised window and is stopped again when the web app stops; the web app runs here.
   start "Makarba 360 - local API" /min cmd /c pnpm dev:mock
   echo   . Starting the local API and the web app...
   echo.
@@ -30,10 +33,12 @@ if /i "%CMD%"=="demo" (
   echo.
   if not defined NO_OPEN start "" /b cmd /c "timeout /t 6 >nul & start http://localhost:%WEB_PORT%"
   call pnpm --filter @makarba/web dev --port %WEB_PORT% --strictPort
+  call :claim %API_PORT% >nul
   exit /b
 )
 if /i "%CMD%"=="preview" (
   if not defined PORT set PORT=10000
+  call :claim !PORT!
   echo   . Building every package...
   call pnpm -s build || exit /b 1
   echo   + Built. Serving the production build exactly as on Render:
@@ -81,5 +86,21 @@ echo     forecast   regenerate the TimesFM forecasts (Python 3.11)
 echo     check      types, lint and every unit test
 echo     api / db   the real API / its PostGIS database (Docker and .env)
 echo.
-echo   Ports: WEB_PORT (5173), MOCK_API_PORT (4010), PORT for preview (10000). NO_OPEN=1 skips the browser.
+echo   Ports: WEB_PORT (5173), MOCK_API_PORT (4010), PORT for preview (10000). Anything already listening on them
+echo   is stopped first, so a stale server never answers instead of the new one. NO_OPEN=1 skips the browser.
 echo.
+exit /b
+
+rem ---- :claim PORT - stop whatever is listening on PORT ----
+:claim
+set FOUND=
+for /f "tokens=5" %%p in ('netstat -ano -p tcp ^| findstr /r /c:":%1 .*LISTENING"') do (
+  if not "%%p"=="0" (
+    echo   . Port %1 is held by process %%p: stopping it
+    taskkill /PID %%p /T /F >nul 2>&1
+    set FOUND=1
+  )
+)
+if defined FOUND timeout /t 1 >nul
+echo   + Port %1 is free
+exit /b

@@ -21,8 +21,8 @@ All place data is **synthetic**: nothing here is a verified field result, and no
 
 | Mode | What it does |
 |---|---|
-| `demo` (default) | Checks Node, pnpm and the ports, starts the local API and the web app, waits until both answer, then opens http://localhost:5173. Opening the mock API root redirects to the web app. Set `WEB_PORT` or `MOCK_API_PORT` to change the ports and `NO_OPEN=1` to skip the browser. |
-| `preview` | Builds everything and serves the production build from the mock API on one port (`PORT`, default 10000), exactly as the Render service does. |
+| `demo` (default) | Checks Node and pnpm, stops anything already listening on the two ports, starts the local API and the web app, waits until both answer, then opens http://localhost:5173. If either server stops, the other is stopped too; Ctrl+C stops both. Opening the mock API root redirects to the web app. Set `WEB_PORT` or `MOCK_API_PORT` to change the ports and `NO_OPEN=1` to skip the browser. |
+| `preview` | Frees the port, builds everything and serves the production build from the mock API on one port (`PORT`, default 10000), exactly as the Render service does. |
 | `forecast` | Builds `ml/.venv` and regenerates the forecasts with TimesFM (see [ml/README.md](../../ml/README.md)). |
 | `insights` | Rewrites `data/ai/insights.json` for the current forecasts with Apple's on-device model (builds and starts the bridge in `tools/applefm`). Years already in the file for the same forecasts are kept; delete the file to redo all. Takes a few minutes per year. |
 | `check` | Runs typecheck, lint and all unit tests. |
@@ -83,3 +83,4 @@ Settings are remembered in this browser.
 - **The 3D map does not appear:** WebGL is unavailable, so a 2D sketch and the list take its place.
 - **Reduced motion:** with the device setting or the site's **Reduce motion** option on, there is no start-up film, flights become cuts, years jump instead of animating, vehicles stand still, and the 360° camera and Highlights camera are off.
 - **No AI insights dock on the map:** `data/ai/insights.json` was made from different forecasts. Run `./run.sh insights` (the unit tests flag this too).
+- **The map shows but no places:** the local API is not answering. The map keeps retrying in the background; restart with `./run.sh` (it replaces any stale server on the ports).

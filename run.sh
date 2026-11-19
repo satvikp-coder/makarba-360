@@ -26,6 +26,27 @@ wait_for() {   # url, label: up to 60 s
 }
 open_browser() { [ -n "${NO_OPEN:-}" ] && return; { command -v open >/dev/null && open "$1"; } || { command -v xdg-open >/dev/null && xdg-open "$1"; } || true; }
 port_free() { ! (exec 3<>"/dev/tcp/127.0.0.1/$1") 2>/dev/null; }
+listeners() { # PIDs listening on a TCP port
+  if command -v lsof >/dev/null; then lsof -nP -t -iTCP:"$1" -sTCP:LISTEN 2>/dev/null || true
+  elif command -v fuser >/dev/null; then fuser "$1/tcp" 2>/dev/null || true; fi
+}
+claim_port() { # $1 port: stop whatever is listening there (asks politely, then insists), so a stale server never answers instead
+  local pids pid name
+  pids=$(listeners "$1")
+  if [ -z "$pids" ]; then port_free "$1" || fail "Port $1 is busy and the process could not be identified"; step "Port $1 is free"; return; fi
+  for pid in $pids; do
+    name=$(ps -o comm= -p "$pid" 2>/dev/null | xargs basename 2>/dev/null || echo "process")
+    info "Port $1 is held by $name (pid $pid): stopping it"
+    kill "$pid" 2>/dev/null || true
+  done
+  for _ in $(seq 1 20); do port_free "$1" && { step "Port $1 is free"; return; }; sleep .25; done
+  for pid in $(listeners "$1"); do kill -9 "$pid" 2>/dev/null || true; done
+  sleep .5; port_free "$1" || fail "Could not free port $1 (try: lsof -iTCP:$1)"
+  step "Port $1 is free"
+}
+supervise() { # $@ child PIDs: return as soon as any of them exits, so a crashed half never leaves the other running alone
+  while :; do for pid in "$@"; do kill -0 "$pid" 2>/dev/null || return; done; sleep 1; done
+}
 
 # ---- preflight -------------------------------------------------------------------------------------------------------------
 preflight() {
@@ -43,32 +64,35 @@ case "$cmd" in
     banner "development"
     preflight
     export WEB_PORT="${WEB_PORT:-5173}" API_PORT="${MOCK_API_PORT:-4010}" MOCK_API_PORT="${MOCK_API_PORT:-4010}"
-    port_free "$WEB_PORT" || fail "Port $WEB_PORT is busy. Stop the other server or run  WEB_PORT=5174 ./run.sh"
-    port_free "$API_PORT" || fail "Port $API_PORT is busy. Stop the other mock API or run  MOCK_API_PORT=4011 ./run.sh"
-    step "Ports $WEB_PORT and $API_PORT are free"
+    claim_port "$WEB_PORT"; claim_port "$API_PORT"
     info "Starting the local API and the web app…"
     log="${TMPDIR:-/tmp}"; log="${log%/}/makarba-360-dev.log"; : > "$log"
     pnpm dev:mock >>"$log" 2>&1 & api=$!
     pnpm --filter @makarba/web dev --port "$WEB_PORT" --strictPort >>"$log" 2>&1 & web=$!
-    trap 'kill $api $web 2>/dev/null; printf "\n  %sStopped.%s\n\n" "$D" "$R"' EXIT INT TERM
+    # on exit stop both servers and anything they started (pnpm runs node as a child), by port as well as by PID
+    stop_all() { kill $api $web 2>/dev/null; for p in $(listeners "$WEB_PORT") $(listeners "$API_PORT"); do kill "$p" 2>/dev/null; done; printf '\n  %sStopped.%s\n\n' "$D" "$R"; }
+    trap stop_all EXIT; trap 'exit 130' INT TERM
     wait_for "http://127.0.0.1:$API_PORT/health" "Local API"
     wait_for "http://127.0.0.1:$WEB_PORT/" "Web app"
     ready_panel "Ready" "Open|http://localhost:$WEB_PORT" "API|http://localhost:$API_PORT/health"
     info "Server logs: $log"
     open_browser "http://localhost:$WEB_PORT"
-    wait $api $web ;;
+    supervise $api $web
+    printf '  %s✕ A server stopped unexpectedly; see %s%s\n' "$ERR" "$log" "$R" >&2; exit 1 ;;
   preview) # the production build served exactly as on Render: one server, one port
     banner "production preview"
     preflight
     port="${PORT:-10000}"
-    port_free "$port" || fail "Port $port is busy. Run  PORT=10001 ./run.sh preview"
+    claim_port "$port"
     info "Building every package…"; pnpm -s build >/dev/null; step "Built"
     (cd apps/api && NODE_ENV=development API_PORT="$port" MOCK_API_HOST=127.0.0.1 WEB_DIST=../web/dist pnpm -s dev:mock) & srv=$!
-    trap 'kill $srv 2>/dev/null; printf "\n  %sStopped.%s\n\n" "$D" "$R"' EXIT INT TERM
+    stop_all() { kill $srv 2>/dev/null; for p in $(listeners "$port"); do kill "$p" 2>/dev/null; done; printf '\n  %sStopped.%s\n\n' "$D" "$R"; }
+    trap stop_all EXIT; trap 'exit 130' INT TERM
     wait_for "http://127.0.0.1:$port/health" "Server"
     ready_panel "Production preview" "Open|http://localhost:$port"
     open_browser "http://localhost:$port"
-    wait $srv ;;
+    supervise $srv
+    fail "The server stopped unexpectedly (see the output above)" ;;
   forecast) # TimesFM forecasts (World Bank + Kaggle Ahmedabad air quality; Yahoo markets into a git-ignored file)
     banner "forecasts"
     py=$(command -v python3.11 || command -v python3.12 || command -v python3) || fail "Python 3.11 is needed"
@@ -80,7 +104,7 @@ case "$cmd" in
     [ "$(uname)" = Darwin ] && command -v swiftc >/dev/null || fail "Needs macOS 26+ with Xcode command-line tools"
     if ! curl -s -m 1 127.0.0.1:11535/health >/dev/null; then
       [ tools/applefm/.build/applefm-server -nt tools/applefm/server.swift ] || { info "Building the on-device model bridge…"; mkdir -p tools/applefm/.build && swiftc -O tools/applefm/server.swift -o tools/applefm/.build/applefm-server; }
-      tools/applefm/.build/applefm-server 11535 >/dev/null 2>&1 & bridge=$!; trap 'kill $bridge 2>/dev/null' EXIT INT TERM; sleep 2
+      tools/applefm/.build/applefm-server 11535 >/dev/null 2>&1 & bridge=$!; trap 'kill $bridge 2>/dev/null' EXIT; trap 'exit 130' INT TERM; sleep 2
     fi
     step "Model bridge is up"
     info "Writing missing years (a few minutes each)…"
@@ -109,7 +133,8 @@ case "$cmd" in
     ${TEAL}check${R}      types, lint and every unit test
     ${TEAL}api${R} / ${TEAL}db${R}   the real API / its PostGIS database (Docker and .env)
 
-  ${D}Ports: WEB_PORT (5173), MOCK_API_PORT (4010), PORT for preview (10000). NO_OPEN=1 skips the browser.${R}
+  ${D}Ports: WEB_PORT (5173), MOCK_API_PORT (4010), PORT for preview (10000). Anything already listening on them is stopped
+  first, so a stale server never answers in place of the new one. NO_OPEN=1 skips the browser.${R}
 
 EOF
     ;;
