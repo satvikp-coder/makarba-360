@@ -10,7 +10,8 @@ describe("street-level world (built from the map's own sketch data)", () => {
   it("builds blocks, the Roza with true domes, roads, furniture and trees inside the radius", () => {
     const b = buildingsGeometry();
     expect(b.count).toBeGreaterThan(150);
-    expect(b.geometry.getAttribute("color").count).toBe(b.geometry.getAttribute("position").count);
+    expect(b.walls.getAttribute("color").count).toBe(b.walls.getAttribute("position").count);
+    expect(b.roofs.getAttribute("position").count).toBeGreaterThan(b.count * 6 - 1);   // two triangles per roof at least
     const l = landmarkGeometry();
     expect(l.domes.length).toBeGreaterThan(10);
     expect(Math.max(...l.domes.map((d) => d.r))).toBeGreaterThan(8);   // the tomb's main dome

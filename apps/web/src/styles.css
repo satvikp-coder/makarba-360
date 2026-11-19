@@ -152,6 +152,7 @@ kbd { display: inline-grid; place-items: center; min-width: 22px; height: 22px; 
 main { position: fixed; inset: 0; z-index: 10; pointer-events: none; }
 main > * { pointer-events: auto; }
 .credits { position: fixed; z-index: 20; left: var(--gap); bottom: 10px; display: flex; align-items: center; gap: 12px; padding: 4px 12px; border-radius: 999px; background: var(--glass); border: 1px solid var(--glass-line); box-shadow: var(--shadow-sm); -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur); font-size: .72rem; line-height: 1.4; color: var(--muted); white-space: nowrap; }
+.credits[hidden] { display: none; }
 .credits p { margin: 0; }
 .credits a { color: var(--teal); font-weight: 600; text-decoration: none; }
 .credits a:hover { text-decoration: underline; }

@@ -28,6 +28,7 @@ const ComparisonIndex = page(() => import("./ComparisonIndex.js") as Promise<Rec
 const Methodology = page(() => import("./ResearchPages.js") as Promise<Record<"Methodology", React.ComponentType>>, "Methodology");
 const Sources = page(() => import("./ResearchPages.js") as Promise<Record<"Sources", React.ComponentType>>, "Sources");
 const AccessibilityHelp = page(() => import("./ResearchPages.js") as Promise<Record<"AccessibilityHelp", React.ComponentType>>, "AccessibilityHelp");
+const StreetPage = page(() => import("./street/StreetPage.js") as Promise<Record<"StreetPage", React.ComponentType>>, "StreetPage");
 const FuturePanel = lazy(() => import("./FuturePanel.js").then((m) => ({ default: m.FuturePanel })));
 const Lazy = ({ children }: { children: React.ReactNode }) => <Suspense fallback={<ParticleLoader label="Loading…" />}>{children}</Suspense>;
 
@@ -317,6 +318,7 @@ export function App() {
         <Route path="/voices" element={<Lazy><Voices /></Lazy>} />
         <Route path="/insights" element={<Lazy><Insights /></Lazy>} />
         <Route path="/forecasts" element={<Lazy><Forecasts /></Lazy>} />
+        <Route path="/street" element={<Lazy><StreetPage /></Lazy>} />
         <Route path="/research/methodology" element={<Lazy><Methodology /></Lazy>} />
         <Route path="/research/sources" element={<Lazy><Sources /></Lazy>} />
         <Route path="/accessibility" element={<Lazy><AccessibilityHelp /></Lazy>} />

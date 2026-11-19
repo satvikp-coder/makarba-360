@@ -7,11 +7,9 @@ import { ARTERIAL, FACTORY_ROAD, HIGHWAY, LAKE, LOCAL, city, furniture, greens, 
  * street furniture), converted to local metres around the Sarkhej Roza tomb: x east, y up, z south. Pure geometry, no rendering,
  * so it is unit-tested without a GPU. Everything outside RADIUS metres is left out to keep the scene light.
  */
-export const ORIGIN: Pos = [72.50547, 22.99351];
-const MX = 111_320 * Math.cos((ORIGIN[1] * Math.PI) / 180), MY = 110_540;
+export { ORIGIN, toLocal, TOUR, type Shot } from "./tour.js";
+import { toLocal } from "./tour.js";
 export const RADIUS = 720;
-/** lon/lat -> local metres [x, z] (z points south, as in three.js with y up). */
-export const toLocal = ([lon, lat]: Pos): [number, number] => [(lon - ORIGIN[0]) * MX, -(lat - ORIGIN[1]) * MY];
 const near = (p: Pos, r = RADIUS) => { const [x, z] = toLocal(p); return Math.hypot(x, z) < r; };
 const ringOf = (f: FC["features"][number]): Pos[] => (f.geometry.type === "Polygon" ? f.geometry.coordinates[0]! : []);
 const centroid = (r: Pos[]): Pos => [r.reduce((a, p) => a + p[0], 0) / r.length, r.reduce((a, p) => a + p[1], 0) / r.length];
@@ -38,18 +36,35 @@ const merge = (gs: THREE.BufferGeometry[]) => {
   return g;
 };
 
-// --- buildings: one merged mesh; group 0 = roofs, group 1 = walls (window texture tiles in world metres) ---------------------
+/** An extrusion's caps (group 0) and sides (group 1) as two separate, non-indexed geometries. */
+function splitCapsAndSides(g: THREE.BufferGeometry): [THREE.BufferGeometry, THREE.BufferGeometry] {
+  const src = g.index ? g.toNonIndexed() : g;
+  const part = (mat: number) => {
+    const out = new THREE.BufferGeometry();
+    for (const [name, attr] of Object.entries(src.attributes)) {
+      const a = attr as THREE.BufferAttribute, chunks: number[] = [];
+      for (const gr of src.groups.filter((x) => x.materialIndex === mat))
+        for (let i = gr.start; i < gr.start + gr.count; i++) for (let k = 0; k < a.itemSize; k++) chunks.push(a.array[i * a.itemSize + k]!);
+      out.setAttribute(name, new THREE.Float32BufferAttribute(chunks, a.itemSize));
+    }
+    return out;
+  };
+  return [part(0), part(1)];
+}
+
+// --- buildings: roofs and walls as two merged meshes (the window texture tiles on walls in world metres) ---------------------
 const PLASTER = ["#efe3cf", "#e9d6bd", "#f3ead9", "#dfc9ad", "#e6d3c4", "#d9c8b4", "#f0dcc0", "#cfd6cf", "#e8cfc2", "#d8d2c5"];
-export function buildingsGeometry(): { geometry: THREE.BufferGeometry; count: number } {
-  const gs: THREE.BufferGeometry[] = [];
+export function buildingsGeometry(): { roofs: THREE.BufferGeometry; walls: THREE.BufferGeometry; count: number } {
+  const roofs: THREE.BufferGeometry[] = [], walls: THREE.BufferGeometry[] = [];
   for (const f of city().buildings.features) {
     const ring = ringOf(f);
     if (!ring.length || !near(centroid(ring))) continue;
     const h = Number(f.properties["h"] ?? 6), r = Number(f.properties["r"] ?? 0.5);
     const tone = f.properties["mill"] ? "#c9a27e" : PLASTER[Math.floor(r * PLASTER.length) % PLASTER.length]!;
-    gs.push(paint(prism(ring, 0, h), new THREE.Color(tone)));
+    const g = paint(prism(ring, 0, h), new THREE.Color(tone)), [cap, side] = splitCapsAndSides(g);
+    g.dispose(); roofs.push(cap); walls.push(side);
   }
-  return { geometry: merge(gs), count: gs.length };
+  return { roofs: merge(roofs), walls: merge(walls), count: walls.length };
 }
 
 // --- the Roza complex: stone prisms, plus true hemispherical domes rebuilt from the map model's stepped tiers ------------------
@@ -201,19 +216,3 @@ export function along(path: [number, number][], d: number, side = 0): { x: numbe
   return { x: path[0]![0], z: path[0]![1], heading: 0 };
 }
 
-// --- cinematic camera: a drone descent, a walk through the Roza premises, then out along Sarkhej Roza Road -----------------
-export interface Shot { pos: [number, number, number]; look: [number, number, number]; caption?: string; sub?: string }
-const L = (p: Pos, y: number): [number, number, number] => { const [x, z] = toLocal(p); return [x, y, z]; };
-export const TOUR: Shot[] = [
-  { pos: L([72.5032, 22.9905], 170), look: L([72.50547, 22.99351], 0), caption: "Makarba, Ahmedabad", sub: "Sarkhej Roza and its tank from the south-west" },
-  { pos: L([72.5040, 22.9918], 70), look: L([72.50547, 22.99351], 8) },
-  { pos: L([72.5049, 22.9926], 22), look: L([72.50547, 22.99351], 10), caption: "Sarkhej Roza", sub: "The tomb of Shaikh Ahmed Khattu Ganj Bakhsh, 1445–1451" },
-  { pos: L([72.50525, 22.99292], 1.7), look: L([72.50552, 22.99313], 3), caption: "Courtyard around the Baradari", sub: "Children play here and people sit in the open courtyard" },
-  { pos: L([72.50565, 22.99318], 1.7), look: L([72.50595, 22.99352], 1) },
-  { pos: L([72.50585, 22.99338], 1.7), look: L([72.5062, 22.9935], 0.6), caption: "Waiting for food", sub: "People sit along this edge for the food offered in the Roza premises" },
-  { pos: L([72.5066, 22.99342], 1.7), look: L([72.5072, 22.99325], 1.6) },
-  { pos: L([72.5072, 22.99318], 1.7), look: L([72.50756, 22.99306], 1.2), caption: "Fruit seller on Sarkhej Roza Road", sub: "Trading from the same spot by the road" },
-  { pos: L([72.5085, 22.99345], 1.8), look: L([72.5105, 22.99368], 2) },
-  { pos: L([72.5105, 22.9933], 45), look: L([72.50547, 22.99351], 0) },
-  { pos: L([72.5098, 22.9905], 160), look: L([72.50547, 22.99351], 0), caption: "Makarba 360°", sub: "Walk the streets yourself, or explore the map" },
-];

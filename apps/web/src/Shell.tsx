@@ -24,6 +24,7 @@ export const SHORTCUTS: { group: string; keys: string[]; what: string }[] = [
   { group: "Anywhere", keys: ["1"], what: "Overview" },
   { group: "Anywhere", keys: ["2"], what: "Explore the 3D map" },
   { group: "Anywhere", keys: ["3"], what: "Outlook (forecasts)" },
+  { group: "Anywhere", keys: ["4"], what: "Street view (walk the streets in 3D)" },
   { group: "Anywhere", keys: [","], what: "Display and accessibility settings" },
   { group: "Anywhere", keys: ["?"], what: "This list of shortcuts" },
   { group: "Explore", keys: ["/"], what: "Search places" },
@@ -49,6 +50,7 @@ const NAV: { to: string; label: string; icon: IconName; tip: string; end?: boole
   { to: "/", label: "Overview", icon: "home", tip: "Overview (1)", end: true },
   { to: "/explore", label: "Explore", icon: "map", tip: "Explore the 3D map (2)" },
   { to: "/forecasts", label: "Outlook", icon: "trend", tip: "Outlook: forecasts (3)" },
+  { to: "/street", label: "Street", icon: "footprints", tip: "Street view: walk the streets in 3D (4)" },
 ];
 /** Reading-page links appear on the Overview. */
 export const LIBRARY: { to: string; label: string; icon: IconName; blurb: string }[] = [
@@ -181,13 +183,14 @@ export function Layout() {
     const on = (e: KeyboardEvent) => {
       if (!plainKey(e) || document.querySelector("dialog[open]")) return;
       if (e.key === "1") nav("/"); else if (e.key === "2") nav("/explore"); else if (e.key === "3") nav("/forecasts");
+      else if (e.key === "4") nav("/street"); else if (e.key === "Escape" && location.pathname === "/street") nav("/explore");
       else if (e.key === "?") setDlg("keys"); else if (e.key === ",") setDlg("prefs"); else return;
       e.preventDefault();
     };
     window.addEventListener("keydown", on);
     return () => window.removeEventListener("keydown", on);
   }, [nav]);
-  const page = loc.pathname === "/" ? "home" : loc.pathname === "/explore" ? "explore" : loc.pathname === "/forecasts" ? "outlook" : "reader";
+  const page = loc.pathname === "/" ? "home" : loc.pathname === "/explore" ? "explore" : loc.pathname === "/forecasts" ? "outlook" : loc.pathname === "/street" ? "street" : "reader";
   return (
     <MapProvider>
       <a className="skip" href="#main">{t.skip}</a>
@@ -216,12 +219,13 @@ export function Layout() {
       <main id="main" tabIndex={page === "reader" ? 0 : -1} className={`main main-${page}`} key={page === "reader" ? loc.pathname : page}>
         <Outlet />
       </main>
-      <footer className="credits">
+      <footer className="credits" hidden={page === "street"}>
         <p>© 2026 Varun Karthic and Satvik Patel</p>
         <Link to="/research/sources#photo-credits">Photo credits</Link>
       </footer>
       {/* after the page in the DOM so keyboard users reach the page first; it sits behind everything visually */}
-      {!IN_TESTS && <Suspense fallback={<div className="stage stage-loading" aria-hidden="true" />}><Stage /></Suspense>}
+      {/* street view has its own 3D scene: the map stage steps aside so only one WebGL world runs at a time */}
+      {!IN_TESTS && page !== "street" && <Suspense fallback={<div className="stage stage-loading" aria-hidden="true" />}><Stage /></Suspense>}
       <Dialog id="prefs" title="Display and accessibility" icon="eye" open={dlg === "prefs"} onClose={() => setDlg(null)}>
         <DisplaySettings prefs={prefs} set={setPrefs} />
       </Dialog>
