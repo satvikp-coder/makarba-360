@@ -244,6 +244,20 @@ export default function Stage() {
     if (!sc) { m.setHighlights(null); return; }
     m.setHighlights(ai.highlights?.length ? ai.highlights.map((h) => ({ id: h.id, title: h.title, at: ANCHORS[h.anchor]?.at ?? sc.changes[0]!.at, tone: h.tone })) : sc.changes.map((c) => ({ id: c.id, title: c.title, at: c.at, tone: "mixed" })));
   }, [settledScenario, ai.highlights]);
+  // Boot sequence: the map chrome waits for the city to finish drawing, then appears one control at a time (CSS, keyed on
+  // body[data-boot]); a map that cannot draw (or a slow one) releases it after a few seconds anyway.
+  useEffect(() => {
+    const body = document.body;
+    delete body.dataset["boot"];
+    let t = 0;
+    const done = () => { body.dataset["boot"] = "ready"; obs.disconnect(); clearTimeout(t); };
+    const check = () => { if (document.querySelector('.map-wrap[data-rendered="true"], .map-wrap[data-map-status="unavailable"], .map-2d')) done(); };
+    const obs = new MutationObserver(check);
+    obs.observe(body, { subtree: true, childList: true, attributes: true, attributeFilter: ["data-rendered", "data-map-status"] });
+    t = window.setTimeout(done, 4500);
+    check();
+    return () => { obs.disconnect(); clearTimeout(t); };
+  }, []);
   // F toggles today/future, P plays, anywhere the stage is visible
   useEffect(() => {
     const on = (e: KeyboardEvent) => {

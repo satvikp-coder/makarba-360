@@ -59,7 +59,12 @@ function OutlookStrip() {
   const m = useMapState();
   const year = m.future ? m.year : DEFAULT_END_YEAR;
   const ai = useAi(doc, year);
-  if (!doc) return null;
+  if (!doc) return (
+    <section className="kpi-wrap" aria-busy="true" aria-label="Outlook loading">
+      <span className="skel" style={{ width: "46%", height: 24, marginBottom: 14 }} />
+      <span className="kpis">{[0, 1, 2, 3].map((i) => <span key={i} className="skel" style={{ height: 124 }} />)}</span>
+    </section>
+  );
   const sig = KPIS.flatMap(({ id, icon, label }) => { const s = doc.series.find((x) => x.id === id); const g = s && signal(s, year); return g ? [{ g, icon, label }] : []; });
   if (!sig.length) return null;
   return (
@@ -121,6 +126,7 @@ export function Home({ fetcher, hero }: { fetcher?: typeof fetch; hero?: HeroMed
           {r !== "loading" && r.status === "error" && t.errorPlaces}
           {r !== "loading" && r.status === "ok" && featured.length === 0 && t.emptyPlaces}
         </div>
+        {r === "loading" && <span className="featured-cards" aria-hidden="true">{[0, 1].map((i) => <span key={i} className="skel" style={{ aspectRatio: "4 / 3.6" }} />)}</span>}
         {r !== "loading" && r.status === "error" && r.retryable && <button type="button" onClick={() => setAttempt((n) => n + 1)}>{t.retry}</button>}
         {featured.length > 0 && (
           <ul className="featured-cards">{featured.map((p) => {

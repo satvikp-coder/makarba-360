@@ -238,3 +238,15 @@ html[data-contrast="high"] .map-label { background: #fff !important; color: #000
 @media (max-width: 479px) { .td-row .seg-tabs { display: none; } .td-lenses button span { display: none; } }
 @media (prefers-reduced-motion: reduce) { .map-haze i, .map-heat, .map-stars, .map-pulse span { animation: none !important; } }
 body:has(.ai-dock.open) .lens-legend { display: none; }
+
+/* ---------- boot sequence: hidden until the city has drawn, then one control at a time (Stage.tsx sets body[data-boot]) ---------- */
+body:not([data-boot="ready"]) :is(.map-toolbar, .mapctl, .time-dock, .lens-legend, .map-legend, .ai-dock, .map-attrib) { opacity: 0; animation: none; }
+body[data-boot="ready"] .map-toolbar { animation: rise .9s var(--ease) .05s both; }
+body[data-boot="ready"] .mapctl { animation: rise .9s var(--ease) .2s both; }
+body[data-boot="ready"] .time-dock { animation: rise .9s var(--ease) .35s both; }
+body[data-boot="ready"] :is(.map-legend, .lens-legend) { animation: rise .9s var(--ease) .5s both; }
+body[data-boot="ready"] .ai-dock { animation: rise .9s var(--ease) .65s both; }
+body[data-boot="ready"] .map-attrib { animation: fade 1.2s var(--ease) .8s both; }
+/* narrow docks: every other year label, so the ticks never run together */
+.td-scrub { container-type: inline-size; }
+@container (max-width: 340px) { .td-ticks li:nth-child(even) { display: none; } }
