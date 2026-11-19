@@ -23,6 +23,7 @@ playwright-report/
 /data/*
 !/data/README.md
 !/data/forecasts.json
+!/data/favicon.svg
 !/data/content/
 !/data/images/
 !/data/geo/

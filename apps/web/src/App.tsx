@@ -28,6 +28,7 @@ const ComparisonIndex = page(() => import("./ComparisonIndex.js") as Promise<Rec
 const Methodology = page(() => import("./ResearchPages.js") as Promise<Record<"Methodology", React.ComponentType>>, "Methodology");
 const Sources = page(() => import("./ResearchPages.js") as Promise<Record<"Sources", React.ComponentType>>, "Sources");
 const AccessibilityHelp = page(() => import("./ResearchPages.js") as Promise<Record<"AccessibilityHelp", React.ComponentType>>, "AccessibilityHelp");
+const StreetPage = page(() => import("./street/StreetPage.js") as Promise<Record<"StreetPage", React.ComponentType>>, "StreetPage");
 const FuturePanel = lazy(() => import("./FuturePanel.js").then((m) => ({ default: m.FuturePanel })));
 const Lazy = ({ children }: { children: React.ReactNode }) => <Suspense fallback={<ParticleLoader label="Loading…" />}>{children}</Suspense>;
 
@@ -266,7 +267,6 @@ function SelectedPlace({ p, index, total, onStep, onClear }: { p: PlaceSummary; 
       {ph && (
         <figure className="sp-photo">
           <img src={ph.src} alt={ph.alt} />
-          <figcaption data-tip={`${ph.title} · ${ph.credit} · ${ph.licence}`}>{ph.title} · {ph.credit}, {ph.licence}</figcaption>
         </figure>
       )}
       <div className="sp-body">
@@ -276,6 +276,7 @@ function SelectedPlace({ p, index, total, onStep, onClear }: { p: PlaceSummary; 
         {notes.map((l) => <p key={l.id} className="sp-note"><span className="kicker">Related landmark</span> <b>{l.title}.</b> {l.why}</p>)}
         <div className="sp-actions">
           <Link className="btn" to={`/places/${p.slug}`}>Open profile <Icon name="arrowUR" size={15} /></Link>
+          <Link className="btn ghost" to={`/street?at=${encodeURIComponent(p.slug)}`}><Icon name="footprints" size={15} /> Walk here in 3D</Link>
           <span className="sp-step" role="group" aria-label="Step through places">
             <button type="button" className="icon-btn" aria-label="Previous place" data-tip="Previous place ([)" onClick={() => onStep(-1)}><Icon name="chevL" /></button>
             <span>{index + 1} / {total}</span>
@@ -318,6 +319,7 @@ export function App() {
         <Route path="/voices" element={<Lazy><Voices /></Lazy>} />
         <Route path="/insights" element={<Lazy><Insights /></Lazy>} />
         <Route path="/forecasts" element={<Lazy><Forecasts /></Lazy>} />
+        <Route path="/street" element={<Lazy><StreetPage /></Lazy>} />
         <Route path="/research/methodology" element={<Lazy><Methodology /></Lazy>} />
         <Route path="/research/sources" element={<Lazy><Sources /></Lazy>} />
         <Route path="/accessibility" element={<Lazy><AccessibilityHelp /></Lazy>} />

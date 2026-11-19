@@ -12,7 +12,6 @@ import { LIBRARY } from "./Shell.js";
 import { CATEGORY_ICON, categoryColor, categoryLabel } from "./categories.js";
 import { photoFor } from "./placePhotos.js";
 import { useAi } from "./aiStore.js";
-import { MatrixOrb } from "./MatrixOrb.js";
 import { useMapState } from "./mapCtx.js";
 
 /** An approved, rights-cleared hero image. None is configured yet, so the typographic particle panel is shown. */
@@ -48,8 +47,8 @@ function Kpi({ icon, label, from, to, unit, pct, verdict }: { icon: IconName; la
   return (
     <li className={`kpi kpi-${verdict}`}>
       <span className="kpi-label"><Icon name={icon} size={16} /> {label}</span>
-      <span className="kpi-val">{fmt(Number(v.toPrecision(4)))}</span>
-      <span className="kpi-sub">{unit} · now {fmt(from)}{pct !== null ? ` · ${pct >= 0 ? "+" : ""}${pct.toFixed(0)}%` : ""}</span>
+      <span className="kpi-val">{fmt(Number(v.toPrecision(3)))}</span>
+      <span className="kpi-sub">{unit} · now {fmt(Number(from.toPrecision(3)))}{pct !== null ? ` · ${pct >= 0 ? "+" : ""}${pct.toFixed(0)}%` : ""}</span>
     </li>
   );
 }
@@ -60,7 +59,12 @@ function OutlookStrip() {
   const m = useMapState();
   const year = m.future ? m.year : DEFAULT_END_YEAR;
   const ai = useAi(doc, year);
-  if (!doc) return null;
+  if (!doc) return (
+    <section className="kpi-wrap" aria-busy="true" aria-label="Outlook loading">
+      <span className="skel" style={{ width: "46%", height: 24, marginBottom: 14 }} />
+      <span className="kpis">{[0, 1, 2, 3].map((i) => <span key={i} className="skel" style={{ height: 124 }} />)}</span>
+    </section>
+  );
   const sig = KPIS.flatMap(({ id, icon, label }) => { const s = doc.series.find((x) => x.id === id); const g = s && signal(s, year); return g ? [{ g, icon, label }] : []; });
   if (!sig.length) return null;
   return (
@@ -70,18 +74,14 @@ function OutlookStrip() {
         <Link to={`/forecasts?year=${year}`}>All {doc.series.length} indicators <Icon name="arrowUR" size={14} /></Link>
       </div>
       <ul className="kpis">{sig.map(({ g, icon, label }) => <Kpi key={g.s.id} icon={icon} label={label} from={g.from.value} to={g.to.value} unit={g.s.unit} pct={g.pct} verdict={g.verdict} />)}</ul>
-      {(ai.highlights?.length || ai.status === "running") && (
+      {ai.highlights?.length ? (
         <div className="ai-strip">
-          {ai.highlights?.length ? (
-            <>
-              <p className="ai-badge"><Icon name="spark" size={13} /> AI-generated</p>
-              {ai.headline && <p className="ai-headline">{ai.headline}</p>}
-              <ul className="ai-mini">{ai.highlights.slice(0, 3).map((h) => <li key={h.id} className={`tone-${h.tone}`}><Icon name={h.icon} size={16} /> {h.title}</li>)}</ul>
-              <Link to={`/explore?future=1&year=${year}`}>See them on the 3D map <Icon name="arrowUR" size={14} /></Link>
-            </>
-          ) : <p role="status" className="ai-thinking"><MatrixOrb state="thinking" size={22} /> Generating AI insights in the background…</p>}
+          <p className="ai-badge"><Icon name="spark" size={13} /> AI-generated</p>
+          {ai.headline && <p className="ai-headline">{ai.headline}</p>}
+          <ul className="ai-mini">{ai.highlights.slice(0, 3).map((h) => <li key={h.id} className={`tone-${h.tone}`}><Icon name={h.icon} size={16} /> {h.title}</li>)}</ul>
+          <Link to={`/explore?future=1&year=${year}`}>See them on the 3D map <Icon name="arrowUR" size={14} /></Link>
         </div>
-      )}
+      ) : null}
       <p className="kpi-note"><small>TimesFM forecasts of national and Ahmedabad data; not Makarba measurements.</small></p>
     </section>
   );
@@ -126,6 +126,7 @@ export function Home({ fetcher, hero }: { fetcher?: typeof fetch; hero?: HeroMed
           {r !== "loading" && r.status === "error" && t.errorPlaces}
           {r !== "loading" && r.status === "ok" && featured.length === 0 && t.emptyPlaces}
         </div>
+        {r === "loading" && <span className="featured-cards" aria-hidden="true">{[0, 1].map((i) => <span key={i} className="skel" style={{ aspectRatio: "4 / 3.6" }} />)}</span>}
         {r !== "loading" && r.status === "error" && r.retryable && <button type="button" onClick={() => setAttempt((n) => n + 1)}>{t.retry}</button>}
         {featured.length > 0 && (
           <ul className="featured-cards">{featured.map((p) => {

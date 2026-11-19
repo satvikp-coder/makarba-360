@@ -20,6 +20,8 @@ async function load(fetcher: typeof fetch, url: string): Promise<ForecastDoc> {
   const r = await fetcher(url);
   if (!r.ok) throw new Error("missing");
   const doc = (await r.json()) as ForecastDoc;
+  // markets.json is personal-use Yahoo data, git-ignored and never deployed: only a local development server looks for it
+  if (!import.meta.env.DEV) return doc;
   try {
     const m = await fetcher(url.replace("forecasts.json", "markets.json"));
     if (m.ok && (m.headers?.get?.("content-type") ?? "json").includes("json")) {

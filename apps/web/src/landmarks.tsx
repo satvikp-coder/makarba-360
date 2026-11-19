@@ -90,18 +90,12 @@ export function LandmarkCard({ l, headingLevel = 3 }: { l: Landmark; headingLeve
   );
 }
 
-/** A bundled, openly licensed photo with its credit always visible (author, licence, Commons page; resized and recompressed). */
+/** A bundled, openly licensed photo with its caption; authors and licences are listed together on Sources and credits. */
 export function LandmarkPhoto({ p }: { p: Photo }) {
   return (
     <figure className="landmark-photo">
       <img src={p.src} width={p.width} height={p.height} alt={p.alt} loading="lazy" decoding="async" />
-      <figcaption>
-        <small>
-          {p.caption} Photo: {p.author},{" "}
-          {p.licenceUrl ? <a href={p.licenceUrl} rel="noopener noreferrer">{p.licence}</a> : p.licence}, via{" "}
-          <a href={p.commonsUrl} rel="noopener noreferrer">Wikimedia Commons</a>; resized and recompressed.
-        </small>
-      </figcaption>
+      <figcaption>{p.caption}</figcaption>
     </figure>
   );
 }

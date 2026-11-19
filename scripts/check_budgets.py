@@ -8,7 +8,8 @@ from __future__ import annotations
 import argparse, gzip, json, pathlib, re, sys, time, urllib.request, concurrent.futures
 
 BUDGET_KB = {            # gzip kilobytes
-    "initial_js": 120,    # the entry chunk every visitor downloads (home page)
+    "initial_js": 140,    # the entry chunk every visitor downloads (home page). Raised from 120 on 2026-11-19: React 19 (required by
+                          # React Three Fiber 9 for street view) adds ~20 KB gzip to the runtime; nothing else moved into the entry.
     "map_chunk_js": 340,  # loaded only on the explorer
     "map_worker": 170,
     "css": 15,
@@ -19,7 +20,9 @@ BUDGET_KB = {            # gzip kilobytes
     "map_css": 15,        # MapLibre's stylesheet plus map chrome, loaded with the explorer (was previously inside "css")
     "page_js": 60,        # lazily loaded pages, summed: Overview, Outlook, Insights, Voices, place profile, panorama page, Then & Now, research,
                           # the future panel, and the chunk they share (forecast data + AI store, named after one of its modules)
-    "page_css": 5,        # Outlook-only styles
+    "page_css": 6,        # Outlook and street-view styles
+    # Added 2026-11-19: street view (three.js, React Three Fiber, drei, postprocessing and the scene) is fetched only on /street.
+    "street_js": 560,
 }
 FIXTURE_MAX_KB = 200
 API_P95_MS = 300
@@ -30,13 +33,14 @@ def gz_kb(path: pathlib.Path) -> float:
 
 def classify(name: str) -> str | None:
     # Stage = the always-on 3D map (MapView + time dock + lenses + AI dock), loaded after the first paint
-    if re.match(r"(MapView|Stage)-.*\.js$", name): return "map_chunk_js"
+    if re.match(r"(MapView|Stage|basemap)-.*\.js$", name): return "map_chunk_js"
+    if re.match(r"(StreetScene|StreetPage|react)-.*\.js$", name): return "street_js"   # "react" = the React Three renderer, street view only
     if re.match(r"maplibre-gl-worker-.*\.mjs$", name): return "map_worker"
     if re.match(r"pannellum-.*\.js$", name): return "panorama_js"
     if re.match(r"pannellum-.*\.css$", name): return "panorama_css"
     if re.match(r"(MapView|Stage)-.*\.css$", name): return "map_css"
-    if re.match(r"(Home|FuturePanel|MatrixOrb|Forecasts|aiStore|HighlightText|Insights|Voices|Profile|Panorama|PanoramaPage|ThenNowPage|ThenNowView|ResearchPages|ComparisonIndex)-.*\.js$", name): return "page_js"
-    if re.match(r"(Forecasts|Insights|Voices|Profile|ThenNowPage|ResearchPages|ComparisonIndex)-.*\.css$", name): return "page_css"
+    if re.match(r"(Home|FuturePanel|MatrixOrb|Forecasts|aiStore|scenario|HighlightText|Insights|Voices|Profile|Panorama|PanoramaPage|ThenNowPage|ThenNowView|ResearchPages|ComparisonIndex)-.*\.js$", name): return "page_js"
+    if re.match(r"(Forecasts|Insights|Voices|Profile|ThenNowPage|ResearchPages|ComparisonIndex|StreetPage)-.*\.css$", name): return "page_css"
     if re.match(r"index-.*\.js$", name): return "initial_js"
     if re.match(r"index-.*\.css$", name): return "css"
     return None

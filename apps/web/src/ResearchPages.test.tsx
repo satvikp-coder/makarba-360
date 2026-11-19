@@ -1,3 +1,4 @@
+import { PHOTOS } from "./placePhotos.js";
 import { cleanup, render, screen, waitFor } from "@testing-library/react";
 import axe from "axe-core";
 import { MemoryRouter } from "react-router-dom";
@@ -33,7 +34,7 @@ describe("methodology, sources and accessibility pages", () => {
     expect(t).not.toContain("OpenStreetMap contributors");   // no OSM data is used any more, so it must not be credited as the base map
     expect(t).toContain("none are shown until their rights and dates have been checked");
     expect(screen.getByRole("link", { name: "Wikipedia: Sarkhej Roza" })).toBeTruthy();
-    expect(screen.getAllByRole("link", { name: "Commons file page" }).length).toBe(LANDMARKS.flatMap((l) => l.photos ?? []).length);
+    expect(screen.getAllByRole("link", { name: "Wikimedia Commons" }).length).toBe(LANDMARKS.flatMap((l) => l.photos ?? []).length + Object.keys(PHOTOS).length);
     expect(t).toMatch(/CC BY-SA.*same licence/);
   });
   it("language claims match what the app actually offers", () => {

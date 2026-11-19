@@ -14,17 +14,21 @@ test("the mock API root opens the web app and the web server proxies public data
   expect(response.headers()["content-type"]).toContain("json");
 });
 
-test("the shipped forecast and pre-generated insights load when changing years", async ({ page }) => {
-  await page.goto("/forecasts?year=2040");
-  await expect(page.getByRole("heading", { level: 1, name: "Where the trends point by 2040" })).toBeVisible();
-  await expect(page.getByRole("img", { name: /forecast to 2040/ }).first()).toBeVisible();
-  await page.getByRole("tab", { name: "AI insights" }).click();
-  await expect(page.getByText("AI-generated highlights")).toBeVisible();
-  await expect(page.getByText(/pre-generated/).first()).toBeVisible();
-  await page.getByRole("slider", { name: /Forecast to/ }).fill("2041");
-  await expect(page).toHaveURL(/year=2041/);
-  await expect(page.getByRole("heading", { level: 1, name: "Where the trends point by 2041" })).toBeVisible();
-  await expect(page.getByText("AI-generated highlights")).toBeVisible();
+test("the stored AI insights follow the year on the map, labelled AI-generated, and no model is ever called", async ({ page }) => {
+  const modelCalls: string[] = [];
+  page.on("request", (r) => { if (/\/(applefm|ollama|groq)\b/.test(r.url())) modelCalls.push(r.url()); });
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/explore?future=1&year=2040");
+  const dock = page.getByRole("region", { name: "AI insights" });
+  await expect(dock).toContainText("highlights · 2040");
+  await dock.getByRole("button", { name: /AI insights/ }).click();
+  await expect(dock.getByText("AI-generated", { exact: true })).toBeVisible();
+  await expect(dock).not.toContainText(/pre-generated|apple|ollama|groq/i);
+  await dock.getByText("Briefing for 2040").click();
+  await expect(dock.locator(".briefing-text")).toBeVisible();
+  await page.getByRole("slider", { name: "Year on the map" }).fill("2045");
+  await expect(dock).toContainText("highlights · 2045");
+  expect(modelCalls).toEqual([]);
 });
 
 test("the timeline updates Overview figures and the Outlook year", async ({ page }) => {
@@ -33,19 +37,23 @@ test("the timeline updates Overview figures and the Outlook year", async ({ page
   await page.getByRole("slider", { name: "Year on the map" }).fill("2040");
   await expect(page.getByRole("heading", { name: "Outlook for 2040" })).toBeVisible();
   await page.getByRole("navigation", { name: "Main navigation" }).getByRole("link", { name: "Outlook" }).click();
-  await expect(page.getByRole("heading", { name: "Where the trends point by 2040" })).toBeVisible();
+  // Outlook is a lazy page: on a busy dev server its first compile can take longer than the default 5 s
+  await expect(page.getByRole("heading", { name: "Where the trends point by 2040" })).toBeVisible({ timeout: 20_000 });
 });
 
 for (const width of [375, 1280]) {
-  test(`AI insight cards and controls fit at ${width}px`, async ({ page }) => {
+  test(`the AI insights dock fits at ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 850 });
-    await page.goto("/forecasts?year=2040");
-    await page.getByRole("tab", { name: "AI insights" }).click();
-    const chip = page.locator(".ai-cards > li .who-chips li").first();
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.goto("/explore?future=1&year=2040");
+    const dock = page.getByRole("region", { name: "AI insights" });
+    await dock.getByRole("button", { name: /AI insights/ }).click();
+    const chip = dock.locator(".who-chips li").first();
     await expect(chip).toBeVisible();
     expect(await chip.evaluate((el) => getComputedStyle(el).display)).not.toBe("grid");
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
-    await expect(page.getByRole("radiogroup", { name: "AI provider" })).toBeVisible();
+    // the year control stays on screen beside the open future panel
+    await expect(page.getByRole("slider", { name: "Year on the map" })).toBeInViewport();
   });
 }
 
@@ -112,4 +120,14 @@ test("map controls give pointer feedback and respect reduced motion", async ({ p
   await page.mouse.down();
   expect(await reducedButton.evaluate((el) => getComputedStyle(el).translate)).toBe("none");
   await page.mouse.up();
+});
+
+test("the 3D city loads even when the places service is down, and the places appear once it recovers", async ({ page }) => {
+  let down = true;
+  await page.route("**/api/v1/public/locations**", (r) => (down ? r.fulfill({ status: 503, contentType: "application/json", body: "{}" }) : r.continue()));
+  await page.goto("/explore");
+  await expect(page.locator('.map-wrap[data-map-status="ready"]')).toBeVisible({ timeout: 25_000 });
+  await expect(page.locator(".map-label--place")).toHaveCount(0);
+  down = false;
+  await expect(page.locator(".map-label--place").first()).toBeAttached({ timeout: 20_000 });
 });

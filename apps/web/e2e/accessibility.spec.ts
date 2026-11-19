@@ -47,6 +47,7 @@ for (const [label, vp] of [["desktop", { width: 1280, height: 800 }], ["phone", 
 test.describe("structure and keyboard", () => {
   test.use({ viewport: { width: 1280, height: 800 } });
   test("every route has one h1, a main landmark, a language and a unique title", async ({ page }) => {
+    test.setTimeout(90_000);   // every route in turn, each settling against the live map
     await prepare(page);
     const titles = new Map<string, string>();
     for (const route of ROUTES.filter((r) => !r.includes("?") && !r.includes("does-not-exist"))) {

@@ -7,6 +7,9 @@
  * - Sarkhej Roza is a well-known public monument and appears only as an outline of its area. Its sourced history lives in the web
  *   app's landmark notes (apps/web/src/landmarks.ts), separate from this dataset, and is never mixed into these fictional records.
  * - Geometry is a hand-drawn approximation, NOT surveyed. Points are public place markers, never interview positions.
+ * - EXCEPT places 13-15: everyday public activity the project team observed in and beside the Sarkhej Roza premises (marked on
+ *   satellite imagery by the team; the fruit seller at plus code XGV5+62). They describe what happens there, never who; no dates are
+ *   claimed, and their source is the team's own observation rather than the composite source.
  * - Every payload carries meta.datasetKind = "synthetic" so the site labels it as demonstration data.
  *
  * The frozen contract fixture (docs/project/contracts/fixture-bundle.json) is unchanged and still drives the contract tests.
@@ -27,8 +30,10 @@ interface DemoPlace {
   category: string;
   geometry: { type: "Point"; coordinates: Pos } | { type: "MultiLineString"; coordinates: Pos[][] } | { type: "MultiPolygon"; coordinates: Pos[][][] };
   media?: string[];
-  /** Fictional timeline, oldest first. Each text already says it is illustrative. */
-  timeline: [string, string][];
+  /** Timeline, oldest first: [year or null when undated, text]. */
+  timeline: [string | null, string][];
+  /** Observed by the project team (places 13-15) rather than an invented composite. */
+  observed?: boolean;
 }
 
 const id = (n: number) => `00000000-0000-4000-8000-${String(n).padStart(12, "0")}`;
@@ -124,9 +129,27 @@ const PLACES: DemoPlace[] = [
     geometry: { type: "Point", coordinates: [72.5059, 22.9921] },
     timeline: [["2023", "Cars and autos drop visitors at the shrine gate, slowing the lane on weekends."]],
   },
+  {
+    n: 13, slug: "roza-baradari-courtyard", name: "Courtyard around the Baradari", category: "open_space", observed: true,
+    // the open ground wrapping the west and south of the Baradari pavilion, inside the Roza premises
+    geometry: { type: "MultiPolygon", coordinates: [[[[72.50525, 22.99324], [72.50527, 22.99306], [72.50534, 22.99295], [72.50546, 22.99293], [72.50557, 22.99299], [72.50564, 22.99311], [72.50565, 22.99325], [72.50525, 22.99324]]]] },
+    timeline: [[null, "Children play here and people sit in the open courtyard around the Baradari pavilion."]],
+  },
+  {
+    n: 14, slug: "roza-food-waiting-edge", name: "Waiting for food in the Roza premises", category: "community", observed: true,
+    // a line along the east side of the tomb enclosure, where people sit
+    geometry: { type: "MultiLineString", coordinates: [[[72.50576, 22.99332], [72.50578, 22.99341], [72.50583, 22.99349], [72.50595, 22.99352], [72.5062, 22.9935]]] },
+    timeline: [[null, "People sit along this edge waiting to eat the food offered in the Roza premises."]],
+  },
+  {
+    n: 15, slug: "sarkhej-roza-road-fruit-seller", name: "Fruit seller on Sarkhej Roza Road", category: "market", observed: true,
+    geometry: { type: "Point", coordinates: [72.50756, 22.99306] },
+    timeline: [[null, "A fruit seller trades from this spot on Sarkhej Roza Road."]],
+  },
 ];
 
 const SOURCE_ID = "demo-source-composite";
+const OBSERVED_ID = "makarba-360-field-observation";
 
 export const demoLocations = {
   type: "FeatureCollection",
@@ -136,7 +159,7 @@ export const demoLocations = {
     geometry: p.geometry,
     properties: {
       locationId: id(p.n), slug: p.slug, name: { en: p.name }, category: p.category, publicationState: "published",
-      lastReviewedDate: "2026-11-10", sourceIds: [SOURCE_ID], mediaIds: p.media ?? [],
+      lastReviewedDate: "2026-11-10", sourceIds: [p.observed ? OBSERVED_ID : SOURCE_ID], mediaIds: p.media ?? [],
     },
   })),
   page: { limit: 50, nextCursor: null },
@@ -150,6 +173,13 @@ const SOURCE = {
   licence: "synthetic-test-only",
   verificationState: "synthetic",
 };
+const OBSERVED = {
+  id: OBSERVED_ID,
+  citation: "Makarba 360 team, field observation",
+  url: "https://example.invalid/makarba-360/field-observation",
+  licence: "project-team",
+  verificationState: "observed",
+};
 
 /** History per published slug. Only the first place keeps a (synthetic) comparison pair so the Then & Now path stays demonstrable. */
 export function demoHistory(slug: string) {
@@ -157,8 +187,11 @@ export function demoHistory(slug: string) {
   if (!p) return null;
   return {
     locationId: id(p.n),
-    sources: [SOURCE],
-    events: p.timeline.map(([year, text], i) => ({ id: `demo-${p.slug}-${i + 1}`, sourceId: SOURCE_ID, date: { value: year, precision: "year" }, evidenceType: "example", text })),
+    sources: [p.observed ? OBSERVED : SOURCE],
+    events: p.timeline.map(([year, text], i) => ({
+      id: `demo-${p.slug}-${i + 1}`, sourceId: p.observed ? OBSERVED_ID : SOURCE_ID,
+      date: { value: year, precision: year ? "year" : "unknown" }, evidenceType: p.observed ? "observation" : "example", text,
+    })),
     comparisonPairs: p.n === 1
       ? [{
           id: "demo-pair-1", locationId: id(1), beforeMediaId: "synthetic-before", afterMediaId: "synthetic-after",

@@ -1,4 +1,4 @@
-import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter, useLocation } from "react-router-dom";
 import { afterEach, describe, expect, it, vi } from "vitest";
@@ -16,6 +16,9 @@ const fetcher = vi.fn(async (u: string) => (u.endsWith("forecasts.json") ? { ok:
 const page = (url = "/forecasts") => render(<MemoryRouter initialEntries={[url]}><Forecasts fetcher={fetcher} /><Where /></MemoryRouter>);
 afterEach(() => { cleanup(); vi.unstubAllGlobals(); });
 
+/** Charts on the indicator cards (the featured chart above them is counted separately). */
+const cardCharts = () => screen.getAllByRole("img").filter((el) => el.closest(".cards"));
+
 describe("Outlook", () => {
   it("defaults to 2034, and the slider moves the end year in the URL and the charts", async () => {
     page();
@@ -32,19 +35,27 @@ describe("Outlook", () => {
     expect(card("NY.GDP.PCAP.CD").textContent).toMatch(/improving/);
     expect(card("SL.UEM.TOTL.ZS").textContent).toMatch(/worsening/);
     await userEvent.click(screen.getByRole("button", { name: /^social/ }));
-    expect(screen.getAllByRole("img")).toHaveLength(1);
+    expect(cardCharts()).toHaveLength(1);
+  });
+  it("features one indicator large, with its numbers, and the picker changes it", async () => {
+    page();
+    const featured = () => screen.getByText(/featured forecast/i).closest("section")!;
+    await screen.findByText(/featured forecast/i);
+    const first = within(featured()).getByRole("heading", { level: 2 }).textContent;
+    expect(within(featured()).getByRole("img").getAttribute("aria-label")).toMatch(/history to \d{4} and forecast to 2034/);
+    expect(featured().textContent).toMatch(/80% range in 2034/);
+    await userEvent.click(within(featured()).getByRole("button", { name: "Next indicator" }));
+    expect(within(featured()).getByRole("heading", { level: 2 }).textContent).not.toBe(first);
   });
   it("ignores an out-of-range year in the URL", async () => {
     page("/forecasts?year=1999");
     expect(await screen.findByRole("heading", { level: 1, name: /by 2034/ })).toBeTruthy();
   });
-  it("AI tab says how to get a local model when Ollama is not running; model tab names TimesFM", async () => {
-    vi.stubGlobal("fetch", vi.fn().mockRejectedValue(new Error("offline")));
+  it("has no AI tab or model picker (insights live on the map); the model tab names TimesFM", async () => {
     page();
-    await userEvent.click(await screen.findByRole("tab", { name: "AI insights" }));
-    expect(await screen.findByText(/Apple Intelligence isn't reachable/)).toBeTruthy();   // on-device Apple model is tried first
-    await userEvent.click(screen.getByRole("radio", { name: "On-device (Ollama)" }));
-    expect(await screen.findByText(/No local model found/)).toBeTruthy();
+    await screen.findAllByRole("img");
+    expect(screen.getAllByRole("tab").map((t) => t.textContent)).toEqual(["Signals", "Model & data"]);
+    expect(screen.queryByRole("radiogroup", { name: "AI provider" })).toBeNull();
     await userEvent.click(screen.getByRole("tab", { name: "Model & data" }));
     expect(screen.getByText(/TimesFM 2.5/)).toBeTruthy();
   });
@@ -58,8 +69,8 @@ it("theme tile filters and 'Show all themes' resets", async () => {
   page();
   await screen.findAllByRole("img");
   await userEvent.click(screen.getByRole("button", { name: /^economic 1 of 2 improving/ }));
-  expect(screen.getAllByRole("img")).toHaveLength(2);
+  expect(cardCharts()).toHaveLength(2);
   await userEvent.click(screen.getByRole("button", { name: "Show all themes" }));
-  expect(screen.getAllByRole("img")).toHaveLength(3);
+  expect(cardCharts()).toHaveLength(3);
   cleanup();
 });
