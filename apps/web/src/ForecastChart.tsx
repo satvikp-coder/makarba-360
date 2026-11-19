@@ -108,7 +108,7 @@ export function ForecastChart({ s, endYear, height = 200, detailed = false, hist
         )}
       </svg>
       {h && (
-        <div className="fchart-tip" style={{ left: `${(x(h.year) / width) * 100}%` }} aria-hidden="true">
+        <div className="fchart-tip" style={{ left: `clamp(76px, ${(x(h.year) / width) * 100}%, calc(100% - 76px))` }} aria-hidden="true">
           <b>{Math.floor(h.year)}</b> <span>{fmt(h.value)} <small>{s.unit}</small></span>
           {h.lo !== undefined && <small className="fchart-tip-range">80% range {fmt(h.lo)} – {fmt(h.hi)}</small>}
           <small className={`fchart-kind fchart-kind-${h.kind}`}>{h.kind}</small>
