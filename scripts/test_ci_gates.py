@@ -94,7 +94,7 @@ class Budgets(unittest.TestCase):
 
     def full(self, **over):
         base = {"index-a.js": b"a" * 100, "index-a.css": b"c" * 100, "MapView-a.js": b"m" * 100, "maplibre-gl-worker-a.mjs": b"w" * 100, "pannellum-a.js": b"p" * 100, "pannellum-a.css": b"s" * 100,
-                "MapView-a.css": b"k" * 100, "Forecasts-a.js": b"f" * 100, "Forecasts-a.css": b"o" * 100}
+                "MapView-a.css": b"k" * 100, "Forecasts-a.js": b"f" * 100, "Forecasts-a.css": b"o" * 100, "StreetScene-a.js": b"t" * 100}
         base.update(over)
         return base
 
@@ -129,6 +129,12 @@ class Budgets(unittest.TestCase):
         p = B.check_dist(self.dist(self.full(**{"HighlightText-a.js": os.urandom(100 * 1024)})))
         self.assertTrue(any(x.startswith("page_js") for x in p), p)
         self.assertFalse(any("unclassified" in x for x in p), p)
+
+    def test_street_view_has_its_own_budget(self):
+        big = bytes(range(256)) * 4000   # incompressible, far over the street budget once multiplied
+        self.assertTrue(any(x.startswith("street_js") for x in B.check_dist(self.dist(self.full(**{"StreetScene-a.js": big * 600})))))
+        self.assertEqual(B.classify("react-a.js"), "street_js")
+        self.assertEqual(B.classify("basemap-a.js"), "map_chunk_js")
 
     def test_stage_chunk_counts_as_the_map(self):
         f = self.full()
