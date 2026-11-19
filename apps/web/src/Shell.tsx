@@ -131,6 +131,7 @@ export function ShortcutList() {
 
 function titleFor(path: string): string {
   if (path === "/forecasts") return "Outlook";
+  if (path === "/street") return "Street view";
   if (path === "/stories/index") return "Then & Now";
   const route = publicRoutes.find((r) => !r.path.includes(":") && r.path === path);
   return route?.title ?? "Makarba 360°";

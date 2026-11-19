@@ -83,10 +83,10 @@ body:has(.map-wrap[data-detail="low"]) :is(.glass, .float-panel, .credits, .main
 
 /* ---------- controls: capsules for actions, rounded squares for icons ---------- */
 button, select, input, textarea { font: inherit; color: inherit; }
-:where(main, dialog, .float-panel) button { display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-height: 40px; padding: 0 16px; border: 1px solid var(--hair-strong); border-radius: 999px; background: var(--surface); color: var(--teal); font-weight: 590; font-size: .9rem; cursor: pointer; transition: background .2s, border-color .2s, color .2s, box-shadow .2s, scale .35s var(--spring); }
+:where(main, dialog, .float-panel) button { display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-height: 40px; padding: 0 16px; border: 1px solid var(--hair-strong); border-radius: 999px; background: var(--surface); color: var(--teal); font-weight: 590; font-size: .9rem; cursor: pointer; transition: background .2s, border-color .2s, color .2s, box-shadow .2s, translate .15s ease; }
 :where(main, dialog, .float-panel) button:hover:not(:disabled) { border-color: var(--teal-2); }
 :where(main, dialog, .float-panel) button:hover:not(:disabled, [aria-pressed="true"], [aria-checked="true"], [aria-selected="true"]) { background: #fff; }
-:where(main, dialog, .float-panel) button:active:not(:disabled) { scale: .97; }
+:where(main, dialog, .float-panel) button:active:not(:disabled) { translate: 0 1px; }
 :where(main, dialog, .float-panel) button[aria-pressed="true"] { background: var(--teal); border-color: var(--teal); color: var(--on-teal); }
 button:disabled { opacity: .45; cursor: default; }
 .btn, :where(main) button[type="submit"], .cta { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 42px; padding: 0 18px; border: 1px solid transparent; border-radius: 999px; background: linear-gradient(180deg, var(--teal-2), var(--teal)); color: var(--on-teal); font-weight: 620; font-size: .92rem; text-decoration: none; cursor: pointer; box-shadow: inset 0 1px 0 rgb(255 255 255 / .18), 0 8px 20px -10px rgb(23 66 62 / .8); transition: translate .35s var(--spring), box-shadow .25s, filter .2s; }
