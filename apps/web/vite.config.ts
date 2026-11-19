@@ -15,6 +15,6 @@ export default defineConfig(({ mode }) => {
     // MOCK_API_PORT lets a second checkout run its own mock without clashing (default 4010, as in CI).
     server: { proxy },
     preview: { proxy },
-    test: { environment: "jsdom", globals: false, include: ["src/**/*.test.{ts,tsx}"] },
+    test: { environment: "jsdom", globals: false, include: ["src/**/*.test.{ts,tsx}"], setupFiles: ["src/test-setup.ts"] },
   });
 });

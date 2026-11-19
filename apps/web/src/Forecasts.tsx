@@ -2,6 +2,8 @@ import { useMemo, useState } from "react";
 import "./outlook.css";
 import { Link } from "react-router-dom";
 import { fmt, signals, upTo, type ForecastDoc, type Series, type Signal } from "./outlook.js";
+import { ForecastChart } from "./ForecastChart.js";
+import { motion } from "motion/react";
 import { scenarioFor } from "./scenario.js";
 import { useTween } from "./motion.js";
 import { ParticleLoader } from "./Particles.js";
@@ -26,27 +28,44 @@ const THEMES = ["city", "economic", "development", "social", "political", "marke
 
 const W = 560, H = 200, P = 30;
 
-/** SVG chart: history, forecast to the end year and its 10-90% band. The forecast re-draws itself when the year changes. */
+/** A compact fan chart for one indicator (see ForecastChart): the last 30 years, the forecast to the end year and its 80% range. */
 export function Chart({ s, endYear }: { s: Series; endYear: number }) {
-  const f = upTo(s, endYear).forecast;
-  const hist = s.history;
-  const all = [...hist, ...f];
-  const xs = all.map((p) => p.year), ys = all.flatMap((p) => [p.value, p.lo ?? p.value, p.hi ?? p.value]);
-  const [x0, x1, y0, y1] = [Math.min(...xs), Math.max(...xs), Math.min(...ys), Math.max(...ys)];
-  const X = (v: number) => P + ((v - x0) / (x1 - x0 || 1)) * (W - 2 * P);
-  const Y = (v: number) => H - P - ((v - y0) / (y1 - y0 || 1)) * (H - 2 * P);
-  const line = (a: { year: number; value: number }[]) => a.map((p, i) => `${i ? "L" : "M"}${X(p.year).toFixed(1)},${Y(p.value).toFixed(1)}`).join("");
-  const last = hist[hist.length - 1]!;
-  const band = f.length ? `M${f.map((p) => `${X(p.year).toFixed(1)},${Y(p.hi ?? p.value).toFixed(1)}`).join(" L")} L${[...f].reverse().map((p) => `${X(p.year).toFixed(1)},${Y(p.lo ?? p.value).toFixed(1)}`).join(" L")}Z` : "";
+  return <ForecastChart s={s} endYear={endYear} height={190} historyYears={30} />;
+}
+
+/** The featured forecast: one indicator large, with axes, a crosshair and the numbers that matter, chosen from a list. */
+function FeaturedForecast({ sig, endYear }: { sig: Signal[]; endYear: number }) {
+  const [id, setId] = useState(() => sig.find((x) => x.s.id === "WEATHER_AHD_HOTDAYS")?.s.id ?? sig[0]?.s.id ?? "");
+  const x = sig.find((v) => v.s.id === id) ?? sig[0];
+  if (!x) return null;
+  const i = sig.indexOf(x), step = (d: number) => setId(sig[(i + d + sig.length) % sig.length]!.s.id);
+  const endPt = x.to;
+  const themes = [...new Set(sig.map((v) => v.s.theme))];
   return (
-    <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label={`${s.label}: history to ${Math.floor(last.year)} and forecast to ${endYear}`}>
-      <line x1={X(last.year)} x2={X(last.year)} y1={P / 2} y2={H - P} className="now-line" />
-      <path key={`b${endYear}`} d={band} className="band" />
-      <path d={line(hist)} className="hist" fill="none" />
-      <path key={`f${endYear}`} d={line([last, ...f])} className="fcst" fill="none" pathLength={1} />
-      <text x={P} y={H - 8}>{Math.floor(x0)}</text><text x={W - P} y={H - 8} textAnchor="end">{endYear}</text>
-      <text x={4} y={P - 6}>{fmt(y1)}</text><text x={4} y={H - P + 12}>{fmt(y0)}</text>
-    </svg>
+    <section className="featured panel" aria-labelledby="featured-h">
+      <div className="featured-head">
+        <div>
+          <p className="eyebrow"><Icon name={THEME_ICON[x.s.theme] ?? "chart"} size={14} /> {x.s.theme} · featured forecast</p>
+          <h2 id="featured-h">{x.s.label}</h2>
+        </div>
+        <div className="featured-pick">
+          <button type="button" className="icon-btn" aria-label="Previous indicator" onClick={() => step(-1)}><Icon name="chevL" /></button>
+          <label className="visually-hidden" htmlFor="featured-select">Indicator</label>
+          <select id="featured-select" value={x.s.id} onChange={(e) => setId(e.target.value)}>
+            {themes.map((t) => <optgroup key={t} label={t[0]!.toUpperCase() + t.slice(1)}>{sig.filter((v) => v.s.theme === t).map((v) => <option key={v.s.id} value={v.s.id}>{v.s.label}</option>)}</optgroup>)}
+          </select>
+          <button type="button" className="icon-btn" aria-label="Next indicator" onClick={() => step(1)}><Icon name="chevR" /></button>
+        </div>
+      </div>
+      <ul className="featured-stats">
+        <li><small>Latest ({Math.floor(x.from.year)})</small><b>{fmt(x.from.value)}</b><span>{x.s.unit}</span></li>
+        <li><small>Forecast for {endYear}</small><b className="accent"><Tween value={endPt.value} digits={endPt.value < 100 ? 1 : 0} /></b><span>{x.s.unit}</span></li>
+        <li><small>Change</small><b className={`delta-${x.verdict}`}>{x.pct === null ? fmt(x.change) : `${x.pct >= 0 ? "+" : ""}${x.pct.toFixed(0)}%`}</b><span>{x.verdict}</span></li>
+        <li><small>80% range in {endYear}</small><b>{fmt(endPt.lo)}–{fmt(endPt.hi)}</b><span>{x.confidence} confidence</span></li>
+      </ul>
+      <ForecastChart key={x.s.id} s={x.s} endYear={endYear} height={300} detailed />
+      <p className="featured-note"><span className="fn-hist" /> recorded <span className="fn-fcst" /> TimesFM forecast <span className="fn-band" /> 80% range. Hover or use the arrow keys on the chart to read any year.</p>
+    </section>
   );
 }
 
@@ -57,9 +76,11 @@ function Tween({ value, digits = 0, suffix = "" }: { value: number; digits?: num
 
 const VERDICT_ICON = { improving: "▲", worsening: "▼", neutral: "●" } as const;
 
-function SignalCard({ x, endYear }: { x: Signal; endYear: number }) {
+function SignalCard({ x, endYear, i }: { x: Signal; endYear: number; i: number }) {
+  // each card rises in as it scrolls into view (a little after its row neighbour), and only once
   return (
-    <article className={`card sig sig-${x.verdict}`}>
+    <motion.article className={`card sig sig-${x.verdict}`} initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "0px 0px -6% 0px" }}
+      transition={{ duration: 0.6, delay: (i % 3) * 0.09, ease: [0.22, 1, 0.36, 1] }}>
       <div className="sig-head">
         <h3>{x.s.label}</h3>
         <span className="pill">{x.s.theme}</span>
@@ -88,7 +109,7 @@ function SignalCard({ x, endYear }: { x: Signal; endYear: number }) {
           <p><small>Series <code>{x.s.id}</code> · {x.s.history.length} observations to {Math.floor(x.from.year)} · forecast to {endYear}</small></p>
         </details>
       </div>
-    </article>
+    </motion.article>
   );
 }
 
@@ -138,6 +159,8 @@ export function Forecasts({ fetcher }: { fetcher?: typeof fetch } = {}) {
         <YearSlider year={year} onChange={setYear} max={doc.maxYear} />
       </div>
 
+      {sig.length > 0 && <FeaturedForecast sig={sig} endYear={year} />}
+
       <ul className="scoreboard" aria-label="Indicators by theme">
         {themes.map((t) => {
           const xs = sig.filter((x) => x.s.theme === t);
@@ -174,7 +197,7 @@ export function Forecasts({ fetcher }: { fetcher?: typeof fetch } = {}) {
         {tab === "signals" && (
           <>
             {theme !== "all" && <p className="filter-note">Showing {theme} indicators. <button type="button" onClick={() => setTheme("all")}>Show all themes</button></p>}
-            <div className="cards">{shown.map((x) => <SignalCard key={x.s.id} x={x} endYear={year} />)}</div>
+            <div className="cards">{shown.map((x, i) => <SignalCard key={x.s.id} x={x} endYear={year} i={i} />)}</div>
           </>
         )}
         {tab === "model" && <TechDetails doc={doc} />}
