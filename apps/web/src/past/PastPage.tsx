@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Icon } from "../Icon.js";
 import { EraNav } from "./EraNav.js";
 import { PastMap } from "./PastMap.js";
+import { PeopleAndPlace } from "./PeopleAndPlace.js";
 import {
   STATUS_LABEL, THEME_LABEL, chartCheck, eventsThrough, fetchPast, periodOf, schemeNeedsGeometry, usableEvents, validVisual, yearLabel,
   type Comparison, type PastDoc, type PastEvent, type Theme,
@@ -197,7 +198,7 @@ function PastBody({ doc, fetcher }: { doc: PastDoc; fetcher?: typeof fetch }) {
 
       <section aria-labelledby="past-people" className="past-sec">
         <h2 id="past-people">People and Place: past to present</h2>
-        <p className="past-empty" role="note"><Icon name="info" size={16} /> No permission-cleared recollections of change over time have been published yet, so none are shown. Nothing here is invented or paraphrased from people who have not agreed to it.</p>
+        <PeopleAndPlace fetcher={fetcher} />
         <p>What residents say about the place today is published, with consent, on <Link to="/voices">Community Voices</Link> and <Link to="/insights">Urban Insights</Link>; read those as present-day perspectives, not as a record of the past.</p>
       </section>
 
