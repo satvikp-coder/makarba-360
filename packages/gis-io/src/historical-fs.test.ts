@@ -97,7 +97,7 @@ describe("importMeasurement", () => {
   it("registers a valid series, sorted by year, and keeps the registry valid", () => {
     const out = importMeasurement(dir, series());
     expect(out.ok).toBe(true);
-    expect(readRegistry(dir).measurements[0]!.points.map((p) => p.year)).toEqual([2000, 2020]);
+    expect(readRegistry(dir).measurements.find((m) => m.id === "synthetic-series")!.points.map((p) => p.year)).toEqual([2000, 2020]);
     expect(checkRegistryOnDisk(dir)).toEqual([]);
   });
   it("refuses a series that is not confirmed to cover the same area, without writing", () => {

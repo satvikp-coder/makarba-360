@@ -110,7 +110,7 @@ describe("Past page", () => {
   it("publishes no invented resident voices and points to consented present-day pages", async () => {
     page();
     await screen.findByRole("slider");
-    expect(screen.getByText(/No permission-cleared recollections/)).toBeTruthy();
+    expect(await screen.findByText(/No permission-cleared recollections/)).toBeTruthy();
     expect(screen.getByRole("link", { name: "Community Voices" }).getAttribute("href")).toBe("/voices");
   });
 
