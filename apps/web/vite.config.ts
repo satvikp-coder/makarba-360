@@ -15,6 +15,8 @@ export default defineConfig(({ mode }) => {
     // MOCK_API_PORT lets a second checkout run its own mock without clashing (default 4010, as in CI).
     server: { proxy },
     preview: { proxy },
-    test: { environment: "jsdom", globals: false, include: ["src/**/*.test.{ts,tsx}"], setupFiles: ["src/test-setup.ts"] },
+    // Some tests dynamically import the 3D street page or MapLibre (hundreds of KB). Measured: world.test.ts "walking starts" takes about 1 s alone but
+    // 5.5 s with all workers busy, which crossed the 5 s default and failed in the full suite. 20 s covers a loaded CI runner without hiding hangs.
+    test: { environment: "jsdom", globals: false, include: ["src/**/*.test.{ts,tsx}"], setupFiles: ["src/test-setup.ts"], testTimeout: 20_000, hookTimeout: 20_000 },
   });
 });
