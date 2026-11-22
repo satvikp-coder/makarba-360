@@ -19,6 +19,7 @@ import { applyFilters, isActive, LAYERS, parseFilters, toggle, writeFilters, typ
 const page = <K extends string>(load: () => Promise<Record<K, React.ComponentType>>, name: K) => lazy(() => load().then((m) => ({ default: m[name] })));
 const Home = page(() => import("./Home.js") as Promise<Record<"Home", React.ComponentType>>, "Home");
 const Forecasts = page(() => import("./Forecasts.js") as Promise<Record<"Forecasts", React.ComponentType>>, "Forecasts");
+const PastPage = page(() => import("./past/PastPage.js") as Promise<Record<"PastPage", React.ComponentType>>, "PastPage");
 const Insights = page(() => import("./Insights.js") as Promise<Record<"Insights", React.ComponentType>>, "Insights");
 const Voices = page(() => import("./Voices.js") as Promise<Record<"Voices", React.ComponentType>>, "Voices");
 const PlaceProfile = page(() => import("./Profile.js") as Promise<Record<"PlaceProfile", React.ComponentType>>, "PlaceProfile");
@@ -318,6 +319,7 @@ export function App() {
         <Route path="/places/:slug/then-and-now" element={<Lazy><ThenNowPage /></Lazy>} />
         <Route path="/voices" element={<Lazy><Voices /></Lazy>} />
         <Route path="/insights" element={<Lazy><Insights /></Lazy>} />
+        <Route path="/past" element={<Lazy><PastPage /></Lazy>} />
         <Route path="/forecasts" element={<Lazy><Forecasts /></Lazy>} />
         <Route path="/street" element={<Lazy><StreetPage /></Lazy>} />
         <Route path="/research/methodology" element={<Lazy><Methodology /></Lazy>} />

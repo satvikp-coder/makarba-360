@@ -1,0 +1,555 @@
+{
+  "version": 1,
+  "updated": "2026-11-22",
+  "periods": [
+    {
+      "id": "p-sultanate",
+      "label": "Gujarat Sultanate to Mughal conquest",
+      "from": 1400,
+      "to": 1599,
+      "summary": "The Roza is built and enlarged: the saint's tomb (1445 to 1451), then Mahmud Begada's tank and family tombs, then the garden added in 1584."
+    },
+    {
+      "id": "p-early-modern",
+      "label": "1600 to 1899: early records",
+      "from": 1600,
+      "to": 1899,
+      "summary": "Few Roza-specific records are held. The earliest photographs and a measured plan date from the 1850s and 1860s."
+    },
+    {
+      "id": "p-twentieth",
+      "label": "1900 to 1999: gap in the record",
+      "from": 1900,
+      "to": 1999,
+      "summary": "No sourced local record for this century is held yet. This is a gap in this site's evidence, not evidence that nothing changed."
+    },
+    {
+      "id": "p-recent",
+      "label": "2000 to today: city expansion",
+      "from": 2000,
+      "to": 2026,
+      "summary": "Municipal merger, highway and transit works, town-planning schemes and census counts, recorded here as approvals, plans and milestones rather than finished change."
+    }
+  ],
+  "events": [
+    {
+      "id": "roza-1445-saint",
+      "theme": "heritage",
+      "title": "The saint dies; a tomb is ordered",
+      "text": "Shaikh Ahmed Khattu Ganj Bakhsh died at Sarkhej in 1445. Sultan Muhammad Shah ordered a mausoleum and mosque built in his honour.",
+      "year": 1445,
+      "precision": "year",
+      "status": "documented",
+      "source": {
+        "title": "Sarkhej Roza, the Living Monument (Sahapedia)",
+        "url": "https://www.sahapedia.org/sarkhej-roza-the-living-monument",
+        "tier": "secondary",
+        "accessed": "2026-11-22"
+      },
+      "confidence": "high",
+      "uncertainty": "The Roza committee's site gives the same year; some sources give 1446 for the death. Details of the saint's age are not used here."
+    },
+    {
+      "id": "roza-1451-complete",
+      "theme": "heritage",
+      "title": "The saint's tomb and mosque are completed",
+      "text": "The mausoleum and mosque were completed in 1451 under Qutb-ud-din Ahmed Shah, the successor of Muhammad Shah.",
+      "year": 1451,
+      "precision": "year",
+      "status": "documented",
+      "source": {
+        "title": "Sarkhej Roza, the Living Monument (Sahapedia)",
+        "url": "https://www.sahapedia.org/sarkhej-roza-the-living-monument",
+        "tier": "secondary",
+        "accessed": "2026-11-22"
+      },
+      "confidence": "high",
+      "uncertainty": "Corroborated by the Roza committee's site and Wikipedia."
+    },
+    {
+      "id": "roza-begada-expansion",
+      "theme": "heritage",
+      "title": "Mahmud Begada enlarges the complex",
+      "text": "During Sultan Mahmud Begada's reign the central tank was dug and a mausoleum for his family was built opposite the saint's tomb, making the Roza a royal retreat as well as a shrine.",
+      "year": 1458,
+      "precision": "range",
+      "status": "documented",
+      "source": {
+        "title": "Historic Values (Sarkhej Roza committee site)",
+        "url": "https://sarkhejroza.org/history.html",
+        "tier": "secondary",
+        "accessed": "2026-11-22"
+      },
+      "confidence": "medium",
+      "uncertainty": "No exact year for the tank or the tombs was found; only the reign (1458 to 1511, per Sahapedia) bounds the work.",
+      "yearTo": 1511
+    },
+    {
+      "id": "roza-1584-fatehwadi",
+      "theme": "heritage",
+      "title": "Garden added after the Mughal conquest",
+      "text": "Further additions, including a garden known as Fatehwadi, were made in 1584 to mark the defeat of the last Gujarat sultan by Mughal forces.",
+      "year": 1584,
+      "precision": "year",
+      "status": "documented",
+      "source": {
+        "title": "Sarkhej Roza, the Living Monument (Sahapedia)",
+        "url": "https://www.sahapedia.org/sarkhej-roza-the-living-monument",
+        "tier": "secondary",
+        "accessed": "2026-11-22"
+      },
+      "confidence": "medium",
+      "uncertainty": "Sahapedia and the Roza committee agree on 1584; Wikipedia names a different patron for the layout, which is not repeated here."
+    },
+    {
+      "id": "roza-biggs-print",
+      "theme": "heritage",
+      "title": "An early photograph of the Roza",
+      "text": "A Thomas Biggs albumen print of Sarkhej Roza, held by the Rijksmuseum and marked public domain, dates from between about 1856 and 1866. It is among the earliest known views.",
+      "year": 1856,
+      "precision": "range",
+      "status": "documented",
+      "source": {
+        "title": "Gezicht op Sarkhej Roza bij Ahmedabad (Rijksmuseum)",
+        "url": "https://www.rijksmuseum.nl/en/collection/object/Gezicht-op-Sarkhej-Roza-bij-Ahmedabad--b66d08979d9bd957bc692b19e3909e51",
+        "tier": "primary",
+        "accessed": "2026-11-22"
+      },
+      "confidence": "high",
+      "uncertainty": "The museum gives a date range, not a year. The image itself is not reproduced on this site; follow the link.",
+      "yearTo": 1866
+    },
+    {
+      "id": "roza-1866-plan",
+      "theme": "heritage",
+      "title": "A measured plan of the Roza is published",
+      "text": "A plan of Sarkhej Roza appears in the book 'Architecture at Ahmedabad, the Capital of Goozerat' (1866), later scanned by the British Library and shared on Wikimedia Commons with no known copyright restrictions.",
+      "year": 1866,
+      "precision": "year",
+      "status": "documented",
+      "source": {
+        "title": "File:Plan of Sarkhej Roza Ahmedabad1.jpg (Wikimedia Commons)",
+        "url": "https://commons.wikimedia.org/wiki/File:Plan_of_Sarkhej_Roza_Ahmedabad1.jpg",
+        "tier": "primary",
+        "accessed": "2026-11-22"
+      },
+      "confidence": "high",
+      "uncertainty": "The plan records the layout as surveyed in the 1860s; it has not been georeferenced, so it is not overlaid on the map."
+    },
+    {
+      "id": "roza-2001-earthquake",
+      "theme": "heritage",
+      "title": "Earthquake damage and restoration",
+      "text": "The 2001 Gujarat earthquake badly damaged the Baradari at Sarkhej Roza, which the Archaeological Survey of India later restored.",
+      "year": 2001,
+      "precision": "year",
+      "status": "documented",
+      "source": {
+        "title": "Sarkhej Roza, the Living Monument (Sahapedia)",
+        "url": "https://www.sahapedia.org/sarkhej-roza-the-living-monument",
+        "tier": "secondary",
+        "accessed": "2026-11-22"
+      },
+      "confidence": "medium",
+      "uncertainty": "The restoration year is not given in the source."
+    },
+    {
+      "id": "gov-2001-census",
+      "theme": "population",
+      "title": "Census 2001: Makarba and Sarkhej-Okaf",
+      "text": "The 2001 census records Makarba as a census town of 18,090 people, and Sarkhej-Okaf as an urban unit of 23,086 people.",
+      "year": 2001,
+      "precision": "year",
+      "status": "documented",
+      "source": {
+        "title": "Makarba (Wikipedia)",
+        "url": "https://en.wikipedia.org/wiki/Makarba",
+        "tier": "tertiary",
+        "accessed": "2026-11-22"
+      },
+      "confidence": "medium",
+      "uncertainty": "Figures come from Wikipedia and were not checked against Census of India tables. No 2011 figure for either unit was found, so no change over time can be stated."
+    },
+    {
+      "id": "gov-2006-amc",
+      "theme": "governance",
+      "title": "Sarkhej-Okaf is merged into the Ahmedabad Municipal Corporation",
+      "text": "On 20 July 2006 the state government merged ten nagarpalikas, including Sharkhej-Okaf, and 30 gram panchayats into the Ahmedabad Municipal Corporation, according to a news report.",
+      "year": 2006,
+      "precision": "exact",
+      "status": "documented",
+      "source": {
+        "title": "Gujarat urban development merges 10 nagarpalikas, 30 gram panchayats (OneIndia/UNI)",
+        "url": "https://www.oneindia.com/2006/07/20/gujarat-urban-development-merges-10-nagarpalikas-30-gram-panchayat-1153411430.html",
+        "tier": "tertiary",
+        "accessed": "2026-11-22"
+      },
+      "confidence": "medium",
+      "uncertainty": "A news report of the announcement, not the notification. Other sources count 17 municipalities. Makarba is not named in the list; it probably lay within Sarkhej-Okaf but that is not confirmed."
+    },
+    {
+      "id": "infra-2009-janmarg",
+      "theme": "infrastructure",
+      "title": "Janmarg bus rapid transit opens in Ahmedabad",
+      "text": "The Janmarg BRTS opened to the public on 14 October 2009 (Pirana to RTO junction), with the rest of phase one following on 25 December 2009. This is a city-wide milestone.",
+      "year": 2009,
+      "precision": "exact",
+      "status": "implemented",
+      "source": {
+        "title": "Janmarg (Wikipedia)",
+        "url": "https://en.wikipedia.org/wiki/Janmarg",
+        "tier": "tertiary",
+        "accessed": "2026-11-22"
+      },
+      "confidence": "medium",
+      "uncertainty": "This does not show when buses reached Sarkhej or Makarba: the opening years of the Sarkhej-area routes were not found."
+    },
+    {
+      "id": "infra-2017-sg-approved",
+      "theme": "infrastructure",
+      "title": "Six-laning of the S.G. Highway is approved",
+      "text": "In February 2017 the Centre approved a plan to widen the 44 km Sarkhej-Gandhinagar highway to six lanes, with flyovers planned at several junctions between Sindhubhavan and Infocity.",
+      "year": 2017,
+      "precision": "exact",
+      "status": "proposed",
+      "source": {
+        "title": "Centre approves Rs 750 crore Sarkhej-Gandhinagar Highway 6-laning project (DeshGujarat)",
+        "url": "https://deshgujarat.com/2017/02/08/centre-approves-rs-750-crore-sarkhej-gandhinagar-highway-6-laning-project/",
+        "tier": "tertiary",
+        "accessed": "2026-11-22"
+      },
+      "confidence": "medium",
+      "uncertainty": "A plan reported in the news. It says nothing about what was built or when, and the listed flyovers are not at Sarkhej itself. The cost differs between reports."
+    },
+    {
+      "id": "infra-2018-sg-foundation",
+      "theme": "infrastructure",
+      "title": "Foundation stone laid for six-laning NH 147",
+      "text": "On 24 September 2018 a foundation stone was laid for six-laning about 44 km of NH 147 (Sarkhej-Gandhinagar-Chiloda), including a 4.18 km elevated corridor between Sola Bhagwat and the Thaltej underpass.",
+      "year": 2018,
+      "precision": "exact",
+      "status": "sanctioned",
+      "source": {
+        "title": "Foundation stone laid for 44 km 6-lane conversion of Sarkhej-Gandhinagar-Chiloda highway (DeshGujarat)",
+        "url": "https://deshgujarat.com/2018/09/24/foundation-stone-laid-for-44-km-6-lane-conversion-of-sarkhej-gandhinagar-chiloda-highway/",
+        "tier": "tertiary",
+        "accessed": "2026-11-22"
+      },
+      "confidence": "medium",
+      "uncertainty": "A start-of-work ceremony, not completion. The elevated corridor is at the Gandhinagar end, not at Sarkhej. The cost is given inconsistently in the report."
+    },
+    {
+      "id": "plan-2024-tp204",
+      "theme": "planning",
+      "title": "Changes to TP Scheme 204 (Makarba) are approved",
+      "text": "The civic body approved changes to Town Planning Scheme 204 (Makarba), which covers about 1,121 hectares across Makarba, Okaf, Vejalpur and Ambli, after a freeze on construction approvals.",
+      "year": 2024,
+      "precision": "exact",
+      "status": "sanctioned",
+      "source": {
+        "title": "Ahmedabad civic body approves changes to Makarba TP scheme (Construction World)",
+        "url": "https://www.constructionworld.in/latest-construction-news/real-estate-news/ahmedabad-civic-bodys-approves-changes-to-makarba-tp-scheme/63480",
+        "tier": "tertiary",
+        "accessed": "2026-11-22"
+      },
+      "confidence": "medium",
+      "uncertainty": "The year is the article's publication date. AUDA's own scheme page was not checked, so the scheme number and area are not confirmed against a government record."
+    }
+  ],
+  "tpSchemes": [
+    {
+      "id": "tp-84a",
+      "name": "TP 84/A (Makarba)",
+      "areaHa": 79.76,
+      "status": "Preliminary scheme submitted",
+      "statusDate": "2014",
+      "source": {
+        "title": "AMC: History of Town Planning in Gujarat (PDF)",
+        "url": "https://ahmedabadcity.gov.in/Images/Town_Planning.pdf",
+        "tier": "primary",
+        "accessed": "2026-11-08"
+      },
+      "geometry": "unavailable",
+      "note": "Listed in AMC's published table. A proposal stage, not a built condition. Status and date are copied as displayed and are not asserted as current.",
+      "alsoListed": [
+        {
+          "source": {
+            "title": "Town Plan Map: TP scheme listings (aggregator of government records)",
+            "url": "https://townplanmap.com/home",
+            "tier": "tertiary",
+            "accessed": "2026-11-22"
+          },
+          "status": "Final TPS with TPO",
+          "note": "Listed as 'Makarba - 84/A' and again as 'Makarba 84-A (AMC)', status Final. This differs from AMC's older table (preliminary, 2014): schemes advance through stages, so the newer listing is likely later, but neither is dated precisely."
+        }
+      ]
+    },
+    {
+      "id": "tp-84b",
+      "name": "TP 84/B (Makarba)",
+      "areaHa": 41.8,
+      "status": "Draft sanctioned",
+      "statusDate": "2011",
+      "source": {
+        "title": "AMC: History of Town Planning in Gujarat (PDF)",
+        "url": "https://ahmedabadcity.gov.in/Images/Town_Planning.pdf",
+        "tier": "primary",
+        "accessed": "2026-11-08"
+      },
+      "geometry": "unavailable",
+      "note": "A draft scheme was sanctioned in 2011 as listed. AMC also publishes point records for two Makarba plots under this scheme; these are not boundaries and are not reused here.",
+      "alsoListed": [
+        {
+          "source": {
+            "title": "Town Plan Map: TP scheme listings (aggregator of government records)",
+            "url": "https://townplanmap.com/home",
+            "tier": "tertiary",
+            "accessed": "2026-11-22"
+          },
+          "status": "Preliminary with Government",
+          "areaHa": 51.64,
+          "note": "Detail panel shows 51.64 ha, 49 original and 49 final plots, 31.21% deduction, prepared by Ahmedabad Municipal Corporation. The area conflicts with the 41.80 ha in AMC's table; the difference is unresolved."
+        }
+      ]
+    },
+    {
+      "id": "tp-84c",
+      "name": "TP 84/C (Makarba)",
+      "areaHa": 68,
+      "status": "Refused by Government",
+      "source": {
+        "title": "AMC: History of Town Planning in Gujarat (PDF)",
+        "url": "https://ahmedabadcity.gov.in/Images/Town_Planning.pdf",
+        "tier": "primary",
+        "accessed": "2026-11-08"
+      },
+      "geometry": "unavailable",
+      "note": "Listed as refused, so it did not become an implemented scheme. The entry shows no date."
+    },
+    {
+      "id": "tp-86",
+      "name": "TP 86 (Makarba)",
+      "areaHa": 127.09,
+      "status": "Draft sanctioned",
+      "statusDate": "2012",
+      "source": {
+        "title": "AMC: History of Town Planning in Gujarat (PDF)",
+        "url": "https://ahmedabadcity.gov.in/Images/Town_Planning.pdf",
+        "tier": "primary",
+        "accessed": "2026-11-08"
+      },
+      "geometry": "unavailable",
+      "note": "A draft scheme sanctioned in 2012 as listed; whether it was implemented is not stated in the source."
+    },
+    {
+      "id": "tp-204",
+      "name": "TP 204 (Makarba)",
+      "areaHa": 1121.19,
+      "status": "Changes approved (news report)",
+      "statusDate": "2024",
+      "source": {
+        "title": "Construction World, news report",
+        "url": "https://www.constructionworld.in/latest-construction-news/real-estate-news/ahmedabad-civic-bodys-approves-changes-to-makarba-tp-scheme/63480",
+        "tier": "tertiary",
+        "accessed": "2026-11-22"
+      },
+      "geometry": "unavailable",
+      "note": "Covers parts of Makarba, Okaf, Vejalpur and Ambli. The original draft also included Sarkhej. The area is from the news report."
+    },
+    {
+      "id": "tp-26",
+      "name": "TP 26 (Makarba)",
+      "status": "Preliminary TPS with TPO",
+      "source": {
+        "title": "Town Plan Map: TP scheme listings (aggregator of government records)",
+        "url": "https://townplanmap.com/home",
+        "tier": "tertiary",
+        "accessed": "2026-11-22"
+      },
+      "geometry": "unavailable",
+      "note": "Appears twice in the aggregator, as 'Makarba - 26' (Preliminary TPS with TPO) and 'Makarba-26' (Preliminary). Not in AMC's table as reviewed. No area or date was recorded."
+    },
+    {
+      "id": "tp-92a",
+      "name": "TP 92/A (Sarkhej Makarba Okaf)",
+      "status": "Draft",
+      "source": {
+        "title": "Town Plan Map: TP scheme listings (aggregator of government records)",
+        "url": "https://townplanmap.com/home",
+        "tier": "tertiary",
+        "accessed": "2026-11-22"
+      },
+      "geometry": "unavailable",
+      "note": "Listed under the South-West Zone. Not in AMC's table as reviewed. No area or date was recorded."
+    },
+    {
+      "id": "tp-85",
+      "name": "TP 85 (Sarkhej)",
+      "status": "Preliminary with Government",
+      "source": {
+        "title": "Town Plan Map: TP scheme listings (aggregator of government records)",
+        "url": "https://townplanmap.com/home",
+        "tier": "tertiary",
+        "accessed": "2026-11-22"
+      },
+      "geometry": "unavailable",
+      "note": "Listed under Sarkhej, Daskroi. Not in AMC's table as reviewed. No area or date was recorded."
+    }
+  ],
+  "comparisons": [
+    {
+      "id": "c-pop-makarba",
+      "title": "Population of Makarba (census town)",
+      "unit": "people",
+      "points": [
+        {
+          "label": "Census 2001",
+          "year": 2001,
+          "value": 18090,
+          "approx": false
+        }
+      ],
+      "source": {
+        "title": "Makarba (Wikipedia, citing the 2001 census)",
+        "url": "https://en.wikipedia.org/wiki/Makarba",
+        "tier": "tertiary",
+        "accessed": "2026-11-22"
+      },
+      "method": "Total persons recorded for the census town, as stated by the source.",
+      "limits": "Only the 2001 count was found. A 2011 count for the same unit would be needed to show change."
+    },
+    {
+      "id": "c-pop-sarkhej",
+      "title": "Population of Sarkhej-Okaf",
+      "unit": "people",
+      "points": [
+        {
+          "label": "Census 2001",
+          "year": 2001,
+          "value": 23086,
+          "approx": false
+        }
+      ],
+      "source": {
+        "title": "Sarkhej-Okaf (Wikipedia)",
+        "url": "https://en.wikipedia.org/wiki/Sarkhej-Okaf",
+        "tier": "tertiary",
+        "accessed": "2026-11-22"
+      },
+      "method": "Total persons recorded for the municipality, as stated by the source.",
+      "limits": "Only the 2001 count was found; boundaries changed when the unit joined AMC in 2006, so later counts must be matched to the same area."
+    }
+  ],
+  "visualRecord": [
+    {
+      "id": "v-1855-outlet",
+      "src": "images/landmarks/sarkhej-tank-outlet-1855.jpg",
+      "alt": "Sepia albumen print of a carved stone wall with three round openings, the outlet of the Sarkhej tank, with a large tree behind it.",
+      "caption": "Outlet of the Sarkhej tank, photographed in 1855 by William Johnson.",
+      "year": 1855,
+      "precision": "exact",
+      "kind": "photograph",
+      "author": "William Johnson (photographer); SMU Central University Libraries",
+      "licence": "No known copyright restrictions (public domain)",
+      "commonsUrl": "https://commons.wikimedia.org/wiki/File:Outlet_of_Sarkhej_Roza_Tank_Ahmedabad_1855.jpg"
+    },
+    {
+      "id": "v-1878-gallery",
+      "src": "images/landmarks/sarkhej-queens-gallery-1878.jpg",
+      "alt": "Engraving of a two-storey colonnaded gallery with steps down to the water, an elephant at the left and small boats in front.",
+      "caption": "Engraving of the gallery leading to the queens' tombs at Sarkhej, from Louis Rousselet's book on India (1878).",
+      "year": 1878,
+      "precision": "exact",
+      "kind": "engraving",
+      "author": "Louis Rousselet",
+      "licence": "Public domain",
+      "commonsUrl": "https://commons.wikimedia.org/wiki/File:Queen%27s_tomb.jpg"
+    },
+    {
+      "id": "v-2011-front",
+      "src": "images/landmarks/sarkhej-roza.jpg",
+      "alt": "The Sarkhej Roza mosque seen across its wide stone-paved courtyard: a long arcaded building with a row of small domes and one large central dome.",
+      "caption": "Sarkhej Roza, front view across the courtyard (photographed 2011).",
+      "year": 2011,
+      "precision": "exact",
+      "kind": "photograph",
+      "author": "Museeb fakih",
+      "licence": "Public domain",
+      "commonsUrl": "https://commons.wikimedia.org/wiki/File:Sarkhej.JPG"
+    },
+    {
+      "id": "v-2012-sg",
+      "src": "images/landmarks/sg-highway-2012.jpg",
+      "alt": "A wide divided highway with light traffic, street lamps along the median and apartment blocks and power pylons on the left.",
+      "caption": "Sarkhej–Gandhinagar Highway, Ahmedabad (photographed 2012).",
+      "year": 2012,
+      "precision": "exact",
+      "kind": "photograph",
+      "author": "Abhishek.ujoshi",
+      "licence": "CC BY-SA 3.0",
+      "commonsUrl": "https://commons.wikimedia.org/wiki/File:SG._Highway.JPG"
+    }
+  ],
+  "gaps": [
+    {
+      "id": "g-asi",
+      "need": "Official ASI/NMA record of the Roza's protected status, ASI circle and notification date",
+      "why": "The status shown elsewhere on this site comes from Wikipedia only.",
+      "whoCanProvide": "Archaeological Survey of India; National Monuments Authority"
+    },
+    {
+      "id": "g-unesco",
+      "need": "The boundary and buffer zone of the UNESCO 'Historic City of Ahmadabad' property",
+      "why": "It is not confirmed whether the Roza is inside, outside or within a buffer zone.",
+      "whoCanProvide": "UNESCO nomination dossier; AMC heritage cell"
+    },
+    {
+      "id": "g-tpmaps",
+      "need": "Sanctioned maps of each TP scheme (original and final) with a recorded coordinate system",
+      "why": "Without them scheme boundaries, planned roads and earlier land use cannot be drawn or compared with today.",
+      "whoCanProvide": "AUDA and AMC Town Planning departments (records request)"
+    },
+    {
+      "id": "g-landuse",
+      "need": "Dated land-use or built-up maps for the same area (for example Survey of India sheets, development plans, documented satellite classifications)",
+      "why": "Needed for any built-up, green-cover or water-extent comparison; none is held.",
+      "whoCanProvide": "Survey of India; AUDA development plans; a documented satellite analysis"
+    },
+    {
+      "id": "g-roads",
+      "need": "Opening years and alignments of the S.G. Highway widening, the Sarkhej circle works, Sarkhej BRTS routes and the Ring Road",
+      "why": "Only approvals and ceremonies are sourced; completion dates and geometry are not.",
+      "whoCanProvide": "NHAI or the state Roads and Buildings Department, AMC, AUDA, Ahmedabad Janmarg Ltd"
+    },
+    {
+      "id": "g-census",
+      "need": "Census of India 2011 counts for Makarba and Sarkhej-Okaf on matching boundaries",
+      "why": "Two comparable years are needed before a population change can be charted.",
+      "whoCanProvide": "Census of India (district census handbook)"
+    },
+    {
+      "id": "g-lake",
+      "need": "Dated records of the Sarkhej tank's water level and extent, and of encroachment on the Roza complex",
+      "why": "An 'about 29 to about 14 hectares' figure circulates but has no dates, so it is not charted.",
+      "whoCanProvide": "ASI, AMC, a dated survey or satellite analysis"
+    },
+    {
+      "id": "g-people",
+      "need": "Consented, anonymised recollections of change over time from residents and traders",
+      "why": "No past-to-present testimony has been cleared for publication; none is invented.",
+      "whoCanProvide": "The study's own interviews, once ethics approval and consent allow"
+    },
+    {
+      "id": "g-1800s",
+      "need": "Records of the Roza in the 18th to 20th centuries",
+      "why": "No Maratha-era, colonial or independence-era sources specific to the Roza were found.",
+      "whoCanProvide": "ASI conservation reports; Gujarat State Archives; academic studies"
+    },
+    {
+      "id": "g-tpreconcile",
+      "need": "Reconcile each scheme's stage, date and area between AMC/AUDA records and aggregator listings (for example 84/B: 41.80 ha vs 51.64 ha)",
+      "why": "The same scheme is described differently by different sources, so neither is shown as authoritative.",
+      "whoCanProvide": "AUDA and AMC Town Planning departments"
+    }
+  ]
+}

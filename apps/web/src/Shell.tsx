@@ -25,6 +25,7 @@ export const SHORTCUTS: { group: string; keys: string[]; what: string }[] = [
   { group: "Anywhere", keys: ["2"], what: "Explore the 3D map" },
   { group: "Anywhere", keys: ["3"], what: "Outlook (forecasts)" },
   { group: "Anywhere", keys: ["4"], what: "Street view (walk the streets in 3D)" },
+  { group: "Anywhere", keys: ["5"], what: "Past (documented change around Sarkhej Roza)" },
   { group: "Anywhere", keys: [","], what: "Display and accessibility settings" },
   { group: "Anywhere", keys: ["?"], what: "This list of shortcuts" },
   { group: "Explore", keys: ["/"], what: "Search places" },
@@ -49,6 +50,7 @@ export const SHORTCUTS: { group: string; keys: string[]; what: string }[] = [
 const NAV: { to: string; label: string; icon: IconName; tip: string; end?: boolean }[] = [
   { to: "/", label: "Overview", icon: "home", tip: "Overview (1)", end: true },
   { to: "/explore", label: "Explore", icon: "map", tip: "Explore the 3D map (2)" },
+  { to: "/past", label: "Past", icon: "history", tip: "Past: how Sarkhej and Makarba have changed (5)" },
   { to: "/forecasts", label: "Outlook", icon: "trend", tip: "Outlook: forecasts (3)" },
   { to: "/street", label: "Street", icon: "footprints", tip: "Street view: walk the streets in 3D (4)" },
 ];
@@ -184,7 +186,7 @@ export function Layout() {
     const on = (e: KeyboardEvent) => {
       if (!plainKey(e) || document.querySelector("dialog[open]")) return;
       if (e.key === "1") nav("/"); else if (e.key === "2") nav("/explore"); else if (e.key === "3") nav("/forecasts");
-      else if (e.key === "4") nav("/street"); else if (e.key === "Escape" && location.pathname === "/street") nav("/explore");
+      else if (e.key === "4") nav("/street"); else if (e.key === "5") nav("/past"); else if (e.key === "Escape" && location.pathname === "/street") nav("/explore");
       else if (e.key === "?") setDlg("keys"); else if (e.key === ",") setDlg("prefs"); else return;
       e.preventDefault();
     };
