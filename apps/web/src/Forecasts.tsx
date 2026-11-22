@@ -8,6 +8,7 @@ import { scenarioFor } from "./scenario.js";
 import { useTween } from "./motion.js";
 import { ParticleLoader } from "./Particles.js";
 import { Icon, type IconName } from "./Icon.js";
+import { EraNav } from "./past/EraNav.js";
 
 export type { ForecastDoc, Series } from "./outlook.js";
 import { DEFAULT_END_YEAR, useEndYear, useForecasts, YearSlider } from "./forecastData.js";
@@ -157,6 +158,7 @@ export function Forecasts({ fetcher }: { fetcher?: typeof fetch } = {}) {
         </div>
         <YearSlider year={year} onChange={setYear} max={doc.maxYear} />
       </div>
+      <EraNav current="future" />
 
       {sig.length > 0 && <FeaturedForecast sig={sig} endYear={year} />}
 
