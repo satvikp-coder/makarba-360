@@ -2,7 +2,8 @@ import { useEffect, useId, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { Icon } from "../Icon.js";
 import { EraNav } from "./EraNav.js";
-import { PastMap } from "./PastMap.js";
+import { PastExplorer, useRegistry } from "./PastExplorer.js";
+import { seriesToComparison } from "./pastGeo.js";
 import { PeopleAndPlace } from "./PeopleAndPlace.js";
 import {
   STATUS_LABEL, THEME_LABEL, chartCheck, eventsThrough, fetchPast, periodOf, schemeNeedsGeometry, usableEvents, validVisual, yearLabel,
@@ -104,6 +105,8 @@ function PastBody({ doc, fetcher }: { doc: PastDoc; fetcher?: typeof fetch }) {
   const [theme, setTheme] = useState<Theme | typeof ALL>(ALL);
   const [scheme, setScheme] = useState(doc.tpSchemes[0]?.id ?? "");
   const sliderId = useId();
+  const reg = useRegistry(fetcher);
+  const comparisons = useMemo(() => [...doc.comparisons, ...(reg.s === "ok" ? reg.reg.measurements.map(seriesToComparison) : [])], [doc.comparisons, reg]);
   const upTo = eventsThrough(events, year).filter((e) => theme === ALL || e.theme === theme);
   const period = periodOf(doc.periods, year);
   const dropped = doc.events.length - events.length;
@@ -141,7 +144,7 @@ function PastBody({ doc, fetcher }: { doc: PastDoc; fetcher?: typeof fetch }) {
       <section aria-labelledby="past-roza" className="past-sec past-roza">
         <h2 id="past-roza">Sarkhej Roza: past and present</h2>
         <p>The Roza is the historic anchor of Makarba. The map shows how it sits among today's roads and water; the records beside it say what is documented about its past.</p>
-        <PastMap fetcher={fetcher} />
+        <PastExplorer fetcher={fetcher} registry={reg} />
         {visuals.length > 0 && (
           <div className="past-visuals">
             <h3>Dated visual record</h3>
@@ -161,8 +164,8 @@ function PastBody({ doc, fetcher }: { doc: PastDoc; fetcher?: typeof fetch }) {
 
       <section aria-labelledby="past-compare" className="past-sec">
         <h2 id="past-compare">Past and present, where the data allow</h2>
-        {doc.comparisons.length === 0 ? <p className="past-empty">No comparable measurements are published yet.</p> : <div className="past-grid">{doc.comparisons.map((c) => <ComparisonCard key={c.id} c={c} />)}</div>}
-        <p className="past-limit">Built-up area, road length, green cover, water extent and settlement change are not charted: no consistent, dated measurement for the same area is held yet. Anecdotes are never converted into percentages.</p>
+        {comparisons.length === 0 ? <p className="past-empty">No comparable measurements are published yet.</p> : <div className="past-grid">{comparisons.map((c) => <ComparisonCard key={c.id} c={c} />)}</div>}
+        <p className="past-limit">Built-up surface is charted from a satellite-derived product (modelled, about 90 m cells). Road length, green cover, tank extent, land use and settlement change are not charted: no consistent, dated measurement for the same area has been imported yet (see the layers waiting for evidence). Anecdotes are never converted into percentages.</p>
       </section>
 
       <section aria-labelledby="past-tp" className="past-sec">

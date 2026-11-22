@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { makeFrame, pathOf } from "./pastGeo.js";
 
 /**
  * 2D context map of Sarkhej Roza drawn from the project's own OpenStreetMap extracts (data/geo/*.json, ODbL, retrieved 2026-11-13).
@@ -7,7 +8,9 @@ import { useEffect, useMemo, useState } from "react";
  */
 type LngLat = [number, number];
 interface Layer { id: "complex" | "tank" | "highway" | "arterial" | "canal"; label: string; kind: "area" | "line"; paths: LngLat[][]; colour: string }
-export interface PastMapProps { fetcher?: typeof fetch; focus?: LngLat }
+/** Extra layers from the validated registry, drawn over the present-day OSM context. `status` is shown in the legend so plans and observations stay apart. */
+export interface Overlay { id: string; label: string; kind: "area" | "line"; paths: LngLat[][]; colour: string; status: string; year: number }
+export interface PastMapProps { fetcher?: typeof fetch; focus?: LngLat; overlays?: Overlay[]; onOsm?: (osm: { complex: LngLat[]; roads: { id: string; label: string; line: LngLat[] }[] }) => void }
 
 const ROZA: LngLat = [72.50539, 22.99342];
 const BOX = { w: 640, h: 420 };
@@ -25,31 +28,21 @@ async function load(fetcher: typeof fetch, signal: AbortSignal): Promise<Layer[]
   ];
 }
 
-export function PastMap({ fetcher = fetch, focus = ROZA }: PastMapProps) {
+export function PastMap({ fetcher = fetch, focus = ROZA, overlays = [], onOsm }: PastMapProps) {
   const [layers, setLayers] = useState<Layer[] | null>(null);
   const [err, setErr] = useState(false);
   const [on, setOn] = useState<Record<string, boolean>>({ complex: true, tank: true, highway: true, arterial: true, canal: true });
   useEffect(() => {
     const ac = new AbortController();
-    load(fetcher, ac.signal).then((l) => { if (!ac.signal.aborted) setLayers(l); }).catch(() => { if (!ac.signal.aborted) setErr(true); });
+    load(fetcher, ac.signal).then((l) => { if (!ac.signal.aborted) { setLayers(l); onOsm?.({ complex: l.find((x) => x.id === "complex")?.paths[0] ?? [], roads: l.filter((x) => x.id === "highway" || x.id === "arterial").map((x) => ({ id: x.id, label: x.label, line: x.paths[0] ?? [] })) }); } }).catch(() => { if (!ac.signal.aborted) setErr(true); });
     return () => ac.abort();
   }, [fetcher]);
 
-  const proj = useMemo(() => {
-    if (!layers) return null;
-    const pts = layers.flatMap((l) => l.paths.flat());
-    // Frame: a window centred on Roza that still contains the Roza outlines; the long roads are clipped by the viewBox.
-    const half = 0.019; // degrees of longitude either side of the focus
-    const k = Math.cos((focus[1] * Math.PI) / 180);
-    const hw = half * k, hh = (half * BOX.h) / BOX.w;
-    const x = (lng: number) => ((lng - focus[0]) * k + hw) / (2 * hw) * BOX.w;
-    const y = (lat: number) => BOX.h - ((lat - focus[1]) + hh) / (2 * hh) * BOX.h;
-    return { x, y, count: pts.length };
-  }, [layers, focus]);
+  const proj = useMemo(() => (layers ? makeFrame(focus, 0.019, BOX.w, BOX.h) : null), [layers, focus]);
 
   if (err) return <p role="alert" className="past-state">The map outlines could not be loaded. The facts and records on this page are unaffected.</p>;
   if (!layers || !proj) return <p role="status" className="past-state">Loading map outlines…</p>;
-  const d = (p: LngLat[], close: boolean) => p.map(([lng, lat], i) => `${i ? "L" : "M"}${proj.x(lng).toFixed(1)} ${proj.y(lat).toFixed(1)}`).join("") + (close ? "Z" : "");
+  const d = (p: LngLat[], close: boolean) => pathOf(p, proj, close);
   return (
     <figure className="past-map">
       <svg viewBox={`0 0 ${BOX.w} ${BOX.h}`} role="img" aria-labelledby="pm-t pm-d" className="past-map-svg">
@@ -59,6 +52,10 @@ export function PastMap({ fetcher = fetch, focus = ROZA }: PastMapProps) {
         {layers.filter((l) => on[l.id]).map((l) => l.paths.map((p, i) => (
           <path key={`${l.id}${i}`} d={d(p, l.kind === "area")} fill={l.kind === "area" ? l.colour : "none"} fillOpacity={l.kind === "area" ? 0.28 : 0}
             stroke={l.colour} strokeWidth={l.kind === "area" ? 2 : 4} strokeLinejoin="round" strokeLinecap="round" />
+        )))}
+        {overlays.filter((o) => on[o.id] !== false).map((o) => o.paths.map((p, i) => (
+          <path key={`${o.id}${i}`} d={d(p, o.kind === "area")} fill={o.kind === "area" ? o.colour : "none"} fillOpacity={o.kind === "area" ? 0.22 : 0} stroke={o.colour}
+            strokeWidth={o.kind === "area" ? 2 : 3} strokeDasharray={/proposed|sanctioned/.test(o.status) ? "6 4" : undefined} strokeLinejoin="round" strokeLinecap="round" />
         )))}
         <g transform={`translate(${proj.x(focus[0]).toFixed(1)} ${proj.y(focus[1]).toFixed(1)})`}>
           <circle r="7" className="pm-pin" /><circle r="14" className="pm-ring" />
@@ -71,8 +68,11 @@ export function PastMap({ fetcher = fetch, focus = ROZA }: PastMapProps) {
           {layers.map((l) => (
             <label key={l.id}><input type="checkbox" checked={on[l.id]} onChange={() => setOn({ ...on, [l.id]: !on[l.id] })} /><i style={{ background: l.colour }} aria-hidden="true" /> {l.label}</label>
           ))}
+          {overlays.map((o) => (
+            <label key={o.id}><input type="checkbox" checked={on[o.id] !== false} onChange={() => setOn({ ...on, [o.id]: on[o.id] === false })} /><i style={{ background: o.colour }} aria-hidden="true" /> {o.label} <small>({o.status}, {o.year})</small></label>
+          ))}
         </fieldset>
-        <p className="past-limit">No historical outline, road line or town-planning boundary is drawn here: none is held with a reviewed source and coordinate system. See “What is still missing”.</p>
+        {overlays.length === 0 && <p className="past-limit">No historical outline, road line or town-planning boundary is drawn here: none is held with a reviewed source and coordinate system. See “What is still missing”.</p>}
       </figcaption>
     </figure>
   );

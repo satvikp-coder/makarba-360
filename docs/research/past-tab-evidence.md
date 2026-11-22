@@ -13,6 +13,10 @@ The Past tab answers one question: how have roads, highways, town-planning (TP) 
 - Images need alt text, a licence and a source page. A before/after swipe is offered only for a pair with a documented matching viewpoint (see `thenNow.ts`); none exists yet.
 - The People and Place section shows only entries in `data/content/community.json` that pass `communityModel.ts` (consent, privacy and small-cell rules; see `community-evidence.md`). That file ships empty, so today it contains no testimony. Present-day consented material lives on `/voices` and `/insights`.
 
+## Layers and measurements
+
+Historical layers and measurement series are imported through a validated pipeline: see [Past tab GIS and measurement pipeline](past-gis-pipeline.md). One series is registered today: built-up surface in the study window from the JRC GHSL (modelled, 1975 to 2020). No historical map layer is registered, because none with a source, licence and coordinate system has been obtained.
+
 ## What the data hold
 
 | Area | Records | Best source tier |
