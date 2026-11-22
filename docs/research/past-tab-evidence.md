@@ -11,7 +11,7 @@ The Past tab answers one question: how have roads, highways, town-planning (TP) 
 - A chart is drawn only for a comparison with at least two finite values in different years, a unit, a method and a dated source. Otherwise the page states why no chart exists.
 - A TP scheme boundary is drawn only when `geometry` is `"available"`, meaning a reviewed vector with a recorded coordinate system exists. None does today.
 - Images need alt text, a licence and a source page. A before/after swipe is offered only for a pair with a documented matching viewpoint (see `thenNow.ts`); none exists yet.
-- The People and Place section contains no testimony. Present-day consented material lives on `/voices` and `/insights`.
+- The People and Place section shows only entries in `data/content/community.json` that pass `communityModel.ts` (consent, privacy and small-cell rules; see `community-evidence.md`). That file ships empty, so today it contains no testimony. Present-day consented material lives on `/voices` and `/insights`.
 
 ## What the data hold
 
