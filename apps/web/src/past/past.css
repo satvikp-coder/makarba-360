@@ -87,3 +87,22 @@ html[data-contrast="high"] .era-step a[aria-current="page"] small { color: #000;
 html[data-contrast="high"] .past-themes button[aria-pressed="true"] { background: #fff; color: #000; border: 3px solid #000; }
 .past-also { margin: 10px 0; padding: 10px 12px; border-left: 3px solid var(--mixed); background: var(--mixed-bg); border-radius: var(--r-xs); font-size: .9rem; line-height: 1.5; }
 .past-also .past-src { display: block; }
+
+/* Registry-driven explorer */
+.past-explorer { display: grid; gap: 16px; }
+.past-legend { list-style: none; margin: 0; padding: 12px 14px; display: grid; gap: 6px; background: var(--surface); border: 1px solid var(--hair); border-radius: var(--r-sm); font-size: .88rem; }
+.past-legend .lg { display: inline-block; width: 22px; height: 8px; border-radius: 4px; margin-right: 8px; vertical-align: middle; }
+.lg-obs { background: var(--accent); } .lg-ver { background: var(--teal-2); }
+.lg-plan { background: repeating-linear-gradient(90deg, var(--mixed) 0 6px, transparent 6px 10px); }
+.lg-miss { border: 1px dashed var(--faint); } .lg-inc { background: var(--bad-bg); border: 1px solid var(--bad); }
+.past-yearpick { display: grid; gap: 6px; } .past-yearpick input { width: 100%; accent-color: var(--accent); min-height: 32px; }
+.past-table { width: 100%; border-collapse: collapse; font-size: .92rem; margin: 8px 0; }
+.past-table caption { text-align: left; color: var(--muted); padding-bottom: 6px; }
+.past-table th, .past-table td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--hair); }
+.past-split-pick { display: grid; gap: 8px; margin-bottom: 8px; } .past-split-pick label { display: grid; gap: 4px; }
+.past-split-slider { display: grid; gap: 4px; margin-top: 8px; } .past-split-slider input { width: 100%; accent-color: var(--accent); min-height: 32px; }
+.pm-split { stroke: var(--ink); stroke-width: 3; }
+.past-slotlist { list-style: none; padding: 0; display: grid; gap: 8px; }
+.past-slotlist li { background: var(--surface-2); border: 1px dashed var(--hair-strong); border-radius: var(--r-sm); padding: 8px 12px; opacity: .95; }
+.past-slotlist summary { cursor: pointer; min-height: 32px; display: flex; align-items: center; gap: 6px; }
+.past-slotlist p { margin: 6px 0; font-size: .9rem; color: var(--muted); }

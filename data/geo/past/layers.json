@@ -1,0 +1,243 @@
+{
+  "version": 1,
+  "studyBounds": [
+    72.44,
+    22.93,
+    72.58,
+    23.05
+  ],
+  "slots": [
+    {
+      "id": "roads-historical",
+      "kind": "roads",
+      "title": "Historical road network around Sarkhej Roza",
+      "status": "unavailable",
+      "evidenceRequired": "A dated road centreline layer for a year before the S.G. Highway widening (for example vectorised from a Survey of India topographic sheet or a dated development plan), georeferenced with at least 4 control points and RMSE of 25 m or less, with the sheet number, survey year and rights statement.",
+      "acceptableSources": [
+        "Survey of India topographic sheets (rights must permit reuse)",
+        "AUDA development plan base maps",
+        "A dated OpenStreetMap extract whose timestamp can be verified"
+      ]
+    },
+    {
+      "id": "roads-highway-works",
+      "kind": "roads",
+      "title": "S.G. Highway and Sarkhej circle works as built",
+      "status": "unavailable",
+      "evidenceRequired": "As-built or dated alignments of the widened S.G. Highway and any Sarkhej-area flyovers, with the completion year of each, from the executing authority.",
+      "acceptableSources": [
+        "NHAI or the state Roads and Buildings Department",
+        "AMC or AUDA project records"
+      ]
+    },
+    {
+      "id": "landuse-historical",
+      "kind": "landuse",
+      "title": "Historical land use",
+      "status": "unavailable",
+      "evidenceRequired": "A dated land-use polygon layer (class per polygon) for an early year, from a published plan or a documented classification, using the same class scheme as the current layer so the two can be compared.",
+      "acceptableSources": [
+        "AUDA first or second development plan land-use maps",
+        "A documented satellite classification with accuracy statement"
+      ]
+    },
+    {
+      "id": "landuse-current",
+      "kind": "landuse",
+      "title": "Current land use (development plan)",
+      "status": "unavailable",
+      "evidenceRequired": "The sanctioned current development-plan land-use polygons for Sarkhej-Makarba with the plan year and class definitions.",
+      "acceptableSources": [
+        "AUDA/AMC sanctioned development plan"
+      ]
+    },
+    {
+      "id": "tp-84a-boundary",
+      "kind": "tp-boundary",
+      "title": "TP 84/A boundary",
+      "status": "unavailable",
+      "evidenceRequired": "The sanctioned boundary polygon of TP 84/A from the scheme's own map (with its stage and date), georeferenced to at least 4 control points with RMSE of 25 m or less. Do not trace a boundary from an aggregator screenshot.",
+      "acceptableSources": [
+        "AUDA or AMC Town Planning department (sanctioned scheme map, records request)",
+        "Gujarat Town Planning and Valuation Department",
+        "AMC GIS (if access is granted)"
+      ]
+    },
+    {
+      "id": "tp-84b-boundary",
+      "kind": "tp-boundary",
+      "title": "TP 84/B boundary",
+      "status": "unavailable",
+      "evidenceRequired": "The sanctioned boundary polygon of TP 84/B from the scheme's own map (with its stage and date), georeferenced to at least 4 control points with RMSE of 25 m or less. Do not trace a boundary from an aggregator screenshot.",
+      "acceptableSources": [
+        "AUDA or AMC Town Planning department (sanctioned scheme map, records request)",
+        "Gujarat Town Planning and Valuation Department",
+        "AMC GIS (if access is granted)"
+      ]
+    },
+    {
+      "id": "tp-84c-boundary",
+      "kind": "tp-boundary",
+      "title": "TP 84/C boundary",
+      "status": "unavailable",
+      "evidenceRequired": "The sanctioned boundary polygon of TP 84/C from the scheme's own map (with its stage and date), georeferenced to at least 4 control points with RMSE of 25 m or less. Do not trace a boundary from an aggregator screenshot.",
+      "acceptableSources": [
+        "AUDA or AMC Town Planning department (sanctioned scheme map, records request)",
+        "Gujarat Town Planning and Valuation Department",
+        "AMC GIS (if access is granted)"
+      ]
+    },
+    {
+      "id": "tp-86-boundary",
+      "kind": "tp-boundary",
+      "title": "TP 86 boundary",
+      "status": "unavailable",
+      "evidenceRequired": "The sanctioned boundary polygon of TP 86 from the scheme's own map (with its stage and date), georeferenced to at least 4 control points with RMSE of 25 m or less. Do not trace a boundary from an aggregator screenshot.",
+      "acceptableSources": [
+        "AUDA or AMC Town Planning department (sanctioned scheme map, records request)",
+        "Gujarat Town Planning and Valuation Department",
+        "AMC GIS (if access is granted)"
+      ]
+    },
+    {
+      "id": "tp-26-boundary",
+      "kind": "tp-boundary",
+      "title": "TP 26 boundary",
+      "status": "unavailable",
+      "evidenceRequired": "The sanctioned boundary polygon of TP 26 from the scheme's own map (with its stage and date), georeferenced to at least 4 control points with RMSE of 25 m or less. Do not trace a boundary from an aggregator screenshot.",
+      "acceptableSources": [
+        "AUDA or AMC Town Planning department (sanctioned scheme map, records request)",
+        "Gujarat Town Planning and Valuation Department",
+        "AMC GIS (if access is granted)"
+      ]
+    },
+    {
+      "id": "tp-92a-boundary",
+      "kind": "tp-boundary",
+      "title": "TP 92/A boundary",
+      "status": "unavailable",
+      "evidenceRequired": "The sanctioned boundary polygon of TP 92/A from the scheme's own map (with its stage and date), georeferenced to at least 4 control points with RMSE of 25 m or less. Do not trace a boundary from an aggregator screenshot.",
+      "acceptableSources": [
+        "AUDA or AMC Town Planning department (sanctioned scheme map, records request)",
+        "Gujarat Town Planning and Valuation Department",
+        "AMC GIS (if access is granted)"
+      ]
+    },
+    {
+      "id": "tp-85-boundary",
+      "kind": "tp-boundary",
+      "title": "TP 85 boundary",
+      "status": "unavailable",
+      "evidenceRequired": "The sanctioned boundary polygon of TP 85 from the scheme's own map (with its stage and date), georeferenced to at least 4 control points with RMSE of 25 m or less. Do not trace a boundary from an aggregator screenshot.",
+      "acceptableSources": [
+        "AUDA or AMC Town Planning department (sanctioned scheme map, records request)",
+        "Gujarat Town Planning and Valuation Department",
+        "AMC GIS (if access is granted)"
+      ]
+    },
+    {
+      "id": "tp-204-boundary",
+      "kind": "tp-boundary",
+      "title": "TP 204 boundary",
+      "status": "unavailable",
+      "evidenceRequired": "The sanctioned boundary polygon of TP 204 from the scheme's own map (with its stage and date), georeferenced to at least 4 control points with RMSE of 25 m or less. Do not trace a boundary from an aggregator screenshot.",
+      "acceptableSources": [
+        "AUDA or AMC Town Planning department (sanctioned scheme map, records request)",
+        "Gujarat Town Planning and Valuation Department",
+        "AMC GIS (if access is granted)"
+      ]
+    },
+    {
+      "id": "builtup",
+      "kind": "builtup",
+      "title": "Built-up extent over time",
+      "status": "unavailable",
+      "evidenceRequired": "Built-up polygons or counts for at least two years on the same footprint and definition (for example GHSL built-up epochs clipped to the study area), with product version, resolution and licence.",
+      "acceptableSources": [
+        "Global Human Settlement Layer (CC BY 4.0)",
+        "A documented classification of dated satellite imagery"
+      ]
+    },
+    {
+      "id": "water-tank",
+      "kind": "water",
+      "title": "Sarkhej tank extent over time",
+      "status": "unavailable",
+      "evidenceRequired": "Water-extent polygons for the Sarkhej tank for at least two dated observations (season stated), from a published water product or documented imagery analysis.",
+      "acceptableSources": [
+        "JRC Global Surface Water (CC BY 4.0)",
+        "A documented analysis of dated satellite imagery"
+      ]
+    },
+    {
+      "id": "green-cover",
+      "kind": "green",
+      "title": "Green cover over time",
+      "status": "unavailable",
+      "evidenceRequired": "Vegetation or tree-cover polygons or area figures for at least two years with the same method and season.",
+      "acceptableSources": [
+        "ESA WorldCover or a documented vegetation index analysis of dated imagery"
+      ]
+    },
+    {
+      "id": "heritage-protection",
+      "kind": "heritage-protection",
+      "title": "ASI protected and regulated areas around the Roza",
+      "status": "unavailable",
+      "evidenceRequired": "The official protected and regulated (prohibited and regulated zone) boundaries for Sarkhej Roza with the notification number and date.",
+      "acceptableSources": [
+        "Archaeological Survey of India",
+        "National Monuments Authority"
+      ]
+    }
+  ],
+  "layers": [],
+  "measurements": [
+    {
+      "id": "ghsl-builtup-study-window",
+      "title": "Built-up surface in the Sarkhej-Makarba study window (GHSL, modelled)",
+      "unit": "ha",
+      "method": "Sum of GHS-BUILT-S R2023A built-up surface (square metres per 3 arc-second cell, converted to hectares) inside the fixed window west 72.44, south 22.93, east 72.58, north 23.05 (WGS 84), same window and product in every epoch. Computed by ml/past_builtup.py on 2026-11-22.",
+      "limits": "A modelled estimate from satellite imagery, not a survey. Cells are about 90 m, so small buildings and narrow roads are not resolved. Earlier epochs rest on sparser imagery and are less certain. The window is a rectangle, not an administrative boundary, and covers more than Makarba.",
+      "sameAreaAndDefinition": true,
+      "source": {
+        "title": "JRC Global Human Settlement Layer, GHS-BUILT-S R2023A (CC BY 4.0)",
+        "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/GHSL/GHS_BUILT_S_GLOBE_R2023A/",
+        "tier": "primary",
+        "accessed": "2026-11-22"
+      },
+      "points": [
+        {
+          "label": "GHSL 1975",
+          "year": 1975,
+          "value": 1318.5,
+          "approx": true
+        },
+        {
+          "label": "GHSL 1990",
+          "year": 1990,
+          "value": 1795.7,
+          "approx": true
+        },
+        {
+          "label": "GHSL 2000",
+          "year": 2000,
+          "value": 2445.3,
+          "approx": true
+        },
+        {
+          "label": "GHSL 2010",
+          "year": 2010,
+          "value": 3179.6,
+          "approx": true
+        },
+        {
+          "label": "GHSL 2020",
+          "year": 2020,
+          "value": 3712.9,
+          "approx": true
+        }
+      ]
+    }
+  ]
+}

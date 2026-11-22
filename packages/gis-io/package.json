@@ -9,7 +9,8 @@
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "vitest run",
-    "check": "tsx src/cli.ts"
+    "check": "tsx src/cli.ts",
+    "past-layer": "tsx src/historical-cli.ts"
   },
   "dependencies": {
     "@makarba/contracts": "workspace:*"
