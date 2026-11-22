@@ -30,7 +30,7 @@ export function ComparisonIndex({ fetcher }: { fetcher?: typeof fetch }) {
       : <>
         <ul className="comparison-directory">{result.places.map((place) => <li key={place.id}>
           <Link to={`/places/${encodeURIComponent(place.slug)}/then-and-now`}>{place.name}</Link>
-          <span><span style={{ color: categoryColor(place.category) }}><Icon name={CATEGORY_ICON[place.category] ?? "info"} size={14} /></span> {categoryLabel(place.category)}</span>
+          <span className="kicker"><span style={{ color: categoryColor(place.category) }}><Icon name={CATEGORY_ICON[place.category] ?? "info"} size={14} /></span> {categoryLabel(place.category)}</span>
         </li>)}</ul>
       </>)}
   </section>;

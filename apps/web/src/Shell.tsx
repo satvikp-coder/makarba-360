@@ -8,7 +8,7 @@ import { MapProvider } from "./mapCtx.js";
 import { PageTransition } from "./Transition.js";
 import { Preloader } from "./Preloader.js";
 
-// The 3D stage (map, time dock, lenses, AI dock) loads after the first paint and then stays mounted across pages.
+// The 3D stage (map, time dock, lenses, AI insights) loads after the first paint and then stays mounted across pages.
 const Stage = lazy(() => import("./Stage.js"));
 const IN_TESTS = typeof navigator !== "undefined" && /jsdom/i.test(navigator.userAgent);
 
@@ -23,7 +23,8 @@ export const plainKey = (e: KeyboardEvent) => !e.ctrlKey && !e.metaKey && !e.alt
 export const SHORTCUTS: { group: string; keys: string[]; what: string }[] = [
   { group: "Anywhere", keys: ["1"], what: "Overview" },
   { group: "Anywhere", keys: ["2"], what: "Explore the 3D map" },
-  { group: "Anywhere", keys: ["3"], what: "Outlook (forecasts and AI insights)" },
+  { group: "Anywhere", keys: ["3"], what: "Outlook (forecasts)" },
+  { group: "Anywhere", keys: ["4"], what: "Street view (walk the streets in 3D)" },
   { group: "Anywhere", keys: [","], what: "Display and accessibility settings" },
   { group: "Anywhere", keys: ["?"], what: "This list of shortcuts" },
   { group: "Explore", keys: ["/"], what: "Search places" },
@@ -48,7 +49,8 @@ export const SHORTCUTS: { group: string; keys: string[]; what: string }[] = [
 const NAV: { to: string; label: string; icon: IconName; tip: string; end?: boolean }[] = [
   { to: "/", label: "Overview", icon: "home", tip: "Overview (1)", end: true },
   { to: "/explore", label: "Explore", icon: "map", tip: "Explore the 3D map (2)" },
-  { to: "/forecasts", label: "Outlook", icon: "trend", tip: "Outlook: forecasts and AI insights (3)" },
+  { to: "/forecasts", label: "Outlook", icon: "trend", tip: "Outlook: forecasts (3)" },
+  { to: "/street", label: "Street", icon: "footprints", tip: "Street view: walk the streets in 3D (4)" },
 ];
 /** Reading-page links appear on the Overview. */
 export const LIBRARY: { to: string; label: string; icon: IconName; blurb: string }[] = [
@@ -129,6 +131,7 @@ export function ShortcutList() {
 
 function titleFor(path: string): string {
   if (path === "/forecasts") return "Outlook";
+  if (path === "/street") return "Street view";
   if (path === "/stories/index") return "Then & Now";
   const route = publicRoutes.find((r) => !r.path.includes(":") && r.path === path);
   return route?.title ?? "Makarba 360°";
@@ -152,7 +155,11 @@ export function Layout() {
     ro.observe(el);
     return () => ro.disconnect();
   }, []);
-  useEffect(() => { document.documentElement.lang = "en"; }, []);
+  useEffect(() => {
+    document.documentElement.lang = "en";
+    // Chromium can refract the backdrop through an SVG filter (the "liquid" in liquid glass); other engines get the plain frosted blur
+    document.documentElement.dataset["glass"] = /Chrome\//.test(navigator.userAgent) ? "liquid" : "blur";
+  }, []);
   // A page change focuses the main region; in-page links land on their section.
   const previousPath = useRef(loc.pathname);
   useEffect(() => {
@@ -177,20 +184,29 @@ export function Layout() {
     const on = (e: KeyboardEvent) => {
       if (!plainKey(e) || document.querySelector("dialog[open]")) return;
       if (e.key === "1") nav("/"); else if (e.key === "2") nav("/explore"); else if (e.key === "3") nav("/forecasts");
+      else if (e.key === "4") nav("/street"); else if (e.key === "Escape" && location.pathname === "/street") nav("/explore");
       else if (e.key === "?") setDlg("keys"); else if (e.key === ",") setDlg("prefs"); else return;
       e.preventDefault();
     };
     window.addEventListener("keydown", on);
     return () => window.removeEventListener("keydown", on);
   }, [nav]);
-  const page = loc.pathname === "/" ? "home" : loc.pathname === "/explore" ? "explore" : loc.pathname === "/forecasts" ? "outlook" : "reader";
+  const page = loc.pathname === "/" ? "home" : loc.pathname === "/explore" ? "explore" : loc.pathname === "/forecasts" ? "outlook" : loc.pathname === "/street" ? "street" : "reader";
   return (
     <MapProvider>
       <a className="skip" href="#main">{t.skip}</a>
+      {/* mild liquid glass: a slow, low-amplitude displacement of what shows through the glass (used by .glass in Chromium) */}
+      <svg className="lg-defs" aria-hidden="true" focusable="false">
+        <filter id="lg-refract" x="0" y="0" width="100%" height="100%" colorInterpolationFilters="sRGB">
+          <feTurbulence type="fractalNoise" baseFrequency="0.008 0.012" numOctaves="2" seed="11" result="noise" />
+          <feGaussianBlur in="noise" stdDeviation="3" result="soft" />
+          <feDisplacementMap in="SourceGraphic" in2="soft" scale="16" xChannelSelector="R" yChannelSelector="G" />
+        </filter>
+      </svg>
       <PageTransition />
       <Preloader />
       <header ref={headerRef} className="topbar glass">
-        <Link to="/" className="brand" data-tip="Makarba 360° home"><span className="brand-mark" aria-hidden="true"><Icon name="orbit" size={17} /></span><span className="lbl">{t.siteName}</span></Link>
+        <Link to="/" className="brand" data-tip="Makarba 360° home"><span className="brand-mark" aria-hidden="true"><Icon name="landmark" size={18} stroke={2} /></span><span className="lbl">{t.siteName}</span></Link>
         <nav aria-label={t.navLabel}>
           <ul>
             {NAV.map((n) => <li key={n.to}><NavLink to={n.to} end={n.end} data-tip={n.tip}><Icon name={n.icon} size={16} /><span className="lbl">{n.label}</span></NavLink></li>)}
@@ -204,11 +220,13 @@ export function Layout() {
       <main id="main" tabIndex={page === "reader" ? 0 : -1} className={`main main-${page}`} key={page === "reader" ? loc.pathname : page}>
         <Outlet />
       </main>
-      <footer className="credits">
+      <footer className="credits" hidden={page === "street"}>
         <p>© 2026 Varun Karthic and Satvik Patel</p>
+        <Link to="/research/sources#photo-credits">Photo credits</Link>
       </footer>
       {/* after the page in the DOM so keyboard users reach the page first; it sits behind everything visually */}
-      {!IN_TESTS && <Suspense fallback={<div className="stage stage-loading" aria-hidden="true" />}><Stage /></Suspense>}
+      {/* street view has its own 3D scene: the map stage steps aside so only one WebGL world runs at a time */}
+      {!IN_TESTS && page !== "street" && <Suspense fallback={<div className="stage stage-loading" aria-hidden="true" />}><Stage /></Suspense>}
       <Dialog id="prefs" title="Display and accessibility" icon="eye" open={dlg === "prefs"} onClose={() => setDlg(null)}>
         <DisplaySettings prefs={prefs} set={setPrefs} />
       </Dialog>

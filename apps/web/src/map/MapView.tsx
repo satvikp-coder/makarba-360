@@ -213,8 +213,9 @@ export function MapView({ features, sourceAttribution, selectedId, onSelect, onT
     const zoomClass = () => host.current?.parentElement?.classList.toggle("labels-far", map.getZoom() < LABEL_MIN_ZOOM);
     map.on("zoom", zoomClass);
     // Ground grain for the "ground-grain" layer, generated on the fly (no image file, nothing fetched).
-    map.on("styleimagemissing", (e: { id?: string }) => {
-      if (e.id !== "grain" || map.hasImage?.("grain")) return;
+    // MapLibre 6 only accepts generated images through the resolver (an event listener is too late for the current request).
+    map.setMissingStyleImageResolver?.(async (id) => {
+      if (id !== "grain" || map.hasImage?.("grain")) return;
       const n = 96, px = new Uint8Array(n * n * 4);
       let seed = 1337;
       for (let i = 0; i < n * n; i++) {
@@ -310,7 +311,7 @@ export function MapView({ features, sourceAttribution, selectedId, onSelect, onT
       return;
     }
     const box = boundsOf(features);
-    if (box) map.fitBounds(box, { padding: 64, maxZoom: 16.4, pitch: map.getPitch(), bearing: map.getBearing(), duration: reducedRef.current ? 0 : 1100 });
+    if (box) map.fitBounds(box, { padding: 64, maxZoom: 16.4, pitch: map.getPitch(), bearing: map.getBearing(), duration: reducedRef.current ? 0 : 1800, easing: easeInOutCubic });
     // flyHome is stable for this purpose; features/status drive the update
     // featKey stands in for features (same places = same key)
   }, [featKey, status]);
@@ -605,7 +606,7 @@ export function MapView({ features, sourceAttribution, selectedId, onSelect, onT
     if (sc && !hadScenario.current && tour === null && reducedRef.current) {
       const view = { ...SCENARIO_VIEW, pitch: is3d ? SCENARIO_VIEW.pitch : 0 };
       if (reducedRef.current) map.jumpTo(view);
-      else map.flyTo({ ...view, duration: 2600, curve: 1.2, easing: easeInOutCubic, essential: true });
+      else map.flyTo({ ...view, duration: 3400, curve: 1.3, easing: easeInOutCubic, essential: true });
     }
     hadScenario.current = !!sc;
     // camera moves only when a scenario is first switched on, not on every slider step
@@ -740,7 +741,7 @@ export function MapView({ features, sourceAttribution, selectedId, onSelect, onT
     const map = mapRef.current;
     if (!flyTo || !map || status !== "ready") return;
     const view = { center: flyTo, zoom: Math.max(map.getZoom(), 16.2), pitch: is3d ? 62 : 0, bearing: map.getBearing() };
-    if (reducedRef.current) map.jumpTo(view); else map.flyTo({ ...view, duration: 1800, curve: 1.25, easing: easeInOutCubic, essential: true });
+    if (reducedRef.current) map.jumpTo(view); else map.flyTo({ ...view, duration: 2600, curve: 1.35, easing: easeInOutCubic, essential: true });
   }, [flyTo, status]);
   const haze = Math.max(scenario?.haze ?? 0, lens === "air" ? 0.12 + lensLevel * 0.5 : 0);
   const heat = lens === "heat" ? 0.2 + lensLevel * 0.6 : scenario && scenario.heat > 0.05 ? 0.25 + scenario.heat * 0.55 : 0;

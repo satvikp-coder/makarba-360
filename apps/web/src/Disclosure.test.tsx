@@ -5,6 +5,7 @@ import { MemoryRouter } from "react-router-dom";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { App } from "./App.js";
 import { LANDMARKS, LandmarkCard } from "./landmarks.js";
+import { Sources } from "./ResearchPages.js";
 vi.mock("./map/MapView.js", () => ({ MapView: () => <div data-testid="map" /> }));
 
 const at = (path: string) => render(<MemoryRouter initialEntries={[path]}><App /></MemoryRouter>);
@@ -16,7 +17,8 @@ describe("one calm, honest disclosure of the prototype dataset", () => {
     for (const path of ["/", "/explore", "/voices", "/insights", "/places/x", "/research/sources"]) {
       at(path);
       const footer = screen.getByRole("contentinfo");
-      expect(footer.textContent, path).toBe("© 2026 Varun Karthic and Satvik Patel");
+      expect(footer.querySelector("p")!.textContent, path).toBe("© 2026 Varun Karthic and Satvik Patel");
+      expect(within(footer).getByRole("link", { name: "Photo credits" }).getAttribute("href"), path).toBe("/research/sources#photo-credits");
       expect(footer.textContent, path).not.toMatch(/demo|example|prototype|fictional/i);
       expect(within(footer).queryByRole("link", { name: "About the data" })).toBeNull();
       cleanup();
@@ -49,7 +51,7 @@ describe("sourced landmark notes", () => {
       expect(l.why.length).toBeGreaterThan(20);
     }
   });
-  it("a card shows its facts, a Sources line with links, and a bundled, credited photo with alt text", () => {
+  it("a card shows its facts, a Sources line with links, and a bundled photo with alt text (credited on Sources and credits)", () => {
     render(<MemoryRouter><LandmarkCard l={LANDMARKS[0]!} /></MemoryRouter>);
     const card = screen.getByRole("article", { name: "Sarkhej Roza" });
     expect(card.textContent).toMatch(/1445/);
@@ -58,8 +60,12 @@ describe("sourced landmark notes", () => {
     const img = within(card).getByRole("img");
     expect(img.getAttribute("src")).toBe("/images/landmarks/sarkhej-roza.jpg");
     expect(img.getAttribute("alt")!.length).toBeGreaterThan(30);
-    expect(card.textContent).toMatch(/Photo: Museeb fakih, Public domain, via Wikimedia Commons; resized and recompressed\./);
-    expect(within(card).getByRole("link", { name: "Wikimedia Commons" }).getAttribute("href")).toBe("https://commons.wikimedia.org/wiki/File:Sarkhej.JPG");
+    expect(card.textContent).not.toMatch(/Museeb fakih/);
+    cleanup();
+    render(<MemoryRouter><Sources /></MemoryRouter>);
+    const credit = screen.getAllByRole("link", { name: "Wikimedia Commons" }).find((a) => a.getAttribute("href") === "https://commons.wikimedia.org/wiki/File:Sarkhej.JPG")!.closest("li")!;
+    expect(credit.textContent).toMatch(/Photo: Museeb fakih; Public domain/);
+    expect(screen.getByText(/Fruit stall, Ahmedabad \(2007\)\. Photo: Helfmann; CC BY-SA 4\.0/)).toBeTruthy();   // place photos too
   });
   it("a card without a licensed photo says its illustration is a drawing", () => {
     const l = LANDMARKS.find((x) => !x.photos?.length)!;

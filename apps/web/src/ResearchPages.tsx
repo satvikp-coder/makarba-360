@@ -1,3 +1,4 @@
+import { PHOTOS } from "./placePhotos.js";
 import { Link } from "react-router-dom";
 import { LANGUAGES } from "./i18n.js";
 import { LANDMARKS } from "./landmarks.js";
@@ -64,10 +65,12 @@ export function Sources() {
       <ul>{[...new Map(LANDMARKS.flatMap((l) => l.sources).map((s) => [s.url, s])).values()].map((s) => (
         <li key={s.url}><a href={s.url} rel="noopener noreferrer">{s.title}</a> (retrieved {new Date(s.retrieved + "T00:00:00Z").toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" })}; text CC BY-SA 4.0, paraphrased)</li>
       ))}</ul>
-      <h2>Photographs</h2>
-      <p>Landmark photographs are openly licensed files from Wikimedia Commons, resized and recompressed and stored with the site so it works offline. Share-alike (CC BY-SA) images are shared under the same licence.</p>
+      <h2 id="photo-credits">Photo credits</h2>
+      <p>Every photograph on the site is an openly licensed file from Wikimedia Commons, resized and recompressed and stored with the site so it works offline. Share-alike (CC BY-SA) images are shared under the same licence.</p>
       <ul>{LANDMARKS.flatMap((l) => l.photos ?? []).map((p) => (
-        <li key={p.src}>{p.caption} {p.author}; {p.licenceUrl ? <a href={p.licenceUrl} rel="noopener noreferrer">{p.licence}</a> : p.licence}; <a href={p.commonsUrl} rel="noopener noreferrer">Commons file page</a>.</li>
+        <li key={p.src}>{p.caption} Photo: {p.author}; {p.licenceUrl ? <a href={p.licenceUrl} rel="noopener noreferrer">{p.licence}</a> : p.licence}; <a href={p.commonsUrl} rel="noopener noreferrer">Wikimedia Commons</a>.</li>
+      ))}{Object.values(PHOTOS).map((p) => (
+        <li key={p.src}>{p.title}. Photo: {p.credit}; {p.licence}; <a href={p.source} rel="noopener noreferrer">Wikimedia Commons</a>.</li>
       ))}</ul>
       <p>Cards without a suitable licensed photograph show original drawings made for this project.</p>
       <h2>Historical sources for places</h2>

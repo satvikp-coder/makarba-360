@@ -17,5 +17,9 @@ export default defineConfig({
       ? { command: `pnpm exec vite preview --host 127.0.0.1 --port ${WEB} --strictPort`, url: `http://127.0.0.1:${WEB}`, env: { MOCK_API_PORT: API }, reuseExistingServer: false, timeout: 60_000 }
       : { command: `pnpm exec vite --host 127.0.0.1 --port ${WEB} --strictPort`, url: `http://127.0.0.1:${WEB}`, env: { MOCK_API_PORT: API }, reuseExistingServer: !process.env.CI, timeout: 60_000 },
   ],
-  projects: [{ name: "chromium", use: { browserName: "chromium" } }],
+  // The street-level 3D scene is heavy on software WebGL: it runs after everything else so it never starves parallel journeys.
+  projects: [
+    { name: "chromium", use: { browserName: "chromium" }, testIgnore: /street\.spec/ },
+    { name: "street", use: { browserName: "chromium" }, testMatch: /street\.spec/, dependencies: ["chromium"] },
+  ],
 });

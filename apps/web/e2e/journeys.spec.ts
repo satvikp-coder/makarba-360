@@ -261,10 +261,10 @@ test.describe("map filters (real MapLibre canvas, stubbed tiles)", () => {
     await page.setViewportSize({ width: 1280, height: 800 });
     await page.goto("/explore");
     await expect(page.locator("canvas.maplibregl-canvas")).toBeVisible();
-    await expect(page.getByText("Showing all 12 places.")).toBeVisible();
+    await expect(page.getByText("Showing all 15 places.")).toBeVisible();
     await page.getByRole("button", { name: "Heritage" }).click();
     await expect(page).toHaveURL(/category=heritage/);
-    await expect(page.getByText("Showing 1 of 12 places.")).toBeVisible();
+    await expect(page.getByText("Showing 1 of 15 places.")).toBeVisible();
     await expect(page.getByRole("button", { name: "Canal bank walk" })).toHaveCount(0);
     // React Router 7 applies URL changes in a transition, so assert the new state with a retrying expect instead of .check()
     await page.getByRole("checkbox", { name: "Streets and routes" }).click();
@@ -273,14 +273,14 @@ test.describe("map filters (real MapLibre canvas, stubbed tiles)", () => {
     await expect(page.getByText(/Makarba 360 sketch map/)).toBeVisible();
     await expect(page.locator("canvas.maplibregl-canvas")).toBeVisible();
     await page.goBack();
-    await expect(page.getByText("Showing 1 of 12 places.")).toBeVisible();
+    await expect(page.getByText("Showing 1 of 15 places.")).toBeVisible();
     await page.goBack();
-    await expect(page.getByText("Showing all 12 places.")).toBeVisible();
+    await expect(page.getByText("Showing all 15 places.")).toBeVisible();
     await page.goForward();
     await page.goForward();
     await page.getByRole("button", { name: "Reset filters" }).click();
     await expect(page).not.toHaveURL(/category=/);
-    await expect(page.getByText("Showing all 12 places.")).toBeVisible();
+    await expect(page.getByText("Showing all 15 places.")).toBeVisible();
     expect(errors).toEqual([]);
   });
 
@@ -428,7 +428,7 @@ test.describe("place search (real map)", () => {
     await expect(page.getByText(/No places match/)).toBeVisible();
     await expect(page.getByText(/Makarba 360 sketch map/)).toBeVisible();
     await page.getByRole("button", { name: "Clear search" }).click();
-    await expect(page.getByText("Showing all 12 places.")).toBeVisible();
+    await expect(page.getByText("Showing all 15 places.")).toBeVisible();
     await page.goBack();
     await expect(page.getByText(/No places match/)).toBeVisible();
     expect(errors).toEqual([]);

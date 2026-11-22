@@ -30,7 +30,7 @@ describe("future panel", () => {
     const lensed = items.filter((li) => li.querySelector(".people-lens"));
     expect(lensed.length).toBe(items.length);
     for (const li of lensed) for (const t of ["Who gains", "Who bears the cost", "Right to the city"]) expect(within(li).getByText(t)).toBeTruthy();
-    expect(screen.getByRole("link", { name: /All indicators and the AI briefing/ }).getAttribute("href")).toBe("/forecasts");
+    expect(screen.getByRole("link", { name: /All indicators/ }).getAttribute("href")).toBe("/forecasts");
   });
   it("each change can fly the camera to where it happens", () => {
     show(2040);
