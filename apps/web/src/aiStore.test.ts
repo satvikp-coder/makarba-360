@@ -68,6 +68,34 @@ describe("stored AI insights (data/ai/insights.json)", () => {
     await loadInsights(doc);
     expect(getAi(doc, 2043).status).toBe("none");
   });
+  it("a malformed year entry in the file is skipped without losing the valid years or leaving the panel loading forever", async () => {
+    const f = file(forecastFingerprint(doc));
+    (f.years as Record<string, unknown>)["2044"] = null;
+    (f.years as Record<string, unknown>)["2045"] = "oops";
+    stub(() => new Response(JSON.stringify(f)));
+    await loadInsights(doc);
+    expect(getAi(doc, 2043).status).toBe("done");
+    expect(getAi(doc, 2044).status).toBe("none");
+    expect(getAi(doc, 2045).status).toBe("none");
+  });
+  it("a transient failure is not remembered: the next load retries and recovers", async () => {
+    let n = 0;
+    vi.stubGlobal("fetch", vi.fn(() => { calls.push("x"); return n++ === 0 ? Promise.reject(new TypeError("offline")) : Promise.resolve(new Response(JSON.stringify(file(forecastFingerprint(doc))))); }));
+    await loadInsights(doc);
+    expect(getAi(doc, 2043).status).toBe("none");
+    await loadInsights(doc);
+    expect(getAi(doc, 2043).status).toBe("done");
+    expect(calls).toHaveLength(2);
+  });
+  it("a 5xx response is retried later, but a 404 (no insights deployed) is remembered", async () => {
+    stub(() => new Response("", { status: 503 }));
+    await loadInsights(doc); await loadInsights(doc);
+    expect(calls).toHaveLength(2);
+    calls.length = 0; resetInsights();
+    stub(() => new Response("", { status: 404 }));
+    await loadInsights(doc); await loadInsights(doc);
+    expect(calls).toHaveLength(1);
+  });
   it("ignores malformed model items", () => {
     expect(parseHighlights('{"highlights":[null, 3]}', new Set())).toBeNull();
   });

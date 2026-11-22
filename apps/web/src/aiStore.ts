@@ -102,15 +102,20 @@ export function loadInsights(doc: ForecastDoc, url = "/ai/insights.json"): Promi
   const fingerprint = forecastFingerprint(doc);
   const previous = loaded.get(fingerprint);
   if (previous) return previous;
-  const job = fetch(url).then((r) => (r.ok ? r.json() as Promise<Stored> : null)).catch(() => null).then((j) => {
+  // A missing file (4xx) is a settled answer; a network error, server error or unreadable body may pass, so it is not remembered.
+  let transient = false;
+  const job = fetch(url).then((r) => { if (!r.ok) { transient = r.status >= 500; return null; } return r.json() as Promise<Stored>; })
+    .catch(() => { transient = true; return null; }).then((j) => {
     const years = new Map<number, AiEntry>();
-    if (j?.fingerprint === fingerprint && j.years) {
+    if (j?.fingerprint === fingerprint && j.years && typeof j.years === "object") {
       const ids = new Set(doc.series.map((x) => x.id));
       for (const [y, v] of Object.entries(j.years)) {
+        if (!v || typeof v !== "object") continue;
         const p = parseHighlights(JSON.stringify({ headline: v.headline, highlights: v.highlights }), ids);
         if (p) years.set(Number(y), { status: "done", ...p, ...(typeof v.briefing === "string" && v.briefing.trim() ? { briefing: v.briefing } : {}) });
       }
     }
+    if (transient) loaded.delete(fingerprint);
     ready.set(fingerprint, years);
     subs.forEach((f) => f());
     return years;
