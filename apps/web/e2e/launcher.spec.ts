@@ -102,6 +102,7 @@ test("the tour side panel can be closed and reopened on a narrow screen", async 
 });
 
 test("map controls give pointer feedback and respect reduced motion", async ({ page }) => {
+  test.slow(); // waits up to 25 s for software-rendered WebGL, which left too little of the 30 s budget on shared CI runners
   await page.goto("/explore");
   await expect(page.locator('.map-wrap[data-map-status="ready"][data-rendered="true"]')).toBeVisible({ timeout: 25_000 });
   const button = page.getByRole("button", { name: "360° camera" });
@@ -123,6 +124,7 @@ test("map controls give pointer feedback and respect reduced motion", async ({ p
 });
 
 test("the 3D city loads even when the places service is down, and the places appear once it recovers", async ({ page }) => {
+  test.slow(); // waits up to 25 s for software-rendered WebGL, which left too little of the 30 s budget on shared CI runners
   let down = true;
   await page.route("**/api/v1/public/locations**", (r) => (down ? r.fulfill({ status: 503, contentType: "application/json", body: "{}" }) : r.continue()));
   await page.goto("/explore");
