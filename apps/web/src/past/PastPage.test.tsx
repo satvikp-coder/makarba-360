@@ -119,7 +119,7 @@ describe("Past page", () => {
     await screen.findByRole("slider");
     expect(screen.getByRole("heading", { name: /Questions to test, not findings/ })).toBeTruthy();
     expect(screen.getByRole("heading", { name: /What is still missing/ })).toBeTruthy();
-    expect(screen.getByText(/Official ASI\/NMA record/)).toBeTruthy();
+    expect(screen.getByText(/The 1909 notification text and number/)).toBeTruthy();
   });
 
   it("describes the dated images as a record, not a before/after pair", async () => {

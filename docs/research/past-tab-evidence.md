@@ -15,13 +15,13 @@ The Past tab answers one question: how have roads, highways, town-planning (TP) 
 
 ## Layers and measurements
 
-Historical layers and measurement series are imported through a validated pipeline: see [Past tab GIS and measurement pipeline](past-gis-pipeline.md). One series is registered today: built-up surface in the study window from the JRC GHSL (modelled, 1975 to 2020). No historical map layer is registered, because none with a source, licence and coordinate system has been obtained.
+Historical layers and measurement series are imported through a validated pipeline: see [Past tab GIS and measurement pipeline](past-gis-pipeline.md). Two series are registered: built-up surface in the study window from the JRC GHSL (modelled, 1975 to 2020) and open water within 500 m of the Roza from Landsat (modelled, 1990 to 2024). Green cover was measured from the same Landsat scenes but is not published, because the years are not comparable (see the pipeline document). No historical map layer is registered, because none with a source, licence and coordinate system has been obtained.
 
 ## What the data hold
 
 | Area | Records | Best source tier |
 |---|---|---|
-| Roza history (1445 to 2001) | 7 | secondary (Sahapedia, Roza committee), one primary (Rijksmuseum, Commons/British Library) |
+| Roza history (1445 to 2001) | 8 | secondary (Sahapedia, Roza committee); primary: Rijksmuseum, Commons/British Library, and the National Monuments Authority's Vadodara Circle list (protection, notified 27 May 1909) |
 | Governance and population | 2 | tertiary (news, Wikipedia) |
 | Infrastructure | 3 | tertiary (news, Wikipedia) |
 | Planning | 1 | tertiary (news) |
@@ -51,6 +51,10 @@ Checked on 2026-11-23: the Census of India 2011 District Census Handbook, Ahmada
 - Ahmadabad (M Corp.) is reported as one town (5,633,927 persons) with rows for each ward, but the wards are identified only by number (for example "WARD NO.-0019"). The handbook text gives no ward names and no ward boundaries.
 
 So no 2011 count exists on the 2001 town boundaries, and no ward can yet be matched to the former towns. A ward-based series would need the 2011 AMC ward delimitation map, and the ward area would still differ from the 2001 town area (`sameAreaAndDefinition` would be false). No population series is registered. The 2001 figures themselves still come from Wikipedia and have not been checked against the 2001 PCA.
+
+## Heritage protection (issue #240)
+
+The National Monuments Authority's categorisation of Vadodara Circle monuments (https://www.nma.gov.in/WriteReadData/RTF1984/1682685450.pdf, file dated 28 April 2023, accessed 2026-11-23) lists seven Roza components as centrally protected (Category VI, living monuments, items 51 to 57), each notified on 27 May 1909. It gives no notification number and no protected or regulated area boundaries, so the `heritage-protection` layer stays empty. The same list's Category I entry for the 'Historic City of Ahmadabad' (ref. 1551) does not include the Roza; whether the Roza lies in that property's buffer zone is still unresolved (the UNESCO documents page returned HTTP 403 on 2026-11-23). The Wikipedia N-GJ-48 to N-GJ-54 numbering was not found in this list and is not used.
 
 ## Not done, and what is needed
 

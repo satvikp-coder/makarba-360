@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated": "2026-11-22",
+  "updated": "2026-11-23",
   "periods": [
     {
       "id": "p-sultanate",
@@ -135,6 +135,23 @@
       },
       "confidence": "high",
       "uncertainty": "The plan records the layout as surveyed in the 1860s; it has not been georeferenced, so it is not overlaid on the map."
+    },
+    {
+      "id": "roza-1909-protected",
+      "theme": "heritage",
+      "title": "The Roza's buildings are notified as protected monuments",
+      "text": "Seven parts of the Roza (the Great Mosque, the Great Tank with the palace and harem, the pavilion and four tombs and rozas) are listed by the National Monuments Authority as centrally protected monuments in ASI's Vadodara Circle, each with a notification date of 27 May 1909. The Authority places them in its category of living monuments that receive many visitors and pilgrims.",
+      "year": 1909,
+      "precision": "day",
+      "status": "documented",
+      "source": {
+        "title": "National Monuments Authority: categorisation of centrally protected monuments, Vadodara Circle, ASI (Category VI, items 51 to 57)",
+        "url": "https://www.nma.gov.in/WriteReadData/RTF1984/1682685450.pdf",
+        "tier": "primary",
+        "accessed": "2026-11-23"
+      },
+      "confidence": "high",
+      "uncertainty": "The date comes from the Authority's categorisation list (file dated April 2023), not from the 1909 notification itself, which was not seen; the list gives no notification number. The protected and regulated area boundaries around the Roza are not published in this list and are not drawn."
     },
     {
       "id": "roza-2001-earthquake",
@@ -493,14 +510,14 @@
   "gaps": [
     {
       "id": "g-asi",
-      "need": "Official ASI/NMA record of the Roza's protected status, ASI circle and notification date",
-      "why": "The status shown elsewhere on this site comes from Wikipedia only.",
+      "need": "The 1909 notification text and number, and the mapped protected and regulated areas around the Roza (heritage bye-laws under the AMASR Act, if notified)",
+      "why": "Protected status, ASI circle and the notification date (27 May 1909) are now sourced from the National Monuments Authority's list, but the list gives no notification number and no boundaries, so no protection area is drawn.",
       "whoCanProvide": "Archaeological Survey of India; National Monuments Authority"
     },
     {
       "id": "g-unesco",
       "need": "The boundary and buffer zone of the UNESCO 'Historic City of Ahmadabad' property",
-      "why": "It is not confirmed whether the Roza is inside, outside or within a buffer zone.",
+      "why": "The National Monuments Authority's Vadodara Circle list does not include the Roza's components among the monuments it groups under the 'Historic City of Ahmadabad' property (ref. 1551). That does not settle whether the Roza lies in a buffer zone; the nomination dossier was not reachable (HTTP 403).",
       "whoCanProvide": "UNESCO nomination dossier; AMC heritage cell"
     },
     {
@@ -530,7 +547,7 @@
     {
       "id": "g-lake",
       "need": "Dated records of the Sarkhej tank's water level and extent, and of encroachment on the Roza complex",
-      "why": "An 'about 29 to about 14 hectares' figure circulates but has no dates, so it is not charted.",
+      "why": "An 'about 29 to about 14 hectares' figure circulates but has no dates, so it is not charted. Open water within 500 m of the Roza is now charted from Landsat (1990 to 2024), but that is post-monsoon water in a circle, not the tank's outline or the complex's area, so it neither confirms nor dates that figure.",
       "whoCanProvide": "ASI, AMC, a dated survey or satellite analysis"
     },
     {
