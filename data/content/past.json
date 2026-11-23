@@ -524,8 +524,8 @@
     {
       "id": "g-census",
       "need": "Census of India 2011 counts for Makarba and Sarkhej-Okaf on matching boundaries",
-      "why": "Two comparable years are needed before a population change can be charted.",
-      "whoCanProvide": "Census of India (district census handbook)"
+      "why": "The 2011 District Census Handbook (Part XII-B) has no row for either former town; Ahmedabad's wards are listed by number only, so none can be matched to the 2001 boundaries without the 2011 ward map. Two comparable years are needed before a population change can be charted.",
+      "whoCanProvide": "Census of India (2001 PCA; 2011 ward delimitation map for Ahmadabad M Corp.); AMC (ward boundaries, Statistical Outline 2006-07 added areas)"
     },
     {
       "id": "g-lake",
