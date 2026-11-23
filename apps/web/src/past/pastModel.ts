@@ -44,7 +44,7 @@ const PRECISIONS: readonly Precision[] = ["exact", "year", "circa", "range"];
 
 export const STATUS_LABEL: Record<Status, string> = {
   documented: "Documented", proposed: "Proposed (not built)", sanctioned: "Sanctioned plan", implemented: "Implemented",
-  observed: "Observed today", reconstruction: "Reconstruction (illustrative)",
+  observed: "Observed", reconstruction: "Reconstruction (illustrative)",
 };
 export const THEME_LABEL: Record<Theme, string> = {
   heritage: "Heritage", infrastructure: "Roads & infrastructure", governance: "Governance", ecology: "Water & ecology",

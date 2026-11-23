@@ -106,6 +106,9 @@ describe("PastExplorer with the shipped registry", () => {
     expect(screen.getByText(/Two dated observations of the same kind/)).toBeTruthy();
     expect(screen.getByText(/Left: .*LT05.*public-domain, confidence medium.*Right: .*LC08.*public-domain, confidence medium/)).toBeTruthy();
     expect(shipped.slots.some((s) => s.id === "water-tank")).toBe(false);
+    // A dated historical observation is never labelled as present-day.
+    expect(split.textContent).toMatch(/1990 · Observed/);
+    expect(split.textContent).not.toMatch(/1990 · Observed today/);
   });
   it("measures today's distance from the Roza to the two main roads, as observed", async () => {
     mount({ "/geo/past/layers.json": shipped });

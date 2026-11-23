@@ -30,6 +30,6 @@ def test_series_carries_true_dates_and_passes_registry_rules():
            {"scene": "B", "date": "2024-11-08", "platform": "landsat-8", "waterNearRozaHa": 8.9}]
     s = build_series(res, "2026-11-23")
     assert [p["year"] for p in s["points"]] == [1990, 2024]
-    assert s["points"][1]["label"] == "2024-11-08 (Landsat 8)"
+    assert s["points"][1]["label"] == "8 Nov · L8"
     assert s["sameAreaAndDefinition"] is True and s["source"]["url"].startswith("https://")
     assert "A" in s["method"] and "B" in s["method"]

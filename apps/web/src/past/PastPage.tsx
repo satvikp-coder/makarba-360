@@ -46,7 +46,7 @@ function Bars({ c, pts }: { c: Comparison; pts: { label: string; year: number; v
       <svg viewBox={`0 0 ${pts.length * 120} 150`} role="img" aria-label={`${c.title}: ${pts.map((p) => `${p.label} ${p.value} ${c.unit}${p.approx ? " (approximate)" : ""}`).join("; ")}`}>
         <defs><pattern id={`h-${c.id}`} width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="3" height="6" fill="currentColor" opacity=".35" /></pattern></defs>
         {pts.map((p, i) => {
-          const h = (p.value / max) * 100;
+          const h = (p.value / max) * 88; // headroom so the tallest bar's value label stays inside the chart
           return (
             <g key={p.label} transform={`translate(${i * 120 + 24} 0)`}>
               <rect x="0" y={110 - h} width="72" height={h} rx="6" className="bar" />
