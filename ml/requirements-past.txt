@@ -3,3 +3,4 @@ tifffile
 imagecodecs
 zarr
 requests
+rasterio
