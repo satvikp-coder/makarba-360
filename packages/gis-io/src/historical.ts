@@ -51,7 +51,8 @@ export function validateLayerMeta(m: Partial<PastLayerMeta> | null | undefined, 
   if (typeof y !== "number" || !Number.isInteger(y) || y < 1000 || y > now.getFullYear()) r.push("asOf.year must be a whole year between 1000 and this year");
   if (!["exact", "year", "circa"].includes(m.asOf?.precision as string)) r.push("asOf.precision must be exact, year or circa");
   if (!ISO.test(m.accessed ?? "")) r.push("accessed must be an ISO date (YYYY-MM-DD)");
-  else if (new Date(m.accessed!) > now) r.push("accessed is in the future");
+  // A date-only access date is midnight UTC; allow for the earliest time zone (UTC+14), where that date has already begun.
+  else if (new Date(m.accessed!).getTime() > now.getTime() + 14 * 3600_000) r.push("accessed is in the future");
   if (!m.method?.trim()) r.push("method is required (how the data were produced or digitised)");
   if (!PAST_CONFIDENCE.includes(m.confidence as "high")) r.push("confidence must be high, medium or low");
   if (!m.limitations?.trim()) r.push("limitations are required");

@@ -18,6 +18,11 @@ const reasons = (r: { reasons: string[] }) => r.reasons.join(" | ");
 
 describe("validateLayerMeta", () => {
   it("accepts complete metadata", () => expect(validateLayerMeta(meta(), NOW)).toEqual([]));
+  it("accepts today's date written east of UTC but not a date two days ahead", () => {
+    const eveningUtc = new Date("2026-11-23T20:46:00Z"); // already 24 November in India (UTC+5:30)
+    expect(validateLayerMeta(meta({ accessed: "2026-11-24" }), eveningUtc)).toEqual([]);
+    expect(validateLayerMeta(meta({ accessed: "2026-11-25" }), eveningUtc).join()).toMatch(/in the future/);
+  });
   it.each([
     ["missing source URL", { source: { title: "x", url: "http://insecure" } }, /source needs/],
     ["unapproved licence", { licence: "All rights reserved" }, /not on the approved list/],

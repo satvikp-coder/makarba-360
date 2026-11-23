@@ -81,7 +81,7 @@ describe("registry and measurements", () => {
   });
 });
 
-describe("PastExplorer with no historical layers (the shipped state)", () => {
+describe("PastExplorer with the shipped registry", () => {
   it("shows the present-day map, the legend and every missing layer with its requirement, drawing nothing historical", async () => {
     const { container } = mount({ "/geo/past/layers.json": shipped });
     expect(await screen.findByRole("img", { name: /mapped today/ })).toBeTruthy();
@@ -94,10 +94,18 @@ describe("PastExplorer with no historical layers (the shipped state)", () => {
     expect(within(item).getByText(/Do not trace a boundary from an aggregator screenshot/)).toBeTruthy();
     expect(within(item).getByText(/AUDA or AMC Town Planning department/)).toBeTruthy();
   });
-  it("explains that a before/after comparison needs two dated layers", async () => {
-    mount({ "/geo/past/layers.json": shipped });
+  it("explains that a before/after comparison needs two dated layers when none is registered", async () => {
+    mount({ "/geo/past/layers.json": reg([]) });
     expect(await screen.findByText(/needs two dated layers of the same kind/)).toBeTruthy();
     expect(screen.getByText(/None is available yet/)).toBeTruthy();
+  });
+  it("offers the shipped Landsat water outlines (1990 and 2024) as two dated observations with their provenance", async () => {
+    mount({ "/geo/past/layers.json": shipped, "/geo/past/water-tank.geojson": read("geo/past/water-tank.geojson"), "/geo/past/water-tank-2024.geojson": read("geo/past/water-tank-2024.geojson") });
+    const split = await screen.findByRole("img", { name: /Split view/ });
+    expect(split.getAttribute("aria-label")).toMatch(/1990-11-11.*\(1990\).*2024-11-08.*\(2024\)/);
+    expect(screen.getByText(/Two dated observations of the same kind/)).toBeTruthy();
+    expect(screen.getByText(/Left: .*LT05.*public-domain, confidence medium.*Right: .*LC08.*public-domain, confidence medium/)).toBeTruthy();
+    expect(shipped.slots.some((s) => s.id === "water-tank")).toBe(false);
   });
   it("measures today's distance from the Roza to the two main roads, as observed", async () => {
     mount({ "/geo/past/layers.json": shipped });
