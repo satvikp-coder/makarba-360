@@ -42,6 +42,16 @@ Most infrastructure evidence is lower tier. It should be replaced by AMC, AUDA, 
 
 Town Plan Map states that its information is aggregated from government sources for information only. No geometry, image or text was copied from it beyond these status and area facts. Do not trace scheme polygons from its map images.
 
+## Census 2011 for Makarba and Sarkhej-Okaf (issue #241): no matching unit found
+
+Checked on 2026-11-23: the Census of India 2011 District Census Handbook, Ahmadabad, Part XII-B (Primary Census Abstract; catalogue 405, https://censusindia.gov.in/nada/index.php/catalog/405, files 1268 to 1270, all downloadable without login).
+
+- The handbook's PCA text (502 pages) has no town, outgrowth or village row named Makarba, Sarkhej or Sarkhej-Okaf. Sarkhej appears only in the district history.
+- The Gujarat village directory workbook in the same catalogue has no Makarba or Sarkhej-Okaf row. Its only "Sarkhej" is a village in Kathlal taluka, Kheda district, which is a different place.
+- Ahmadabad (M Corp.) is reported as one town (5,633,927 persons) with rows for each ward, but the wards are identified only by number (for example "WARD NO.-0019"). The handbook text gives no ward names and no ward boundaries.
+
+So no 2011 count exists on the 2001 town boundaries, and no ward can yet be matched to the former towns. A ward-based series would need the 2011 AMC ward delimitation map, and the ward area would still differ from the 2001 town area (`sameAreaAndDefinition` would be false). No population series is registered. The 2001 figures themselves still come from Wikipedia and have not been checked against the 2001 PCA.
+
 ## Heritage protection (issue #240)
 
 The National Monuments Authority's categorisation of Vadodara Circle monuments (https://www.nma.gov.in/WriteReadData/RTF1984/1682685450.pdf, file dated 28 April 2023, accessed 2026-11-23) lists seven Roza components as centrally protected (Category VI, living monuments, items 51 to 57), each notified on 27 May 1909. It gives no notification number and no protected or regulated area boundaries, so the `heritage-protection` layer stays empty. The same list's Category I entry for the 'Historic City of Ahmadabad' (ref. 1551) does not include the Roza; whether the Roza lies in that property's buffer zone is still unresolved (the UNESCO documents page returned HTTP 403 on 2026-11-23). The Wikipedia N-GJ-48 to N-GJ-54 numbering was not found in this list and is not used.
