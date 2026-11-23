@@ -165,7 +165,7 @@ function PastBody({ doc, fetcher }: { doc: PastDoc; fetcher?: typeof fetch }) {
       <section aria-labelledby="past-compare" className="past-sec">
         <h2 id="past-compare">Past and present, where the data allow</h2>
         {comparisons.length === 0 ? <p className="past-empty">No comparable measurements are published yet.</p> : <div className="past-grid">{comparisons.map((c) => <ComparisonCard key={c.id} c={c} />)}</div>}
-        <p className="past-limit">Built-up surface is charted from a satellite-derived product (modelled, about 90 m cells). Road length, green cover, tank extent, land use and settlement change are not charted: no consistent, dated measurement for the same area has been imported yet (see the layers waiting for evidence). Anecdotes are never converted into percentages.</p>
+        <p className="past-limit">Built-up surface (about 90 m cells) and open water near the Roza (one clear post-monsoon Landsat scene per year, 30 m) are charted from satellite data and are modelled estimates. The water figure covers a 500 m circle, not a tank outline, and cannot date any encroachment. Green cover is not charted: the vegetated area depends heavily on the threshold and on the change of Landsat sensor, so the years are not comparable. Road length, land use and settlement change are not charted: no consistent, dated measurement for the same area has been imported yet (see the layers waiting for evidence). Anecdotes are never converted into percentages.</p>
       </section>
 
       <section aria-labelledby="past-tp" className="past-sec">

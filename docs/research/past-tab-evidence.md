@@ -15,7 +15,7 @@ The Past tab answers one question: how have roads, highways, town-planning (TP) 
 
 ## Layers and measurements
 
-Historical layers and measurement series are imported through a validated pipeline: see [Past tab GIS and measurement pipeline](past-gis-pipeline.md). One series is registered today: built-up surface in the study window from the JRC GHSL (modelled, 1975 to 2020). No historical map layer is registered, because none with a source, licence and coordinate system has been obtained.
+Historical layers and measurement series are imported through a validated pipeline: see [Past tab GIS and measurement pipeline](past-gis-pipeline.md). Two series are registered: built-up surface in the study window from the JRC GHSL (modelled, 1975 to 2020) and open water within 500 m of the Roza from Landsat (modelled, 1990 to 2024). Green cover was measured from the same Landsat scenes but is not published, because the years are not comparable (see the pipeline document). No historical map layer is registered, because none with a source, licence and coordinate system has been obtained.
 
 ## What the data hold
 
