@@ -47,6 +47,11 @@ export const SHORTCUTS: { group: string; keys: string[]; what: string }[] = [
   { group: "Map focused", keys: ["↑", "↓", "←", "→"], what: "Pan the map (after clicking or tabbing into it)" },
 ];
 
+/** How a route uses the screen. Every route that is not one of the four map pages is a reading page over a dimmed map;
+ *  the map (Stage.tsx) uses the same rule, so a new page never gets the map's floating controls drawn over its text. */
+export const pageKind = (path: string): "home" | "explore" | "outlook" | "street" | "reader" =>
+  path === "/" ? "home" : path === "/explore" ? "explore" : path === "/forecasts" ? "outlook" : path === "/street" ? "street" : "reader";
+
 const NAV: { to: string; label: string; icon: IconName; tip: string; end?: boolean }[] = [
   { to: "/", label: "Overview", icon: "home", tip: "Overview (1)", end: true },
   { to: "/explore", label: "Explore", icon: "map", tip: "Explore the 3D map (2)" },
@@ -193,7 +198,7 @@ export function Layout() {
     window.addEventListener("keydown", on);
     return () => window.removeEventListener("keydown", on);
   }, [nav]);
-  const page = loc.pathname === "/" ? "home" : loc.pathname === "/explore" ? "explore" : loc.pathname === "/forecasts" ? "outlook" : loc.pathname === "/street" ? "street" : "reader";
+  const page = pageKind(loc.pathname);
   return (
     <MapProvider>
       <a className="skip" href="#main">{t.skip}</a>

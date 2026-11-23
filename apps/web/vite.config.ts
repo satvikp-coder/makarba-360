@@ -13,8 +13,10 @@ export default defineConfig(({ mode }) => {
     // maplibre-gl 6 starts its worker from a URL relative to its own module; pre-bundling would move the module away from the worker file.
     optimizeDeps: { exclude: ["maplibre-gl"] },
     // MOCK_API_PORT lets a second checkout run its own mock without clashing (default 4010, as in CI).
-    server: { proxy },
-    preview: { proxy },
+    // Listen on IPv4 explicitly: on systems where "localhost" resolves to ::1 first (Node 17+ on macOS), Vite would listen on IPv6 only
+    // and run.sh's readiness check, the port check and the API proxy, which all use 127.0.0.1, would never see it.
+    server: { proxy, host: "127.0.0.1" },
+    preview: { proxy, host: "127.0.0.1" },
     // Some tests dynamically import the 3D street page or MapLibre (hundreds of KB). Measured: world.test.ts "walking starts" takes about 1 s alone but
     // 5.5 s with all workers busy, which crossed the 5 s default and failed in the full suite. 20 s covers a loaded CI runner without hiding hangs.
     test: { environment: "jsdom", globals: false, include: ["src/**/*.test.{ts,tsx}"], setupFiles: ["src/test-setup.ts"], testTimeout: 20_000, hookTimeout: 20_000 },
