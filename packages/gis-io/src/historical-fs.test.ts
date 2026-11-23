@@ -9,12 +9,12 @@ import { validateRegistry, type MeasurementSeries, type PastLayerMeta } from "./
 const SHIPPED = resolve(process.cwd(), "../../data");
 const NOW = new Date("2026-11-22");
 const meta = (o: Partial<PastLayerMeta> = {}): PastLayerMeta => ({
-  id: "water-tank", kind: "water", title: "Synthetic water test layer", status: "observed",
+  id: "green-cover", kind: "green", title: "Synthetic green test layer", status: "observed",
   source: { title: "Synthetic test source", url: "https://example.org/synthetic" }, licence: "CC0-1.0", crs: "EPSG:4326",
   asOf: { year: 2020, precision: "year" }, accessed: "2026-11-22", method: "Hand-made test geometry", confidence: "low", limitations: "Synthetic: not real.",
   coverage: [72.49, 22.97, 72.52, 23.01], ...o,
 });
-const water = JSON.stringify({ type: "FeatureCollection", features: [{ type: "Feature", properties: { name: "Test tank" }, geometry: { type: "Polygon", coordinates: [[[72.5, 22.99], [72.51, 22.99], [72.51, 23], [72.5, 23], [72.5, 22.99]]] } }] });
+const area = JSON.stringify({ type: "FeatureCollection", features: [{ type: "Feature", properties: { name: "Test tank" }, geometry: { type: "Polygon", coordinates: [[[72.5, 22.99], [72.51, 22.99], [72.51, 23], [72.5, 23], [72.5, 22.99]]] } }] });
 
 let dir = "";
 beforeEach(() => { dir = mkdtempSync(join(tmpdir(), "past-")); cpSync(join(SHIPPED, "geo/past"), join(dir, "geo/past"), { recursive: true }); });
@@ -40,50 +40,50 @@ describe("shipped registry", () => {
 
 describe("importLayer", () => {
   it("validates, normalises, hashes, writes the layer and moves its slot into layers", () => {
-    const out = importLayer(dir, water, meta(), { now: NOW });
+    const out = importLayer(dir, area, meta(), { now: NOW });
     expect(out.ok).toBe(true);
     const reg = readRegistry(dir);
-    expect(reg.layers.map((l) => l.id)).toEqual(["water-tank"]);
-    expect(reg.slots.some((s) => s.id === "water-tank")).toBe(false);
-    const stored = JSON.parse(readFileSync(join(dir, "geo/past/water-tank.geojson"), "utf8"));
+    expect(reg.layers.map((l) => l.id)).toEqual(["water-tank", "water-tank-2024", "green-cover"]);
+    expect(reg.slots.some((s) => s.id === "green-cover")).toBe(false);
+    const stored = JSON.parse(readFileSync(join(dir, "geo/past/green-cover.geojson"), "utf8"));
     expect(stored._provenance.licence).toBe("CC0-1.0");
     expect(checkRegistryOnDisk(dir)).toEqual([]);
   });
   it("writes nothing when validation fails", () => {
     const before = readFileSync(join(dir, REGISTRY_PATH), "utf8");
-    const out = importLayer(dir, water, meta({ licence: "All rights reserved" }), { now: NOW });
+    const out = importLayer(dir, area, meta({ licence: "All rights reserved" }), { now: NOW });
     expect(out.ok).toBe(false);
     expect(readFileSync(join(dir, REGISTRY_PATH), "utf8")).toBe(before);
-    expect(existsSync(join(dir, "geo/past/water-tank.geojson"))).toBe(false);
+    expect(existsSync(join(dir, "geo/past/green-cover.geojson"))).toBe(false);
   });
   it("refuses to overwrite an existing layer unless replace is passed", () => {
-    expect(importLayer(dir, water, meta(), { now: NOW }).ok).toBe(true);
-    const again = importLayer(dir, water, meta(), { now: NOW });
+    expect(importLayer(dir, area, meta(), { now: NOW }).ok).toBe(true);
+    const again = importLayer(dir, area, meta(), { now: NOW });
     expect(again.ok).toBe(false);
     if (!again.ok) expect(again.reasons.join()).toMatch(/already registered/);
-    expect(importLayer(dir, water, meta(), { now: NOW, replace: true }).ok).toBe(true);
+    expect(importLayer(dir, area, meta(), { now: NOW, replace: true }).ok).toBe(true);
   });
   it("refuses a layer whose kind does not match the slot it fills", () => {
-    const out = importLayer(dir, water, meta({ kind: "green" }), { now: NOW });
+    const out = importLayer(dir, area, meta({ kind: "water" }), { now: NOW });
     expect(out.ok).toBe(false);
-    if (!out.ok) expect(out.reasons.join()).toMatch(/expects kind water/);
+    if (!out.ok) expect(out.reasons.join()).toMatch(/expects kind green/);
   });
   it("leaves no temporary files behind", () => {
-    importLayer(dir, water, meta(), { now: NOW });
+    importLayer(dir, area, meta(), { now: NOW });
     expect(existsSync(join(dir, REGISTRY_PATH + ".tmp"))).toBe(false);
   });
 });
 
 describe("checkRegistryOnDisk", () => {
   it("detects a hand-edited layer file", () => {
-    importLayer(dir, water, meta(), { now: NOW });
-    const f = join(dir, "geo/past/water-tank.geojson");
+    importLayer(dir, area, meta(), { now: NOW });
+    const f = join(dir, "geo/past/green-cover.geojson");
     writeFileSync(f, readFileSync(f, "utf8").replace("Test tank", "Edited"), "utf8");
     expect(checkRegistryOnDisk(dir).join()).toMatch(/does not match its recorded sha256/);
   });
   it("detects a missing layer file", () => {
-    importLayer(dir, water, meta(), { now: NOW });
-    rmSync(join(dir, "geo/past/water-tank.geojson"));
+    importLayer(dir, area, meta(), { now: NOW });
+    rmSync(join(dir, "geo/past/green-cover.geojson"));
     expect(checkRegistryOnDisk(dir).join()).toMatch(/is missing/);
   });
 });
