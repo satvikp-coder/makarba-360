@@ -128,7 +128,11 @@ def measure_scene(item: dict, token: str) -> dict | None:
     good = inside & ((qa & QA_BAD) == 0)
     (rx,), (ry,) = transform("EPSG:4326", crs, [ROZA[0]], [ROZA[1]])
     x, y = (np.asarray(v).reshape(qa.shape) for v in (xs, ys))
-    near = good & (np.hypot(x - rx, y - ry) <= ROZA_RADIUS_M)
+    circle = inside & (np.hypot(x - rx, y - ry) <= ROZA_RADIUS_M)
+    if bad_fraction(qa, circle) > MAX_BAD_FRACTION:  # the window rule alone could let a cloud over the tank undercount water
+        print(f"  {item['id']}: cloud or shadow over the Roza circle; trying the next scene", flush=True)
+        return None
+    near = good & circle
     p = item["properties"]
     return {"scene": item["id"], "date": p["datetime"][:10], "platform": p["platform"], "crs": str(crs),
             "windowPixels": int(inside.sum()), "badFraction": round(bad, 4), "nearRozaPixels": int(near.sum()),
