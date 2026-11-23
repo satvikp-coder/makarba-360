@@ -159,17 +159,6 @@
       ]
     },
     {
-      "id": "water-tank",
-      "kind": "water",
-      "title": "Sarkhej tank extent over time",
-      "status": "unavailable",
-      "evidenceRequired": "Water-extent polygons for the Sarkhej tank for at least two dated observations (season stated), from a published water product or documented imagery analysis.",
-      "acceptableSources": [
-        "JRC Global Surface Water (CC BY 4.0)",
-        "A documented analysis of dated satellite imagery"
-      ]
-    },
-    {
       "id": "green-cover",
       "kind": "green",
       "title": "Green cover over time",
@@ -191,7 +180,88 @@
       ]
     }
   ],
-  "layers": [],
+  "layers": [
+    {
+      "id": "water-tank",
+      "kind": "water",
+      "title": "Open water within 500 m of Sarkhej Roza, 1990-11-11 (Landsat)",
+      "status": "available",
+      "file": "geo/past/water-tank.geojson",
+      "sha256": "8765e52af98754ed37db4efaad2848fe07c5e4ef6ad6150838f5f92c8b5ba82c",
+      "meta": {
+        "id": "water-tank",
+        "kind": "water",
+        "title": "Open water within 500 m of Sarkhej Roza, 1990-11-11 (Landsat)",
+        "status": "observed",
+        "source": {
+          "title": "USGS Landsat Collection 2 Level-2 scene LT05_L2SP_149044_19901111_02_T1 (public domain), via Microsoft Planetary Computer",
+          "url": "https://planetarycomputer.microsoft.com/dataset/landsat-c2-l2"
+        },
+        "licence": "public-domain",
+        "crs": "EPSG:4326",
+        "asOf": {
+          "year": 1990,
+          "precision": "exact"
+        },
+        "accessed": "2026-11-24",
+        "method": "Pixels with MNDWI (green, SWIR-1) above 0.0 whose centre lies within 500 m of the Roza, vectorised along pixel edges (30 m) and reprojected from EPSG:32642 to WGS 84 by ml/past_water_green.py. Scene acquired 1990-11-11.",
+        "confidence": "medium",
+        "limitations": "Post-monsoon water on one day, so the outline depends on that year's rainfall. Edges follow 30 m pixels, so a stepped outline, not a surveyed shoreline. Includes the Sarkhej tank and any other water in the circle; it is not the tank's design outline and says nothing about encroachment.",
+        "coverage": [
+          72.49539,
+          22.98342,
+          72.51539,
+          23.00342
+        ]
+      },
+      "counts": {
+        "features": 3,
+        "vertices": 37,
+        "droppedProperties": 0,
+        "duplicates": 0
+      }
+    },
+    {
+      "id": "water-tank-2024",
+      "kind": "water",
+      "title": "Open water within 500 m of Sarkhej Roza, 2024-11-08 (Landsat)",
+      "status": "available",
+      "file": "geo/past/water-tank-2024.geojson",
+      "sha256": "abc001736d407fd09ad5b556205375ddbf74c206ea0ffc5fda32fa33b8d83cc8",
+      "meta": {
+        "id": "water-tank-2024",
+        "kind": "water",
+        "title": "Open water within 500 m of Sarkhej Roza, 2024-11-08 (Landsat)",
+        "status": "observed",
+        "source": {
+          "title": "USGS Landsat Collection 2 Level-2 scene LC08_L2SP_149044_20241108_02_T1 (public domain), via Microsoft Planetary Computer",
+          "url": "https://planetarycomputer.microsoft.com/dataset/landsat-c2-l2"
+        },
+        "licence": "public-domain",
+        "crs": "EPSG:4326",
+        "asOf": {
+          "year": 2024,
+          "precision": "exact"
+        },
+        "accessed": "2026-11-24",
+        "method": "Pixels with MNDWI (green, SWIR-1) above 0.0 whose centre lies within 500 m of the Roza, vectorised along pixel edges (30 m) and reprojected from EPSG:32642 to WGS 84 by ml/past_water_green.py. Scene acquired 2024-11-08.",
+        "confidence": "medium",
+        "limitations": "Post-monsoon water on one day, so the outline depends on that year's rainfall. Edges follow 30 m pixels, so a stepped outline, not a surveyed shoreline. Includes the Sarkhej tank and any other water in the circle; it is not the tank's design outline and says nothing about encroachment.",
+        "coverage": [
+          72.49539,
+          22.98342,
+          72.51539,
+          23.00342
+        ]
+      },
+      "counts": {
+        "features": 2,
+        "vertices": 37,
+        "droppedProperties": 0,
+        "duplicates": 0
+      }
+    }
+  ],
   "measurements": [
     {
       "id": "ghsl-builtup-study-window",

@@ -24,7 +24,8 @@ Limits:   one date per year, so it reflects that year's monsoon as much as any l
 Usage:
     python -m venv .venv-past && .venv-past/bin/pip install -r ml/requirements-past.txt
     .venv-past/bin/python ml/past_water_green.py --out-dir ml/out [--years 1985 1990 ... 2025]
-Writes <out-dir>/landsat-water-near-roza.json and <out-dir>/landsat-water-green.audit.json.
+Writes <out-dir>/landsat-water-near-roza.json and <out-dir>/landsat-water-green.audit.json; with --layers also
+water-tank.geojson/.meta.json (1990) and water-tank-2024.geojson/.meta.json for `past-layer import`.
 """
 from __future__ import annotations
 
@@ -51,6 +52,7 @@ NDVI_MIN, MNDWI_MIN = 0.4, 0.0
 PIXEL_M2 = 900.0
 # QA_PIXEL bits: 0 fill, 1 dilated cloud, 3 cloud, 4 cloud shadow (USGS Landsat Collection 2 Level-2 product guide).
 QA_BAD = (1 << 0) | (1 << 1) | (1 << 3) | (1 << 4)
+TANK_LAYER_YEARS = (1990, 2024)  # earliest and latest clear scenes; exported as polygon layers with --layers
 DEFAULT_YEARS = (1985, 1990, 1995, 2000, 2005, 2010, 2015, 2020, 2025)  # targets; years with no clear scene are left out
 
 
@@ -134,16 +136,47 @@ def measure_scene(item: dict, token: str) -> dict | None:
         return None
     near = good & circle
     p = item["properties"]
+    polygons = water_polygons(water & near, wt, crs)
     return {"scene": item["id"], "date": p["datetime"][:10], "platform": p["platform"], "crs": str(crs),
             "windowPixels": int(inside.sum()), "badFraction": round(bad, 4), "nearRozaPixels": int(near.sum()),
             "waterNearRozaHa": round(float(water[near].sum()) * PIXEL_M2 / 10_000, 1),
             "vegetatedHa": round(float(veg[good].sum()) * PIXEL_M2 / 10_000, 1),
             "windowHa": round(float(inside.sum()) * PIXEL_M2 / 10_000, 1),
+            "_polygons": polygons,
             # Threshold sensitivity for reviewers; only NDVI_MIN is published.
             "vegetatedHaAtNdvi": {str(t): round(float(((index(bands["nir08"], bands["red"]) >= t) & ~water)[good].sum()) * PIXEL_M2 / 10_000, 1)
                                   for t in (0.3, 0.4, 0.5)},
             "waterNearRozaHaAtMndwi": {str(t): round(float((index(bands["green"], bands["swir16"]) > t)[near].sum()) * PIXEL_M2 / 10_000, 1)
                                        for t in (-0.1, 0.0, 0.1)}}
+
+
+def water_polygons(mask: np.ndarray, transform, crs) -> list[dict]:
+    """Pixel-edged WGS 84 polygons of a boolean mask (one per connected water body, 4-connected)."""
+    from rasterio.features import shapes
+    from rasterio.warp import transform_geom
+    return [transform_geom(crs, "EPSG:4326", g, precision=6)
+            for g, v in shapes(mask.astype(np.uint8), mask=mask, transform=transform, connectivity=4) if v == 1]
+
+
+def layer_files(r: dict, accessed: str) -> tuple[dict, dict]:
+    """GeoJSON and metadata for `past-layer import`: water within 500 m of the Roza on one acquisition date."""
+    y = int(r["date"][:4])
+    lid = "water-tank" if y == min(TANK_LAYER_YEARS) else f"water-tank-{y}"
+    feats = [{"type": "Feature", "id": f"{lid}-{i + 1}", "properties": {"class": "open water", "note": f"Landsat {r['date']}"}, "geometry": g}
+             for i, g in enumerate(r["_polygons"])]
+    w, s, e, n = ROZA[0] - 0.01, ROZA[1] - 0.01, ROZA[0] + 0.01, ROZA[1] + 0.01
+    meta = {"id": lid, "kind": "water", "title": f"Open water within 500 m of Sarkhej Roza, {r['date']} (Landsat)", "status": "observed",
+            "source": {"title": f"USGS Landsat Collection 2 Level-2 scene {r['scene']} (public domain), via Microsoft Planetary Computer",
+                       "url": "https://planetarycomputer.microsoft.com/dataset/landsat-c2-l2"},
+            "licence": "public-domain", "crs": "EPSG:4326", "asOf": {"year": y, "precision": "exact"}, "accessed": accessed,
+            "method": (f"Pixels with MNDWI (green, SWIR-1) above {MNDWI_MIN} whose centre lies within {ROZA_RADIUS_M:.0f} m of the Roza, "
+                       f"vectorised along pixel edges (30 m) and reprojected from {r['crs']} to WGS 84 by ml/past_water_green.py. Scene acquired {r['date']}."),
+            "confidence": "medium",
+            "limitations": ("Post-monsoon water on one day, so the outline depends on that year's rainfall. Edges follow 30 m pixels, so a stepped "
+                            "outline, not a surveyed shoreline. Includes the Sarkhej tank and any other water in the circle; it is not the tank's "
+                            "design outline and says nothing about encroachment."),
+            "coverage": [round(w, 5), round(s, 5), round(e, 5), round(n, 5)]}
+    return {"type": "FeatureCollection", "features": feats}, meta
 
 
 def build_series(results: list[dict], accessed: str) -> dict:
@@ -177,6 +210,7 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--years", type=int, nargs="+", default=list(DEFAULT_YEARS))
     ap.add_argument("--out-dir", required=True)
+    ap.add_argument("--layers", action="store_true", help=f"also write polygon layers for the scenes from {TANK_LAYER_YEARS}")
     args = ap.parse_args()
     bad = [y for y in args.years if not 1984 <= y <= date.today().year]
     if bad:
@@ -208,6 +242,14 @@ def main() -> int:
     out.mkdir(parents=True, exist_ok=True)
     series = build_series(results, accessed)
     (out / f"{series['id']}.json").write_text(json.dumps(series, indent=2) + "\n", encoding="utf-8")
+    if args.layers:
+        for r in results:
+            if int(r["date"][:4]) in TANK_LAYER_YEARS:
+                layer, meta = layer_files(r, accessed)
+                (out / f"{meta['id']}.geojson").write_text(json.dumps(layer) + "\n", encoding="utf-8")
+                (out / f"{meta['id']}.meta.json").write_text(json.dumps(meta, indent=2) + "\n", encoding="utf-8")
+    for r in results:
+        r.pop("_polygons", None)
     (out / "landsat-water-green.audit.json").write_text(json.dumps({"results": results, "yearsWithoutScene": gaps}, indent=2) + "\n", encoding="utf-8")
     print(f"wrote series to {out}")
     return 0
