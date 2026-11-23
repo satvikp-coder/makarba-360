@@ -16,6 +16,7 @@ describe("validEvent", () => {
     ["no access date", { source: { ...src, accessed: "" } }],
     ["no uncertainty note", { uncertainty: " " }],
     ["unknown status", { status: "built" as never }],
+    ["unknown precision", { precision: "day" as never }],
     ["fractional year", { year: 1451.5 }],
     ["end before start", { yearTo: 1400 }],
     ["implausible year", { year: 12 }],
