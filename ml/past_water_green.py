@@ -179,6 +179,12 @@ def layer_files(r: dict, accessed: str) -> tuple[dict, dict]:
     return {"type": "FeatureCollection", "features": feats}, meta
 
 
+def short_label(r: dict) -> str:
+    """Chart label such as '11 Nov · L5'; the full date and scene id are in the method text."""
+    d = date.fromisoformat(r["date"])
+    return f"{d.day} {d.strftime('%b')} · L{r['platform'].rsplit('-', 1)[1]}"
+
+
 def build_series(results: list[dict], accessed: str) -> dict:
     rules = (f"One Landsat Collection 2 Level-2 scene per year: WRS-2 path {PATH} row {ROW}, Tier 1, Landsat 5 TM or 8/9 OLI, "
              f"acquired {SEASON[0]} to {SEASON[1]} (month-day), the clearest with under {MAX_BAD_FRACTION:.0%} fill, cloud or shadow "
@@ -200,7 +206,7 @@ def build_series(results: list[dict], accessed: str) -> dict:
                   "without changing their order. "
                   "This is not an encroachment measurement and cannot date the loss of the tank's area. " + common_limits,
         "sameAreaAndDefinition": True, "source": source,
-        "points": [{"label": f"{r['date']} ({r['platform'].replace('landsat-', 'Landsat ')})", "year": int(r["date"][:4]),
+        "points": [{"label": short_label(r), "year": int(r["date"][:4]),
                     "value": r["waterNearRozaHa"], "approx": True} for r in results],
     }
     return water
