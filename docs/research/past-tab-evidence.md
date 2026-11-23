@@ -22,7 +22,7 @@ Historical layers and measurement series are imported through a validated pipeli
 | Area | Records | Best source tier |
 |---|---|---|
 | Roza history (1445 to 2001) | 8 | secondary (Sahapedia, Roza committee); primary: Rijksmuseum, Commons/British Library, and the National Monuments Authority's Vadodara Circle list (protection, notified 27 May 1909) |
-| Governance and population | 2 | tertiary (news, Wikipedia) |
+| Governance and population | 3 | primary: Census of India 2001 table C-01, Gujarat notification of 14 Feb 2006 (Makarba); tertiary: news (Sarkhej-Okaf merger) |
 | Infrastructure | 3 | tertiary (news, Wikipedia) |
 | Planning | 1 | tertiary (news) |
 | TP schemes | 8 | AMC table (primary, accessed 2026-11-08) and Town Plan Map listings (tertiary aggregator) |
@@ -50,11 +50,24 @@ Checked on 2026-11-23: the Census of India 2011 District Census Handbook, Ahmada
 - The Gujarat village directory workbook in the same catalogue has no Makarba or Sarkhej-Okaf row. Its only "Sarkhej" is a village in Kathlal taluka, Kheda district, which is a different place.
 - Ahmadabad (M Corp.) is reported as one town (5,633,927 persons) with rows for each ward, but the wards are identified only by number (for example "WARD NO.-0019"). The handbook text gives no ward names and no ward boundaries.
 
-So no 2011 count exists on the 2001 town boundaries, and no ward can yet be matched to the former towns. A ward-based series would need the 2011 AMC ward delimitation map, and the ward area would still differ from the 2001 town area (`sameAreaAndDefinition` would be false). No population series is registered. The 2001 figures themselves still come from Wikipedia and have not been checked against the 2001 PCA.
+So no 2011 count exists on the 2001 town boundaries, and no ward can yet be matched to the former towns. A ward-based series would need the 2011 AMC ward delimitation map, and the ward area would still differ from the 2001 town area (`sameAreaAndDefinition` would be false). No population series is registered. The 2001 figures are now taken from the official Census 2001 table C-01 for Gujarat (catalogue 21486): Makarba (CT) 18,047, and Sarkhej-Okaf (M+OG) 28,808 (23,412 in Ahmadabad City taluka, 5,396 in Daskroi). Wikipedia's 18,090 and 23,086 do not match it.
 
 ## Heritage protection (issue #240)
 
 The National Monuments Authority's categorisation of Vadodara Circle monuments (https://www.nma.gov.in/WriteReadData/RTF1984/1682685450.pdf, file dated 28 April 2023, accessed 2026-11-23) lists seven Roza components as centrally protected (Category VI, living monuments, items 51 to 57), each notified on 27 May 1909. It gives no notification number and no protected or regulated area boundaries, so the `heritage-protection` layer stays empty. The same list's Category I entry for the 'Historic City of Ahmadabad' (ref. 1551) does not include the Roza; whether the Roza lies in that property's buffer zone is still unresolved (the UNESCO documents page returned HTTP 403 on 2026-11-23). The Wikipedia N-GJ-48 to N-GJ-54 numbering was not found in this list and is not used.
+
+## Primary-source review of lower-tier records (issue #245, 2026-11-24)
+
+| Record | Result |
+|---|---|
+| Census 2001 | Replaced with the official table C-01 (primary). Both Wikipedia figures were wrong. |
+| Makarba joins the city | New record from Notification No. KV/25/2006/AMN/902006/410/P (14 Feb 2006), which includes Makarba and six other municipalities in the City of Ahmedabad. Copy hosted by AUDA, read from the scan. This corrects the earlier guess that Makarba lay within Sarkhej-Okaf. |
+| Sarkhej-Okaf merger (20 Jul 2006) | The notification number (KV/211/2006/AMN/902006/410/P) is confirmed from AUDA's scan, but that scan omits Schedule A, the list of municipalities. The record stays tertiary (news) and says so. The 17 versus 10 municipality count is unresolved. |
+| Janmarg BRTS 2009 | No AMC or Ahmedabad Janmarg Ltd document was found. The contemporaneous chief minister's press note (narendramodi.in, 15 Oct 2009) and Wikipedia disagree on the first corridor's endpoints. Unchanged. |
+| S.G. Highway approval 2017 and foundation 2018 | No PIB, CCEA or MoRTH release was found. Reports give 750, 847 and 867 crore. Unchanged. |
+| TP 204 changes 2024 | Only news reports of the AMC town planning committee's approval were found. No state sanction or gazette reference. Unchanged. |
+| SP Ring Road opening | AUDA's own project page (auda.org.in/Content/engineering-48) gives the length, cost and links but no opening year. 2004 versus 2006 is unresolved. |
+| S.G. Highway completion / ISKCON-Sanand corridor | Not resolved. No completion record was found. |
 
 ## Not done, and what is needed
 
