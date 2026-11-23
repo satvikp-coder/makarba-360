@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated": "2026-11-23",
+  "updated": "2026-11-24",
   "periods": [
     {
       "id": "p-sultanate",
@@ -142,7 +142,7 @@
       "title": "The Roza's buildings are notified as protected monuments",
       "text": "Seven parts of the Roza (the Great Mosque, the Great Tank with the palace and harem, the pavilion and four tombs and rozas) are listed by the National Monuments Authority as centrally protected monuments in ASI's Vadodara Circle, each with a notification date of 27 May 1909. The Authority places them in its category of living monuments that receive many visitors and pilgrims.",
       "year": 1909,
-      "precision": "day",
+      "precision": "exact",
       "status": "documented",
       "source": {
         "title": "National Monuments Authority: categorisation of centrally protected monuments, Vadodara Circle, ASI (Category VI, items 51 to 57)",
@@ -174,18 +174,35 @@
       "id": "gov-2001-census",
       "theme": "population",
       "title": "Census 2001: Makarba and Sarkhej-Okaf",
-      "text": "The 2001 census records Makarba as a census town of 18,090 people, and Sarkhej-Okaf as an urban unit of 23,086 people.",
+      "text": "The 2001 census records Makarba as a census town of 18,047 people. Sarkhej-Okaf, a municipality with an outgrowth, is recorded in two parts: 23,412 people in Ahmadabad City taluka and 5,396 in Daskroi taluka, 28,808 in all.",
       "year": 2001,
       "precision": "year",
       "status": "documented",
       "source": {
-        "title": "Makarba (Wikipedia)",
-        "url": "https://en.wikipedia.org/wiki/Makarba",
-        "tier": "tertiary",
-        "accessed": "2026-11-22"
+        "title": "Census of India 2001, Table C-01: Population by religious community, Gujarat (Office of the Registrar General)",
+        "url": "https://censusindia.gov.in/nada/index.php/catalog/21486",
+        "tier": "primary",
+        "accessed": "2026-11-24"
       },
-      "confidence": "medium",
-      "uncertainty": "Figures come from Wikipedia and were not checked against Census of India tables. No 2011 figure for either unit was found, so no change over time can be stated."
+      "confidence": "high",
+      "uncertainty": "Totals are the 'Total persons' column of the official table (town codes 40712000 and 40713000). Earlier versions of this page used Wikipedia's 18,090 and 23,086, which do not match the table. Sarkhej-Okaf's total includes its outgrowth. No 2011 count exists on these boundaries (see the evidence notes)."
+    },
+    {
+      "id": "gov-2006-makarba-amc",
+      "theme": "governance",
+      "title": "Makarba Municipality is included in the City of Ahmedabad",
+      "text": "A state notification of 14 February 2006 includes the entire areas of seven municipalities in the limits of the City of Ahmedabad: Bodakdev, Makarba, Nava Odhav, Nikol, Vastrapur, Nava Naroda and Thaltej. These municipalities had been constituted by notifications of 10 August 2005.",
+      "year": 2006,
+      "precision": "exact",
+      "status": "documented",
+      "source": {
+        "title": "Government of Gujarat, Urban Development and Urban Housing Department, Notification No. KV/25/2006/AMN/902006/410/P dated 14 February 2006 (copy hosted by AUDA)",
+        "url": "https://www.auda.org.in/uploads/Assets/Area%20Expansion%20Notifications/AMC/AMC%20area%20expansion%20notification%2014.02.2006.pdf",
+        "tier": "primary",
+        "accessed": "2026-11-24"
+      },
+      "confidence": "high",
+      "uncertainty": "Read from a scanned copy of the notification hosted by AUDA. The notification says government land in these areas does not vest in the corporation. It gives no boundary map."
     },
     {
       "id": "gov-2006-amc",
@@ -202,7 +219,7 @@
         "accessed": "2026-11-22"
       },
       "confidence": "medium",
-      "uncertainty": "A news report of the announcement, not the notification. Other sources count 17 municipalities. Makarba is not named in the list; it probably lay within Sarkhej-Okaf but that is not confirmed."
+      "uncertainty": "A news report of the announcement. The notification itself (No. KV/211/2006/AMN/902006/410/P, 20 July 2006) is hosted by AUDA, but the scanned copy omits Schedule A, which lists the municipalities, so Sarkhej-Okaf's inclusion is not yet confirmed from the notification. Other sources count 17 municipalities. Makarba was not part of this step: it was included separately on 14 February 2006."
     },
     {
       "id": "infra-2009-janmarg",
@@ -422,38 +439,38 @@
         {
           "label": "Census 2001",
           "year": 2001,
-          "value": 18090,
+          "value": 18047,
           "approx": false
         }
       ],
       "source": {
-        "title": "Makarba (Wikipedia, citing the 2001 census)",
-        "url": "https://en.wikipedia.org/wiki/Makarba",
-        "tier": "tertiary",
-        "accessed": "2026-11-22"
+        "title": "Census of India 2001, Table C-01: Population by religious community, Gujarat (Office of the Registrar General)",
+        "url": "https://censusindia.gov.in/nada/index.php/catalog/21486",
+        "tier": "primary",
+        "accessed": "2026-11-24"
       },
-      "method": "Total persons recorded for the census town, as stated by the source.",
+      "method": "'Total persons' for Makarba (CT), town code 40712000, in the official table.",
       "limits": "Only the 2001 count was found. A 2011 count for the same unit would be needed to show change."
     },
     {
       "id": "c-pop-sarkhej",
-      "title": "Population of Sarkhej-Okaf",
+      "title": "Population of Sarkhej-Okaf (municipality and outgrowth)",
       "unit": "people",
       "points": [
         {
           "label": "Census 2001",
           "year": 2001,
-          "value": 23086,
+          "value": 28808,
           "approx": false
         }
       ],
       "source": {
-        "title": "Sarkhej-Okaf (Wikipedia)",
-        "url": "https://en.wikipedia.org/wiki/Sarkhej-Okaf",
-        "tier": "tertiary",
-        "accessed": "2026-11-22"
+        "title": "Census of India 2001, Table C-01: Population by religious community, Gujarat (Office of the Registrar General)",
+        "url": "https://censusindia.gov.in/nada/index.php/catalog/21486",
+        "tier": "primary",
+        "accessed": "2026-11-24"
       },
-      "method": "Total persons recorded for the municipality, as stated by the source.",
+      "method": "Sum of 'Total persons' for Sarkhej-Okaf (M+OG), town code 40713000, in its two parts: Ahmadabad City taluka (23,412) and Daskroi taluka (5,396).",
       "limits": "Only the 2001 count was found; boundaries changed when the unit joined AMC in 2006, so later counts must be matched to the same area."
     }
   ],

@@ -40,6 +40,7 @@ export interface PastDoc {
 const HTTPS = /^https:\/\//;
 const THEMES: readonly Theme[] = ["heritage", "infrastructure", "governance", "ecology", "population", "planning"];
 const STATUSES: readonly Status[] = ["documented", "proposed", "sanctioned", "implemented", "observed", "reconstruction"];
+const PRECISIONS: readonly Precision[] = ["exact", "year", "circa", "range"];
 
 export const STATUS_LABEL: Record<Status, string> = {
   documented: "Documented", proposed: "Proposed (not built)", sanctioned: "Sanctioned plan", implemented: "Implemented",
@@ -57,6 +58,7 @@ export function validEvent(e: Partial<PastEvent> | null | undefined): e is PastE
   if (!e || typeof e.id !== "string" || typeof e.title !== "string" || typeof e.text !== "string") return false;
   if (!THEMES.includes(e.theme as Theme) || !STATUSES.includes(e.status as Status)) return false;
   if (typeof e.year !== "number" || !Number.isInteger(e.year) || e.year < 1000 || e.year > 2100) return false;
+  if (!PRECISIONS.includes(e.precision as Precision)) return false;
   if (e.yearTo !== undefined && (!Number.isInteger(e.yearTo) || e.yearTo < e.year)) return false;
   if (!validSource(e.source)) return false;
   return typeof e.uncertainty === "string" && e.uncertainty.trim().length > 0 && ["high", "medium", "low"].includes(e.confidence as string);
