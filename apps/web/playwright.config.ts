@@ -6,7 +6,7 @@ const API = process.env.MOCK_API_PORT ?? "4010";
 const WEB = process.env.WEB_PORT ?? "5173";
 export default defineConfig({
   testDir: "e2e",
-  timeout: 30_000,
+  timeout: 60_000, // map tests wait up to 25 s for software-rendered WebGL to be ready; 30 s left too little for the rest of the test on loaded runners
   retries: process.env.CI ? 1 : 0,
   reporter: [["list"]],
   use: { baseURL: `http://127.0.0.1:${WEB}`, trace: "retain-on-failure" },

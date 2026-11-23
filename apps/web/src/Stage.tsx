@@ -11,7 +11,7 @@ import { MapView } from "./map/MapView.js";
 import { MatrixOrb } from "./MatrixOrb.js";
 import { Briefing, HighlightText } from "./HighlightText.js";
 import { Icon, type IconName } from "./Icon.js";
-import { plainKey } from "./Shell.js";
+import { pageKind, plainKey } from "./Shell.js";
 import { prefersReducedMotion } from "./motion.js";
 
 /**
@@ -197,7 +197,6 @@ function AiDock({ doc }: { doc: ForecastDoc | null }) {
 const NO_FEATURES: never[] = [];
 
 /** Pages that read best without the stage's docks over them. */
-const READER = /^\/(voices|insights|research|accessibility|places\/|stories)/;
 
 export default function Stage() {
   const m = useMapState();
@@ -205,7 +204,7 @@ export default function Stage() {
   const nav = useNavigate();
   const [params, setParams] = useSearchParams();
   const { doc } = useForecasts();
-  const reader = READER.test(loc.pathname);
+  const reader = pageKind(loc.pathname) === "reader";
   const outlook = loc.pathname === "/forecasts";   // the Outlook panel has its own year slider and AI briefing
   // picking a place on the map opens it in Explore, keeping any search or filters already there
   const select = (id: string) => {
